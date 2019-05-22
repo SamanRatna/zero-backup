@@ -46,9 +46,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         label.setPixmap(pixmap)
         layout.addWidget(label)
 
-        map = QWebEngineView()
-        map.load(QUrl("https://maps.google.com"))
-        layout.addWidget(map)
+        gmap = QWebEngineView()
+        gmap.load(QUrl("https://maps.google.com"))
+        layout.addWidget(gmap)
+
+        omap = QWebEngineView()
+        omap.load(QUrl("901_map.html"))
+        layout.addWidget(omap)
 
     def _update_canvas(self):
         self._dynamic_ax.clear()
