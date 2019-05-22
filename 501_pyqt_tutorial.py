@@ -51,7 +51,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         layout.addWidget(gmap)
 
         omap = QWebEngineView()
-        omap.load(QUrl("901_map.html"))
+        omap.load(QUrl.fromLocalFile("C:/Users/Kanishka/Desktop/Display/901_map.html"))
         layout.addWidget(omap)
 
     def _update_canvas(self):
