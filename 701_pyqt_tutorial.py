@@ -46,7 +46,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         layout.addWidget(label)
 
         map = QWebEngineView()
-        map.load(QUrl("https:www.youtube.com"))
+        map.load(QUrl("https://maps.google.com"))
         layout.addWidget(map)
 
     def _update_canvas(self):

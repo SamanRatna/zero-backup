@@ -5,7 +5,7 @@ import webview
 # Create map object
 folium_map = folium.Map(location=[27.7, 85.3],
                         zoom_start=13,
-                        tiles="CartoDB dark_matter")
+                        tiles="stamentoner")
 
 # Create circle marker
 folium.CircleMarker(location=[27.7, 85.3], fill=True).add_to(folium_map)
