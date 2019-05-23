@@ -4,10 +4,11 @@ import time
 import numpy as np
 import PyQt5
 import webview
+import os
 
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWebEngineWidgets import *
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtCore import QUrl
 
 from matplotlib.backends.qt_compat import QtWidgets, is_pyqt5
@@ -46,12 +47,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         label.setPixmap(pixmap)
         layout.addWidget(label)
 
-        gmap = QWebEngineView()
-        gmap.load(QUrl("https://maps.google.com"))
-        layout.addWidget(gmap)
+        # gmap = QWebEngineView()
+        # gmap.load(QUrl("https://maps.google.com"))
+        # layout.addWidget(gmap)
 
         omap = QWebEngineView()
-        omap.load(QUrl.fromLocalFile("C:/Users/Kanishka/Desktop/Display/901_map.html"))
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "901_map.html"))
+        local_url = QUrl.fromLocalFile(file_path)
+        omap.load(local_url)
         layout.addWidget(omap)
 
     def _update_canvas(self):
