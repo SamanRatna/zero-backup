@@ -22,35 +22,34 @@ else:
 
 class ApplicationWindow(QtWidgets.QMainWindow):
     def __init__(self):
+        # Initialize
         super().__init__()
         self._main = QtWidgets.QWidget()
         self.setCentralWidget(self._main)
         layout = QtWidgets.QVBoxLayout(self._main)
 
+        # Plot static graph
         static_canvas = FigureCanvas(Figure(figsize=(3, 3)))
         layout.addWidget(static_canvas)
-
-        dynamic_canvas = FigureCanvas(Figure(figsize=(5, 3)))
-        layout.addWidget(dynamic_canvas)
-
         self._static_ax = static_canvas.figure.subplots()
         t = np.linspace(0, 10, 501)
         self._static_ax.plot(t, np.tan(t), ".")
 
+        # Plot dynamic graph
+        dynamic_canvas = FigureCanvas(Figure(figsize=(5, 3)))
+        layout.addWidget(dynamic_canvas)
         self._dynamic_ax = dynamic_canvas.figure.subplots()
         self._timer = dynamic_canvas.new_timer(
             100, [(self._update_canvas, (), {})])
         self._timer.start()
 
+        # Display image
         label = QLabel(self)
         pixmap = QPixmap('B - images/render_bike.png')
         label.setPixmap(pixmap)
         layout.addWidget(label)
 
-        # gmap = QWebEngineView()
-        # gmap.load(QUrl("https://maps.google.com"))
-        # layout.addWidget(gmap)
-
+        # Display map
         omap = QWebEngineView()
         file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "901_map.html"))
         local_url = QUrl.fromLocalFile(file_path)
@@ -65,6 +64,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self._dynamic_ax.figure.canvas.draw()
 
 
+# Execute
 if __name__ == "__main__":
     qapp = QtWidgets.QApplication(sys.argv)
     app = ApplicationWindow()
