@@ -45,7 +45,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         # Display image
         label = QLabel(self)
-        pixmap = QPixmap('B - images/render_bike.png')
+        pixmap = QPixmap('A - images/render_bike.png')
         label.setPixmap(pixmap)
         layout.addWidget(label)
 
