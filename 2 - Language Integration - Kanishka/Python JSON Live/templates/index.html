@@ -31,7 +31,7 @@
      cluster: 'ap2', // gotten from Pusher app dashboard
      encrypted: true // optional
    });
-   // subscribe to crypto channel
+   // subscribe to random channel
    const channel = pusher.subscribe('random')
    // listen for relevant events
    channel.bind('data-updated', data => {
@@ -40,9 +40,8 @@
        console.log(x_data)
        console.log(y_data)
        document.getElementById("demo").innerHTML = y_data[y_data.length-1];
-       // Plot using Chart.js
-       // Plot chart
 
+       // Plot using Chart.js
        var ctx = document.getElementById('myChart');
        var myChart = new Chart(ctx, {
            type: 'line',
@@ -72,7 +71,7 @@
                    },
             options: {
                        animation: {
-                           duration: 300
+                           duration: 0
                        },
                        responsive: true,
                        scales: {
