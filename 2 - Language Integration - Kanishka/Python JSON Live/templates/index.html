@@ -24,6 +24,7 @@
 
 <!--  Create canvas and script for graph-->
 <canvas id="myChart" width="600" height="400"></canvas>
+<p id="demo"></p>
 <script type="text/javascript">
    // connect to Pusher
    const pusher = new Pusher('79949ba2731f8c34ad11', {
@@ -38,6 +39,7 @@
        const y_data = data.y
        console.log(x_data)
        console.log(y_data)
+       document.getElementById("demo").innerHTML = y_data[y_data.length-1];
        // Plot using Chart.js
        // Plot chart
 
