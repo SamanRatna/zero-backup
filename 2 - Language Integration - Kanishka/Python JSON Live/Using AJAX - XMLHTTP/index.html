@@ -1,0 +1,120 @@
+<!-- <!DOCTYPE html> -->
+<html>
+<head>
+    <meta charset="utf-8"/>
+</head>
+
+<!-- Script to load Chart.js from the cloud -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
+
+<body>
+  <center>
+
+    <canvas id="myChart"></canvas>
+    <script>
+        // Plot chart
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'X',
+                    data: [],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.0)',
+                        'rgba(54, 162, 235, 0.0)',
+                        'rgba(255, 206, 86, 0.0)',
+                        'rgba(75, 192, 192, 0.0)',
+                        'rgba(153, 102, 255, 0.0)',
+                        'rgba(255, 159, 64, 0.0)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                animation: {
+                    duration: 0
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            max: 25
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: false
+                }
+            }
+        });
+
+        // Initialize variables
+        x_data = 0;
+        y_data = 0;
+
+        // Define function to get data and update chart
+        var getData = function(){
+            // Setup ajax request and get data as 'response'
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200) {
+                    response = JSON.parse(xhttp.responseText);
+                    y_data = response.x;
+                    console.log(y_data);
+
+                }
+            };
+
+            // Load data
+            xhttp.open("GET", "x_data.json", true)
+            xhttp.send();
+
+            // Update chart
+            myChart.data.labels.push(x_data++)
+            myChart.data.datasets[0].data.push(y_data)
+
+            if (myChart.data.labels.length>=30){
+                myChart.data.labels.splice(0, 1)
+                myChart.data.datasets[0].data.splice(0, 1)
+            }
+            myChart.update();
+
+            // Run Python script to update dataset
+            var PythonShell = require('python-shell');
+                var options = {
+                    // mode: 'text',
+                    pythonOptions: ['-u'],
+                    // scriptPath: 'path/to/my/scripts',
+                    // args: ['value1', 'value2', 'value3']
+                };
+
+                PythonShell.run('getdata.py', options, function (err, results) {
+                    if (err) throw err;
+                    // results is an array consisting of messages collected during execution
+                    console.log('results: %j', results);
+                });
+        }
+
+        // Run getData at a certain time interval
+        setInterval(getData, 200)
+
+    </script>
+    <h1> GRAPH </h1>
+  </center>
+</body>
+
+
+</html>
