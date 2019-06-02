@@ -37,7 +37,7 @@
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
-                    borderWidth: 0
+                    borderWidth: 1
                 }]
             },
             options: {
@@ -86,30 +86,30 @@
             myChart.data.labels.push(x_data++)
             myChart.data.datasets[0].data.push(y_data)
 
-            if (myChart.data.labels.length>=30){
+            if (myChart.data.labels.length>=20){
                 myChart.data.labels.splice(0, 1)
                 myChart.data.datasets[0].data.splice(0, 1)
             }
             myChart.update();
 
-            // Run Python script to update dataset
-            var PythonShell = require('python-shell');
-                var options = {
-                    // mode: 'text',
-                    pythonOptions: ['-u'],
-                    // scriptPath: 'path/to/my/scripts',
-                    // args: ['value1', 'value2', 'value3']
-                };
-
-                PythonShell.run('getdata.py', options, function (err, results) {
-                    if (err) throw err;
-                    // results is an array consisting of messages collected during execution
-                    console.log('results: %j', results);
-                });
+        //     // Run Python script to update dataset
+        //     var PythonShell = require('python-shell');
+        //         var options = {
+        //             // mode: 'text',
+        //             pythonOptions: ['-u'],
+        //             // scriptPath: 'path/to/my/scripts',
+        //             // args: ['value1', 'value2', 'value3']
+        //         };
+        //
+        //         PythonShell.run('getdata.py', options, function (err, results) {
+        //             if (err) throw err;
+        //             // results is an array consisting of messages collected during execution
+        //             console.log('results: %j', results);
+        //         });
         }
 
         // Run getData at a certain time interval
-        setInterval(getData, 200)
+        setInterval(getData, 500)
 
     </script>
     <h1> GRAPH </h1>
