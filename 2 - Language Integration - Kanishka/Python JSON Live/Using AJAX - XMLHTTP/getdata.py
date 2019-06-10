@@ -10,4 +10,4 @@ while True:
     with open('x_data.json', 'w') as file:
         json.dump(x_json, file)
 
-    time.sleep(.1)
+    time.sleep(.05)

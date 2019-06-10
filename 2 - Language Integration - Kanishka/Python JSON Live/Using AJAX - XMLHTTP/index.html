@@ -41,6 +41,7 @@
                 }]
             },
             options: {
+                showLines: true,
                 animation: {
                     duration: 0
                 },
@@ -86,7 +87,7 @@
             myChart.data.labels.push(x_data++)
             myChart.data.datasets[0].data.push(y_data)
 
-            if (myChart.data.labels.length>=20){
+            if (myChart.data.labels.length>=40){
                 myChart.data.labels.splice(0, 1)
                 myChart.data.datasets[0].data.splice(0, 1)
             }
@@ -109,7 +110,7 @@
         }
 
         // Run getData at a certain time interval
-        setInterval(getData, 500)
+        setInterval(getData, 400)
 
     </script>
     <h1> GRAPH </h1>
