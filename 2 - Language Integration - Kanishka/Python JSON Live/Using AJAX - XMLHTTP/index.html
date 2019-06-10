@@ -87,30 +87,15 @@
             myChart.data.labels.push(x_data++)
             myChart.data.datasets[0].data.push(y_data)
 
-            if (myChart.data.labels.length>=40){
+            if (myChart.data.labels.length>=50){
                 myChart.data.labels.splice(0, 1)
                 myChart.data.datasets[0].data.splice(0, 1)
             }
             myChart.update();
-
-        //     // Run Python script to update dataset
-        //     var PythonShell = require('python-shell');
-        //         var options = {
-        //             // mode: 'text',
-        //             pythonOptions: ['-u'],
-        //             // scriptPath: 'path/to/my/scripts',
-        //             // args: ['value1', 'value2', 'value3']
-        //         };
-        //
-        //         PythonShell.run('getdata.py', options, function (err, results) {
-        //             if (err) throw err;
-        //             // results is an array consisting of messages collected during execution
-        //             console.log('results: %j', results);
-        //         });
         }
 
         // Run getData at a certain time interval
-        setInterval(getData, 400)
+        setInterval(getData, 20)
 
     </script>
     <h1> GRAPH </h1>
