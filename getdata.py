@@ -6,14 +6,21 @@ while True:
     # Start time counter
     start = time.time()
 
-    # Create a random data point
-    x_data = random.randint(1, 25)
-    x_json = {'x': x_data}
+    # Create a data set
+    power = random.randint(1, 10)
+    speed = random.randint(20, 30)
+    rem_range = random.randint(80, 84)
 
-    with open('x_data.json', 'w') as file:
-        json.dump(x_json, file)
+    data_json = {
+        'power': power,
+        'speed': speed,
+        'range': rem_range
+    }
 
-    time.sleep(.01)
+    with open('data.json', 'w') as file:
+        json.dump(data_json, file)
+
+    time.sleep(.02)
 
     # End time counter and display time taken
     end = time.time()
