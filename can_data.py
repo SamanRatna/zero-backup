@@ -1,6 +1,7 @@
 import can
 import time
 import os
+import json
 
 # Set can parameters and create 'bus' object
 can.rc['interface'] = 'socketcan_native'
@@ -20,6 +21,9 @@ htsink_temp = 0
 dig_input = 0
 
 while True:    
+    # Start time counter
+    start = time.time()
+    
     # Get data
     bus = can.interface.Bus()
     message = bus.recv(0.0)
@@ -42,8 +46,12 @@ while True:
                 bat_current_hex = new_data[0] + new_data[1]
                 bat_voltage_hex = new_data[4] + new_data[5]
 
-                bat_current = int(bat_current_hex, 16)*0.0625
-                bat_voltage = int(bat_voltage_hex, 16)*0.0625
+                bat_current = int(int(bat_current_hex, 16)*0.0625)
+                bat_voltage = int(int(bat_voltage_hex, 16)*0.0625)
+                
+                # Fix negative current issue
+                if bat_current > 4096/2:
+                    bat_current = int(bat_current-4096)
 
             if (message.arbitration_id==768):
                 # Perform data swap in binary
@@ -62,10 +70,18 @@ while True:
                 torque_act_hex = new_data[4] + new_data[5]
                 motor_temp_hex = new_data[6] + new_data[7]
 
-                veh_speed = int(veh_speed_hex, 16)*0.0625
-                max_torque = int(max_torque_hex, 16)*0.1
-                torque_act = int(torque_act_hex, 16)*0.0625
-                motor_temp = int(motor_temp_hex, 16)*1
+                veh_speed = int(int(veh_speed_hex, 16)*0.0625)
+                max_torque = int(int(max_torque_hex, 16)*0.1)
+                torque_act = int(int(torque_act_hex, 16)*0.0625)
+                motor_temp = int(int(motor_temp_hex, 16)*1)
+                
+                # Fix negative velocity issue
+                if veh_speed > 4096/2:
+                    veh_speed = 0
+                    
+                # Fix negative torque issue
+                if torque_act > 4096/2:
+                    torque_act = int(torque_act-4096)
 
             if (message.arbitration_id==336):
                 # Perform data swap in binary
@@ -81,6 +97,10 @@ while True:
                     
                 motor_vel_hex = new_data[6] + new_data[7] + new_data[4] + new_data[5]
                 motor_vel = int(motor_vel_hex, 16)*1
+                
+                # Fix negative motor rpm issue
+                if motor_vel > 4294967295/2:  # 4294967295 is 'ffffffff' in hex
+                    motor_vel = 0
 
             if (message.arbitration_id==664):
                 # Perform data swap in binary
@@ -113,9 +133,9 @@ while True:
                 htsink_temp_hex = new_data[7]
                 dig_input_hex = new_data[6]
 
-                trip_dist = int(trip_dist_hex, 16)*0.0039
-                htsink_temp = int(htsink_temp_hex, 16)*1
-                dig_input = int(dig_input_hex, 16)*1
+                trip_dist = int(int(trip_dist_hex, 16)*0.0039)
+                htsink_temp = int(int(htsink_temp_hex, 16)*1)
+                dig_input = int(int(dig_input_hex, 16)*1)
             
             '''
             
@@ -133,10 +153,32 @@ while True:
             print('Heat sink temp: ', htsink_temp, 'deg C')
             print('Digital input: ', dig_input)
             
-            #time.sleep(0.001)
             
             '''
+            data_json = {
+                'bat_current': bat_current,
+                'bat_voltage': bat_voltage,
+                'veh_speed': veh_speed,
+                'max_torque': max_torque,
+                'torque_act': torque_act,
+                'motor_temp': motor_temp,
+                'motor_vel': motor_vel,
+                'drive_prof': drive_prof,
+                'trip_dist': trip_dist,
+                'htsink_temp': htsink_temp,
+                'dig_input': dig_input
+            }
             
-    
+            with open('data.json', 'w') as file:
+                json.dump(data_json, file)
+                
+            time.sleep(0.03)
+            
+            # End time counter and display time taken
+            end = time.time()
+            if end-start != 0:
+                print('Time taken: ', end-start, ' seconds')
+            
+            
 
 

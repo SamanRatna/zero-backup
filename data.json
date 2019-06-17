@@ -1,1 +1,1 @@
-{"power": 6, "speed": 21, "range": 82}
+{"htsink_temp": 34, "trip_dist": 8, "bat_current": 1, "max_torque": 80, "veh_speed": 1, "motor_vel": 448, "motor_temp": 45, "drive_prof": 1, "dig_input": 1, "torque_act": 2, "bat_voltage": 98}

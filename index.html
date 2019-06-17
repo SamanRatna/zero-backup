@@ -2,26 +2,35 @@
 <html>
   <head>
     <meta charset='utf-8'/>
+    
     <!-- Script to load Chart.js from the cloud -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
-
+    
   </head>
 
 <body>
   <center>
-    <!-- Plot and update chart in real time-->
-    <canvas id='myChart' width='500' height='500'></canvas>
+    <!-- Plot and update chart in real time -->
+    <!-- <canvas id='myChart' width='500' height='500'></canvas> -->
 
     <!-- Display telemetric data in real time-->
-    <p id='power'></p>
-    <p id='speed'></p>
-    <p id='range'></p>
+    <p id='bat_current'>0</p>
+    <p id='bat_voltage'>0</p>
+    <p id='veh_speed'>0</p>
+    <p id='max_torque'>0</p>
+    <p id='torque_act'>0</p>
+    <p id='motor_temp'>0</p>
+    <p id='motor_vel'>0</p>
+    <p id='drive_prof'>0</p>
+    <p id='trip_dist'>0</p>
+    <p id='htsink_temp'>0</p>
+    <p id='dig_input'>0</p>
 
-    <h1> GRAPH </h1>
+    <h1> PROJECT ZERO </h1>
 
   </center>
 
-<script src='plot_chart.js'></script>
+<!-- <script src='plot_chart.js'></script> -->
 <script src='telemetry.js'></script>
 
 </body>
