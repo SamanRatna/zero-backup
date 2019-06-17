@@ -19,6 +19,7 @@ drive_prof = 0
 trip_dist = 0
 htsink_temp = 0
 dig_input = 0
+s_o_charge = 0
 
 while True:    
     # Start time counter
@@ -52,6 +53,9 @@ while True:
                 # Fix negative current issue
                 if bat_current > 4096/2:
                     bat_current = int(bat_current-4096)
+                    
+                # Calculate Battery SoC
+                s_o_charge = int((bat_voltage - 95.12) / 6.08 * 100)
 
             if (message.arbitration_id==768):
                 # Perform data swap in binary
@@ -166,18 +170,20 @@ while True:
                 'drive_prof': drive_prof,
                 'trip_dist': trip_dist,
                 'htsink_temp': htsink_temp,
-                'dig_input': dig_input
+                'dig_input': dig_input,
+                's_o_charge': s_o_charge
             }
             
             with open('data.json', 'w') as file:
                 json.dump(data_json, file)
                 
-            time.sleep(0.03)
+            time.sleep(0.07)
             
             # End time counter and display time taken
             end = time.time()
             if end-start != 0:
                 print('Time taken: ', end-start, ' seconds')
+                print('SoC', s_o_charge)
             
             
 

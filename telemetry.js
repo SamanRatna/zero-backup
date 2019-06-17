@@ -21,6 +21,7 @@ var getData = function(){
             trip_dist = response.trip_dist;
             htsink_temp = response.htsink_temp;
             dig_input = response.dig_input;
+            s_o_charge = response.s_o_charge;
             console.log(bat_current, bat_voltage);
 
             // Display telemetry data
@@ -35,6 +36,7 @@ var getData = function(){
             document.getElementById('trip_dist').innerHTML = trip_dist;
             document.getElementById('htsink_temp').innerHTML = htsink_temp;
             document.getElementById('dig_input').innerHTML = dig_input;
+            document.getElementById('s_o_charge').innerHTML = s_o_charge;
         }
     };
 
