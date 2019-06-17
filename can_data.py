@@ -16,10 +16,13 @@ torque_act = 0
 motor_temp = 0
 motor_vel = 0
 drive_prof = 0
-trip_dist = 0
+odometer = 0
 htsink_temp = 0
 dig_input = 0
 s_o_charge = 0
+est_range = 0
+recuperation = False
+
 
 while True:
     # Start time counter
@@ -32,7 +35,7 @@ while True:
     # Filter data
     if message is not None:
         if message.arbitration_id != 128:
-            if message.arbitration_id == 663:   # TPDO 3: Battery Parameters
+            if message.arbitration_id == 663:
                 # Perform data swap in binary
                 data = message.data
                 new_data = [data[1], data[0], data[3], data[2], data[5], data[4], data[7], data[6]]
@@ -52,10 +55,12 @@ while True:
 
                 # Fix negative current issue
                 if bat_current > 4096/2:
-                    bat_current = int(bat_current-4096)
+                    bat_current = int(bat_current - 4096)
+                    recuperation = True
 
-                # Calculate Battery SoC
+                # Calculate Battery SoC and Range
                 s_o_charge = int((bat_voltage - 95.12) / 6.08 * 100)
+                est_range = s_o_charge * 1.5  # Assuming 150km when 100%
 
             if message.arbitration_id == 768:
                 # Perform data swap in binary
@@ -133,11 +138,11 @@ while True:
                     new_data[count] = d_hex
                     count += 1
 
-                trip_dist_hex = new_data[2] + new_data[3] + new_data[0] + new_data[1]
+                odometer_hex = new_data[2] + new_data[3] + new_data[0] + new_data[1]
                 htsink_temp_hex = new_data[7]
                 dig_input_hex = new_data[6]
 
-                trip_dist = int(int(trip_dist_hex, 16)*0.0039)
+                odometer = int(int(odometer_hex, 16)*0.0039)
                 htsink_temp = int(int(htsink_temp_hex, 16)*1)
                 dig_input = int(int(dig_input_hex, 16)*1)
 
@@ -153,12 +158,12 @@ while True:
             print('Motor Temperature: ', motor_temp, ' deg C')
             print('Velocity: ', motor_vel, ' rpm')
             print('Drive profile: ', drive_prof)
-            print('Trip distance: ', trip_dist, ' km')
+            print('Odo distance: ', odometer, ' km')
             print('Heat sink temp: ', htsink_temp, 'deg C')
             print('Digital input: ', dig_input)
 
-
             '''
+
             data_json = {
                 'bat_current': bat_current,
                 'bat_voltage': bat_voltage,
@@ -168,10 +173,12 @@ while True:
                 'motor_temp': motor_temp,
                 'motor_vel': motor_vel,
                 'drive_prof': drive_prof,
-                'trip_dist': trip_dist,
+                'odometer': odometer,
                 'htsink_temp': htsink_temp,
                 'dig_input': dig_input,
-                's_o_charge': s_o_charge
+                's_o_charge': s_o_charge,
+                'est_range': est_range,
+                'recuperation': recuperation
             }
 
             with open('data.json', 'w') as file:

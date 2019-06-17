@@ -1,8 +1,5 @@
 // Initialize variables
 count = 0;
-// power = 0;
-// speed = 0;
-// range = 0;
 
 var getData = function(){
     // Setup ajax request and get data as 'response'
@@ -22,7 +19,12 @@ var getData = function(){
             htsink_temp = response.htsink_temp;
             dig_input = response.dig_input;
             s_o_charge = response.s_o_charge;
-            console.log(bat_current, bat_voltage);
+            est_range = response.est_range;
+            recuperation = response.recuperation;
+            //console.log(bat_current, bat_voltage);
+
+            // Calculate trip data and store in file
+
 
             // Display telemetry data
             document.getElementById('bat_current').innerHTML = bat_current;
@@ -37,6 +39,8 @@ var getData = function(){
             document.getElementById('htsink_temp').innerHTML = htsink_temp;
             document.getElementById('dig_input').innerHTML = dig_input;
             document.getElementById('s_o_charge').innerHTML = s_o_charge;
+            document.getElementById('est_range').innerHTML = est_range;
+            document.getElementById('recuperation').innerHTML = recuperation;
         }
     };
 
@@ -47,4 +51,3 @@ var getData = function(){
 
 // Run getData at a certain time interval
 setInterval(getData, 50)
-
