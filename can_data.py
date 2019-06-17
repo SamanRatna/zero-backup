@@ -57,6 +57,8 @@ while True:
                 if bat_current > 4096/2:
                     bat_current = int(bat_current - 4096)
                     recuperation = True
+                else:
+                    recuperation = False
 
                 # Calculate Battery SoC and Range
                 s_o_charge = int((bat_voltage - 95.12) / 6.08 * 100)
