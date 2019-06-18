@@ -1,6 +1,3 @@
-// Initialize variables
-count = 0;
-
 var getData = function(){
     // Setup ajax request and get data as 'response'
     xhttp = new XMLHttpRequest();
@@ -15,7 +12,7 @@ var getData = function(){
             motor_temp = response.motor_temp;
             motor_vel = response.motor_vel;
             drive_prof = response.drive_prof;
-            trip_dist = response.trip_dist;
+            odometer = response.odometer;
             htsink_temp = response.htsink_temp;
             dig_input = response.dig_input;
             s_o_charge = response.s_o_charge;
@@ -35,7 +32,7 @@ var getData = function(){
             document.getElementById('motor_temp').innerHTML = motor_temp;
             document.getElementById('motor_vel').innerHTML = motor_vel;
             document.getElementById('drive_prof').innerHTML = drive_prof;
-            document.getElementById('trip_dist').innerHTML = trip_dist;
+            document.getElementById('odometer').innerHTML = odometer;
             document.getElementById('htsink_temp').innerHTML = htsink_temp;
             document.getElementById('dig_input').innerHTML = dig_input;
             document.getElementById('s_o_charge').innerHTML = s_o_charge;

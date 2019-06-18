@@ -1,7 +1,9 @@
 import can
 import time
-import os
-import json
+# import os
+# import json
+from flask import Flask, jsonify, request, render_template
+import random
 
 # Set can parameters and create 'bus' object
 can.rc['interface'] = 'socketcan_native'
@@ -22,9 +24,10 @@ dig_input = 0
 s_o_charge = 0
 est_range = 0
 recuperation = False
+data_json = {}
 
 
-while True:
+def get_can():
     # Start time counter
     start = time.time()
 
@@ -35,6 +38,7 @@ while True:
     # Filter data
     if message is not None:
         if message.arbitration_id != 128:
+            # Sort data
             if message.arbitration_id == 663:
                 # Perform data swap in binary
                 data = message.data
@@ -183,13 +187,29 @@ while True:
                 'recuperation': recuperation
             }
 
-            with open('data.json', 'w') as file:
-                json.dump(data_json, file)
-
-            time.sleep(0.07)
+            # with open('data.json', 'w') as file:
+            #     json.dump(data_json, file)
+            #
+            # time.sleep(0.07)
 
             # End time counter and display time taken
             end = time.time()
             if end-start != 0:
                 print('Time taken: ', end-start, ' seconds')
                 print('SoC', s_o_charge)
+
+
+app = Flask(__name__)
+app.debug = True
+
+
+@app.route("/", methods=['GET', 'POST'])
+def index():
+    if request.method == "POST":
+        # print(str(request.data.decode('UTF-8')))
+        return jsonify(data_json)
+    return render_template("index.html")
+
+
+if __name__ == "__main__":
+    app.run()

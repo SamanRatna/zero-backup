@@ -3,15 +3,13 @@
   <head>
     <meta charset='utf-8'/>
 
-    <!-- Script to load Chart.js from the cloud -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
+        <script src='can_data.js'></script>
+        <!-- <script src='reset_trip.js'></script> -->
 
   </head>
 
 <body>
   <center>
-    <!-- Plot and update chart in real time -->
-    <!-- <canvas id='myChart' width='500' height='500'></canvas> -->
 
     <!-- Display telemetric data in real time-->
     <p id='bat_current'>0</p>
@@ -23,18 +21,19 @@
     <p id='motor_temp'>0</p>
     <p id='motor_vel'>0</p>
     <p id='drive_prof'>0</p>
-    <p id='trip_dist'>0</p>
+    <p id='odometer'>0</p>
     <p id='htsink_temp'>0</p>
     <p id='dig_input'>0</p>
     <p id='est_range'>0</p>
     <p id='recuperation'>0</p>
 
     <h1> PROJECT ZERO </h1>
+    <!-- <button onclick='resetTrip()'>Reset Trip</button> -->
+
+    <!-- <p id='trip_dist'>100</p> -->
 
   </center>
 
-<!-- <script src='plot_chart.js'></script> -->
-<script src='telemetry.js'></script>
 
 </body>
 
