@@ -48,7 +48,8 @@ def get_can():
     # Get data
     bus = can.interface.Bus()
     message = bus.recv(0.0)
-    print('Message: ', message)
+    # print('Message: ', message)
+    # print('Type: ', type(message))
 
     # Filter data
     if message != None:
@@ -166,9 +167,8 @@ def get_can():
                 odometer = int(int(odometer_hex, 16)*0.0039)
                 htsink_temp = int(int(htsink_temp_hex, 16)*1)
                 dig_input = int(int(dig_input_hex, 16)*1)
-
             
-            
+            '''
             # Print stuff
             # os.system('clear')
             print('Battery Current: ', bat_current, ' A')
@@ -183,7 +183,7 @@ def get_can():
             print('Heat sink temp: ', htsink_temp, 'deg C')
             print('Digital input: ', dig_input)
             print(' ')
-            
+            '''
 
             data_json = {
                 "bat_current": bat_current,
@@ -204,24 +204,28 @@ def get_can():
             
             #global data_json
             return data_json
-        else:
-            data_json = {
-                "bat_current": bat_current,
-                "bat_voltage": bat_voltage,
-                "veh_speed": veh_speed,
-                "max_torque": max_torque,
-                "torque_act": torque_act,
-                "motor_temp": motor_temp,
-                "motor_vel": motor_vel,
-                "drive_prof": drive_prof,
-                "odometer": odometer,
-                "htsink_temp": htsink_temp,
-                "dig_input": dig_input,
-                "s_o_charge": s_o_charge,
-                "est_range": est_range,
-                "recuperation": recuperation
-            }
-            return data_json
+    else:
+        get_can()
+            
+        '''
+        data_json = {
+            "bat_current": bat_current,
+            "bat_voltage": bat_voltage,
+            "veh_speed": veh_speed,
+            "max_torque": max_torque,
+            "torque_act": torque_act,
+            "motor_temp": motor_temp,
+            "motor_vel": motor_vel,
+            "drive_prof": drive_prof,
+            "odometer": odometer,
+            "htsink_temp": htsink_temp,
+            "dig_input": dig_input,
+            "s_o_charge": s_o_charge,
+            "est_range": est_range,
+            "recuperation": recuperation
+        }
+        return data_json
+        '''
 
 app = Flask(__name__)
 app.debug = True
@@ -232,7 +236,8 @@ def index():
     if request.method == "POST":
         # print(str(request.data.decode('UTF-8')))
         data_json = get_can()
-        print(jsonify(data_json))
+        # print('after get_can')
+        # print(jsonify(data_json))
         return jsonify(data_json)
     return render_template("index.html")
 

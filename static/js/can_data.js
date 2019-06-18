@@ -5,10 +5,9 @@ function get_can() {
   {
     if(this.readyState == 4 && this.status == 200) {
       // Sort data 
-      console.log(this.responseText)
-      if(this.responseText != null){
-            response = JSON.parse(this.responseText);
-            console.log(response);
+      response = JSON.parse(this.responseText);
+      console.log(response)
+      if(response != null){
             bat_current = response.bat_current;
             bat_voltage = response.bat_voltage;
             veh_speed = response.veh_speed;
@@ -50,4 +49,4 @@ function get_can() {
 }
 
 // Run get_can at a certain interval
-setInterval(get_can, 100)
+setInterval(get_can, 400)
