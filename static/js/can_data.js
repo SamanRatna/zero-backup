@@ -6,7 +6,7 @@ function get_can() {
     if(this.readyState == 4 && this.status == 200) {
       // Sort data 
       response = JSON.parse(this.responseText);
-      console.log(response)
+      // console.log(response)
       if(response != null){
             bat_current = response.bat_current;
             bat_voltage = response.bat_voltage;
@@ -49,4 +49,4 @@ function get_can() {
 }
 
 // Run get_can at a certain interval
-setInterval(get_can, 400)
+setInterval(get_can, 30)
