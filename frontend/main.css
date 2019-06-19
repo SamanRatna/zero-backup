@@ -484,11 +484,12 @@ now - topBar
 	color: black;
 }
 
-#time {
+.time {
 	/* background:red; */
 	padding:	5px;
 	padding-top: 30px;
 	font-size: 30px;
+	/* color: black; */
 }
 
 #date {

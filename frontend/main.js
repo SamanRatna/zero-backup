@@ -471,8 +471,14 @@ function timeCount() {
     // document.getElementById("clock").innerHTML = 
     // day+"/"+month+"/"+year+" |"+hour+":"+minute+":"+second;
 
-    document.getElementById("time").innerHTML = 
+    document.getElementsByClassName("time")[0].innerHTML = 
     hour+":"+minute+":"+second;
+    // document.getElementsByClassName("time")[1].innerHTML = 
+    // hour+":"+minute+":"+second;
+    // document.querySelectorAll(".time").innerHTML=hour+":"+minute+":"+second;
+
+    // document.getElementById("time").innerHTML = 
+    // hour+":"+minute+":"+second;
 
     document.getElementById("date").innerHTML = 
     day+","+date+" "+month+" "+year;
@@ -508,5 +514,4 @@ now - speed
 
 setInterval(function(){   
     document.getElementById("speed").innerHTML=Math.floor((Math.random()*100)+1); 
-
- }, 3000);
+}, 3000);
