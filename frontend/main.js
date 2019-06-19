@@ -1,4 +1,4 @@
-//current position
+//current position.
 var pos = 0;
 //number of slides
 var totalSlides = $('#slider-wrap ul li').length;
@@ -407,7 +407,7 @@ jQuery(function ($) {
                 npTitle.text(tracks[id].name);
                 index = id;
                 audio.src = mediaPath + tracks[id].file + extension;
-                document.getElementById("albumArt").src = mediaPath+tracks[id].file + '.png';
+                document.getElementsByClassName("albumArt")[0].src = mediaPath+tracks[id].file + '.png';
             },
             playTrack = function (id) {
                 loadTrack(id);
@@ -480,7 +480,7 @@ function timeCount() {
     // document.getElementById("time").innerHTML = 
     // hour+":"+minute+":"+second;
 
-    document.getElementById("date").innerHTML = 
+    document.getElementsByClassName("date")[0].innerHTML = 
     day+","+date+" "+month+" "+year;
 
     setTimeout("timeCount()", 10);
@@ -513,5 +513,5 @@ now - speed
 
 
 setInterval(function(){   
-    document.getElementById("speed").innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
 }, 3000);

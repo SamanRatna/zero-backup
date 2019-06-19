@@ -1,4 +1,4 @@
-/*GLOBALS*/
+/*GLOBALS.*/
 body {    
     margin: 0 !important;
 	padding: 0 !important;
@@ -296,16 +296,6 @@ font-size:.7rem;		/* changed from 1.05 to .05 */
 vertical-align:top;
 }
 
-/*#nowPlay span*/#albumArt {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-	width: 200px;
-	height: 175px;
-	object-fit: cover; 		/* added later *//* crops image */
-    border-radius: 10px;
-}
-
 #nowPlay span#npAction {
 /* padding:21px; */ 		/* removed later */
 padding-right: 60%;			/* added later */
@@ -434,7 +424,15 @@ color:rgba(0,0,0,.1);
     #nowPlay span#npTitle { display:block; text-align:center; width:100%; }
 }
 
-
+/*#nowPlay span*/.albumArt {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	width: 200px;
+	height: 175px;
+	object-fit: cover; 		/* added later *//* crops image */
+    border-radius: 10px;
+}
 
 /* 
 
@@ -474,7 +472,7 @@ now - topBar
 }
 
 
- #timeDateName {
+ .timeDateName {
 	 
 	/* height:50px; */
 	padding: 10px;
@@ -492,17 +490,17 @@ now - topBar
 	/* color: black; */
 }
 
-#date {
+.date {
 	/* background:blue; */
 	font-size: 15px;
 }
 
-#name{
+.name{
 	/* background: green; */
 	font-size: 20px;
 }
 
-#speed{
+.speed{
 	/* -webkit-transition: opacity .5s ease-in-out;
 	-moz-transition: opacity .5s ease-in-out;
 	-ms-transition: opacity .5s ease-in-out;
