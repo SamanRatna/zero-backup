@@ -49,6 +49,7 @@ rturn = 0
 mode = 'standby'
 drive = 0
 hold_time = 0
+just_switched = 0
 
 def get_can():
     # Get global variables
@@ -243,6 +244,7 @@ def get_gpio(veh_speed):
     global start
     global end
     global hold_time
+    global just_switched
     
     if GPIO.input(hibeam_ch) == 0:
         hibeam = 1
@@ -256,26 +258,37 @@ def get_gpio(veh_speed):
         rturn = 1
     else:
         rturn = 0
+        
     if drive == 0:
-        if GPIO.input(start_thik_ch) == 0:
-            mode = 'thikka'
-            drive = 1
-        if GPIO.input(reverse_suste_ch) == 0:
-            mode = 'reverse'
-            drive = 1
-    if drive == 1:
+        if just_switched == 0:
+            hold_time = 0
+            if GPIO.input(start_thik_ch) == 0:
+                mode = 'thikka'
+                drive = 1
+            if GPIO.input(reverse_suste_ch) == 0:
+                mode = 'reverse'
+                drive = -1
+        just_switched += 40
+        if just_switched >= 800:
+            just_switched = 0
+    else:
         if veh_speed == 0:
             if GPIO.input(start_thik_ch) == 0:
                 hold_time += 40
-                if hold_time >=  2000/40:
+                mode = 'thikka'
+                drive = 1
+                if hold_time >=  1000:
                     mode = 'standby'
                     drive = 0
+                    just_switched = 1
             if GPIO.input(start_thik_ch) == 1:
                 hold_time = 0
+    if drive == 1:
         if GPIO.input(reverse_suste_ch) == 0:
             mode = 'suste'
         if GPIO.input(babbal_ch) == 0:
             mode = 'babbal'
+    
                 
     gpio_data = {
         'hibeam': hibeam,
