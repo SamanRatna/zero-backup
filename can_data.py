@@ -72,6 +72,7 @@ def get_can():
 
                 bat_current = int(int(bat_current_hex, 16)*0.0625)
                 bat_voltage = int(int(bat_voltage_hex, 16)*0.0625)
+                bat_v_notint = int(bat_voltage_hex, 16)*0.0625
 
                 # Fix negative current issue
                 if bat_current > 4096/2:
@@ -81,7 +82,12 @@ def get_can():
                     recuperation = 0
 
                 # Calculate Battery SoC and Range
-                s_o_charge = int((bat_voltage - 95.12) / 6.08 * 100)
+                s_o_charge = int((bat_v_notint - 95.12) / (101.2 - 95.12) * 100)
+                if s_o_charge < 0:
+                    s_o_charge = 0
+                elif s_o_charge > 100:
+                    s_o_charge = 100
+                    
                 est_range = s_o_charge * 1.5  # Assuming 150km when 100%
 
             if message.arbitration_id == 768:
