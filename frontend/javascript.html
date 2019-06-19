@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<!--  -->
+
+<head>
+    <title> Javascript</title>
+    <link rel="stylesheet" type="text/css" href="plyr.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+
+    <!-- it is always important to load all other dependencies then only call main.css and main.js -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <h1>Simple Image Slider</h1>
+        <h2>A Pen by <a href="http://www.andrecortellini.com" target="_blank">André Cortellini</a></h2>
+
+        <div id="slider-wrap">
+            <ul id="slider">
+                <li data-color="#1abc9c">
+                    <div>
+                        <img id="bikeGif" width="800" height="" src="files/images/wo1.gif" />
+                    </div>
+                    <i class="fa fa-image"></i>
+                </li>
+
+                <li data-color="#3498db">
+                    <div>
+                        <div class="container">
+                            <div class="column add-bottom">
+                                <div id="mainwrap">
+                                    <div id="nowPlay">
+                                        <!-- <img id="albumArt" src="http://via.placeholder.com/400x400" /> -->
+                                        <!-- <span ><img id="albumArt" src="http://via.placeholder.com/400x400" /></span><span id="npTitle"></span> -->
+
+
+                                        <!-- <span>
+                                            <div style="float: left;"><img id="albumArt" src="http://via.placeholder.com/400x400" /></div>
+                                            <span id="npTitle"></span>
+                                        </span> -->
+                                        
+
+<!-- <span>
+        <div style="float: left;"><img id="albumArt" src="http://via.placeholder.com/400x400" /></div>
+        <small>Title</small>
+        </span> -->
+
+        <span style="float: left;"><img id="albumArt" src="http://via.placeholder.com/400x400" /></span>
+                <span>small Title</span>
+        
+
+
+                                        <!-- <span id="npAction">Paused...</span><span id="npTitle"></span> -->
+                                    </div>
+                                    <div id="audiowrap">
+                                        <div id="audio0">
+                                            <audio id="audio1" preload controls>Your browser does not support HTML5
+                                                Audio! 😢</audio>
+                                        </div>
+                                        <div id="tracks">
+                                            <a id="btnPrev">&larr;</a><a id="btnNext">&rarr;</a>
+                                        </div>
+                                    </div>
+                                    <div id="plwrap">
+                                        <ul id="plList"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="column add-bottom center">
+                                        <p>Music by <a href="http://www.mythium.net/">Mythium</a></p>
+                                        <p>Download: <a href="https://archive.org/download/mythium/mythium_vbr_mp3.zip">zip</a> / <a
+                                                href="https://archive.org/download/mythium/mythium_archive.torrent">torrent</a></p>
+                                    </div> -->
+                        </div>
+                        <span>Sub-title #2</span>
+                    </div>
+                    <i class="fa fa-gears"></i>
+                </li>
+
+                <li data-color="#9b59b6">
+                    <div>
+                        <iframe width="480" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=85.32276660203935%2C27.72784215033039%2C85.3262159228325%2C27.729463720021418&amp;layer=mapnik&amp;marker=27.728652938191388%2C85.32449126243591"
+                            style="border: 0px solid black"></iframe><br />
+                    </div>
+                    <i class="fa fa-sliders"></i>
+                </li>
+
+                <!-- <li data-color="#34495e">
+                    <div>
+                        <h3>Slide #4</h3>
+                        <span>Sub-title #4</span>
+                    </div>
+                    <i class="fa fa-code"></i>
+                </li>
+
+                <li data-color="#e74c3c">
+                    <div>
+                        <h3>Slide #5</h3>
+                        <span>Sub-title #5</span>
+                    </div>
+                    <i class="fa fa-microphone-slash"></i>
+                </li> -->
+
+
+            </ul>
+
+            <!--controls-->
+            <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
+            <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
+            <div id="counter"></div>
+
+            <div id="pagination-wrap">
+                <ul>
+                </ul>
+            </div>
+            <!--controls-->
+
+        </div>
+
+    </div>
+    <script src="jquery.min.js"></script>
+    <script src="html5media.min.js"></script>
+    <script src="plyr.min.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>
