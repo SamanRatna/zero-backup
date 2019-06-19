@@ -18,6 +18,11 @@ var getData = function(){
             s_o_charge = response.s_o_charge;
             est_range = response.est_range;
             recuperation = response.recuperation;
+            hibeam = response.hibeam;
+            lturn = response.lturn;
+            rturn = response.rturn;
+            mode = response.recuperation;
+            drive = response.drive;
             //console.log(bat_current, bat_voltage);
 
             // Calculate trip data and store in file
@@ -38,6 +43,11 @@ var getData = function(){
             document.getElementById('s_o_charge').innerHTML = s_o_charge;
             document.getElementById('est_range').innerHTML = est_range;
             document.getElementById('recuperation').innerHTML = recuperation;
+            document.getElementById('hibeam').innerHTML = hibeam;
+            document.getElementById('lturn').innerHTML = lturn;
+            document.getElementById('rturn').innerHTML = rturn;
+            document.getElementById('mode').innerHTML = mode;
+            document.getElementById('drive').innerHTML = drive;
         }
     };
 

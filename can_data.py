@@ -1,13 +1,30 @@
 import can
+import RPi.GPIO as GPIO
 import time
 import os
-# import json
 from flask import Flask, jsonify, request, render_template
 import random
 
 # Set can parameters and create 'bus' object
 can.rc['interface'] = 'socketcan_native'
 can.rc['channel'] = 'can0'
+
+# Set GPIO pin definition
+GPIO.setmode(GPIO.BCM)
+
+hibeam_ch = 3
+lturn_ch = 5
+rturn_ch = 7
+start_thik_ch = 11
+reverse_suste_ch = 13
+babbal_ch = 15
+
+GPIO.setup(hibeam_ch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(lturn_ch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(rturn_ch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(start_thik_ch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(reverse_suste_ch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(babbal_ch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # Initialize variables
 bat_current = 0
@@ -26,6 +43,12 @@ est_range = 0
 recuperation = 0
 data_json = {}
 
+hibeam = 0
+lturn = 0
+rturn = 0
+mode = 'standby'
+drive = 0
+hold_time = 0
 
 def get_can():
     # Get global variables
@@ -211,7 +234,58 @@ def get_can():
             #global data_json
             return data_json
 
-
+def get_gpio(veh_speed):
+    global hibeam
+    global lturn
+    global rturn
+    global mode
+    global drive
+    global start
+    global end
+    global hold_time
+    
+    if GPIO.input(hibeam_ch) == 0:
+        hibeam = 1
+    else:
+        hibeam = 0
+    if GPIO.input(lturn_ch) == 0:
+        lturn = 1
+    else:
+        lturn = 0
+    if GPIO.input(rturn_ch) == 0:
+        rturn = 1
+    else:
+        rturn = 0
+    if drive == 0:
+        if GPIO.input(start_thik_ch) == 0:
+            mode = 'thikka'
+            drive = 1
+        if GPIO.input(reverse_suste_ch) == 0:
+            mode = 'reverse'
+            drive = 1
+    if drive == 1:
+        if veh_speed == 0:
+            if GPIO.input(start_thik_ch) == 0:
+                hold_time += 40
+                if hold_time >=  2000/40:
+                    mode = 'standby'
+                    drive = 0
+            if GPIO.input(start_thik_ch) == 1:
+                hold_time = 0
+        if GPIO.input(reverse_suste_ch) == 0:
+            mode = 'suste'
+        if GPIO.input(babbal_ch) == 0:
+            mode = 'babbal'
+                
+    gpio_data = {
+        'hibeam': hibeam,
+        'lturn': lturn,
+        'rturn': rturn,
+        'mode': mode,
+        'drive': drive
+    }
+    return gpio_data
+        
 
 app = Flask(__name__)
 app.debug = True
@@ -221,12 +295,14 @@ app.debug = True
 def index():
     if request.method == "POST":
         # print(str(request.data.decode('UTF-8')))
-        data_json = get_can()
-        while data_json == None:
-            data_json = get_can()
-        print('after while loop')
-        print(data_json)
-        return jsonify(data_json)
+        can_data = get_can()
+        while can_data == None:
+            can_data = get_can()
+        veh_speed = can_data.get('veh_speed','none')
+        gpio_data = get_gpio(veh_speed)
+        full_data = gpio_data
+        full_data.update(can_data)
+        return jsonify(full_data)
     return render_template("index.html")
 
 

@@ -1,4 +1,4 @@
-function get_can() {
+function get_data() {
   // Setup AJAX request code
   var req = new XMLHttpRequest();
   req.onreadystatechange = function()
@@ -22,6 +22,11 @@ function get_can() {
             s_o_charge = response.s_o_charge;
             est_range = response.est_range;
             recuperation = response.recuperation;
+            hibeam = response.hibeam;
+            lturn = response.lturn;
+            rturn = response.rturn;
+            mode = response.mode;
+            drive = response.drive;
 
             // Display telemetry data
             document.getElementById('bat_current').innerHTML = bat_current;
@@ -38,6 +43,11 @@ function get_can() {
             document.getElementById('s_o_charge').innerHTML = s_o_charge;
             document.getElementById('est_range').innerHTML = est_range;
             document.getElementById('recuperation').innerHTML = recuperation;
+            document.getElementById('hibeam').innerHTML = hibeam;
+            document.getElementById('lturn').innerHTML = lturn;
+            document.getElementById('rturn').innerHTML = rturn;
+            document.getElementById('mode').innerHTML = mode;
+            document.getElementById('drive').innerHTML = drive;
       }
     }
   }
@@ -49,4 +59,4 @@ function get_can() {
 }
 
 // Run get_can at a certain interval
-setInterval(get_can, 30)
+setInterval(get_data, 30)
