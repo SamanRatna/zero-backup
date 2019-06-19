@@ -51,9 +51,10 @@ drive = 0
 hold_time = 0
 just_switched = 0
 
+
 def get_can():
     # Get global variables
-    global bat_current 
+    global bat_current
     global bat_voltage
     global veh_speed
     global max_torque
@@ -61,12 +62,12 @@ def get_can():
     global motor_temp
     global motor_vel
     global drive_prof
-    global odometer 
-    global htsink_temp 
-    global dig_input 
+    global odometer
+    global htsink_temp
+    global dig_input
     global s_o_charge
-    global est_range 
-    global recuperation 
+    global est_range
+    global recuperation
     global data_json
 
     # Get data
@@ -111,7 +112,7 @@ def get_can():
                     s_o_charge = 0
                 elif s_o_charge > 100:
                     s_o_charge = 100
-                    
+
                 est_range = s_o_charge * 1.5  # Assuming 150km when 100%
 
             if message.arbitration_id == 768:
@@ -197,7 +198,7 @@ def get_can():
                 odometer = int(int(odometer_hex, 16)*0.0039)
                 htsink_temp = int(int(htsink_temp_hex, 16)*1)
                 dig_input = int(int(dig_input_hex, 16)*1)
-            
+
             '''
             # Print stuff
             # os.system('clear')
@@ -231,9 +232,9 @@ def get_can():
                 "est_range": est_range,
                 "recuperation": recuperation
             }
-            
-            #global data_json
+
             return data_json
+
 
 def get_gpio(veh_speed):
     global hibeam
@@ -245,7 +246,7 @@ def get_gpio(veh_speed):
     global end
     global hold_time
     global just_switched
-    
+
     if GPIO.input(hibeam_ch) == 0:
         hibeam = 1
     else:
@@ -258,7 +259,7 @@ def get_gpio(veh_speed):
         rturn = 1
     else:
         rturn = 0
-        
+
     if drive == 0:
         if just_switched == 0:
             hold_time = 0
@@ -277,7 +278,7 @@ def get_gpio(veh_speed):
                 hold_time += 40
                 mode = 'thikka'
                 drive = 1
-                if hold_time >=  1000:
+                if hold_time >= 1000:
                     mode = 'standby'
                     drive = 0
                     just_switched = 1
@@ -288,8 +289,7 @@ def get_gpio(veh_speed):
             mode = 'suste'
         if GPIO.input(babbal_ch) == 0:
             mode = 'babbal'
-    
-                
+
     gpio_data = {
         'hibeam': hibeam,
         'lturn': lturn,
@@ -298,7 +298,7 @@ def get_gpio(veh_speed):
         'drive': drive
     }
     return gpio_data
-        
+
 
 app = Flask(__name__)
 app.debug = True
@@ -311,7 +311,7 @@ def index():
         can_data = get_can()
         while can_data == None:
             can_data = get_can()
-        veh_speed = can_data.get('veh_speed','none')
+        veh_speed = can_data.get('veh_speed', 'none')
         gpio_data = get_gpio(veh_speed)
         full_data = gpio_data
         full_data.update(can_data)
