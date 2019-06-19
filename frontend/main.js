@@ -1,4 +1,4 @@
-//current position
+//current position.
 var pos = 0;
 //number of slides
 var totalSlides = $('#slider-wrap ul li').length;
