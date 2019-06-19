@@ -7,53 +7,50 @@
     <link rel="stylesheet" type="text/css" href="plyr.css">
     <link rel="stylesheet" type="text/css" href="main.css">
 
-
     <!-- it is always important to load all other dependencies then only call main.css and main.js -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
 </head>
 
-<body>
+<!-- <body onload="timeCount();">  --> <!-- call a specific JS function after whole page is loaded. I just added a call function at the end of JS -->
+<body> 
+    <!-- <div id="notification" style="width: 480px; height: 600px; border: 1px solid red;"> -->
+    <div id="notification">
+    </div>
+    <div id="timeDateName" >
+            <div id="time"></div>
+            <div id="date"></div>
+            <div id = "name">Amulya</div>
+        
+    </div>
+
     <div id="wrapper">
 
-        <h1>Simple Image Slider</h1>
-        <h2>A Pen by <a href="http://www.andrecortellini.com" target="_blank">André Cortellini</a></h2>
+        <!-- <h1>Simple Image Slider</h1>
+        <h2>A Pen by <a href="http://www.andrecortellini.com" target="_blank">André Cortellini</a></h2> -->
 
         <div id="slider-wrap">
             <ul id="slider">
-                <li data-color="#1abc9c">
+                <!-- 1st slide -->
+                <li style="padding-top: 50px;" data-color="#ffffff">
                     <div>
                         <img id="bikeGif" width="800" height="" src="files/images/wo1.gif" />
                     </div>
                     <i class="fa fa-image"></i>
                 </li>
 
+                <!-- 2nd slide -->
                 <li data-color="#3498db">
                     <div>
                         <div class="container">
                             <div class="column add-bottom">
                                 <div id="mainwrap">
                                     <div id="nowPlay">
-                                        <!-- <img id="albumArt" src="http://via.placeholder.com/400x400" /> -->
-                                        <!-- <span ><img id="albumArt" src="http://via.placeholder.com/400x400" /></span><span id="npTitle"></span> -->
-
-
-                                        <!-- <span>
-                                            <div style="float: left;"><img id="albumArt" src="http://via.placeholder.com/400x400" /></div>
-                                            <span id="npTitle"></span>
-                                        </span> -->
-                                        
-
-<!-- <span>
-        <div style="float: left;"><img id="albumArt" src="http://via.placeholder.com/400x400" /></div>
-        <small>Title</small>
-        </span> -->
-
-        <span style="float: left;"><img id="albumArt" src="http://via.placeholder.com/400x400" /></span>
-                <span>small Title</span>
-        
-
-
+                                        <span style="float: left;"><img id="albumArt"
+                                                src="http://via.placeholder.com/400x400" /></span>
+                                        <span>small Title</span>
                                         <!-- <span id="npAction">Paused...</span><span id="npTitle"></span> -->
+                                        <!-- removed later -->
                                     </div>
                                     <div id="audiowrap">
                                         <div id="audio0">
@@ -80,9 +77,10 @@
                     <i class="fa fa-gears"></i>
                 </li>
 
+                <!-- 3rd slide -->
                 <li data-color="#9b59b6">
                     <div>
-                        <iframe width="480" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                        <iframe width="480" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
                             src="https://www.openstreetmap.org/export/embed.html?bbox=85.32276660203935%2C27.72784215033039%2C85.3262159228325%2C27.729463720021418&amp;layer=mapnik&amp;marker=27.728652938191388%2C85.32449126243591"
                             style="border: 0px solid black"></iframe><br />
                     </div>
@@ -122,6 +120,10 @@
         </div>
 
     </div>
+
+    <span id ="speed"></span><span>km</span>
+    <div><img id="logo" src="files/images/logo.png" /></span>
+
     <script src="jquery.min.js"></script>
     <script src="html5media.min.js"></script>
     <script src="plyr.min.js"></script>
