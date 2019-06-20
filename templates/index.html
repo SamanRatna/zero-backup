@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <!-- -->
 
@@ -35,7 +35,7 @@
 
                 <div id="slider-wrap">
                     <ul id="slider">
-                       
+
                         <li style="padding-top: 50px;" data-color="#ffffff">
                             <div>
                                 <img id="bikeGif" width="800" height="" src="{{ url_for('static', filename='images/wo1.gif')}}" />
@@ -43,7 +43,7 @@
                             <i class="fa fa-image"></i>
                         </li>
 
-                    
+
                         <li data-color="#3498db">
                             <div>
                                 <div class="container">
@@ -53,7 +53,7 @@
                                                 <span style="float: left;"><img class="albumArt"
                                                         src="http://via.placeholder.com/400x400" /></span>
                                                 <span>small Title</span>
-                                          
+
                                             </div>
                                             <div id="audiowrap">
                                                 <div id="audio0">
@@ -70,14 +70,14 @@
                                             </div>
                                         </div>
                                     </div>
-         
+
                                 </div>
                                 <span>Sub-title #2</span>
                             </div>
                             <i class="fa fa-gears"></i>
                         </li>
 
-                        
+
                         <li data-color="#9b59b6">
                             <div>
                                 <iframe width="480" height="450" frameborder="0" scrolling="no" marginheight="0"
@@ -92,7 +92,7 @@
 
                     </ul>
 
-                 
+
                     <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
                     <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
                     <div id="counter"></div>
@@ -101,13 +101,13 @@
                         <ul>
                         </ul>
                     </div>
-                  
+
 
                 </div>
 
             </div>
 
-            <span class="range"></span><span>km</span>
+            <span class="speed"></span><span>km</span>
 
             <div><img class="logo" src="{{ url_for('static', filename='images/logo.png')}}" /></div>
 
@@ -139,7 +139,7 @@
                     </span><span id="thirdColumn">
                         <div>
                             <span style=" padding-top: 50px;" class="rangeMain"></span>
-                            km/hr
+                            km
                         </div>
                     </span>
 
@@ -147,17 +147,17 @@
                     <span id="firstColumn">
                         <div>TRIP <span class="tripMain"></span></div>
                     </span><span id="secondColumn">
-                        <div><span class="lightMain"></span>hp</div>
+                        <div><img class="modeMain" src="{{ url_for('static', filename='images/mode1.png')}}" /></div>
                     </span><span id="thirdColumn">
                         <div>ODO <span class="odoMain"></span></div>
                     </span>
 
                     <span id="firstColumn">
-                        <div id="leftTurn">&#129128</div>
+                            <div><img class="leftTurn" src="{{ url_for('static', filename='images/leftArrowOff.png')}}" /></div>
                     </span><span id="secondColumn">
-                        <div><img id="beam" src="{{ url_for('static', filename='images/high-beam.png')}}" /></div>
+                        <div><img class="beam" src="{{ url_for('static', filename='images/highBeamOff.png')}}" /></div>
                     </span><span id="thirdColumn">
-                        <div id="leftTurn">&#129130</div>
+                            <div><img class="rightTurn" src="{{ url_for('static', filename='images/rightArrowOff.png')}}" /></div>
                     </span>
 
 

@@ -3,30 +3,30 @@
 	margin: 0;
 	width: 600px;
   } */
-  
+
   * {
 	box-sizing: border-box;
   }
-  
+
   img {
 	vertical-align: middle;
   }
-  
+
   /* Position the image containerMain (needed to position the left and right arrows) */
   .containerMain {
 	position: relative;
   }
-  
+
   /* Hide the images by default */
   /* .mySlides {
 	display: none;
   } */
-  
+
   /* Add a pointer when hovering over the thumbnail images */
   /* .cursor {
 	cursor: pointer;
   } */
-  
+
   /* NextMain & previousMain buttons */
   .prevMain,
   .nextMain {
@@ -43,19 +43,19 @@
 	user-select: none;
 	-webkit-user-select: none;
   }
-  
+
   /* Position the "next button" to the right */
   .nextMain {
 	right: 0;
 	border-radius: 3px 0 0 3px;
   }
-  
+
   /* On hover, add a black background color with a little bit see-through */
   .prevMain:hover,
   .nextMain:hover {
 	background-color: rgba(0, 0, 0, 0.8);
   }
-  
+
 
 
 /*
@@ -92,7 +92,7 @@ now - SLider
 
 
 /*GLOBALS.*/
-body {    
+body {
     margin: 0 !important;
 	padding: 0 !important;
 	width: 480px;
@@ -112,7 +112,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 	height:400px;
 	position:relative;
 	color:#fff;
-	text-shadow:rgba(0,0,0,0.1) 2px 2px 0px;	
+	text-shadow:rgba(0,0,0,0.1) 2px 2px 0px;
 }
 
 
@@ -125,17 +125,17 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 
 #slider-wrap ul#slider{
 	width:100%;
-	height:100%;	
+	height:100%;
 	position:absolute;
 	top:0;
-	left:0;		
+	left:0;
 }
 
 #slider-wrap ul#slider li{
 	float:left;
 	position:relative;
 	width:480px;	/* don't remove this width. It is very important */
-	height:400px;	
+	height:400px;
 }
 
 #slider-wrap ul#slider li > div{
@@ -146,7 +146,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 
 #slider-wrap ul#slider li > div h3{
 	font-size:36px;
-	text-transform:uppercase;	
+	text-transform:uppercase;
 }
 
 #slider-wrap ul#slider li > div span{
@@ -159,7 +159,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 	line-height:400px;
 	display:block;
 	width:100%;
-	font-size:90px;	
+	font-size:90px;
 }
 
 
@@ -172,16 +172,16 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 	margin-top:-25px;
 	line-height:57px;
 	text-align:center;
-	cursor:pointer;	
+	cursor:pointer;
 	background:rgba(0,0,0,0.1);
 	z-index:100;
-	
-	
-	-webkit-user-select: none;  
-	-moz-user-select: none; 
-	-khtml-user-select: none; 
+
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
 	-ms-user-select: none;
-	
+
 	-webkit-transition: all 0.1s ease;
 	-moz-transition: all 0.1s ease;
 	-o-transition: all 0.1s ease;
@@ -190,14 +190,14 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 }
 
 .btns:hover{
-	background:rgba(0,0,0,0.3);	
+	background:rgba(0,0,0,0.3);
 }
 
 #next{right:-50px; border-radius:7px 0px 0px 7px;}
 #previous{left:-50px; border-radius:0px 7px 7px 7px;}
 #counter{
-	top: 30px; 
-	right:35px; 
+	top: 30px;
+	right:35px;
 	width:auto;
 	position:absolute;
 }
@@ -210,7 +210,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 #pagination-wrap{
 	min-width:20px;
 	margin-top:350px;
-	margin-left: auto; 
+	margin-left: auto;
 	margin-right: auto;
 	height:15px;
 	position:relative;
@@ -231,8 +231,8 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 	opacity:0.5;
 	position:relative;
   top:0;
-  
-  
+
+
 }
 
 #pagination-wrap ul li.active{
@@ -240,7 +240,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
   height:12px;
   top:3px;
 	opacity:1;
-	box-shadow:rgba(0,0,0,0.1) 1px 1px 0px;	
+	box-shadow:rgba(0,0,0,0.1) 1px 1px 0px;
 }
 
 
@@ -249,7 +249,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 /*Header*/
 h1, h2{text-shadow:none; text-align:center;}
 h1{	color: #666; text-transform:uppercase;	font-size:36px;}
-h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; margin-bottom:30px;} 
+h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; margin-bottom:30px;}
 
 
 
@@ -260,11 +260,11 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 	-moz-transition: all 0.3s cubic-bezier(1,.01,.32,1);
 	-o-transition: all 0.3s cubic-bezier(1,.01,.32,1);
 	-ms-transition: all 0.3s cubic-bezier(1,.01,.32,1);
-	transition: all 0.3s cubic-bezier(1,.01,.32,1);	
+	transition: all 0.3s cubic-bezier(1,.01,.32,1);
 }
 
 
-/* 
+/*
 
 
 
@@ -527,7 +527,7 @@ color:rgba(0,0,0,.1);
     border-radius: 10px;
 }
 
-/* 
+/*
 
 
 
@@ -549,7 +549,7 @@ now - topBar
 
 */
 /* no use of margin and padding 0 at end because of -17px margin-top for notification. Also it removes all margin and padding */
-/* * {		
+/* * {
     margin: 0 !important;
     padding: 0 !important;
  } */
@@ -566,7 +566,7 @@ now - topBar
 
 
  .timeDateName {
-	 
+
 	/* height:50px; */
 	padding: 10px;
 	text-align:center;
@@ -593,7 +593,7 @@ now - topBar
 	font-size: 20px;
 }
 
-.range{
+.speed{
 	/* -webkit-transition: opacity .5s ease-in-out;
 	-moz-transition: opacity .5s ease-in-out;
 	-ms-transition: opacity .5s ease-in-out;
@@ -634,7 +634,7 @@ now - topBar
 	padding-bottom:	64px;
 }
 
-/* 
+/*
 
 
 
@@ -669,10 +669,10 @@ now - page2
 	background: white;
 	/* height:30px;
 	background:white; */
-	
+
 	/* position: relative; */
 	/* text-align:center; */
-	
+
 }
 
 #firstColumn{
@@ -736,7 +736,7 @@ now - page2
 	background: white;
 	color: black;
 	/* top:50px; */
-	
+
 
 }
 
@@ -762,7 +762,7 @@ now - page2
 	/* background and font - remove later */
 	background: white;
 	color: black;
-	
+
 
 }
 .rangeMain{
@@ -799,27 +799,38 @@ now - page2
 
 
 
-#leftTurn{
-	display: inline-block;
-	width: 33%;
-	font-size:40px;
-	text-align:center;
+.leftTurn{
+	height: 25px;
+
+	position:relative;
+	/* top: 10px; */
+
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
 }
 
-#rightTurn{
-	display: inline-block;
-	width: 33%;
-	font-size:40px;
-	text-align:center;
+.rightTurn{
+	height: 25px;
+
+	position:relative;
+	/* top: 10px; */
+	/* bottom: 10px; */
+
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
 }
 
 
-#beam{
+.beam{
 	/* position: relative; */
 	/* display: inline-block; */
 
 	height: 45px;
-	
+
 	position:relative;
 	top: 10px;
 
@@ -827,6 +838,19 @@ now - page2
 	margin-left: auto;
 	margin-right: auto;
 
-	
+
 }
 
+
+.modeMain{
+	height: 25px;
+
+	position:relative;
+	/* top: 10px; */
+	/* bottom: 10px; */
+
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
+}
