@@ -293,13 +293,13 @@ def get_gpio(veh_speed):
                 if GPIO.input(reverse_suste_in) == 0:
                     mode = 'reverse'
                     drive = -1
-            just_switched += 8
+            just_switched += 40
             if just_switched >= 800:
                 just_switched = 0
         else:
             if veh_speed == 0:
                 if GPIO.input(start_thik_in) == 0:
-                    hold_time += 8
+                    hold_time += 40
                     mode = 'thikka'
                     drive = 1
                     if hold_time >=  1000:
@@ -314,6 +314,31 @@ def get_gpio(veh_speed):
             if GPIO.input(babbal_in) == 0:
                 mode = 'babbal'
     
+    if mode == 'thikka':
+        GPIO.output(start_thik_out, GPIO.HIGH)
+        GPIO.output(suste_out, GPIO.LOW)
+        GPIO.output(reverse_out, GPIO.LOW)
+        GPIO.output(babbal_out, GPIO.LOW)
+    if mode == 'suste':
+        GPIO.output(start_thik_out, GPIO.HIGH)
+        GPIO.output(suste_out, GPIO.HIGH)
+        GPIO.output(reverse_out, GPIO.LOW)
+        GPIO.output(babbal_out, GPIO.LOW)
+    if mode == 'babbal':
+        GPIO.output(start_thik_out, GPIO.HIGH)
+        GPIO.output(suste_out, GPIO.LOW)
+        GPIO.output(reverse_out, GPIO.LOW)
+        GPIO.output(babbal_out, GPIO.HIGH)
+    if mode == 'reverse':
+        GPIO.output(start_thik_out, GPIO.LOW)
+        GPIO.output(suste_out, GPIO.LOW)
+        GPIO.output(reverse_out, GPIO.HIGH)
+        GPIO.output(babbal_out, GPIO.LOW)
+    if mode == 'standby':
+        GPIO.output(start_thik_out, GPIO.LOW)
+        GPIO.output(suste_out, GPIO.LOW)
+        GPIO.output(reverse_out, GPIO.LOW)
+        GPIO.output(babbal_out, GPIO.LOW)
                 
     gpio_data = {
         'hibeam': hibeam,

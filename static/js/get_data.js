@@ -60,4 +60,4 @@ function get_data() {
 }
 
 // Run get_can at a certain interval
-setInterval(get_data, 30)
+setInterval(get_data, 40)
