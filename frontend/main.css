@@ -1,3 +1,96 @@
+/* body {
+	font-family: Arial;
+	margin: 0;
+	width: 600px;
+  } */
+  
+  * {
+	box-sizing: border-box;
+  }
+  
+  img {
+	vertical-align: middle;
+  }
+  
+  /* Position the image containerMain (needed to position the left and right arrows) */
+  .containerMain {
+	position: relative;
+  }
+  
+  /* Hide the images by default */
+  /* .mySlides {
+	display: none;
+  } */
+  
+  /* Add a pointer when hovering over the thumbnail images */
+  /* .cursor {
+	cursor: pointer;
+  } */
+  
+  /* NextMain & previousMain buttons */
+  .prevMain,
+  .nextMain {
+	cursor: pointer;
+	position: absolute;
+	top: 40%;
+	width: auto;
+	padding: 16px;
+	margin-top: -50px;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+	border-radius: 0 3px 3px 0;
+	user-select: none;
+	-webkit-user-select: none;
+  }
+  
+  /* Position the "next button" to the right */
+  .nextMain {
+	right: 0;
+	border-radius: 3px 0 0 3px;
+  }
+  
+  /* On hover, add a black background color with a little bit see-through */
+  .prevMain:hover,
+  .nextMain:hover {
+	background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+above this - Mainslider
+
+now - SLider
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+
 /*GLOBALS.*/
 body {    
     margin: 0 !important;
@@ -462,7 +555,7 @@ now - topBar
  } */
 
 
-#notification {
+notification {
 	/* width: 480px; */
 	height:30px;
 	background-color: #40E0D0;
@@ -525,7 +618,7 @@ now - topBar
 
 }
 
-#logo{
+.logo{
 	/* background and font - remove later */
 	background: white;
 	color: black;
@@ -537,4 +630,65 @@ now - topBar
 	/* padding:	10px; */
 	margin-top:	-15px;
 	padding-bottom:	64px;
+}
+
+/* 
+
+
+
+
+
+
+
+above this - page1
+
+now - page2
+
+
+
+
+
+
+
+
+
+*/
+.class{
+	display: inline-block;
+	height: 50px;
+}
+
+#leftTurn{
+	display: inline-block;
+	width: 33%;
+	font-size:40px;
+
+	text-align:center;
+
+}
+
+#beamLocation{
+	position: relative;
+	display: inline-block;
+	width: 100px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#beam{
+	position: relative;
+	display: inline-block;
+
+	height: 40px;
+	/* font-size:40px; */
+	background: green;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 30px;
+}
+
+#rightTurn{
+	display: inline-block;
+	width: 33%;
+	font-size:40px;
+	text-align:center;
 }
