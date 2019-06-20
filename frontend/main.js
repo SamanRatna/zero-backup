@@ -27,6 +27,25 @@ function showSlides(n) {
   // captionText.innerHTML = dots[slideIndex-1].alt;
 }
 
+
+
+
+ride_mode = 1
+setInterval(function(){
+    if(ride_mode == 1){
+        ride_mode = 2
+    } else {
+        ride_mode = 1
+    }
+    console.log(ride_mode)
+    console.log(pos)
+
+    if (ride_mode == 2) {
+        plusSlides(1);
+        logstuff()
+    }
+}, 5000)
+
 /*
 
 
@@ -585,4 +604,10 @@ now - speed
 
 setInterval(function(){   
     document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-}, 3000);
+    document.getElementsByClassName("speedMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementsByClassName("powerMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementsByClassName("rangeMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementsByClassName("tripMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementsByClassName("lightMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementsByClassName("odoMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+}, 300);

@@ -555,7 +555,7 @@ now - topBar
  } */
 
 
-notification {
+.notification {
 	/* width: 480px; */
 	height:30px;
 	background-color: #40E0D0;
@@ -618,6 +618,8 @@ notification {
 
 }
 
+
+
 .logo{
 	/* background and font - remove later */
 	background: white;
@@ -653,37 +655,155 @@ now - page2
 
 
 */
-.class{
+/* .class{
 	display: inline-block;
 	height: 50px;
+} */
+
+
+#column{
+	display: block;
+	padding: 0px;
+	margin: 0px;
+	width: 480px;
+	background: white;
+	/* height:30px;
+	background:white; */
+	
+	/* position: relative; */
+	/* text-align:center; */
+	
 }
+
+#firstColumn{
+	/* padding-top: 0px; */
+	margin-top: 0px;
+	display: inline-block;
+	width: 33%;
+	/* background-color: green; */
+	text-align:center;
+	/* height:40px; */
+	background: white;
+
+}
+#secondColumn{
+	/* padding: 0px; */
+	margin: 0px;
+	display: inline-block;
+	width: 34%;
+	/* background-color: blue; */
+	text-align:center;
+	/* height:40px; */
+
+	/* position: relative;
+	margin-top: 80px; */
+	background: white;
+
+}
+#thirdColumn{
+	/* padding: 0px; */
+	margin: 0px;
+	display: inline-block;
+	width: 33%;
+	/* background-color: green; */
+	text-align:center;
+	/* height:40px; */
+	background: white;
+}
+
+
+.speedMain{
+	/* -webkit-transition: opacity .5s ease-in-out;
+	-moz-transition: opacity .5s ease-in-out;
+	-ms-transition: opacity .5s ease-in-out;
+	-o-transition: opacity .5s ease-in-out;
+	transition: opacity .5s ease-in-out; */
+
+	/* position: relative; */
+	/* left: 0px;
+	top: 0px; */
+	/* z-index: -1; */
+
+	display: inline-block;
+	text-align:center;
+	/* width:280px; */
+	/* padding-left: 40%; */ /* It is better not to use padding because when number changes from say 10 to 9, both number as well as text (km) will shift to the left because padding starts from left */
+	font-size: 40px;
+	/* margin-top: 0px; */
+	/* position: relative; */
+	/* padding-top: -10px; */
+	/* background and font - remove later */
+	background: white;
+	color: black;
+	/* top:50px; */
+	
+
+}
+
+.powerMain{
+	/* -webkit-transition: opacity .5s ease-in-out;
+	-moz-transition: opacity .5s ease-in-out;
+	-ms-transition: opacity .5s ease-in-out;
+	-o-transition: opacity .5s ease-in-out;
+	transition: opacity .5s ease-in-out; */
+
+	/* position: relative; */
+	/* left: 0px;
+	top: 0px; */
+	/* z-index: -1; */
+
+	display: inline-block;
+	text-align:center;
+	/* width:280px; */
+	/* padding-left: 40%; */ /* It is better not to use padding because when number changes from say 10 to 9, both number as well as text (km) will shift to the left because padding starts from left */
+	font-size: 30px;
+	/* margin-top: 80px; */
+	/* padding-top: -20px; */
+	/* background and font - remove later */
+	background: white;
+	color: black;
+	
+
+}
+.rangeMain{
+	/* -webkit-transition: opacity .5s ease-in-out;
+	-moz-transition: opacity .5s ease-in-out;
+	-ms-transition: opacity .5s ease-in-out;
+	-o-transition: opacity .5s ease-in-out;
+	transition: opacity .5s ease-in-out; */
+
+	/* position: relative; */
+	/* left: 0px;
+	top: 0px; */
+	/* z-index: -1; */
+
+	display: inline-block;
+	text-align:center;
+	/* width:280px; */
+	/* padding-left: 40%; */ /* It is better not to use padding because when number changes from say 10 to 9, both number as well as text (km) will shift to the left because padding starts from left */
+	font-size: 40px;
+
+	/* background and font - remove later */
+	background: white;
+	color: black;
+
+}
+
+
+
+
+
+
+
+
+
+
 
 #leftTurn{
 	display: inline-block;
 	width: 33%;
 	font-size:40px;
-
 	text-align:center;
-
-}
-
-#beamLocation{
-	position: relative;
-	display: inline-block;
-	width: 100px;
-	margin-left: auto;
-	margin-right: auto;
-}
-#beam{
-	position: relative;
-	display: inline-block;
-
-	height: 40px;
-	/* font-size:40px; */
-	background: green;
-	margin-left: auto;
-	margin-right: auto;
-	padding-left: 30px;
 }
 
 #rightTurn{
@@ -692,3 +812,21 @@ now - page2
 	font-size:40px;
 	text-align:center;
 }
+
+
+#beam{
+	/* position: relative; */
+	/* display: inline-block; */
+
+	height: 45px;
+	
+	position:relative;
+	top: 10px;
+
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
+	
+}
+

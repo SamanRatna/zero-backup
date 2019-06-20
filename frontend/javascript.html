@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<!-- . -->
+<!-- -->
 
 <head>
     <title> Javascript</title>
@@ -21,27 +21,21 @@
     <div class="containerMain">
         <div class="mySlides">
 
-            <!-- <div id="notification" style="width: 480px; height: 600px; border: 1px solid red;"> -->
+
             <div class="notification">
             </div>
 
             <div class="timeDateName">
                 <div class="time"></div>
-                <!-- <div class="time"></div> -->
-                <!-- <div id="time"></div> -->
                 <div class="date"></div>
                 <div class="name">Amulya</div>
-
             </div>
 
             <div id="wrapper">
 
-                <!-- <h1>Simple Image Slider</h1>
-            <h2>A Pen by <a href="http://www.andrecortellini.com" target="_blank">André Cortellini</a></h2> -->
-
                 <div id="slider-wrap">
                     <ul id="slider">
-                        <!-- 1st slide -->
+                       
                         <li style="padding-top: 50px;" data-color="#ffffff">
                             <div>
                                 <img id="bikeGif" width="800" height="" src="files/images/wo1.gif" />
@@ -49,7 +43,7 @@
                             <i class="fa fa-image"></i>
                         </li>
 
-                        <!-- 2nd slide -->
+                    
                         <li data-color="#3498db">
                             <div>
                                 <div class="container">
@@ -59,8 +53,7 @@
                                                 <span style="float: left;"><img class="albumArt"
                                                         src="http://via.placeholder.com/400x400" /></span>
                                                 <span>small Title</span>
-                                                <!-- <span id="npAction">Paused...</span><span id="npTitle"></span> -->
-                                                <!-- removed later -->
+                                          
                                             </div>
                                             <div id="audiowrap">
                                                 <div id="audio0">
@@ -77,18 +70,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="column add-bottom center">
-                                            <p>Music by <a href="http://www.mythium.net/">Mythium</a></p>
-                                            <p>Download: <a href="https://archive.org/download/mythium/mythium_vbr_mp3.zip">zip</a> / <a
-                                                    href="https://archive.org/download/mythium/mythium_archive.torrent">torrent</a></p>
-                                        </div> -->
+         
                                 </div>
                                 <span>Sub-title #2</span>
                             </div>
                             <i class="fa fa-gears"></i>
                         </li>
 
-                        <!-- 3rd slide -->
+                        
                         <li data-color="#9b59b6">
                             <div>
                                 <iframe width="480" height="450" frameborder="0" scrolling="no" marginheight="0"
@@ -99,26 +88,11 @@
                             <i class="fa fa-sliders"></i>
                         </li>
 
-                        <!-- <li data-color="#34495e">
-                        <div>
-                            <h3>Slide #4</h3>
-                            <span>Sub-title #4</span>
-                        </div>
-                        <i class="fa fa-code"></i>
-                    </li>
-    
-                    <li data-color="#e74c3c">
-                        <div>
-                            <h3>Slide #5</h3>
-                            <span>Sub-title #5</span>
-                        </div>
-                        <i class="fa fa-microphone-slash"></i>
-                    </li> -->
 
 
                     </ul>
 
-                    <!--controls-->
+                 
                     <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
                     <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
                     <div id="counter"></div>
@@ -127,7 +101,7 @@
                         <ul>
                         </ul>
                     </div>
-                    <!--controls-->
+                  
 
                 </div>
 
@@ -139,36 +113,67 @@
 
         </div>
 
-        <div class="mySlides" style="width:480px; height:800px; padding:0px; margin:0px;background-color:#FF0000;">
-            <div class="notification">
+        <div class="mySlides" style="width:480px; height:800px; padding:0px; margin:0px;background-color:white;">
+
+            <div class="notification"></div>
+
+            <div><iframe width="480" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=85.32276660203935%2C27.72784215033039%2C85.3262159228325%2C27.729463720021418&amp;layer=mapnik&amp;marker=27.728652938191388%2C85.32449126243591"
+                    style="border: 0px solid black"></iframe>
             </div>
-            <iframe width="480" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=85.32276660203935%2C27.72784215033039%2C85.3262159228325%2C27.729463720021418&amp;layer=mapnik&amp;marker=27.728652938191388%2C85.32449126243591"
-                style="border: 0px solid black"></iframe><br />
-                <div>
-                    <span id ="firstColumn"></span>
-                    <span id ="secondColumn"></span>
-                    <span id ="thirdColumn"></span>
+
+            <div style="height: 30px; margin-top: -50px; background: white;">
+
+
+                <div class="column" style="width:480px;">
+                    <span id="firstColumn">
+                        <div>
+                            <span style=" padding-top: 50px;" class="speedMain"></span>
+                            km/hr
+                        </div>
+                    </span><span id="secondColumn">
+                        <div>
+                            <span style="margin-top:11.5px;padding-top: 50px;" class="powerMain"></span>
+                            hp
+                        </div>
+                    </span><span id="thirdColumn">
+                        <div>
+                            <span style=" padding-top: 50px;" class="rangeMain"></span>
+                            km/hr
+                        </div>
+                    </span>
+
+
+                    <span id="firstColumn">
+                        <div>TRIP <span class="tripMain"></span></div>
+                    </span><span id="secondColumn">
+                        <div><span class="lightMain"></span>hp</div>
+                    </span><span id="thirdColumn">
+                        <div>ODO <span class="odoMain"></span></div>
+                    </span>
+
+                    <span id="firstColumn">
+                        <div id="leftTurn">&#129128</div>
+                    </span><span id="secondColumn">
+                        <div><img id="beam" src="files/images/high-beam.png" /></div>
+                    </span><span id="thirdColumn">
+                        <div id="leftTurn">&#129130</div>
+                    </span>
+
+
+
+
+
                 </div>
-                <div class="lights">
-                    <!-- http://xahlee.info/comp/unicode_arrows.html -->
-                        <span id ="leftTurn"> &#129128</span>
-                        <span id = "beamLocation"><img id ="beam" src="files/images/high-beam.png" /></span>
-                        <span id ="rightTurn"> &#129130</span>
-                    </div>
-                <div><img class="logo" src="files/images/logo.png" /></div>
+
+                <div><img style="padding-top:57px;" class="logo" src="files/images/logo.png" /></div>
+            </div>
+
+            <!-- <a class="prevMain" onclick="plusSlides(-1)">❮</a>
+            <a class="nextMain" onclick="plusSlides(1)">❯</a> -->
+
         </div>
-
-        
-
-        <a class="prevMain" onclick="plusSlides(-1)">❮</a>
-        <a class="nextMain" onclick="plusSlides(1)">❯</a>
-
     </div>
-
-
-
-
 
     <script src="jquery.min.js"></script>
     <script src="html5media.min.js"></script>
