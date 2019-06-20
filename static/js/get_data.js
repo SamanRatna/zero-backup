@@ -27,6 +27,7 @@ function get_data() {
             rturn = response.rturn;
             mode = response.mode;
             drive = response.drive;
+            stand = response.stand;
 
             // Display telemetry data
             document.getElementById('bat_current').innerHTML = bat_current;
