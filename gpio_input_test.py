@@ -11,10 +11,12 @@ rturn_in = 4
 start_thik_in = 17
 reverse_suste_in = 27
 babbal_in = 22
+stand_in = 25
 start_thik_out = 14
 suste_out = 18
 reverse_out = 15
 babbal_out = 23
+
 
 GPIO.setup(hibeam_in, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(lturn_in, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -22,6 +24,7 @@ GPIO.setup(rturn_in, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(start_thik_in, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(reverse_suste_in, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(babbal_in, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(stand_in, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 GPIO.setup(start_thik_out, GPIO.OUT)
 GPIO.setup(suste_out, GPIO.OUT)
@@ -64,36 +67,44 @@ def get_gpio(veh_speed):
         rturn = 1
     else:
         rturn = 0
-        
-    if drive == 0:
-        if just_switched == 0:
-            hold_time = 0
-            if GPIO.input(start_thik_in) == 0:
-                mode = 'thikka'
-                drive = 1
-            if GPIO.input(reverse_suste_in) == 0:
-                mode = 'reverse'
-                drive = -1
-        just_switched += 8
-        if just_switched >= 800:
-            just_switched = 0
+    if GPIO.input(stand_in) == 0:
+        stand = 'down'
     else:
-        if veh_speed == 0:
-            if GPIO.input(start_thik_in) == 0:
-                hold_time += 8
-                mode = 'thikka'
-                drive = 1
-                if hold_time >=  1000:
-                    mode = 'standby'
-                    drive = 0
-                    just_switched = 1
-            if GPIO.input(start_thik_in) == 1:
+        stand = 'up'
+    
+    if stand == 'down':
+        mode = 'standby'
+        drive = 0
+    else:
+        if drive == 0:
+            if just_switched == 0:
                 hold_time = 0
-    if drive == 1:
-        if GPIO.input(reverse_suste_in) == 0:
-            mode = 'suste'
-        if GPIO.input(babbal_in) == 0:
-            mode = 'babbal'
+                if GPIO.input(start_thik_in) == 0:
+                    mode = 'thikka'
+                    drive = 1
+                if GPIO.input(reverse_suste_in) == 0:
+                    mode = 'reverse'
+                    drive = -1
+            just_switched += 8
+            if just_switched >= 800:
+                just_switched = 0
+        else:
+            if veh_speed == 0:
+                if GPIO.input(start_thik_in) == 0:
+                    hold_time += 8
+                    mode = 'thikka'
+                    drive = 1
+                    if hold_time >=  1000:
+                        mode = 'standby'
+                        drive = 0
+                        just_switched = 1
+                if GPIO.input(start_thik_in) == 1:
+                    hold_time = 0
+        if drive == 1:
+            if GPIO.input(reverse_suste_in) == 0:
+                mode = 'suste'
+            if GPIO.input(babbal_in) == 0:
+                mode = 'babbal'
     
                 
     gpio_data = {
@@ -101,7 +112,8 @@ def get_gpio(veh_speed):
         'lturn': lturn,
         'rturn': rturn,
         'mode': mode,
-        'drive': drive
+        'drive': drive,
+        'stand': stand
     }
     return gpio_data
     
@@ -114,6 +126,7 @@ while True:
     print('Left turn: ', gpio_data.get('lturn','none'))
     print('Right turn: ', gpio_data.get('rturn','none'))
     print('Mode: ', gpio_data.get('mode','none'))
+    print('Stand: ', gpio_data.get('stand','none'))
     print(' ')
     if mode == 'thikka':
         GPIO.output(start_thik_out, GPIO.HIGH)
