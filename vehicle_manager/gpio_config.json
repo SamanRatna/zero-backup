@@ -1,0 +1,87 @@
+{
+    "in_hibeam" :
+        {
+            "pin" : 64,
+            "direction" : "in"
+        },
+    "in_lturn" :
+        {
+            "pin" : 65,
+            "direction" : "in"
+        },
+    "in_rturn" :
+        {
+            "pin" : 66,
+            "direction" : "in"
+        },
+    "in_lsig" :
+        {
+            "pin" : 68,
+            "direction" : "in"
+        },
+    "in_rsig" :
+        {
+            "pin" : 67,
+            "direction" : "in"
+        },
+    "in_button_rd" :
+        {
+            "pin" : 69,
+            "direction" : "in"
+        },
+    "in_button_ru" :
+        {
+            "pin" : 61,
+            "direction" : "in"
+        },
+    "in_button_rb" :
+        {
+            "pin" : 70,
+            "direction" : "in"
+        },
+    "in_stand" :
+        {
+            "pin" : 74,
+            "direction" : "in"
+        },
+    "out_start_thikka" :
+        {
+            "pin" : 71,
+            "direction" : "out"
+        },
+    "out_suste" :
+        {
+            "pin" : 72,
+            "direction" : "out"
+        },
+    "out_reverse" :
+        {
+            "pin" : 73,
+            "direction" : "out"
+        },
+    "out_babbal" :
+        {
+            "pin" : 79,
+            "direction" : "out"
+        },
+    "out_charge" :
+        {
+            "pin" : 77,
+            "direction" : "out"
+        },
+    "out_ign" :
+        {
+            "pin" : 78,
+            "direction" : "out"
+        },
+    "out_lturn" :
+        {
+            "pin" : 76,
+            "direction" : "out"
+        },
+    "out_rturn" :
+        {
+            "pin" : 75,
+            "direction" : "out"
+        }
+}
