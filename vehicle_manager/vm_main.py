@@ -1,11 +1,15 @@
-from state_manager import StateManager
-from gpio_manager import GPIOManager
+from event_handler import *
 
-if __name__ == '__main__':
-    gpioMgr = GPIOManager('gpio_config.json')
-    stateMgr = StateManager()
-    while True:
-        changes, input = gpioMgr.monitorGPIO()
-        if changes.len() != 0:
-            stateMgr.updateState(changes, input)
-        sleep(0.1)
+from state_manager import StateManager
+import vehicle_states
+
+"""
+def onRUPressEvent():
+    print(5)
+RUPressEvent = Events()
+RUPressEvent.on_change += onRUPressEvent
+RUPressEvent.on_change()
+"""
+#eventHandle = EventHandler.getInstance()
+stateMgr = StateManager.getInstance()
+vehicleEvents.onRUPress()

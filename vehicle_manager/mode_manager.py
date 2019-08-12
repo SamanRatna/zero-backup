@@ -1,8 +1,7 @@
 import vehicle_states
-import gpio_manager
+from gpio_manager import GPIOManager
 
 class BikeModeManager:
-    instance = None
     def __init__(self, gpioManager):
         self.mode = eBikeMode.MODE_OFF
         self.gpioMgr = gpioManager
@@ -10,6 +9,7 @@ class BikeModeManager:
         return self.mode
 
     def evaluateInput(self, input):
+        pass
 
     def gpioWrite(self, valueStartThikka, valueSuste, valueReverse, valueBabbal, valueCharge):
         self.gpioMgr.out_start_thikka.write(valueStartThikka)

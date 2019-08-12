@@ -1,25 +1,35 @@
 import json
 from periphery import GPIO
-import vehicle_states
+from vehicle_states import *
 
 class GPIOManager():
+    __instance = None
+    @staticmethod
+    def getInstance():
+        if GPIOManager.__instance == None:
+            GPIOManager()
+        return GPIOManager.__instance
 
     """
     __init__:
         initializes the variables/states
         intializes the GPIOs
     """
-    def __init__(self, gpio_config_file):
-        self.pinState = {
-                        eGPIO.IN_HIBEAM:0,
-                        eGPIO.IN_LTURN:0,
-                        eGPIO.IN_RTURN:0,
-                        eGPIO.IN_BUTTON_RD:0,
-                        eGPIO.IN_BUTTON_RU:0,
-                        eGPIO.IN_BUTTON_RB:0,
-                        eGPIO.IN_STAND:0
-                    }
-        self.initializeGPIO(gpio_config_file)
+    def __init__(self):
+        if GPIOManager.__instance != None:
+            raise Exception("GPIOManager is a Singleton Class.")
+        else:
+            GPIOManager.__instance = self
+            self.pinState = {
+                            eGPIO.IN_HIBEAM:0,
+                            eGPIO.IN_LTURN:0,
+                            eGPIO.IN_RTURN:0,
+                            eGPIO.IN_BUTTON_RD:0,
+                            eGPIO.IN_BUTTON_RU:0,
+                            eGPIO.IN_BUTTON_RB:0,
+                            eGPIO.IN_STAND:0
+                        }
+            self.initializeGPIO('gpio_config.json')
 
     """
     initializeGPIO:

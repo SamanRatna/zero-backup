@@ -1,28 +1,31 @@
-import vehicle_states
-import mode_manager
-import gpio_manager
+from vehicle_states import *
+from mode_manager import BikeModeManager
+from gpio_manager import GPIOManager
+from event_handler import *
 
 class StateManager():
 
-    def __init__(self):
-        self.bikeModeMgr = BikeModeManager(gpioMgr)
-        self.headLightState = eHeadLightState.HL_OFF
-        self.tailLightState = eTailLighteState.TL_OFF
-        self.sideLightState = eSideLightState.SL_BOTH_OFF
-        self.standState = eStandState.STAND_DOWN
-        self.bikeMode = self.bikeModeMgr.getMode()
+    __instance = None
+    @staticmethod
+    def getInstance():
+        if StateManager.__instance == None:
+            StateManager()
+        return StateManager.__instance
 
-        self.pinState = {
-                        'hibeam':0,
-                        'lturn':0,
-                        'rturn':0,
-                        'lsig':0,
-                        'rsig':0,
-                        'start_thikka':0,
-                        'reverse_suste':0,
-                        'babbal':0,
-                        'stand':0
-                    }
+    def __init__(self):
+        if StateManager.__instance != None:
+            raise Exception("StateManager is a Singleton Class.")
+        else:
+            StateManager.__instance = self
+            self.bikeModeMgr = BikeModeManager(GPIOManager.getInstance())
+            
+            self.headLightState = eHeadLightState.HL_OFF
+            self.tailLightState = eTailLightState.TL_OFF
+            self.sideLightState = eSideLightState.SL_BOTH_OFF
+            self.standState = eStandState.STAND_DOWN
+            self.bikeMode = self.bikeModeMgr.getMode()
+
+            vehicleEvents.onRUPress += self.updateBikeMode
     
     """
     determineHeadLightState:
@@ -64,8 +67,8 @@ class StateManager():
     """
     determineBikeMode:
     """
-    def updateBikeMode(self, button, value):
-        pass
+    def updateBikeMode(self):
+        print(5)
 """
     def updateState(self, inputChanges, input):
         for change in inputChanges:
@@ -79,4 +82,3 @@ class StateManager():
                 self.updateBikeMode(change, input[change])
             elif change == 
 """
-

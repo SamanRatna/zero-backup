@@ -1,4 +1,4 @@
-from enum import Enum, Flag
+from enum import Enum
 
 class eHeadLightState(Enum):
     HL_OFF = 0
@@ -26,7 +26,7 @@ class eStandState(Enum):
     STAND_UP = 0
     STAND_DOWN = 1
 
-class eTailLightState(Flag):
+class eTailLightState(Enum):
     TL_OFF = 1
     TL_NORMAL = 2
     TL_LEFT_TURN = 4
