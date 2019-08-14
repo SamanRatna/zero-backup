@@ -1,50 +1,58 @@
 from vehicle_states import *
 from mode_manager import BikeModeManager
-from gpio_manager import GPIOManager
+from gpio_manager import GPIOWriter
 from event_handler import *
 
 class StateManager():
 
     __instance = None
     @staticmethod
-    def getInstance():
+    def getInstance(gpioWriter):
         if StateManager.__instance == None:
-            StateManager()
+            StateManager(gpioWriter)
         return StateManager.__instance
 
-    def __init__(self):
-        if StateManager.__instance != None:
-            raise Exception("StateManager is a Singleton Class.")
-        else:
+    def __init__(self,gpioWriter):
+        if StateManager.__instance == None:
+            #raise Exception("StateManager is a Singleton Class.")
+        #else:
             StateManager.__instance = self
-            self.bikeModeMgr = BikeModeManager(GPIOManager.getInstance())
+            self.bikeModeMgr = BikeModeManager(gpioWriter)
             
             self.headLightState = eHeadLightState.HL_OFF
             self.tailLightState = eTailLightState.TL_OFF
             self.sideLightState = eSideLightState.SL_BOTH_OFF
             self.standState = eStandState.STAND_DOWN
-            self.bikeMode = self.bikeModeMgr.getMode()
 
-            vehicleEvents.onRUPress += self.updateBikeMode
+            self.subscribeToEvents()
     
-    """
-    determineHeadLightState:
-    """
+    def subscribeToEvents(self):
+        vehicleEvents.onRUPress += self.bikeModeMgr.onRightUp
+        vehicleEvents.onRDPress += self.bikeModeMgr.onRightDown
+        vehicleEvents.onRBPress += self.bikeModeMgr.onRightBack
+
+        vehicleEvents.onStandSwitch += self.updateStandState
+
+        vehicleEvents.onRightSideLightToggle += self.updateSideLightState
+        vehicleEvents.onLeftSideLightToggle += self.updateSideLightState
+
+        vehicleEvents.onIgnition += self.updateTailLightState
+        vehicleEvents.onBrakeToggle += self.updateTailLightState
+        vehicleEvents.onRightSideLightToggle += self.updateTailLightState
+        vehicleEvents.onLeftSideLightToggle += self.updateTailLightState
+
+        vehicleEvents.onHibeamToggle += self.updateHeadLightState
+
     def updateHeadLightState(self, hibeam_signal):
-        if hibeam_signal == True:
-            self.headLightState = eHeadLightState.HL_ON
+        if hibeam_signal == 0:
+            self.headLightState = eHeadLightState.HL_LOW_BEAM
         else:
-            self.headLightState = eHeadLightState.HL_OFF
+            self.headLightState = eHeadLightState.HL_HI_BEAM
+        print(self.headLightState)
     
-    """
-    determineTailLightState:
-    """
     def updateTailLightState(self):
         pass
 
-    """
-    determineSideLightState:
-    """
     def updateSideLightState(self, ls_signal, rs_signal):
         if (ls_signal and rs_signal) == True:
             self.sideLightState = eSideLightState.SL_BOTH_OFF
@@ -54,31 +62,11 @@ class StateManager():
             self.sideLightState = eSideLightState.SL_LEFT_ON
         elif (ls_signal or rs_signal) == False:
             self.sideLightState = eSideLightState.SL_BOTH_ON
+        print(self.sideLightState)
 
-    """
-    determineStandState:
-    """
     def updateStandState(self, stand_signal):
-        if stand_signal == True:
-            self.standState = STAND_DOWN
+        if stand_signal == 0:
+            self.standState = eStandState.STAND_UP
         else:
-            self.standState = STAND_UP
-
-    """
-    determineBikeMode:
-    """
-    def updateBikeMode(self):
-        print(5)
-"""
-    def updateState(self, inputChanges, input):
-        for change in inputChanges:
-            if change == eGPIO.IN_HIBEAM:
-                self.updateHeadLightState(input[eGPIO.IN_HIBEAM])
-            elif change == eGPIO.IN_LTURN or change == eGPIO.IN_RTURN or change == :
-                self.updateSideLightState(input[eGPIO.IN_LTURN],input[eGPIO.IN_RTURN])
-            elif change == eGPIO.IN_STAND:
-                self.updateStandState(input[eGPIO.IN_STAND])
-            elif change == eGPIO.IN_BUTTON_RB or change == eGPIO.IN_BUTTON_RD or change == eGPIO.IN_BUTTON_RU:
-                self.updateBikeMode(change, input[change])
-            elif change == 
-"""
+            self.standState = eStandState.STAND_DOWN
+        print(self.standState)
