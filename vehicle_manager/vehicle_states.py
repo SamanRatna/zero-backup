@@ -33,6 +33,11 @@ class eTailLightState(Enum):
     TL_RIGHT_TURN = 8
     TL_BRAKE = 16
 
+class eTailLightSectionState(Enum):
+    TLS_OFF = 0
+    TLS_LR = 1
+    TLS_BR = 2
+
 class eGPIO(Enum):
     IN_HIBEAM = 1
     IN_LTURN = 2
