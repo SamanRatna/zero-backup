@@ -14,16 +14,6 @@
             "pin" : 66,
             "direction" : "in"
         },
-    "in_lsig" :
-        {
-            "pin" : 68,
-            "direction" : "in"
-        },
-    "in_rsig" :
-        {
-            "pin" : 67,
-            "direction" : "in"
-        },
     "in_button_rd" :
         {
             "pin" : 69,
@@ -36,12 +26,12 @@
         },
     "in_button_rb" :
         {
-            "pin" : 70,
+            "pin" : 74,
             "direction" : "in"
         },
     "in_stand" :
         {
-            "pin" : 74,
+            "pin" : 55,
             "direction" : "in"
         },
     "out_start_thikka" :
