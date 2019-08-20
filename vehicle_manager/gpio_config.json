@@ -64,6 +64,11 @@
             "pin" : 77,
             "direction" : "out"
         },
+    "out_charge_motor" :
+        {
+            "pin" : 67,
+            "direction" : "out"
+        },
     "out_ign" :
         {
             "pin" : 78,
