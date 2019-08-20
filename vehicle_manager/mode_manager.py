@@ -1,4 +1,4 @@
-import vehicle_states
+from vehicle_states import *
 from gpio_manager import GPIOWriter
 
 class BikeModeManager:
@@ -20,15 +20,9 @@ class BikeModeManager:
         self.mode.onStateChange()
         print(self.mode)
     
-    def gpioWrite(self, valueStartThikka, valueSuste, valueReverse, valueBabbal, valueCharge):
-        pass
-        """
-        self.gpioMgr.out_start_thikka.write(valueStartThikka)
-        self.gpioMgr.out_suste.write(valueSuste)
-        self.gpioMgr.out_reverse.write(valueReverse)
-        self.gpioMgr.out_babbal.write(valueBabbal)
-        self.gpioMgr.out_charge.write(valueCharge)
-        """
+    def setMode(self, mode):
+        gpioMgr.setMode(mode)
+
 class BikeMode:
 
     def __init__(self,_context):
@@ -48,7 +42,7 @@ class BikeMode:
 
 class ModeOff(BikeMode):
     def onStateChange(self):
-        self.context.gpioWrite(1, 1, 1, 1, 1)
+        pass
 
 class ModeStandby(BikeMode):
     def onRightUp(self):
@@ -58,7 +52,7 @@ class ModeStandby(BikeMode):
         self.context.transitionTo(ModeThikka(self.context))
 
     def onStateChange(self):
-        self.context.gpioWrite(1, 1, 1, 1, 1)
+        self.context.setMode(eBikeMode.MODE_STANDBY)
 
 class ModeSuste(BikeMode):
     def onRightDown(self):
@@ -68,7 +62,7 @@ class ModeSuste(BikeMode):
         self.context.transitionTo(ModeBabbal(self.context))
 
     def onStateChange(self):
-        self.context.gpioWrite(1, 0, 1, 1, 1)
+        self.context.setMode(eBikeMode.MODE_SUSTE)
 
 class ModeThikka(BikeMode):
     def onRightUp(self):
@@ -78,7 +72,7 @@ class ModeThikka(BikeMode):
         self.context.transitionTo(ModeBabbal(self.context))
 
     def onStateChange(self):
-        self.context.gpioWrite(0, 1, 1, 1, 1)
+        self.context.setMode(eBikeMode.MODE_THIKKA)
 
 class ModeBabbal(BikeMode):
     def onRightUp(self):
@@ -88,15 +82,15 @@ class ModeBabbal(BikeMode):
         self.context.transitionTo(ModeThikka(self.context))
 
     def onStateChange(self):
-        self.context.gpioWrite(1, 1, 1, 0, 1)
+        self.context.setMode(eBikeMode.MODE_BABBAL)
 
 class ModeReverse(BikeMode):
     def onRightDown(self):
         self.context.transitionTo(ModeThikka(self.context))
 
     def onStateChange(self):
-        self.context.gpioWrite(1, 1, 0, 1, 1)
+        self.context.setMode(eBikeMode.MODE_REVERSE)
 
 class ModeCharging(BikeMode):
     def onStateChange(self):
-        self.context.gpioWrite(1, 1, 1, 1, 0)
+        self.context.setMode(eBikeMode.MODE_CHARGING)
