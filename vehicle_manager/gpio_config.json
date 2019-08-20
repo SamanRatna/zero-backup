@@ -34,6 +34,11 @@
             "pin" : 55,
             "direction" : "in"
         },
+    "in_brake" :
+        {
+            "pin" :71,
+            "direction" : "in"
+        },
     "out_start_thikka" :
         {
             "pin" : 71,
@@ -73,5 +78,10 @@
         {
             "pin" : 75,
             "direction" : "out"
-        }
+        },
+    "out_brake":
+	{
+	    "pin" : 59,
+	    "direction" : "out"
+	}
 }
