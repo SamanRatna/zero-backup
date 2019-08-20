@@ -26,20 +26,25 @@ class TailLightState:
         self.onStateChange()
     def onCharging(self, state):
         pass
-
-    def onIgnition(self, state):
-        pass
  
-    def onLeftTurn(self, state):
+    def onLeftTurn(self):
         pass
-    def onRightTurn(self, state):
+
+    def onRightTurn(self):
         pass
+
     def onBrake(self, state):
         pass
+
     def onStateChange(self):
         pass
 
 class TLS_Normal(TailLightState):
+    def __init__(self):
+        TailLightState.__init__()
+        self.leftTurnState = False
+        self.rightTurnState = False
+
     def onStateChange(self):
         self.context.gpioWriter.setIgn(True)
         self.context.gpioWriter.setCharge(True)
@@ -51,12 +56,24 @@ class TLS_Normal(TailLightState):
         self.context.gpioWriter.setBrake(brakeState)
 
     def onLeftTurn(self):
-        self.context.gpioWriter.setRTurn(True)
-        self.context.gpioWriter.setLTurn(False)
+        if self.leftTurnState == False:
+            self.context.gpioWriter.setRTurn(True)
+            self.context.gpioWriter.setLTurn(False)
+            self.leftTurnState = True
+            self.righTurnState = False
+        else:
+            self.context.gpioWriter.setLTurn(True)
+            self.leftTurnState = False
 
     def onRightTurn(self):
-        self.context.gpioWriter.setLTurn(True)
-        self.context.gpioWriter.setRTurn(False)
+        if self.righTurnState = False:
+            self.context.gpioWriter.setLTurn(True)
+            self.context.gpioWriter.setRTurn(False)
+            self.righTurnState = True
+            self.leftTurnState = False
+        else:
+            self.context.gpioWriter.setRTurn(True)
+            self.righTurnState = False
     
     def onCharging(self, state):
         if state == False:
