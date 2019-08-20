@@ -32,28 +32,21 @@ class StateManager():
         vehicleEvents.onRBPress += self.bikeModeMgr.onRightBack
 
         vehicleEvents.onStandSwitch += self.updateStandState
-
+        """
         vehicleEvents.onRightSideLightToggle += self.updateSideLightState
         vehicleEvents.onLeftSideLightToggle += self.updateSideLightState
-
-        vehicleEvents.onIgnition += self.updateTailLightState
-        vehicleEvents.onBrakeToggle += self.updateTailLightState
-        vehicleEvents.onRightSideLightToggle += self.updateTailLightState
-        vehicleEvents.onLeftSideLightToggle += self.updateTailLightState
-
+        """
         vehicleEvents.onHibeamToggle += self.updateHeadLightState
 
     def updateHeadLightState(self, hibeam_signal):
         if hibeam_signal == 0:
-            self.headLightState = eHeadLightState.HL_LOW_BEAM
-        else:
             self.headLightState = eHeadLightState.HL_HI_BEAM
+        else:
+            self.headLightState = eHeadLightState.HL_LOW_BEAM
         print(self.headLightState)
-    
-    def updateTailLightState(self):
-        pass
 
-    def updateSideLightState(self, ls_signal, rs_signal):
+    """
+    def updateSideLightState(self, signal):
         if (ls_signal and rs_signal) == True:
             self.sideLightState = eSideLightState.SL_BOTH_OFF
         elif (ls_signal==True and rs_signal==False):
@@ -63,6 +56,7 @@ class StateManager():
         elif (ls_signal or rs_signal) == False:
             self.sideLightState = eSideLightState.SL_BOTH_ON
         print(self.sideLightState)
+    """
 
     def updateStandState(self, stand_signal):
         if stand_signal == 0:
