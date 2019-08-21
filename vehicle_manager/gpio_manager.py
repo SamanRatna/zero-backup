@@ -3,6 +3,7 @@ from periphery import GPIO
 from vehicle_states import *
 from event_handler import *
 import threading
+from time import sleep
 
 class GPIOReader():
     __instance = None
@@ -90,45 +91,56 @@ class GPIOReader():
     def threadHibeam(self):
         while True:
             self.in_hibeam.poll()
+            sleep(0.2)
             state = self.in_hibeam.read()
             vehicleEvents.onHibeamToggle(state)
-    
+            sleep(0.1)
+
     def threadLeftTurn(self):
         while True:
             state = self.in_lturn.poll()
             vehicleEvents.onLeftSideLightToggle(state)
+            sleep(0.3)
     
     def threadRightTurn(self):
         while True:
             state = self.in_rturn.poll()
             vehicleEvents.onRightSideLightToggle(state)
+            sleep(0.3)
     
     def threadRBPress(self):
         while True:
             state = self.in_button_rb.poll()
             vehicleEvents.onRBPress()
+            sleep(0.3)
 
     def threadRDPress(self):
         while True:
             state = self.in_button_rd.poll()
             vehicleEvents.onRDPress()
+            sleep(0.3)
 
     def threadRUPress(self):
         while True:
             state = self.in_button_ru.poll()
             vehicleEvents.onRUPress()
+            sleep(0.3)
 
     def threadStand(self):
         while True:
             self.in_stand.poll()
+            sleep(0.2)
             state = self.in_stand.read()
             vehicleEvents.onStandSwitch()
-    
+            sleep(0.1)
+
     def threadBrake(self):
         while True:
             self.in_brake.poll()
+            sleep(0.2)
             state = self.in_brake.read()
             vehicleEvents.onBrakeToggle(state)
+            sleep(0.1)
 
 class GPIOWriter():
     __instance = None
