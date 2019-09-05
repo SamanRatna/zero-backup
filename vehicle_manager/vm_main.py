@@ -3,6 +3,8 @@ from gpio_manager import *
 from state_manager import StateManager
 from tail_light_controller import TailLightController
 import vehicle_states
+import threading
+import time
 
 stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
 tlContoller = TailLightController(GPIOWriter.getInstance())

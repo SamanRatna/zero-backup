@@ -46,9 +46,8 @@ class eGPIO(Enum):
     IN_BUTTON_RU = 5
     IN_BUTTON_RB = 6
     IN_STAND = 7
-    IN_BRAKE = 8
-    OUT_BRAKE = 9
-    OUT_LTURN = 10
-    OUT_RTURN = 11
-    OUT_IGN = 12
-    OUT_CHARGE = 13
+    OUT_BRAKE = 8
+    OUT_LTURN = 9
+    OUT_RTURN = 10
+    OUT_IGN = 11
+    OUT_CHARGE = 12

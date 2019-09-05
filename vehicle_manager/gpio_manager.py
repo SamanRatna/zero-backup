@@ -4,6 +4,7 @@ from vehicle_states import *
 from event_handler import *
 import threading
 from time import sleep
+from time import time
 
 class GPIOReader():
     __instance = None
@@ -25,9 +26,7 @@ class GPIOReader():
             GPIOReader.__instance = self
             self.initializeGPIO('gpio_config.json')
             self.initializeGPIOThreads()
-            self.primeInput()
-            self.startGPIOThreads()
-            
+
     """
     initializeGPIO:
         initializes the GPIOs with the help of config file provided as an argument
@@ -35,7 +34,6 @@ class GPIOReader():
     def initializeGPIO(self, gpio_config_file):
         with open(gpio_config_file) as cfg_file:
             config = json.load(cfg_file)
-
         self.in_hibeam = GPIO(config['in_hibeam']['pin'], config['in_hibeam']['direction'])
         self.in_hibeam.edge = "both"
 
@@ -46,7 +44,7 @@ class GPIOReader():
         self.in_rturn.edge = "falling"
 
         self.in_button_rd = GPIO(config['in_button_rd']['pin'], config['in_button_rd']['direction'])
-        self.in_button_rd.edge = "falling"
+        self.in_button_rd.edge = "both"
 
         self.in_button_ru = GPIO(config['in_button_ru']['pin'], config['in_button_ru']['direction'])
         self.in_button_ru.edge = "falling"
@@ -58,7 +56,6 @@ class GPIOReader():
         self.in_stand.edge = "both"
 
         self.in_brake = GPIO(config['in_brake']['pin'], config['in_brake']['direction'])
-        self.in_brake.edge = "both"
 
     def initializeGPIOThreads(self):
         self.tHibeam = threading.Thread(target = self.threadHibeam)
@@ -70,7 +67,6 @@ class GPIOReader():
         self.tRBPress = threading.Thread(target = self.threadRBPress)
         self.tRDPress = threading.Thread(target = self.threadRDPress)
 
-    def startGPIOThreads(self):
         self.tHibeam.start()
         self.tStand.start()
         self.tBrake.start()
@@ -79,33 +75,24 @@ class GPIOReader():
         self.tRUPress.start()
         self.tRBPress.start()
         self.tRDPress.start()
-    
-    def primeInput(self):
-        beamState = self.in_hibeam.read()
-        standState = self.in_stand.read()
-        brakeState = self.in_brake.read()
-        vehicleEvents.onBrakeToggle(brakeState)
-        vehicleEvents.onHibeamToggle(beamState)
-        vehicleEvents.onStandSwitch(standState)
 
     def threadHibeam(self):
         while True:
             self.in_hibeam.poll()
-            sleep(0.2)
+            sleep(0.1)
             state = self.in_hibeam.read()
             vehicleEvents.onHibeamToggle(state)
-            sleep(0.1)
 
     def threadLeftTurn(self):
         while True:
             state = self.in_lturn.poll()
-            vehicleEvents.onLeftSideLightToggle(state)
+            vehicleEvents.onLeftSideLightToggle()
             sleep(0.3)
-    
+
     def threadRightTurn(self):
         while True:
             state = self.in_rturn.poll()
-            vehicleEvents.onRightSideLightToggle(state)
+            vehicleEvents.onRightSideLightToggle()
             sleep(0.3)
     
     def threadRBPress(self):
@@ -117,8 +104,16 @@ class GPIOReader():
     def threadRDPress(self):
         while True:
             state = self.in_button_rd.poll()
-            vehicleEvents.onRDPress()
-            sleep(0.3)
+            button_press = time()
+            sleep(0.1)
+            self.in_button_rd.poll()
+            button_release = time()
+            print(button_release - button_press)
+            if ((button_release - button_press) < 0.40):
+                vehicleEvents.onRDPress()
+            else:
+                vehicleEvents.onRDHold()
+            sleep(0.2)
 
     def threadRUPress(self):
         while True:
@@ -129,18 +124,62 @@ class GPIOReader():
     def threadStand(self):
         while True:
             self.in_stand.poll()
-            sleep(0.2)
+            sleep(0.1)
             state = self.in_stand.read()
-            vehicleEvents.onStandSwitch()
-            sleep(0.1)
-
-    def threadBrake(self):
-        while True:
-            self.in_brake.poll()
+            vehicleEvents.onStandSwitch(state)
             sleep(0.2)
-            state = self.in_brake.read()
-            vehicleEvents.onBrakeToggle(state)
-            sleep(0.1)
+    
+    def threadBrake(self):
+        state_0 = self.in_brake.read()
+        while True:
+            state_1 = self.in_brake.read()
+            if (state_0 != state_1):
+                vehicleEvents.onBrakeToggle(state_1)
+                state_0 = state_1
+            sleep(0.2)
+
+    def monitorGPIO(self):
+        inputState= {}
+        inputState[eGPIO.IN_HIBEAM] = self.in_hibeam.read()
+        inputState[eGPIO.IN_LTURN] = self.in_lturn.read()
+        inputState[eGPIO.IN_RTURN] = self.in_rturn.read()
+        inputState[eGPIO.IN_BUTTON_RD] = self.in_button_rd.read()
+        inputState[eGPIO.IN_BUTTON_RU] = self.in_button_ru.read()
+        inputState[eGPIO.IN_BUTTON_RB] = self.in_button_rb.read()
+        inputState[eGPIO.IN_STAND] = self.in_stand.read()
+        self.inputState = inputState
+
+    def updateGPIO(self):
+        self.monitorGPIO()
+        self.processInput()
+        self.pinState = self.inputState
+
+    def processInput(self):
+        for pin in self.inputState:
+            if self.inputState[pin] != self.pinState[pin]:
+                self.invokeEvent(pin, self.inputState[pin])
+    
+    def primeInput(self):
+        self.monitorGPIO()
+        self.invokeEvent(eGPIO.IN_HIBEAM, self.inputState[eGPIO.IN_HIBEAM])
+        self.invokeEvent(eGPIO.IN_STAND, self.inputState[eGPIO.IN_STAND])
+        self.pinState = self.inputState
+
+    def invokeEvent(self, eventId, value):
+        if eventId == eGPIO.IN_HIBEAM:
+            vehicleEvents.onHibeamToggle(value)
+        elif eventId == eGPIO.IN_LTURN:
+            vehicleEvents.onLeftSideLightToggle()
+        elif eventId == eGPIO.IN_RTURN:
+            vehicleEvents.onRightSideLightToggle()
+        elif eventId == eGPIO.IN_BUTTON_RB:
+            vehicleEvents.onRBPress()
+        elif eventId == eGPIO.IN_BUTTON_RD:
+            vehicleEvents.onRDPress()
+        elif eventId == eGPIO.IN_BUTTON_RU:
+            vehicleEvents.onRUPress()
+        elif eventId == eGPIO.IN_STAND:
+            vehicleEvents.onStandSwitch(value)
 
 class GPIOWriter():
     __instance = None
@@ -190,7 +229,7 @@ class GPIOWriter():
     
     def setCharge(self, value):
         self.out_charge.write(value)
-
+    
     def setBrake(self, value):
         self.out_brake.write(value)
 
@@ -208,7 +247,6 @@ class GPIOWriter():
             self.out_start_thikka.write(True)
             self.out_charge_motor.write(True)
             self.out_suste.write(False)
-
         elif mode == eBikeMode.MODE_BABBAL:
             self.out_reverse.write(True)
             self.out_start_thikka.write(True)
@@ -228,10 +266,14 @@ class GPIOWriter():
             self.out_babbal.write(True)
             self.out_reverse.write(True)
             self.out_charge_motor.write(False)
-
+            self.out_start_thikka.write(True)
         elif mode == eBikeMode.MODE_STANDBY:
             self.out_start_thikka.write(True)
             self.out_suste.write(True)
             self.out_babbal.write(True)
             self.out_reverse.write(True)
             self.out_charge_motor.write(True)
+
+class GPIOWriterMock:
+    def __init__(self):
+        print('Mocking GPIOWriter')
