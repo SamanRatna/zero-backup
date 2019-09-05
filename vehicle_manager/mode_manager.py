@@ -1,5 +1,6 @@
 from vehicle_states import *
 from gpio_manager import GPIOWriter
+from gui import *
 
 class BikeModeManager:
     def __init__(self, gpioWriter):
@@ -27,6 +28,7 @@ class BikeModeManager:
     
     def setMode(self, mode):
         self.gpioMgr.setMode(mode)
+        publishBikeMode(mode)
 
 class BikeMode:
 
