@@ -55,7 +55,7 @@ class ModeOff(BikeMode):
         pass
 
 class ModeStandby(BikeMode):
-    def onRightUp(self):
+    def onRightBack(self):
         self.context.transitionTo(ModeReverse(self.context))
 
     def onRightDown(self):
