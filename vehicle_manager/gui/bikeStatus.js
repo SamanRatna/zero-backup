@@ -1,4 +1,4 @@
-var leftTurnStatus = 1;
+var leftTurnStatus = 0;
 var rightTurnStatus = 0;
 var modeValue = 3;
 var highBeamStatus = 0;
@@ -6,7 +6,6 @@ var highBeamStatus = 0;
 eel.expose(updateBikeMode);
 function updateBikeMode(arg) {
     console.log(arg + ' from main');
-    mylogo = document.getElementById('logo');
 
     if(arg == "MODE_STANDBY"){
         //mylogo.src="files/images/logo_standby.png";
@@ -26,12 +25,12 @@ function updateBikeMode(arg) {
 }
 
 eel.expose(updateLeftTurnStatus);
-function updateLeftTurnSignal(arg) {
+function updateLeftTurnStatus(arg) {
     leftTurnStatus = arg;
 }
 
 eel.expose(updateRightTurnStatus);
-function updateRightTurnSignal(arg) {
+function updateRightTurnStatus(arg) {
     rightTurnStatus = arg;
 }
 

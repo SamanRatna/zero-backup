@@ -2,6 +2,7 @@ from vehicle_states import *
 from event_handler import *
 from gpio_manager import GPIOWriter
 import threading
+from gui import *
 
 class TailLightController:
     def __init__(self, _gpioWriter):
@@ -73,10 +74,13 @@ class TLS_Normal(TailLightState):
             self.context.gpioWriter.setLTurn(False)
             self.leftTurnState = True
             self.righTurnState = False
+            publishLeftTurnStatus(self.leftTurnState)
+            publishRightTurnStatus(self.rightTurnState)
             print("Turning Left...")
         else:
             self.context.gpioWriter.setLTurn(True)
             self.leftTurnState = False
+            publishLeftTurnStatus(self.leftTurnState)
             print("Stopped turning Left...")
 
     def onRightTurn(self):
@@ -85,10 +89,13 @@ class TLS_Normal(TailLightState):
             self.context.gpioWriter.setRTurn(False)
             self.rightTurnState = True
             self.leftTurnState = False
+            publishLeftTurnStatus(self.leftTurnState)
+            publishRightTurnStatus(self.rightTurnState)
             print("Turning Right...")
         else:
             self.context.gpioWriter.setRTurn(True)
             self.rightTurnState = False
+            publishRightTurnStatus(self.rightTurnState)
             print("Stopped turning Right...")
 
     def onCharging(self, state):
