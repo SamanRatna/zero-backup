@@ -593,7 +593,7 @@ now - topBar
 	font-size: 20px;
 }
 
-.range{
+.speed{
 	/* -webkit-transition: opacity .5s ease-in-out;
 	-moz-transition: opacity .5s ease-in-out;
 	-ms-transition: opacity .5s ease-in-out;
@@ -799,22 +799,33 @@ now - page2
 
 
 
-#leftTurn{
-	display: inline-block;
-	width: 33%;
-	font-size:40px;
-	text-align:center;
+.leftTurn{
+	height: 25px;
+	
+	position:relative;
+	/* top: 10px; */
+
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
 }
 
-#rightTurn{
-	display: inline-block;
-	width: 33%;
-	font-size:40px;
-	text-align:center;
+.rightTurn{
+	height: 25px;
+	
+	position:relative;
+	/* top: 10px; */
+	/* bottom: 10px; */
+
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
 }
 
 
-#beam{
+.beam{
 	/* position: relative; */
 	/* display: inline-block; */
 
@@ -829,4 +840,19 @@ now - page2
 
 	
 }
+
+
+.modeMain{
+	height: 25px;
+	
+	position:relative;
+	/* top: 10px; */
+	/* bottom: 10px; */
+
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
 

@@ -1,4 +1,4 @@
-var slideIndex = 1;
+var slideIndex = 2;
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -581,27 +581,16 @@ function timeCount() {
 
 /* 
 
-
-
-
-
-
-
 above this - slider
 
 now - speed
 
-
-
-
-
-
-
-
-
 */
+var leftTurn;
 
+var rightTurn;
 
+/*
 setInterval(function(){   
     document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
     document.getElementsByClassName("speedMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
@@ -611,65 +600,4 @@ setInterval(function(){
     document.getElementsByClassName("lightMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
     document.getElementsByClassName("odoMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
 }, 300);
-
-function get_data() {
-  // Setup AJAX request code
-  var req = new XMLHttpRequest();
-  req.onreadystatechange = function()
-  {
-    if(this.readyState == 4 && this.status == 200) {
-      // Sort data 
-      response = JSON.parse(this.responseText);
-      // console.log(response)
-      if(response != null){
-            bat_current = response.bat_current;
-            bat_voltage = response.bat_voltage;
-            veh_speed = response.veh_speed;
-            max_torque = response.max_torque;
-            torque_act = response.torque_act;
-            motor_temp = response.motor_temp;
-            motor_vel = response.motor_vel;
-            drive_prof = response.drive_prof;
-            odometer = response.odometer;
-            htsink_temp = response.htsink_temp;
-            dig_input = response.dig_input;
-            s_o_charge = response.s_o_charge;
-            est_range = response.est_range;
-            recuperation = response.recuperation;
-            hibeam = response.hibeam;
-            lturn = response.lturn;
-            rturn = response.rturn;
-            mode = response.mode;
-            drive = response.drive;
-
-            // Display telemetry data
-            document.getElementsByClassName("range")[0].innerHTML=est_range;
-            document.getElementsByClassName("speedMain")[0].innerHTML=veh_speed;
-            document.getElementsByClassName("powerMain")[0].innerHTML=Math.round(torque_act*motor_vel);
-            document.getElementsByClassName("rangeMain")[0].innerHTML=est_range; 
-            document.getElementsByClassName("tripMain")[0].innerHTML=odometer - 50; 
-            // document.getElementsByClassName("lightMain")[0].innerHTML=; 
-            document.getElementsByClassName("odoMain")[0].innerHTML=odometer; 
-      }
-    }
-  }
-
-  // Load data
-  req.open('POST', '/', true);
-  // req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-  req.send();
-}
-
-// Run get_can at a certain interval
-//setInterval(get_data, 30)
-
-
-
-
-
-
-
-
-
-
-
+*/
