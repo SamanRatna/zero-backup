@@ -1,3 +1,7 @@
 # Dash UI Design
 
-This repository will contain all files pertaining to the Display UI design.
+Setup
+$ pip3 install events
+$ pip3 install python-periphery
+$ pip3 install eel
+
