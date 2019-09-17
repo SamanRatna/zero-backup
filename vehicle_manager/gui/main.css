@@ -1,8 +1,4 @@
-/* body {
-	font-family: Arial;
-	margin: 0;
-	width: 600px;
-  } */
+
   
   * {
 	box-sizing: border-box;
@@ -12,20 +8,16 @@
 	vertical-align: middle;
   }
   
+  .mySlides{
+	  height: 800px;
+	  width: 480px;
+	  overflow:hidden;
+  }
   /* Position the image containerMain (needed to position the left and right arrows) */
   .containerMain {
 	position: relative;
   }
   
-  /* Hide the images by default */
-  /* .mySlides {
-	display: none;
-  } */
-  
-  /* Add a pointer when hovering over the thumbnail images */
-  /* .cursor {
-	cursor: pointer;
-  } */
   
   /* NextMain & previousMain buttons */
   .prevMain,
@@ -55,40 +47,6 @@
   .nextMain:hover {
 	background-color: rgba(0, 0, 0, 0.8);
   }
-  
-
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-above this - Mainslider
-
-now - SLider
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
 
 
 /*GLOBALS.*/
@@ -626,12 +584,20 @@ now - topBar
 	color: black;
 
 	width: 200px;
-	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	/* padding:	10px; */
-	margin-top:	-15px;
+	 padding:	20px;
+	/* margin-top:	5px; */
 	padding-bottom:	64px;
+	vertical-align: middle;
+}
+
+.yatri-logo {
+	height: 15%;
+	line-height: 100px;
+	text-align: center;
+	display: block;
+	overflow:hidden;
 }
 
 /* 
@@ -789,16 +755,6 @@ now - page2
 
 }
 
-
-
-
-
-
-
-
-
-
-
 .leftTurn{
 	height: 25px;
 	
@@ -854,5 +810,3 @@ now - page2
 	margin-right: auto;
 
 }
-
-

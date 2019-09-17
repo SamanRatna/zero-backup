@@ -6,7 +6,9 @@
     <title> Javascript</title>
     <link rel="stylesheet" type="text/css" href="plyr.css">
     <link rel="stylesheet" type="text/css" href="main.css">
-
+    <link rel="stylesheet" type="text/css" href="babbal.css">
+    <link rel="stylesheet" type="text/css" href="navigation.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
     <!-- it is always important to load all other dependencies then only call main.css and main.js -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -107,67 +109,110 @@
 
             </div>
 
-            <span class="speed"></span><span>km</span>
+            <span class="speed">0</span><span>km</span>
 
             <div><img class="logo" src="files/images/logo.png" /></div>
 
         </div>
-<!---------------------------------No Standby Mode ---------------------------------->
-        <div class="mySlides" style="width:480px; height:800px; padding:0px; margin:0px;background-color:white;">
 
-            <div class="notification"></div>
+<!--Slide 2 redesign -->
+<div class="mySlides" style="padding:0px; margin:0px;background-color:white;">
+    <div class="notification">
+    </div>
 
-            <div><iframe width="480" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                    src="https://www.openstreetmap.org/export/embed.html?bbox=85.32276660203935%2C27.72784215033039%2C85.3262159228325%2C27.729463720021418&amp;layer=mapnik&amp;marker=27.728652938191388%2C85.32449126243591"
-                    style="border: 0px solid black"></iframe>
+    <div class="map">
+        <iframe width="100%" height="100%"frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=85.32276660203935%2C27.72784215033039%2C85.3262159228325%2C27.729463720021418&amp;layer=mapnik&amp;marker=27.728652938191388%2C85.32449126243591"
+            style="border: 0px solid black">
+        </iframe>
+    </div>
+    <div class="navigation-form" id="navigation-form-1">
+        <input class="input" type="text" name="search" placeholder="Navigation" onfocus="navigationMode()">
+        <!-- <button id="nav-button" onclick="openSearchDialog()">Navigation</button> -->
+        <!-- <button class="button" id="nav-button" onclick="openSearchDialog()">Navigate</button> -->
+    </div>
+    <!-- The Modal -->
+    <div id="search-mode-1" class="search-mode">
+
+        <!-- Modal content -->
+        <div class="search-content">
+          <span class="close"></span>
+          <input class="input" type="text" name="search" placeholder="Destination">
+          <!-- <div class="simple-keyboard" id="keyboard-1"></div> -->
+        </div>
+      
+      </div>
+    <div class="status" id="status-2">
+            <span id="firstColumn">
+                    <div>
+                        <span style=" padding-top: 10px;" class="speedMain">0</span>
+                        km/hr
+                    </div>
+                </span><span id="secondColumn">
+                    <div>
+                        <span style="margin-top:11.5px;padding-top: 10px;" class="powerMain">0</span>
+                        hp
+                    </div>
+                </span><span id="thirdColumn">
+                    <div>
+                        <span style=" padding-top: 10px;" class="rangeMain">0</span>
+                        km/hr
+                    </div>
+                </span>
+
+            <!--Mode-->
+                <span id="firstColumn">
+                    <!-- <div>TRIP <span class="tripMain"></span></div> -->
+                </span><span id="secondColumn">
+                    <div><img class="modeMain" src="files/images/mode1.png" /></div>
+                </span><span id="thirdColumn">
+                    <!-- <div>ODO <span class="odoMain"></span></div> -->
+                </span>
+
+                <span id="firstColumn">
+                        <div><img class="leftTurn" src="files/images/leftArrowOn.png" /></div>
+                </span><span id="secondColumn">
+                    <div><img class="beam" src="files/images/highBeamOn.png" /></div>
+                </span><span id="thirdColumn">
+                        <div><img class="rightTurn" src="files/images/rightArrowOn.png" /></div>
+                </span>
+    </div>
+    <div class="simple-keyboard" id="keyboard-2"></div>
+    <div class="yatri-logo" id="yatri-logo-2"> <!-- -->
+            <img class="logo" id="yatri-logo-1" src="files/images/logo.png" onclick="toggleKeyboard()"/>
+    </div>
+</div>
+<!-----------------------Babbal Mode Slide ----------------------------------->
+
+        <div class="mySlides" style="width:480px; height:700px; padding:0px; margin:0px;background-color:rgb(43, 43, 43); overflow: hidden;">
+            <div id='babbal-logo'>
+                    <img style="max-height:70%; max-width:70%; padding-top:25px;" src="files/images/logo-no-bg.png" />
             </div>
 
-            <div style="height: 30px; margin-top: -50px; background: white;">
+            <div id='babbal-speed'>
+                    <svg height="30" width="200">
+                    <text x="0" y="15" fill="red">
+                        <p><span id='babbal-speed-value'>125</span><span id='babbal-speed-unit'>km/hr</span></p>
+                    </text>
+                    </svg>
+                    <object type="image/svg+xml" data="files/images/ekg.svg">Your browser does not support SVG</object>
+            </div>
 
-
-                <div class="column" style="width:480px;">
-                    <span id="firstColumn">
-                        <div>
-                            <span style=" padding-top: 50px;" class="speedMain"></span>
-                            km/hr
-                        </div>
-                    </span><span id="secondColumn">
-                        <div>
-                            <span style="margin-top:11.5px;padding-top: 50px;" class="powerMain"></span>
-                            hp
-                        </div>
-                    </span><span id="thirdColumn">
-                        <div>
-                            <span style=" padding-top: 50px;" class="rangeMain"></span>
-                            km/hr
-                        </div>
-                    </span>
-
-
-                    <span id="firstColumn">
-                        <!-- <div>TRIP <span class="tripMain"></span></div> -->
-                    </span><span id="secondColumn">
-                        <div><img class="modeMain" src="files/images/mode1.png" /></div>
-                    </span><span id="thirdColumn">
-                        <!-- <div>ODO <span class="odoMain"></span></div> -->
-                    </span>
-
-                    <span id="firstColumn">
-                            <div><img class="leftTurn" src="files/images/leftArrowOff.png" /></div>
-                    </span><span id="secondColumn">
-                        <div><img class="beam" src="files/images/highBeamOff.png" /></div>
-                    </span><span id="thirdColumn">
-                            <div><img class="rightTurn" src="files/images/rightArrowOff.png" /></div>
-                    </span>
-
+            <div id='babbal-info'>
+                <div id='top-speed'>
+                    <p class='top-speed-text'>
+                    <span id='top-speed-label'>TOP SPEED:</span>
+                    <span id='top-speed-value'>0</span>
+                    KMPH
+                    </p>
                 </div>
-
-                <div><img style="padding-top:57px;" class="logo" src="files/images/logo.png" /></div>
+                <div id='babbal-range'>
+                    <p class='babbal-range-text'>
+                        KM
+                        <span id='babbal-range-value' style='font-size:5rem;'>25</span>
+                    </p>
+                </div>
             </div>
-
-            <!-- <a class="prevMain" onclick="plusSlides(-1)">❮</a>
-            <a class="nextMain" onclick="plusSlides(1)">❯</a> -->
-
         </div>
     </div>
 
@@ -175,8 +220,14 @@
     <script src="html5media.min.js"></script>
     <script src="plyr.min.js"></script>
     <script src="main.js"></script>
-    <script type="text/javascript" src="/eel.js"></script>
+    <!-- <script type="text/javascript" src="/eel.js"></script> -->
     <script src="bikeStatus.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.min.js"></script>
+    <script src="keyboard.js"></script>
+    <script src="navigation.js"></script>
+    <script src="long-press-event.js"></script>
+  <!-- <script src="src/index.js"></script> -->
+
 </body>
 
 </html>
