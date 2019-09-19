@@ -1,4 +1,4 @@
-var slideIndex = 2;
+var slideIndex = 1;
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -62,20 +62,6 @@ setInterval(function(){
 above this - Mainslider
 
 now - SLider
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 */
 
 //current position.

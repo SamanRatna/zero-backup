@@ -524,19 +524,17 @@ now - topBar
 
 
  .timeDateName {
-	 
-	/* height:50px; */
-	padding: 10px;
+	padding-top: 15px;
+	height: 18%;
 	text-align:center;
-	/* background and font - remove later */
 	background: white;
 	color: black;
+	overflow: hidden;
 }
 
 .time {
 	/* background:red; */
-	padding:	5px;
-	padding-top: 30px;
+	/* padding-top: 30px; */
 	font-size: 30px;
 	/* color: black; */
 }
@@ -640,8 +638,20 @@ now - page2
 	/* text-align:center; */
 	
 }
-
-#firstColumn{
+.status-row {
+	height: 160px;
+}
+#info {
+	height: 74px;
+}
+#mode {
+	height: 33px;
+}
+#indicator {
+	height: 86px;
+	/* display: none; */
+}
+.firstColumn{
 	/* padding-top: 0px; */
 	margin-top: 0px;
 	display: inline-block;
@@ -652,7 +662,7 @@ now - page2
 	background: white;
 
 }
-#secondColumn{
+.secondColumn{
 	/* padding: 0px; */
 	margin: 0px;
 	display: inline-block;
@@ -666,7 +676,7 @@ now - page2
 	background: white;
 
 }
-#thirdColumn{
+.thirdColumn{
 	/* padding: 0px; */
 	margin: 0px;
 	display: inline-block;
@@ -677,79 +687,34 @@ now - page2
 	background: white;
 }
 
-
-.speedMain{
-	/* -webkit-transition: opacity .5s ease-in-out;
-	-moz-transition: opacity .5s ease-in-out;
-	-ms-transition: opacity .5s ease-in-out;
-	-o-transition: opacity .5s ease-in-out;
-	transition: opacity .5s ease-in-out; */
-
-	/* position: relative; */
-	/* left: 0px;
-	top: 0px; */
-	/* z-index: -1; */
-
-	display: inline-block;
-	text-align:center;
-	/* width:280px; */
-	/* padding-left: 40%; */ /* It is better not to use padding because when number changes from say 10 to 9, both number as well as text (km) will shift to the left because padding starts from left */
-	font-size: 40px;
-	/* margin-top: 0px; */
-	/* position: relative; */
-	/* padding-top: -10px; */
-	/* background and font - remove later */
-	background: white;
-	color: black;
-	/* top:50px; */
-	
-
+#speed {
+	opacity: 0;
 }
 
-.powerMain{
-	/* -webkit-transition: opacity .5s ease-in-out;
-	-moz-transition: opacity .5s ease-in-out;
-	-ms-transition: opacity .5s ease-in-out;
-	-o-transition: opacity .5s ease-in-out;
-	transition: opacity .5s ease-in-out; */
+#power {
+	opacity: 0;
+}
 
-	/* position: relative; */
-	/* left: 0px;
-	top: 0px; */
-	/* z-index: -1; */
-
+#speedMain{
 	display: inline-block;
 	text-align:center;
-	/* width:280px; */
-	/* padding-left: 40%; */ /* It is better not to use padding because when number changes from say 10 to 9, both number as well as text (km) will shift to the left because padding starts from left */
-	font-size: 30px;
-	/* margin-top: 80px; */
-	/* padding-top: -20px; */
-	/* background and font - remove later */
+	font-size: 40px;
 	background: white;
 	color: black;
-	
-
 }
-.rangeMain{
-	/* -webkit-transition: opacity .5s ease-in-out;
-	-moz-transition: opacity .5s ease-in-out;
-	-ms-transition: opacity .5s ease-in-out;
-	-o-transition: opacity .5s ease-in-out;
-	transition: opacity .5s ease-in-out; */
 
-	/* position: relative; */
-	/* left: 0px;
-	top: 0px; */
-	/* z-index: -1; */
+#rangeMain{
 
 	display: inline-block;
 	text-align:center;
-	/* width:280px; */
-	/* padding-left: 40%; */ /* It is better not to use padding because when number changes from say 10 to 9, both number as well as text (km) will shift to the left because padding starts from left */
+	font-size: 50px;
+	background: white;
+	color: black;
+}
+#powerMain{
+	display: inline-block;
+	text-align:center;
 	font-size: 40px;
-
-	/* background and font - remove later */
 	background: white;
 	color: black;
 
@@ -757,10 +722,7 @@ now - page2
 
 .leftTurn{
 	height: 25px;
-	
 	position:relative;
-	/* top: 10px; */
-
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -768,12 +730,8 @@ now - page2
 }
 
 .rightTurn{
-	height: 25px;
-	
+	height: 25px;	
 	position:relative;
-	/* top: 10px; */
-	/* bottom: 10px; */
-
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -782,14 +740,9 @@ now - page2
 
 
 .beam{
-	/* position: relative; */
-	/* display: inline-block; */
-
 	height: 45px;
-	
 	position:relative;
 	top: 10px;
-
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -800,13 +753,8 @@ now - page2
 
 .modeMain{
 	height: 25px;
-	
 	position:relative;
-	/* top: 10px; */
-	/* bottom: 10px; */
-
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-
 }

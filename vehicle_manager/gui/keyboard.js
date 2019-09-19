@@ -45,4 +45,8 @@ function onChange(input) {
 
 function onKeyPress(button) {
   console.log("Button pressed", button);
+  if(button == "{ent}"){
+    console.log("Enter Pressed.");
+    toggleKeyboard();
+  }
 }
