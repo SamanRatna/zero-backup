@@ -118,79 +118,140 @@
         </div> -->
 
 <!--Slide 2 redesign -->
-<div class="mySlides" style="padding:0px; margin:0px;background-color:white;">
-    <div class="notification">
+<div class="mySlides" style="padding:0px; margin:0px;background-color:white;" id="no-babbal">
+    <div id="notification-bar">
+        <div id="mode-notification">
+            STANDBY
+        </div>
+        <div id="bluetooth-notification">
+                <img src="files/images/bluetooth-b-brands.svg" style="height: 22px;"></img>
+        </div>
     </div>
-    <div class="timeDateName" id="greeter-1">
-        <div class="time"></div>
-        <div class="date"></div>
-        <div class="name">Amulya</div>
-    </div>
-
-    <div class="map" id="map">
-        <iframe width="100%" height="100%"frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=85.32276660203935%2C27.72784215033039%2C85.3262159228325%2C27.729463720021418&amp;layer=mapnik&amp;marker=27.728652938191388%2C85.32449126243591"
-            style="border: 0px solid black">
-        </iframe>
-    </div>
-    
-    <div class="status" id="status-2">
-        <div class ="status-row" id="info">
-            <span class="firstColumn">
-                    <div id="speed">
-                        <span style=" padding-top: 10px;" id="speedMain">0</span>
-                        <span id="speedMainUnit"> km/hr </span>
-                    </div>
-                </span><span class="secondColumn">
-                    <div id="range">
-                        <span style="margin-top:11.5px;" id="rangeMain">0</span>
-                        km
-                    </div>
-                </span><span class="thirdColumn">
-                    <div id="power">
-                        <span style=" padding-top: 10px;" id="powerMain">0</span>
-                        hp
-                    </div>
-                </span>
+    <!-- <div id="no-babbal" style="height: 650px;"> -->
+        <div class="timeDateName" id="greeter-1">
+            <div class="time"></div>
+            <div class="date"></div>
+            <div class="name">Amulya</div>
+        </div>
+        <div id="yatri-estate">
+            <div class="map" id="map">
+                <iframe width="100%" height="100%"frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=85.32276660203935%2C27.72784215033039%2C85.3262159228325%2C27.729463720021418&amp;layer=mapnik&amp;marker=27.728652938191388%2C85.32449126243591"
+                    style="border: 0px solid black">
+                </iframe>
             </div>
-            <!--Mode-->
-            <div class ="status-row" id="indicator">
-                <span class="firstColumn" id="firstColumn">
-                    <!-- <div>TRIP <span class="tripMain"></span></div> -->
-                </span><span class="secondColumn" id="secondColumn">
-                    <div><img class="modeMain" src="files/images/mode1.png" /></div>
-                </span><span thirdColumn="thirdColumn" id="thirdColumn">
-                    <!-- <div>ODO <span class="odoMain"></span></div> -->
-                </span>
-
-
-                <span class="firstColumn">
-                        <div><img class="leftTurn" src="files/images/leftArrowOn.png" /></div>
-                </span><span class="secondColumn">
-                    <div><img class="beam" src="files/images/highBeamOn.png" /></div>
-                </span><span class="thirdColumn">
-                        <div><img class="rightTurn" src="files/images/rightArrowOn.png" /></div>
-                </span>
+            <div id='babbal-speed'>
+                <svg height="40" width="200">
+                <text x="0" y="15" fill="red">
+                    <p><span id='babbal-speed-value'>0</span><span id='babbal-speed-unit'>km/hr</span></p>
+                </text>
+                </svg>
+                <object type="image/svg+xml" data="files/images/ekg.svg">Your browser does not support SVG</object>
+        </div>
+        </div>
+        <div id="yatri-estate-2">
+            <div id='babbal-info'>
+                <div id='top-speed'>
+                    <p class='top-speed-text'>
+                    <span id='top-speed-label'>TOP SPEED:</span>
+                    <span id='top-speed-value'>0</span>
+                    KMPH
+                    </p>
+                </div>
+                <div id='babbal-range'>
+                    <p class='babbal-range-text'>
+                        KM
+                        <span id='babbal-range-value' style='font-size:5rem;'>25</span>
+                    </p>
+                </div>
             </div>
-    </div>
-    
+
+            <div class="status" id="status-2">
+                <div class ="status-row" id="info">
+                    <span class="firstColumn">
+                            <div id="speed">
+                                <span style=" padding-top: 10px;" id="speedMain">0</span>
+                                <span id="speedMainUnit"> km/hr </span>
+                            </div>
+                        </span><span class="secondColumn">
+                            <div id="range">
+                                <span style="margin-top:11.5px;" id="rangeMain">0</span>
+                                km
+                            </div>
+                        </span><span class="thirdColumn">
+                            <div id="power">
+                                <span style=" padding-top: 10px;" id="powerMain">0</span>
+                                hp
+                            </div>
+                        </span>
+                </div>
+                    <!--Mode-->
+                    <div class ="status-row" id="indicator">
+                        <span class="firstColumn" id="firstColumn">
+                            <!-- <div>TRIP <span class="tripMain"></span></div> -->
+                        </span><span class="secondColumn" id="secondColumn">
+                            <div><img class="modeMain" src="files/images/mode1.png" /></div>
+                        </span><span thirdColumn="thirdColumn" id="thirdColumn">
+                            <!-- <div>ODO <span class="odoMain"></span></div> -->
+                        </span>
+
+
+                        <span class="firstColumn">
+                                <div><img class="leftTurn" src="files/images/leftArrowOn.png" /></div>
+                        </span><span class="secondColumn">
+                            <div><img class="beam" src="files/images/highBeamOn.png" /></div>
+                        </span><span class="thirdColumn">
+                                <div><img class="rightTurn" src="files/images/rightArrowOn.png" /></div>
+                        </span>
+                    </div>
+            </div>
+        </div>
+    <!-- </div> -->
+<!-- 
+    <div id="babbal" style="height: 650px;">
+            <div id='babbal-speed' style='height:70%; width: 100%;'>
+                    <svg height="40" width="200">
+                    <text x="0" y="15" fill="red">
+                        <p><span id='babbal-speed-value'>0</span><span id='babbal-speed-unit'>km/hr</span></p>
+                    </text>
+                    </svg>
+                    <object type="image/svg+xml" data="files/images/ekg.svg">Your browser does not support SVG</object>
+            </div>
+            <div id='babbal-info' style='height:50%; width: 100%;'>
+                <div id='top-speed'>
+                    <p class='top-speed-text'>
+                    <span id='top-speed-label'>TOP SPEED:</span>
+                    <span id='top-speed-value'>0</span>
+                    KMPH
+                    </p>
+                </div>
+                <div id='babbal-range'>
+                    <p class='babbal-range-text'>
+                        KM
+                        <span id='babbal-range-value' style='font-size:5rem;'>25</span>
+                    </p>
+                </div>
+            </div>
+    </div> -->
     <div class="yatri-logo" id="yatri-logo-2"> <!-- -->
             <img class="logo" id="yatri-logo-1" src="files/images/logo.png" onclick="toggleKeyboard()"/>
     </div>
-
     <!-- On-Screen-Keyboard -->
     <div class="navigation-form" id="navigation-form-1">
         <input class="input" type="text" name="search" placeholder="Navigation" onfocus="navigationMode()">
     </div>
     <div class="simple-keyboard" id="keyboard-2"></div>
 </div>
+
+
+
 <!-----------------------Babbal Mode Slide ----------------------------------->
 
         <div class="mySlides" style="width:480px; height:700px; padding:0px; margin:0px;background-color:rgb(43, 43, 43); overflow: hidden;">
             <div id='babbal-logo'>
                     <img style="max-height:70%; max-width:70%; padding-top:25px;" src="files/images/logo-no-bg.png" />
             </div>
-
+<!-- 
             <div id='babbal-speed'>
                     <svg height="30" width="200">
                     <text x="0" y="15" fill="red">
@@ -198,7 +259,7 @@
                     </text>
                     </svg>
                     <object type="image/svg+xml" data="files/images/ekg.svg">Your browser does not support SVG</object>
-            </div>
+            </div> -->
 
             <div id='babbal-info'>
                 <div id='top-speed'>

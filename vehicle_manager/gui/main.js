@@ -576,14 +576,13 @@ var leftTurn;
 
 var rightTurn;
 
-/*
+
 setInterval(function(){   
-    document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementsByClassName("speedMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementsByClassName("powerMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementsByClassName("rangeMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementsByClassName("tripMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementsByClassName("lightMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementsByClassName("odoMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    //document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementById("speedMain").innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementById("powerMain").innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementById("rangeMain").innerHTML=Math.floor((Math.random()*100)+1); 
+    // document.getElementsByClassName("tripMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    // document.getElementsByClassName("lightMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    // document.getElementsByClassName("odoMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
 }, 300);
-*/

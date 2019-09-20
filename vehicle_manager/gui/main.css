@@ -513,7 +513,7 @@ now - topBar
  } */
 
 
-.notification {
+#notification-bar {
 	/* width: 480px; */
 	height:30px;
 	background-color: #40E0D0;
@@ -522,7 +522,27 @@ now - topBar
 
 }
 
-
+#mode-notification {
+	color: white;
+	padding-left: 4px;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 1.2rem;
+	font-weight: bold;
+	border-radius: 0px 0px 10px 0px;
+	background: rgb(172, 172, 172);
+	width: 25%;
+	height: 100%;
+	float:left;
+}
+#bluetooth-notification {
+	width: 7%;
+	max-height: 100%;
+	float: right;
+	text-align: center;
+	/* display: none; */
+	/* background: blue; */
+	/* overflow: hidden; */
+}
  .timeDateName {
 	padding-top: 15px;
 	height: 18%;

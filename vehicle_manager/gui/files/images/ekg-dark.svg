@@ -17,7 +17,7 @@
             stop-color="rgb(0,0,0)"
             stop-opacity="0" />
       <stop offset="100%"
-            stop-color="rgb(70,70,70)"
+            stop-color="rgb(182,182,182)"
             stop-opacity="1" />
     </linearGradient>
   </defs>

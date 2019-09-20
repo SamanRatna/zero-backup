@@ -1,6 +1,8 @@
-.map{
-    height: 50%;
+#map{
+    height: 100%;
     width: 100%;
+    float: right;
+    /* box-shadow: 0px 11px 6px -8px rgba(0,0,0,0.3); */
 }
 .navigation-form {
     height: 10%;
@@ -10,16 +12,20 @@
 }
 
 .status {
-    /* height: calc(185px + 10%); */
-    height: 120px;
-    padding-top: 10%;
+    height: calc(185px + 20%);
+    /* height: 120px; */
+    /* padding-top: 10%; */
     overflow: hidden;
     padding: 10%;
 }
 /* .simple-keyboard {
 	display: none;
 } */
-  
+#yatri-estate{
+  /* display: flexbox; */
+  height: 50%;
+}
+
 input[type=text] {
     width: 90%;
     box-sizing: border-box;
@@ -56,45 +62,71 @@ input[type=text] {
     box-shadow: 5px 9px 5px -4px rgb(219, 219, 219);
     }
 
+    #yatri-estate-2 {
+      height: 120px;
+      overflow: hidden;
+    }
 /*
 Non-Standby-Mode Keyboard Transition
 */
 @keyframes vanishingStatus {
   0% {
     height: calc(185px + 10%);
-    padding: 10%;
-    opacity: 0.6;
+    /* padding: 10%; */
+    opacity: 0.4;
   }
   100% {
     height: 0px;
-    padding: 0%;
+    /* padding: 0%; */
     opacity: 0;
+  }
+}
+
+@keyframes vanishingStatusPadding {
+  0% {
+    padding: 10%;
+  }
+  100% {
+    padding: 0%;
   }
 }
 
 @keyframes appearingStatus {
   0% {
     height: 0px;
-    padding: 0%;
-    opacity: 0.4;
+    /* padding: 0%; */
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.5;
   }
   100% {
     height: calc(185px + 10%);
-    padding: 10%;
+    /* padding: 10%; */
     opacity: 1;
   }
 }
 
+@keyframes appearingStatusPadding {
+  0% {
+    padding: 0%;
+  }
+  100% {
+    padding: 10%;
+  }
+}
 /* Standby-Mode Keyboard Transition */
 @keyframes vanishingStatusInStandby {
   0% {
     height: 120px;
-    padding: 10%;
-    opacity: 0.6;
+    /* filter: blur(2px); */
+    /* padding: 10%; */
+    opacity: 0.3;
   }
   100% {
     height: 0px;
-    padding: 0%;
+    /* filter: blur(6px); */
+    /* padding: 0%; */
     opacity: 0;
   }
 }
@@ -102,12 +134,15 @@ Non-Standby-Mode Keyboard Transition
 @keyframes appearingStatusInStandby {
   0% {
     height: 0px;
-    padding: 0%;
-    opacity: 0.4;
+    /* padding: 0%; */
+    opacity: 0;
+  }
+  90% {
+    opacity: 0.1;
   }
   100% {
     height: 120px;
-    padding: 10%;
+    /* padding: 10%; */
     opacity: 1;
   }
 }
@@ -116,7 +151,7 @@ Non-Standby-Mode Keyboard Transition
 @keyframes vanishingGreeter {
   0% {
     height: 18%;
-    opacity: 1;
+    opacity: 0.6;
     padding-top: 15px;
   }
   100% {
@@ -131,6 +166,9 @@ Non-Standby-Mode Keyboard Transition
     height: 0%;
     opacity: 0;
     padding-top: 0px;
+  }
+  75% {
+    opacity: 0.4;
   }
   100% {
     height: 18%;
@@ -160,6 +198,7 @@ Non-Standby-Mode Keyboard Transition
 @keyframes appearingIndicatorsOpacity {
   0% {
     opacity: 0.3;
+    
   }
   100% {
     opacity: 1;
@@ -186,7 +225,7 @@ Non-Standby-Mode Keyboard Transition
 
 @keyframes appearingExtraStatus{
   0% {
-    opacity: 0.25;
+    opacity: 0;
   }
   100% {
     opacity: 1;
@@ -195,10 +234,10 @@ Non-Standby-Mode Keyboard Transition
 
 @keyframes rangeEnlarge {
   0% {
-    font: 30px;
+    font-size: 30px;
   }
   100% {
-    font: 50px;
+    font-size: 50px;
   }
 }
 
@@ -209,4 +248,162 @@ Non-Standby-Mode Keyboard Transition
   100% {
     font-size: 30px;
   }
+}
+
+@keyframes appearingHeartbeat {
+  0% {
+    /* width:0%; */
+    height: 0%;
+    opacity: 0.4;
+  }
+  100%{
+    /* width:100%; */
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes vanishingMap{
+  0% {
+    /* width:100%; */
+    height: 100%;
+    /* opacity: 0.75; */
+  }
+  100%{
+    /* width:0%; */
+    height: 0%;
+    /* opacity: 0.2; */
+  }
+}
+
+@keyframes vanishingHeartbeat {
+  0% {
+    /* width:100%; */
+    height: 100%;
+    opacity: 1;
+  }
+  100%{
+    /* width:0%; */
+    height: 0%;
+    opacity: 0;
+  }
+}
+
+@keyframes appearingMap{
+  0% {
+    /* width:0%; */
+    height: 0%;
+    opacity: 0.2;
+  }
+  100%{
+    /* width:100%; */
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes appearingBabbalInfo {
+  0% {
+    height:0%;
+    opacity: 0.4;
+  }
+  100%{
+    height:197px;
+    opacity: 1;
+  }
+}
+
+@keyframes vanishingBabbalInfo {
+  0% {
+    height:197px;
+    opacity: 0.75;
+  }
+  100%{
+    height:0px;
+    opacity: 0;
+  }
+}
+
+@keyframes expandingLogo {
+  0% {
+    height:13%;
+    line-height: 160px;
+  }
+  100%{
+    height:30%;
+    line-height: 300px;
+  }
+}
+
+@keyframes expandingLogoActual {
+  0% {
+    width:200px;
+  }
+  100%{
+    width:350px;
+  }
+}
+
+@keyframes shrinkingLogo {
+  0% {
+    height:30%;
+    line-height: 300px;
+  }
+  100%{
+    height:13%;
+    line-height: 160px;
+  }
+}
+
+@keyframes shrinkingLogoActual {
+  0% {
+    width:350px;
+  }
+  100%{
+    width:200px;
+  }
+}
+
+@keyframes babbalOn {
+  0% {
+    height:0px;
+  }
+  100%{
+    height:650px;
+  }
+}
+
+@keyframes thikkaOff {
+  0% {
+    height:650px;
+  }
+  100%{
+    height:0px;
+  }
+}
+
+@keyframes babbalOff {
+  0% {
+    height:650px;
+  }
+  100%{
+    height:0px;
+  }
+}
+@keyframes thikkaOn {
+  0% {
+    height:0px;
+  }
+  100%{
+    height:650px;
+  }
+}
+
+#babbal {
+  width:480px;
+  height:0px;
+  padding:0px;
+  margin:0px;
+  background-color:white;
+  overflow: hidden;
 }

@@ -3,47 +3,15 @@ var rightTurnStatus = 0;
 var modeValue = 3;
 var highBeamStatus = 0;
 
-eel.expose(updateBikeMode);
-function updateBikeMode(arg) {
-    console.log(arg + ' from main');
 
-    if(arg == "MODE_STANDBY"){
-        //mylogo.src="files/images/logo_standby.png";
-    }
-    else if(arg == "MODE_SUSTE"){
-        modeValue = 1;
-    }
-    else if(arg == "MODE_THIKKA"){
-        modeValue = 2;
-    }
-    else if(arg == "MODE_BABBAL"){
-        modeValue = 3;
-    }
-    else if(arg == "MODE_CHARGING"){
-        //mylogo.src="files/images/logo_reverse.png";
-    }
-}
-
-eel.expose(updateLeftTurnStatus);
-function updateLeftTurnStatus(arg) {
-    leftTurnStatus = arg;
-}
-
-eel.expose(updateRightTurnStatus);
-function updateRightTurnStatus(arg) {
-    rightTurnStatus = arg;
-}
-
-eel.expose(updateHighBeamStatus);
-function updateHighBeamStatus(arg) {
-    highBeamValue = arg;
-}
-
+setInterval( function(){
+    document.getElementById('babbal-speed-value').innerHTML = Math.floor((Math.random() * 100) + 1);
+}, 250)
 setInterval(function () {
-    document.getElementsByClassName("speed")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
-    document.getElementsByClassName("speedMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
-    document.getElementsByClassName("powerMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
-    document.getElementsByClassName("rangeMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
+    document.getElementsByClassName("speed").innerHTML = Math.floor((Math.random() * 100) + 1);
+    document.getElementsByClassName("speedMain").innerHTML = Math.floor((Math.random() * 100) + 1);
+    document.getElementsByClassName("powerMain").innerHTML = Math.floor((Math.random() * 100) + 1);
+    document.getElementsByClassName("rangeMain").innerHTML = Math.floor((Math.random() * 100) + 1);
     // document.getElementsByClassName("tripMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
     // document.getElementsByClassName("lightMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
     // document.getElementsByClassName("odoMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
@@ -105,11 +73,11 @@ setInterval(function () {
     }
 
 
-    leftTurnOffLoop();
-    leftTurnOnLoop();
-    rightTurnOffLoop();
-    rightTurnOnLoop();
-    highBeam();
+    // leftTurnOffLoop();
+    // leftTurnOnLoop();
+    // rightTurnOffLoop();
+    // rightTurnOnLoop();
+    // highBeam();
 
 
     //     setInterval(100);
@@ -122,3 +90,51 @@ setInterval(function () {
     // rightTurn=Math.round(Math.random());
     // document.getElementsByClassName("leftTurn")[0].src== "files/images/leftArrowOn.png";
 }, 1500);
+
+// eel.expose(updateBikeMode);
+function updateBikeMode(arg) {
+    console.log(arg + ' from main');
+
+    if(arg == "MODE_STANDBY"){
+        document.getElementById("mode-notification").innerHTML = "STANDBY";
+        setMode("standby");
+    }
+    else if(arg == "MODE_SUSTE"){
+        modeValue = 1;
+        document.getElementById("mode-notification").innerHTML = "SUSTE";
+        setMode("thikka");
+    }
+    else if(arg == "MODE_THIKKA"){
+        modeValue = 2;
+        document.getElementById("mode-notification").innerHTML = "THIKKA";
+        setMode("thikka");
+    }
+    else if(arg == "MODE_BABBAL"){
+        modeValue = 3;
+        document.getElementById("mode-notification").innerHTML = "BABBAL";
+        setMode("babbal");
+    }
+    else if(arg == "MODE_REVERSE"){
+        document.getElementById("mode-notification").innerHTML = "REVERSE";
+        setMode("thikka");
+    }
+    else if(arg == "MODE_CHARGING"){
+        //mylogo.src="files/images/logo_reverse.png";
+        document.getElementById("mode-notification").innerHTML = "CHARGING";
+    }
+}
+
+// eel.expose(updateLeftTurnStatus);
+function updateLeftTurnStatus(arg) {
+    leftTurnStatus = arg;
+}
+
+// eel.expose(updateRightTurnStatus);
+function updateRightTurnStatus(arg) {
+    rightTurnStatus = arg;
+}
+
+// eel.expose(updateHighBeamStatus);
+function updateHighBeamStatus(arg) {
+    highBeamValue = arg;
+}
