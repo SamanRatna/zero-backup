@@ -2,75 +2,123 @@ var leftTurnStatus = 0;
 var rightTurnStatus = 0;
 var modeValue = 3;
 var highBeamStatus = 0;
+var speed = 0;
 
+function sliderButtonVisibility(visibility){
+    if(visibility == "on"){
+        document.getElementById('slider-wrap').classList.add("active");
+    }
+    else if (visibility == "off") {
+        document.getElementById('slider-wrap').classList.remove("active");
+    }
+}
 
+function updateSpeed(speed){
+    if(speed > 15){
+        sliderButtonVisibility("off")
+    }
+    else{
+        sliderButtonVisibility("on")
+    }
+}
 setInterval( function(){
     document.getElementById('babbal-speed-value').innerHTML = Math.floor((Math.random() * 100) + 1);
 }, 250)
+
+var mode = 0;
+function speedGenerator(){
+    if(mode == 0){
+        speed = (speed + 2)
+        if(speed > 97){
+            mode=1;
+        }
+    }
+    else if(mode == 1){
+        speed = speed - 3;
+        if(speed < 10){
+            mode = 0;
+        }
+    }
+}
+setInterval(function(){   
+    speedGenerator();
+    //document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementById("speedMain").innerHTML=speed;
+    addData(speedChart, "80s", speed);
+    // updateSpeed(speed);
+    document.getElementById("powerMain").innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementById("rangeMain").innerHTML=Math.floor((Math.random()*100)+1); 
+    // document.getElementsByClassName("tripMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    // document.getElementsByClassName("lightMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+    // document.getElementsByClassName("odoMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
+}, 300);
 setInterval(function () {
-    document.getElementsByClassName("speed").innerHTML = Math.floor((Math.random() * 100) + 1);
-    document.getElementsByClassName("speedMain").innerHTML = Math.floor((Math.random() * 100) + 1);
-    document.getElementsByClassName("powerMain").innerHTML = Math.floor((Math.random() * 100) + 1);
+    // speed = Math.floor((Math.random() * 100) + 1);
+    // speedGenerator();
+    // document.getElementsByClassName("speed").innerHTML = speed;
+    // document.getElementsByClassName("speedMain").innerHTML = speed;
+    // addData(speedChart, "80s", speed);
+    // document.getElementsByClassName("powerMain").innerHTML = Math.floor((Math.random() * 100) + 1);
     document.getElementsByClassName("rangeMain").innerHTML = Math.floor((Math.random() * 100) + 1);
     // document.getElementsByClassName("tripMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
     // document.getElementsByClassName("lightMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
     // document.getElementsByClassName("odoMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
 
-    function leftTurnOnLoop() {
-        setTimeout(function () {
-            if (leftTurnStatus == 1) {
-                document.getElementsByClassName("leftTurn")[0].src = "files/images/leftArrowOn.png";
-                leftTurnOffLoop();
-            }
-        }, 300)
-    }
+    // function leftTurnOnLoop() {
+    //     setTimeout(function () {
+    //         if (leftTurnStatus == 1) {
+    //             document.getElementsByClassName("leftTurn")[0].src = "files/images/leftArrowOn.png";
+    //             leftTurnOffLoop();
+    //         }
+    //     }, 300)
+    // }
 
 
-    function leftTurnOffLoop() {
-        setTimeout(function () {
-            document.getElementsByClassName("leftTurn")[0].src = "files/images/leftArrowOff.png";
-            if (leftTurnStatus == 1) {
-                leftTurnOnLoop();
-            }
-        }, 300)
-    }
+    // function leftTurnOffLoop() {
+    //     setTimeout(function () {
+    //         document.getElementsByClassName("leftTurn")[0].src = "files/images/leftArrowOff.png";
+    //         if (leftTurnStatus == 1) {
+    //             leftTurnOnLoop();
+    //         }
+    //     }, 300)
+    // }
 
 
-    function rightTurnOnLoop() {
-        setTimeout(function () {
-            if (rightTurnStatus == 1) {
-                document.getElementsByClassName("rightTurn")[0].src = "files/images/rightArrowOn.png";
-                rightTurnOffLoop();
-            }
-        }, 300)
-    }
+    // function rightTurnOnLoop() {
+    //     setTimeout(function () {
+    //         if (rightTurnStatus == 1) {
+    //             document.getElementsByClassName("rightTurn")[0].src = "files/images/rightArrowOn.png";
+    //             rightTurnOffLoop();
+    //         }
+    //     }, 300)
+    // }
 
 
-    function rightTurnOffLoop() {
-        setTimeout(function () {
-            document.getElementsByClassName("rightTurn")[0].src = "files/images/rightArrowOff.png";
-            if (rightTurnStatus == 1) {
-                rightTurnOnLoop();
-            }
-        }, 300)
-    }
+    // function rightTurnOffLoop() {
+    //     setTimeout(function () {
+    //         document.getElementsByClassName("rightTurn")[0].src = "files/images/rightArrowOff.png";
+    //         if (rightTurnStatus == 1) {
+    //             rightTurnOnLoop();
+    //         }
+    //     }, 300)
+    // }
 
-    function highBeam() {
-        if (highBeamStatus == 0) {
-            document.getElementsByClassName("beam")[0].src = "files/images/highBeamOff.png";
-        }
-        else {
-            document.getElementsByClassName("beam")[0].src = "files/images/highBeamOn.png";
-        }
-    }
-    if (modeValue == 1) {
-        document.getElementsByClassName("modeMain")[0].src = "files/images/mode1.png";
-    } else if (modeValue == 2) {
-        document.getElementsByClassName("modeMain")[0].src = "files/images/mode2.png";
-    }
-    else {
-        document.getElementsByClassName("modeMain")[0].src = "files/images/mode3.png";
-    }
+    // function highBeam() {
+    //     if (highBeamStatus == 0) {
+    //         document.getElementsByClassName("beam")[0].src = "files/images/highBeamOff.png";
+    //     }
+    //     else {
+    //         document.getElementsByClassName("beam")[0].src = "files/images/highBeamOn.png";
+    //     }
+    // }
+    // if (modeValue == 1) {
+    //     document.getElementsByClassName("modeMain")[0].src = "files/images/mode1.png";
+    // } else if (modeValue == 2) {
+    //     document.getElementsByClassName("modeMain")[0].src = "files/images/mode2.png";
+    // }
+    // else {
+    //     document.getElementsByClassName("modeMain")[0].src = "files/images/mode3.png";
+    // }
 
 
     // leftTurnOffLoop();

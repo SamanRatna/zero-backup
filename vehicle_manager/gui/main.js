@@ -1,3 +1,4 @@
+
 var slideIndex = 1;
 showSlides(slideIndex);
 
@@ -98,7 +99,7 @@ $(document).ready(function () {
 	************************/
     //automatic slider
     // delete here
-    // var autoSlider = setInterval(slideRight, 3000);
+    //var autoSlider = setInterval(slideRight, 3000);
 
     //for each slide 
     // delete here
@@ -120,15 +121,14 @@ $(document).ready(function () {
 
     //hide/show controls/btns when hover
     //pause automatic slide when hover
-    $('#slider-wrap').hover(
-        function () { $(this).addClass('active'); clearInterval(autoSlider); },
-        // function () { $(this).removeClass('active'); autoSlider = setInterval(slideRight, 3000); }
-    );
+    // $('#slider-wrap').hover(
+    //     function () { $(this).addClass('active'); clearInterval(autoSlider); },
+    //     // function () { $(this).removeClass('active'); autoSlider = setInterval(slideRight, 3000); }
+    // );
 
 
 
 });//DOCUMENT READY
-
 
 
 /***********
@@ -174,34 +174,9 @@ function pagination() {
 }
 
 /*
-
-
-
-
-
-
-
-
-
-
-
-
 above this - slider
 
 now - music
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 */
 // Mythium Archive: https://archive.org/details/mythium/
@@ -577,12 +552,3 @@ var leftTurn;
 var rightTurn;
 
 
-setInterval(function(){   
-    //document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementById("speedMain").innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementById("powerMain").innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementById("rangeMain").innerHTML=Math.floor((Math.random()*100)+1); 
-    // document.getElementsByClassName("tripMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    // document.getElementsByClassName("lightMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    // document.getElementsByClassName("odoMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-}, 300);
