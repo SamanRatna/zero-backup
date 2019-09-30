@@ -133,6 +133,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 	cursor:pointer;	
 	background:rgba(0,0,0,0.1);
 	z-index:100;
+	border-radius:520px;
 	
 	
 	/* -webkit-user-select: none;  
@@ -515,7 +516,7 @@ now - topBar
 
 #notification-bar {
 	/* width: 480px; */
-	height:30px;
+	height:3.75%;
 	background-color: #40E0D0;
 	/* margin:0; padding:0; */
 	/* margin-top: -17px; */
@@ -533,6 +534,7 @@ now - topBar
 	width: 25%;
 	height: 100%;
 	float:left;
+	text-align: left;
 }
 #bluetooth-notification {
 	width: 7%;
@@ -775,4 +777,16 @@ now - page2
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+}
+.status-value {
+	float:left;
+	width: 50%;
+	text-align: right;
+}
+.status-unit {
+	float: left;
+	width: 50%;
+	height: 100%;
+	margin-top: 35px;
+	text-align: left;
 }

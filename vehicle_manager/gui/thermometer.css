@@ -1,0 +1,67 @@
+#thermometer {
+    height: 60%;
+    width:100%;
+    text-align: center;
+    padding-left: 20px;
+    /* background:grey; */
+    position: relative;
+}
+
+#thermometer-shell {
+    position: absolute;
+    top: 60%;
+    background: rgb(240, 240, 240);
+    height: 20%;
+    width: 80%;
+    padding:4px;
+    border-radius: 20px;
+    overflow:hidden;
+}
+
+#thermometer-level {
+    background: #40e0d0;
+    height: 100%;
+    width:50%;
+    border-radius: 20px;
+}
+
+#thermometer-text {
+    position: relative;
+    top:30px;
+    background: rgb(148, 148, 148);
+}
+
+#thermometer-value {
+    float:left;
+    width: 50%;
+    text-align: right;
+}
+
+#thermometer-unit {
+    float:left;
+    width: 50%;
+    text-align: left;
+}
+
+
+.loader {
+    background: rgb(240, 240, 240);
+    border: 15px solid #40e0d0;
+    border-radius: 50%;
+    height: 5rem;
+    width: 5rem;
+    &::before {
+        content: '';
+        border: 15px solid #8CC800;
+        border-left-color: transparent;
+        border-radius: 50%;
+        border-top-color: transparent;
+        height: 8rem;
+        left: -30px;
+        top: -30px;
+        transform: rotate(45deg);
+        position: absolute;
+        width: 8rem;
+        z-index: 2;
+      }
+  }

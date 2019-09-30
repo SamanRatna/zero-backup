@@ -1,0 +1,64 @@
+#infographics {
+    height: 100%;
+    width: 100%;
+}
+.infocard {
+    height:calc(50% - 10px);
+    width:calc(50% - 10px);
+    margin:5px;
+    /* background: rgb(245, 245, 245); */
+    border-radius: 6px;
+    /* text-align: center; */
+}
+
+.infocard-left {
+    float: left;
+}
+
+.infocard-right {
+    float:right;
+}
+
+.info-title {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    /* text-align: left; */
+    padding: 0px 0px 0px 15px;
+    /* background: rgb(150, 150, 150); */
+    border-radius: 20px;
+    color: rgb(124, 124, 124);
+}
+
+.info-gauge{
+    width: 100%;
+}
+
+.info-value {
+    text-align: right;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    color: black;
+    height: 15%;
+    width: 50%;
+    font-weight: 600;
+    float: left;
+}
+
+.info-unit {
+    text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    color: rgb(196, 196, 196);
+    height: 15%;
+    width: 50%;
+    font-weight: 600;
+    float: left;
+}
+
+#trip-value {
+    width: 60%;
+}
+
+#trip-unit {
+    width: 40%;
+}
