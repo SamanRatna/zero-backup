@@ -3,12 +3,13 @@
     width: 100%;
 }
 .infocard {
-    height:calc(50% - 10px);
-    width:calc(50% - 10px);
-    margin:5px;
-    /* background: rgb(245, 245, 245); */
+    height:calc(50% - 16px);
+    width:calc(50% - 16px);
+    margin:8px;
     border-radius: 6px;
-    /* text-align: center; */
+    /* background: pink; */
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.03);
+    position: relative;
 }
 
 .infocard-left {
@@ -20,6 +21,9 @@
 }
 
 .info-title {
+    position:absolute;
+    bottom: 7%;
+    left: 17%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 20px;
     /* text-align: left; */
@@ -31,6 +35,8 @@
 
 .info-gauge{
     width: 100%;
+    /* background: grey; */
+    height: 60%;
 }
 
 .info-value {
@@ -61,4 +67,109 @@
 
 #trip-unit {
     width: 40%;
+}
+
+.trips {
+    height: calc(30% - 6px);
+    width:100%;
+    margin: 3px;
+    /* background:purple; */
+    padding: 2px;
+    margin-top: 7px;
+}
+
+.trip-id {
+    height: 100%;
+    width: 25%;
+    text-align: center;
+    float: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+}
+.trip-button {
+    height: 50%;
+    width: 30%;
+    float: left;
+    /* line-height: 250px; */
+    margin-top: 5px;
+    background: rgb(190, 190, 190);
+    border-radius: 20px;
+    overflow:hidden;
+    position: relative;
+}
+.trip-button-hlight {
+    height: 100%;
+    width: 0%;
+    background: #40e0d0;
+    border-radius : 20px;
+    /* padding-top: 3px;
+    padding-left: 3px; */
+    position: absolute;
+    z-index: 2;
+}
+
+.trip-switch {
+    height : 80%;
+    width : 30%;
+    border-radius : 50%;
+    background : white;
+    position:absolute;
+    z-index: 3;
+    bottom:2.5px;
+    /* left:3px; */
+    margin-left:5%;
+}
+
+.trip-value {
+    /* background: grey; */
+    height: 100%;
+    width: 35%;
+    float: left;
+}
+@keyframes activate-trip-bg {
+    0% {
+      width: 0%;
+    }
+    100%{
+      width: 100%;
+    }
+  }
+
+  @keyframes activate-trip-switch {
+    0% {
+      margin-left: 5%;
+    }
+    100%{
+      margin-left: 65%;
+    }
+  }
+
+  #total-distance-gauge {
+      margin-top: 0;
+  }
+  #total-distance-value{
+      height: 100%;
+      width: 100%;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      font-size: 70px;
+      font-weight: 300;
+      text-align: center;
+      /* background: pink; */
+      color: black;
+      
+  }
+
+  #total-distance-unit {
+    /* padding-top: 35px;
+    height: 90%;
+    width: 40%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 35px;
+    font-weight: 700;
+    color:grey;
+    float: left;
+    text-align: left; */
+    text-align: center;
+    width: 95%;
 }

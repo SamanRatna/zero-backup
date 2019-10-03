@@ -2,7 +2,7 @@ var tripChart = document.getElementById("trip-chart");
 var myChart = new Chart(tripChart, {
   type: 'pie',
   data: {
-    // labels: ['OK', 'WARNING', 'CRITICAL', 'UNKNOWN'],
+    labels: ['Current', 'Last'],
     datasets: [{
       data: [20, 100],
       backgroundColor: [
@@ -14,13 +14,5 @@ var myChart = new Chart(tripChart, {
   options: {
    	cutoutPercentage: 55,
     responsive: false,
-    legend: {
-        display: true,
-        position: 'right',
-        labels: {
-          boxWidth: 20,
-          fontColor: 'black'
-        }
-      },
   }
 });

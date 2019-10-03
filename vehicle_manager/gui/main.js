@@ -519,17 +519,12 @@ function timeCount() {
     var second = today.getSeconds();
     if(second<10)second = "0"+second;
 
-    // document.getElementById("clock").innerHTML = 
-    // day+"/"+month+"/"+year+" |"+hour+":"+minute+":"+second;
+
 
     document.getElementsByClassName("time")[0].innerHTML = 
     hour+":"+minute+":"+second;
-    // document.getElementsByClassName("time")[1].innerHTML = 
-    // hour+":"+minute+":"+second;
-    // document.querySelectorAll(".time").innerHTML=hour+":"+minute+":"+second;
 
-    // document.getElementById("time").innerHTML = 
-    // hour+":"+minute+":"+second;
+    document.getElementById('time-notification').innerHTML = hour + ':' + minute;
 
     document.getElementsByClassName("date")[0].innerHTML = 
     day+","+date+" "+month+" "+year;
@@ -552,3 +547,6 @@ var leftTurn;
 var rightTurn;
 
 
+$(function () {
+    $('[data-toggle="popover"]').popover()
+  })

@@ -11,15 +11,15 @@
     <link rel="stylesheet" type="text/css" href="gauge.css">
     <link rel="stylesheet" type="text/css" href="infographics.css">
     <link rel="stylesheet" type="text/css" href="thermometer.css">
+    <link rel="stylesheet" type="text/css" href="notification.css">
+    <link rel="stylesheet" type="text/css" href="status.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
 
     <!-- it is always important to load all other dependencies then only call main.css and main.js -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 </head>
-
-<!-- <body onload="timeCount();">  -->
-<!-- call a specific JS function after whole page is loaded. I just added a call function at the end of JS -->
 
 <body>
 
@@ -30,8 +30,10 @@
         <div id="mode-notification">
             STANDBY
         </div>
+        <div id="time-notification">
+        </div>
         <div id="bluetooth-notification">
-                <img src="files/images/bluetooth-b-brands.svg" style="height: 22px;"></img>
+            <img src="files/images/bluetooth-b-brands.svg" style="height: 22px;"></img>
         </div>
     </div>
 
@@ -43,6 +45,7 @@
     </div>
 
     <div id="yatri-estate">
+        <!-- Slider -->
         <div id="slide">
             <div class="active" id="slider-wrap">
                 <ul id="slider">
@@ -54,44 +57,68 @@
                     </li>
                     <!-- Map -->
                     <li id="list-map">
-                            <div class="map" id="map">
-                                <img style="max-width:75%; margin: 40px;" src="files/images/no-internet-5.gif" />
-                            </div>
-                        </li>
-
+                        <div class="map" id="map">
+                            <img style="max-width:75%; margin: 40px;" src="files/images/no-internet-5.gif" />
+                        </div>
+                    </li>
                     <!-- Infographics -->
                     <li data-color="#ffffff">
                         <div  id="infographics">
+                            <!-- Average Speed -->
                             <div class="infocard infocard-left">
                                 <div class="info-gauge">
-                                <div class="gauge-markup" data-fill="35"><span /></div>
-                            </div>
-                                <div class="info-value">35</div>
+                                    <svg id="meter">
+                                        <circle r="40" cx="40%" cy="38%"
+                                        stroke="#f5f5f5" stroke-width="18" fill="#f5f5f5">
+                                        </circle>
+                                        <circle id="av-speed-meter" r="40" cx="40%" cy="38%"
+                                        stroke="#40e0d0" stroke-width="18" stroke-dasharray="0, 252" fill="none">
+                                        </circle>
+                                    </svg>
+                                </div>
+                                <div class="info-value" id="av-speed-value">0</div>
                                 <div class="info-unit">&nbspkmph</div>
                                 <div class="info-title">Average Speed</div>
                             </div>
+                            <!-- Total Distance -->
                             <div class="infocard infocard-right">
-                                    <div class="info-gauge">
-                                            <div class="gauge-markup" data-fill="35"><span /></div>
-                                        </div>
-                                <div class="info-value">35</div>
-                                <div class="info-unit">&nbspkm</div>
+                                <div class="info-gauge">
+                                    <p  id="total-distance-value">0</p>
+                                </div>
+                                <div class="info-unit" id="total-distance-unit">&nbsp;&nbsp;km</div>
                                 <div class="info-title">Total Distance</div>
                             </div>
+                            <!-- Trips -->
                             <div class="infocard infocard-left">
-                                    <div class="info-gauge">
-                                            <div class="gauge-markup" data-fill="35"><span /></div>
-                                        </div>
-                                    <div class="info-value" id="trip-value"><span>Current: 35</span></div>
-                                    <div class="info-unit" id="trip-unit">&nbspkm</div>
-                                    <div class="info-value" id="trip-value">Last: 70</div>
-                                    <div class="info-unit" id="trip-unit">&nbspkm</div>
+                                <div class="trips" id="trip-a">
+                                    <div class="trip-id">A: </div>
+                                    <div class="trip-button" id="trip-a-button" onclick="toggleTrip('a')">
+                                        <div class="trip-button-hlight" id="trip-a-button-hlight"></div>
+                                        <div class="trip-switch" id="trip-a-switch"></div>
+                                    </div>
+                                    <div class="trip-value">
+                                    <div class="info-value">35</div>
+                                    <div class="info-unit">&nbspkm</div>
+                                </div>
+                                </div>
+                                <div class="trips" id="trip-b">
+                                    <div class="trip-id">B: </div>
+                                    <div class="trip-button" id="trip-b-button" onclick="toggleTrip('b')">
+                                        <div class="trip-button-hlight" id="trip-b-button-hlight"></div>
+                                        <div class="trip-switch" id="trip-b-switch"></div>
+                                    </div>
+                                    <div class="trip-value">
+                                    <div class="info-value">35</div>
+                                    <div class="info-unit">&nbspkm</div>
+                                    </div>
+                                </div>
                                 <div class="info-title">Trip Distance</div>
                             </div>
+                            <!-- Battery Temperature -->
                             <div class="infocard infocard-right">
                                 <div id="thermometer">
                                     <div id="thermometer-text">
-                                        <div class="info-value">25</div>
+                                        <div class="info-value" id="battery-temp">25</div>
                                         <div class="info-unit">&deg;C</div>
                                     </div>
                                     <div id="thermometer-shell">
@@ -109,25 +136,16 @@
                             <canvas id="speed-chart" width="480px" height="400px"></canvas>
                         </div>
                     </li>
-
-
                 </ul>
-    
-                <!-- <div class="btns" id="next"><img src="files/images/right-arrow.png" style="max-width:70%" /></div>
-                <div class="btns" id="previous"><img src="files/images/left-arrow.png" style="max-width:70%" /></div>
-     -->
             </div>
         </div>
-        <!-- <div class="map" id="map">
-            <iframe width="100%" height="100%"frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=85.32276660203935%2C27.72784215033039%2C85.3262159228325%2C27.729463720021418&amp;layer=mapnik&amp;marker=27.728652938191388%2C85.32449126243591"
-                style="border: 0px solid black">
-            </iframe>
-        </div> -->
+
+        <!-- Babbal Slide -->
         <div id='babbal-speed'>
             <svg height="40" width="200">
             <text x="0" y="15" fill="red">
-                <p><span id='babbal-speed-value'>0</span><span id='babbal-speed-unit'>km/hr</span></p>
+                <div id="babbal-speed-value">0</div>
+                <div id="babbal-speed-unit">km/hr</div>
             </text>
             </svg>
             <object type="image/svg+xml" data="files/images/ekg.svg">Your browser does not support SVG</object>
@@ -135,25 +153,25 @@
     </div>
 
     <div id="yatri-estate-2">
-        <!-- <div id='babbal-info'>
+        <div id='babbal-info'>
             <div id='top-speed'>
-                <p class='top-speed-text'>
-                <span id='top-speed-label'>TOP SPEED:</span>
-                <span id='top-speed-value'>0</span>
-                KMPH
-                </p>
+                <div id="top-speed-label">Top Speed:</div>
+                <div id="top-speed-value">0</div>
+                <div id="top-speed-unit">&nbsp;KMPH</div>
             </div>
             <div id='babbal-range'>
-                <p class='babbal-range-text'>
+                <!-- <p class='babbal-range-text'>
                     KM
                     <span id='babbal-range-value' style='font-size:5rem;'>25</span>
-                </p>
+                </p> -->
+                <div id="babbal-range-value">25</div>
+                <div id="babbal-range-unit">KM</div>
             </div>
-        </div> -->
+        </div>
 
         <div class="status" id="status-2">
             <div class ="status-row" id="info">
-                <span class="firstColumn">
+                <!-- <span class="firstColumn">
                         <div id="speed">
                             <span style=" padding-top: 10px;" id="speedMain">0</span>
                             <span id="speedMainUnit"> km/hr </span>
@@ -168,7 +186,19 @@
                             <span style=" padding-top: 10px;" id="powerMain">0</span>
                             hp
                         </div>
-                    </span>
+                    </span> -->
+                <div class="first-column" id="status-speed">
+                    <div class="status-value" id="speed-value">100</div>
+                    <div class="status-unit" id="speed-unit">kmph</div>
+                </div>
+                <div class="second-column" id="status-range" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">
+                        <div class="status-value" id="range-value">100</div>
+                        <div class="status-unit" id="range-unit">&nbsp;%</div>
+                </div>
+                <div class="third-column" id="status-power">
+                        <div class="status-value" id="power-value">10</div>
+                        <div class="status-unit" id="power-unit">&nbsp;hp</div>
+                </div>
             </div>
                 <!--Mode-->
             <div class ="status-row" id="indicator">
@@ -215,7 +245,8 @@
                     </text>
                     </svg>
                     <object type="image/svg+xml" data="files/images/ekg.svg">Your browser does not support SVG</object>
-            </div> -->
+            </div>
+-->
 
             <div id='babbal-info'>
                 <div id='top-speed'>
@@ -234,7 +265,7 @@
             </div>
         </div>
     </div>
-
+<!------------------------------- JavaScripts ------------------------------------ -->
     <script src="jquery.min.js"></script>
     <script src="html5media.min.js"></script>
     <script src="plyr.min.js"></script>
@@ -247,9 +278,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.js"></script>
     <script src="canvasjs.min.js"></script>
     <script src="speedChart.js"></script>
-    <script src="tripChart.js"></script>
+    <!-- <script src="tripChart.js"></script> -->
     <script src="hammer.js"></script>
     <script src="swipe.js"></script>
+    <script src="infographics.js"></script>
+    <script src="bootstrap.bundle.min.js"></script>
     <script>
         if(internet == "on"){
             var map;
@@ -263,7 +296,8 @@
           </script>
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs&callback=initMap"
           async defer></script>
-
+    <script src="demo.js"></script>
+    <!-- <script> updateBikeMode("MODE_THIKKA"); </script> -->
 </body>
 
 </html>

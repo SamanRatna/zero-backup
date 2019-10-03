@@ -1,0 +1,44 @@
+#range-info {
+    /* position: absolute; */
+    background: lime;
+    width: 80%;
+    height: 0%;
+}
+/* 
+#status-range {
+    width: 45%;
+}
+#range-value {
+    font-size: 60px;
+}
+
+#range-unit {
+    margin-top: 44px;
+} */
+
+@keyframes shrinking-status-range-width {
+    0% {
+      width: 45%;
+    }
+    100%{
+      width: 34%;
+    }
+  }
+
+  @keyframes shrinking-range-value-font {
+    0% {
+      font-size: 60px;;
+    }
+    100%{
+      font-size: 40px;
+    }
+  }
+
+  @keyframes shrinking-range-unit-margin {
+    0% {
+      margin-top: 44px;;
+    }
+    100%{
+      margin-top: 21px;
+    }
+  }

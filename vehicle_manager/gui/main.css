@@ -523,26 +523,6 @@ now - topBar
 
 }
 
-#mode-notification {
-	color: white;
-	padding-left: 4px;
-	font-family: 'Courier New', Courier, monospace;
-	font-size: 1.2rem;
-	font-weight: bold;
-	border-radius: 0px 0px 10px 0px;
-	background: rgb(172, 172, 172);
-	width: 25%;
-	height: 100%;
-	float:left;
-	text-align: left;
-}
-#bluetooth-notification {
-	width: 7%;
-	max-height: 100%;
-	float: right;
-	text-align: center;
-	/* margin-top:4px; */
-}
  .timeDateName {
 	padding-top: 15px;
 	height: 18%;
@@ -659,6 +639,7 @@ now - page2
 	
 }
 .status-row {
+	position:relative;
 	height: 160px;
 }
 #info {
@@ -778,15 +759,53 @@ now - page2
 	margin-left: auto;
 	margin-right: auto;
 }
-.status-value {
-	float:left;
-	width: 50%;
-	text-align: right;
-}
-.status-unit {
-	float: left;
-	width: 50%;
+
+.first-column{
 	height: 100%;
-	margin-top: 35px;
+	width: 33%;
+	float: left;
+	position: relative;
+}
+
+.second-column{
+	height: 100%;
+	width: 34%;
+	float: left;
+	position: relative;
+}
+
+.third-column{
+	height: 100%;
+	width: 33%;
+	float: left;
+	position: relative;
+}
+
+.status-value {
+	position: relative;
+	float:left;
+	width: 60%;
+	height: 90%;
+	text-align: right;
+	font-size: 40px;
+}
+
+.status-unit {
+	position: relative;
+	float: left;
+	width: 40%;
+	height: 90%;
 	text-align: left;
+	margin-top: 21px;
+	font-size: 20px;
+	color: rgb(131, 131, 131);
+}
+
+
+#status-speed {
+	opacity: 0;
+}
+
+#status-power {
+	opacity: 0;
 }

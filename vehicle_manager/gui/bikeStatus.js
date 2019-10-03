@@ -21,37 +21,7 @@ function updateSpeed(speed){
         sliderButtonVisibility("on")
     }
 }
-setInterval( function(){
-    document.getElementById('babbal-speed-value').innerHTML = Math.floor((Math.random() * 100) + 1);
-}, 250)
 
-var mode = 0;
-function speedGenerator(){
-    if(mode == 0){
-        speed = (speed + 2)
-        if(speed > 97){
-            mode=1;
-        }
-    }
-    else if(mode == 1){
-        speed = speed - 3;
-        if(speed < 10){
-            mode = 0;
-        }
-    }
-}
-setInterval(function(){   
-    speedGenerator();
-    //document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementById("speedMain").innerHTML=speed;
-    addData(speedChart, "80s", speed);
-    // updateSpeed(speed);
-    document.getElementById("powerMain").innerHTML=Math.floor((Math.random()*100)+1); 
-    document.getElementById("rangeMain").innerHTML=Math.floor((Math.random()*100)+1); 
-    // document.getElementsByClassName("tripMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    // document.getElementsByClassName("lightMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-    // document.getElementsByClassName("odoMain")[0].innerHTML=Math.floor((Math.random()*100)+1); 
-}, 300);
 setInterval(function () {
     // speed = Math.floor((Math.random() * 100) + 1);
     // speedGenerator();
@@ -59,7 +29,6 @@ setInterval(function () {
     // document.getElementsByClassName("speedMain").innerHTML = speed;
     // addData(speedChart, "80s", speed);
     // document.getElementsByClassName("powerMain").innerHTML = Math.floor((Math.random() * 100) + 1);
-    document.getElementsByClassName("rangeMain").innerHTML = Math.floor((Math.random() * 100) + 1);
     // document.getElementsByClassName("tripMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
     // document.getElementsByClassName("lightMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);
     // document.getElementsByClassName("odoMain")[0].innerHTML = Math.floor((Math.random() * 100) + 1);

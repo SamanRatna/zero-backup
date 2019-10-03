@@ -17,12 +17,19 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 6rem;
     color: rgb(0, 0, 0);
+    width: 55%;
+    float: left;
+    text-align: right;
 }
 
 #babbal-speed-unit {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 2rem;
     color: rgb(190, 190, 190);
+    width: 40%;
+    float: left;
+    text-align: left;
+    margin-top: 30px;
 }
 
 #babbal-info {
@@ -37,10 +44,15 @@
 }
 
 #top-speed {
-    padding-top:80px;
+    padding-top:83px;
     padding-bottom: 10px;
     float: left;
-    width:60%;
+    width:55%;
+    position: relative;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 10px;
 }
 
 #babbal-range {
@@ -58,8 +70,40 @@
     padding-left: 10px;
 }
 
-.babbal-range-text {
+#babbal-range-unit {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: black;
+    font-size: 1.5rem;
+    float: right;
+    text-align: right;
+    padding-top: 70px;
+}
+
+#babbal-range-value{
     font-family: Georgia, 'Times New Roman', Times, serif;
     color: black;
-    font-size: 1rem;
+    font-size: 5rem;
+    float:right;
+    text-align: right;
+    width: 65%;
+}
+#top-speed-label {
+    position: relative;
+    float: left;
+    width: 40%;
+    text-align: left;
+}
+
+#top-speed-value {
+    position: relative;
+    float: left;
+    width: 15%;
+    text-align: right;
+}
+
+#top-speed-unit {
+    position: relative;
+    float: left;
+    width: 20%;
+    text-align: left;
 }

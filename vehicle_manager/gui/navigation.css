@@ -35,12 +35,12 @@
 
 input[type=text] {
     width: 90%;
+    height:65%;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
     background-color: white;
-    background-image: url('searchicon.png');
     background-position: 10px 10px; 
     background-repeat: no-repeat;
     padding: 12px 20px 12px 30px;
@@ -244,13 +244,13 @@ Non-Standby-Mode Keyboard Transition
     font-size: 30px;
   }
   100% {
-    font-size: 50px;
+    font-size: 45px;
   }
 }
 
 @keyframes rangeSqueeze {
   0% {
-    font-size: 50px;
+    font-size: 45px;
   }
   100% {
     font-size: 30px;
