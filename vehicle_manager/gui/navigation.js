@@ -19,7 +19,7 @@ myStatusRange = document.getElementById('status-range');
 myRangeUnit = document.getElementById('range-unit');
 
 function shrinkRange(){
-    myStatusRange.style.animation = "shrinking-status-range-width 0.2s 1 ease-out normal forwards";
+    // myStatusRange.style.animation = "shrinking-status-range-width 0.2s 1 ease-out normal forwards";
     myRange.style.animation = "shrinking-range-value-font 0.2s 1 ease-out normal forwards";
     myRangeUnit.style.animation = "shrinking-range-unit-margin 0.2s 1 ease-out normal forwards";
 }
@@ -136,7 +136,7 @@ function setMode(mode){
             mySpeed.style.animation = "appearingExtraStatus 1.5s 1 ease-out normal forwards";
             myPower.style.animation = "appearingExtraStatus 1.5s 1 ease-out normal forwards";
             // myRange.style.animation = "rangeSqueeze 0.5s 1 ease-out normal forwards";
-            // shrinkRange();
+            shrinkRange();
         }
         else if(bikeMode == "babbal"){
             babbalToThikka();

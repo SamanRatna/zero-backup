@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="status.css">
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
-
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
     <!-- it is always important to load all other dependencies then only call main.css and main.js -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -191,9 +191,9 @@
                     <div class="status-value" id="speed-value">100</div>
                     <div class="status-unit" id="speed-unit">kmph</div>
                 </div>
-                <div class="second-column" id="status-range" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">
-                        <div class="status-value" id="range-value">100</div>
-                        <div class="status-unit" id="range-unit">&nbsp;%</div>
+                <div class="second-column" id="status-range" tabindex="-1" data-toggle="popover" data-trigger="focus" data-placement="top">
+                        <div class="status-value" id="range-value" style="width: 69%;">100</div>
+                        <div class="status-unit" id="range-unit" style="width: 31%;">&nbsp;%</div>
                 </div>
                 <div class="third-column" id="status-power">
                         <div class="status-value" id="power-value">10</div>
@@ -229,7 +229,31 @@
     <div class="simple-keyboard" id="keyboard-2"></div>
 </div>
 
-
+<div id="popover_content_wrapper" style="display: none;">
+        <div id="range-container">
+            <div id="range-suste">
+                <div>Suste</div>
+                <div>
+                    <div class="pop-range-value" id="pop-range-suste">0</div>
+                    <div class="pop-range-unit">&nbsp;km</div>
+                </div>
+            </div>
+            <div id="range-thikka">
+                <div>Thikka</div>
+                <div>
+                <div class="pop-range-value" id="pop-range-thikka">0</div>
+                <div class="pop-range-unit">&nbsp;km</div>
+            </div>
+            </div>
+            <div id="range-babbal">
+                <div>Babbal</div>
+                <div>
+                        <div class="pop-range-value" id="pop-range-babbal">0</div>
+                        <div class="pop-range-unit">&nbsp;km</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!-----------------------Babbal Mode Slide ----------------------------------->
 
