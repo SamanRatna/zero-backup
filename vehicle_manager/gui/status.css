@@ -9,11 +9,12 @@
     width: 45%;
 } */
 #range-value {
-    font-size: 60px;
+    font-size: 120px;
 }
 
 #range-unit {
-    margin-top: 44px;
+  font-size: 60px;
+    margin-top: 70px;
 }
 
 @keyframes shrinking-status-range-width {
@@ -27,19 +28,19 @@
 
   @keyframes shrinking-range-value-font {
     0% {
-      font-size: 60px;;
+      font-size: 120px;;
     }
     100%{
-      font-size: 40px;
+      font-size: 90px;
     }
   }
 
   @keyframes shrinking-range-unit-margin {
     0% {
-      margin-top: 44px;;
+      margin-top: 55px;;
     }
     100%{
-      margin-top: 21px;
+      margin-top: 35px;
     }
   }
 
@@ -59,7 +60,7 @@
       float: left;
       font-family: 'Comfortaa', cursive;
       text-align: center;
-      font-size: 20px;
+      font-size:40px;
       font-weight: bold;
       /* background: lime; */
   }
@@ -69,7 +70,7 @@
     float: left;
     text-align: center;
     font-family: 'Comfortaa', cursive;
-    font-size: 20px;
+    font-size: 40px;
     font-weight: bold;
     /* background: grey; */
 }
@@ -79,14 +80,14 @@
     float: left;
     text-align: center;
     font-family: 'Comfortaa', cursive;
-    font-size: 20px;
+    font-size: 40px;
     font-weight: bold;
     /* background: yellow; */
 }
 
 .popover{
-    max-width: 800px !important;
-    width: 400px;
+    max-width: 1200px !important;
+    width: 900px;
 }
 
 .pop-range-value{

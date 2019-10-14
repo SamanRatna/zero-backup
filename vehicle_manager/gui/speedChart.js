@@ -1,7 +1,7 @@
 var speedCanvas = document.getElementById('speed-chart');
 
 // Chart.defaults.global.defaultFontFamily = "Lato";
-// Chart.defaults.global.defaultFontSize = 18;
+Chart.defaults.global.defaultFontSize = 40;
 
 var speedData = {
   labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s", "0s", "10s", "20s", "30s", "40s", "50s", "60s"],

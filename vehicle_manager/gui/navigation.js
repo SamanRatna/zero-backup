@@ -2,7 +2,7 @@ let bikeMode="standby";
 let greeter = "on";
 let indicators = "off";
 let keyboard = "closed";
-let internet = "off";
+let internet = "on";
 
 myGreeter = document.getElementById("greeter-1");
 myStatus = document.getElementById("yatri-estate-2")
@@ -115,9 +115,9 @@ function setMode(mode){
     // Go to THIKKA mode
     else if(mode=="thikka"){
         if(bikeMode=="standby"){
-            if(pos == 0){
-                slideLeft();
-            }
+            // if(pos == 0){
+            //     slideLeft();
+            // }
 
             if(greeter == "on"){
                 myGreeter.style.animation = "vanishingGreeter 0.5s 1 ease-out normal forwards";

@@ -9,8 +9,8 @@
   }
   
   .mySlides{
-	  height: 800px;
-	  width: 480px;
+	  height: 1920px;
+	  width: 1200px;
 	  overflow:hidden;
   }
   /* Position the image containerMain (needed to position the left and right arrows) */
@@ -76,7 +76,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 
 #slider-wrap{
 	/* width:480px; */
-	height:400px;
+	height:960px;
 	position:relative;
 	overflow:hidden;
 }
@@ -92,8 +92,8 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 #slider-wrap ul#slider li{
 	float:left;
 	position:relative;
-	width:480px;	/* don't remove this width. It is very important */
-	height:400px;	
+	width:1200px;	/* don't remove this width. It is very important */
+	height:960px;	
 }
 
 #slider-wrap ul#slider li > div{
@@ -247,8 +247,8 @@ now - music
 
 #bikeGif{				/* for bike */
     display: block;
-  margin-left: -153px;
-  margin-right: auto;
+  /* margin-left: -153px;
+  margin-right: auto; */
   /* width: 50%; */
 }
 
@@ -535,18 +535,18 @@ now - topBar
 .time {
 	/* background:red; */
 	/* padding-top: 30px; */
-	font-size: 30px;
+	font-size: 8ex;
 	/* color: black; */
 }
 
 .date {
 	/* background:blue; */
-	font-size: 15px;
+	font-size: 5ex;
 }
 
 .name{
 	/* background: green; */
-	font-size: 20px;
+	font-size: 5ex;
 }
 
 .speed{
@@ -577,22 +577,18 @@ now - topBar
 
 
 .logo{
-	/* background and font - remove later */
 	background: white;
-	color: black;
-
-	width: 200px;
+	width: 30%;
 	margin-left: auto;
 	margin-right: auto;
-	 padding:	20px;
-	/* margin-top:	5px; */
-	padding-bottom:	64px;
+	margin-top:	8%;
+	/* padding-bottom:	64px; */
 	vertical-align: middle;
 }
 
 .yatri-logo {
 	height: 13%;
-	line-height: 160px;
+	/* line-height: 80%; */
 	text-align: center;
 	display: block;
 	overflow:hidden;
@@ -640,51 +636,38 @@ now - page2
 }
 .status-row {
 	position:relative;
-	height: 160px;
+	height: 100%;
 }
 #info {
-	height: 74px;
+	height: 170px;
 }
 #mode {
 	height: 33px;
 }
-#indicator {
-	height: 86px;
-	/* display: none; */
-}
+/* #indicator {
+	background: lime;
+} */
 .firstColumn{
-	/* padding-top: 0px; */
 	margin-top: 0px;
 	display: inline-block;
 	width: 33%;
-	/* background-color: green; */
 	text-align:center;
-	/* height:40px; */
 	background: white;
 
 }
 .secondColumn{
-	/* padding: 0px; */
 	margin: 0px;
 	display: inline-block;
 	width: 34%;
-	/* background-color: blue; */
 	text-align:center;
-	/* height:40px; */
-
-	/* position: relative;
-	margin-top: 80px; */
 	background: white;
 
 }
 .thirdColumn{
-	/* padding: 0px; */
 	margin: 0px;
 	display: inline-block;
 	width: 33%;
-	/* background-color: green; */
 	text-align:center;
-	/* height:40px; */
 	background: white;
 }
 
@@ -722,7 +705,7 @@ now - page2
 }
 
 .leftTurn{
-	height: 25px;
+	height: 80px;
 	position:relative;
 	display: block;
 	margin-left: auto;
@@ -731,7 +714,7 @@ now - page2
 }
 
 .rightTurn{
-	height: 25px;	
+	height: 80px;	
 	position:relative;
 	display: block;
 	margin-left: auto;
@@ -741,7 +724,7 @@ now - page2
 
 
 .beam{
-	height: 45px;
+	height: 120px;
 	position:relative;
 	top: 10px;
 	display: block;
@@ -787,7 +770,7 @@ now - page2
 	width: 60%;
 	height: 90%;
 	text-align: right;
-	font-size: 40px;
+	font-size: 90px;
 }
 
 .status-unit {
@@ -796,8 +779,8 @@ now - page2
 	width: 40%;
 	height: 90%;
 	text-align: left;
-	margin-top: 21px;
-	font-size: 20px;
+	margin-top: 45px;
+	font-size: 50px;
 	color: rgb(131, 131, 131);
 }
 

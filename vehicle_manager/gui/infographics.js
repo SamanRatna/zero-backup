@@ -1,4 +1,4 @@
-var r=40;
+var r=100;
 var cf= 2*Math.PI*r;
 var semi_cf = cf/2;
 var topSpeed = 120;

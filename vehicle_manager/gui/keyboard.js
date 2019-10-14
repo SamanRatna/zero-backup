@@ -40,6 +40,24 @@ let myKeyboard = new Keyboard({
   }
 });
 
+function handleShift() {
+  let currentLayout = keyboard.options.layoutName;
+  let shiftToggle = currentLayout === "default" ? "shift" : "default";
+
+  keyboard.setOptions({
+    layoutName: shiftToggle
+  });
+}
+
+function handleNumbers() {
+  let currentLayout = keyboard.options.layoutName;
+  let numbersToggle = currentLayout !== "numbers" ? "numbers" : "default";
+
+  keyboard.setOptions({
+    layoutName: numbersToggle
+  });
+}
+
 function onChange(input) {
   document.querySelector(".input").value = input;
   console.log("Input changed", input);
@@ -47,6 +65,9 @@ function onChange(input) {
 
 function onKeyPress(button) {
   console.log("Button pressed", button);
+  if (button === "{shift}" || button === "{lock}") handleShift();
+  if (button === "{numbers}" || button === "{abc}") handleNumbers();
+
   if(button == "{ent}"){
     console.log("Enter Pressed.");
     toggleKeyboard();

@@ -33,12 +33,8 @@
 }
 
 #babbal-info {
-    /* height: 265px; */
     height: 0%;
     width: 100%;
-    /* overflow: hidden; */
-    /* background: pink; */
-    /* padding-top: 350px; */
     opacity: 0;
     float: left;
 }
