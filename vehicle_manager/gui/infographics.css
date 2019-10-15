@@ -143,6 +143,23 @@
       margin-left: 68%;
     }
   }
+  @keyframes deactivate-trip-bg {
+    0% {
+      width: 100%;
+    }
+    100%{
+      width: 0%;
+    }
+  }
+
+  @keyframes deactivate-trip-switch {
+    0% {
+      margin-left: 68%;
+    }
+    100%{
+      margin-left: 4%;
+    }
+  }
 
   #total-distance-gauge {
       margin-top: 0;

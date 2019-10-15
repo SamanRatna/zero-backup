@@ -21,13 +21,12 @@
 }
 
 #time-notification {
-    /* background: pink; */
     height: 100%;
     padding: 0px;
     width: 13%;
     float: right;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 6ex;
+    font-size: 3rem;
     color: white;
     /* margin-right: 2px; */
     /* margin-bottom: 8px; */

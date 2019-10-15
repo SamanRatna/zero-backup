@@ -31,8 +31,8 @@ function toggleTrip(trip){
             trip_a = "on";
         }
         else if(trip_a == "on"){
-            trip_a_bg.style.animation = "activate-trip-bg 0.2s 1 ease-in reverse forwards";
-            trip_a_switch.style.animation = "activate-trip-switch 0.2s 1 ease-in reverse forwards";
+            trip_a_bg.style.animation = "deactivate-trip-bg 0.2s 1 ease-in normal forwards";
+            trip_a_switch.style.animation = "deactivate-trip-switch 0.2s 1 ease-in normal forwards";
             trip_a = "off";
         }
     }
@@ -43,13 +43,19 @@ function toggleTrip(trip){
             trip_b="on";
         }
         else if(trip_b == "on"){
-            trip_b_bg.style.animation = "activate-trip-bg 0.2s 1 ease-out reverse forwards";
-            trip_b_switch.style.animation = "activate-trip-switch 0.2s 1 ease-out reverse forwards";
+            trip_b_bg.style.animation = "deactivate-trip-bg 0.2s 1 ease-out normal forwards";
+            trip_b_switch.style.animation = "deactivate-trip-switch 0.2s 1 ease-out normal forwards";
             trip_b = "off";
         }
     }
 }
 
+var tripsCard = document.getElementById("infocard-trips");
+tripsCard.addEventListener("long-press", function(){
+    //open trip reset modal
+    console.log("Reset Trips");
+    openTripResetModal();
+});
 var batteryTemp = 25;
 var tempValue = document.getElementById('battery-temp');
 var thermoLevel = document.getElementById('thermometer-level');

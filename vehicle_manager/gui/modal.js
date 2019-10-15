@@ -1,23 +1,41 @@
-// Get the modal
-var modal = document.getElementById('myModal');
-
+var modal;
+// Get the socModal
+var socModal = document.getElementById('socModal');
+var tripResetModal = document.getElementById("tripResetModal");
 // Get the main container and the body
 var body = document.getElementsByTagName('body');
 var container = document.getElementById('no-babbal');
 
-// Get the open button
-var btnOpen = document.getElementById("status-range");
+// Open button for SOC/Range
+var socOpen = document.getElementById("status-range");
+
+// Open button for trip reset
+var tripResetOpen = document.getElementById("infocard-trips");
 
 // Get the close button
 var btnClose = document.getElementById("closeModal");
 
-// Open the modal
-btnOpen.onclick = function() {
-    modal.className = "Modal is-visuallyHidden";
+// Open the SOC modal
+socOpen.onclick = function() {
+    modal=socModal;
+    socModal.className = "Modal is-visuallyHidden";
     setTimeout(function() {
     //   container.className = "MainContainer is-blurred";
     container.classList.add("is-blurred");
-      modal.className = "Modal";
+      socModal.className = "Modal";
+    }, 100);
+    container.parentElement.className = "ModalOpen";
+}
+
+// Open the reset trip modal
+// tripResetOpen.onclick = function() {
+function openTripResetModal(){
+    modal = tripResetModal;
+    tripResetModal.className = "Modal is-visuallyHidden";
+    setTimeout(function() {
+    //   container.className = "MainContainer is-blurred";
+    container.classList.add("is-blurred");
+      tripResetModal.className = "Modal";
     }, 100);
     container.parentElement.className = "ModalOpen";
 }

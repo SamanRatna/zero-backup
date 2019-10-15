@@ -79,21 +79,67 @@
     background: rgb(240, 240, 240);
     padding-top: 5%;
   }
-  #modal-suste{
+  #modal-trip-select{
+    height: 75%;
+    width: 100%;
+    background: white;
+    /* border-radius: 0px 0px 50px 50px; */
+    background: rgb(240, 240, 240);
+  }
+  .modal-range{
     height: 33%;
     width: 100%;
-    /* border-radius: 50px; */
+  }
+  /* #modal-suste{
+    height: 33%;
+    width: 100%;
   }
   #modal-thikka{
     height: 33%;
     width: 100%;
-    /* border-radius: 50px; */
   }
   #modal-babbal{
     height: 33%;
     width: 100%;
-    /* border-radius: 50px; */
+  } */
+  .modal-trips {
+    height: 30%;
+    width: 100%;
+    padding-left: 20%;
+    padding-top: 4%;
   }
+  .modal-trip-divider {
+    height: 1%;
+    background: white;
+    width: 80%;
+    margin-left: 12.5%;
+    border-radius: 50%;
+  }
+  /* #modal-trip-b{
+    border-bottom-style: solid;
+    border-top-style: solid;
+    border-bottom-color: white;
+    border-top-color: white;
+    border-bottom-width: 20px;
+    border-top-width: 20px;
+  } */
+  /* #modal-trip-a{
+    height: 33%;
+    width: 100%;
+    padding-left: 20%;
+  }
+  #modal-trip-b{
+    height: 33%;
+    width: 100%;
+    padding-left: 20%;
+    border-bottom-style: solid;
+    border-top-style: solid;
+  }
+  #modal-trips{
+    height: 33%;
+    width: 100%;
+    padding-left: 20%;
+  } */
   .modal-range-icon{
     height: 100%;
     width: 20%;

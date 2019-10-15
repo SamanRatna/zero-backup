@@ -92,7 +92,7 @@
                                 <div class="info-title">Total Distance</div>
                             </div>
                             <!-- Trips -->
-                            <div class="infocard infocard-left" style="padding-top: 5%;">
+                            <div class="infocard infocard-left" id="infocard-trips" style="padding-top: 5%;" data-long-press-delay="200">
                                 <div class="trips" id="trip-a">
                                     <div class="trip-id">A: </div>
                                     <div class="trip-button" id="trip-a-button" onclick="toggleTrip('a')">
@@ -250,7 +250,8 @@
         </div>
     </div>
  -->
-    <div id="myModal" class="Modal is-hidden is-visuallyHidden">
+ <!-- SOC and Range Popup/Modal -->
+    <div id="socModal" class="Modal is-hidden is-visuallyHidden">
         <!-- Modal content -->
         <div class="Modal-content">
             <span id="closeModal" class="Close">&times;</span>
@@ -264,7 +265,7 @@
                         <div class="modal-range-unit">%</div>
                 </div>
                 <div id="modal-mode">
-                    <div id="modal-suste">
+                    <div class="modal-range" id="modal-suste">
                         <div class="modal-range-icon">
                             <img src="files/images/roller.svg" style="max-height: 120px;"/>
                         </div>
@@ -272,7 +273,7 @@
                         <div class="modal-range-value">60</div>
                         <div class="modal-range-unit">km</div>
                     </div>
-                    <div id="modal-thikka">
+                    <div class="modal-range" id="modal-thikka">
                         <div class="modal-range-icon">
                             <img src="files/images/motorcycle.svg" style="max-height: 120px;"/>
                         </div>
@@ -280,7 +281,7 @@
                         <div class="modal-range-value">50</div>
                         <div class="modal-range-unit">km</div>
                     </div>
-                    <div id="modal-babbal">
+                    <div class="modal-range" id="modal-babbal">
                         <div class="modal-range-icon">
                             <img src="files/images/speed.svg" style="max-height: 110px;"/>
                         </div>
@@ -292,6 +293,29 @@
             </div>
         </div>
       </div>
+
+<!-- Trip Reset Popup/Modal -->
+<div id="tripResetModal" class="Modal is-hidden is-visuallyHidden">
+    <!-- Modal content -->
+    <div class="Modal-content">
+        <span id="closeModal" class="Close">&times;</span>
+        <div id="modal-range">
+            <div id="modal-battery">
+                    <div class="modal-range-icon">
+                            <img src="files/images/reset.svg" style="max-height: 120px;"/>
+                    </div>
+                    Reset Trips ?
+            </div>
+            <div id="modal-trip-select">
+                <div class="modal-trips" id="modal-trip-a" onclick="resetTrip('a')">Trip A</div>
+                <div class="modal-trip-divider"></div>
+                <div class="modal-trips" id="modal-trip-b" onclick="resetTrip('b')">Trip B</div>
+                <div class="modal-trip-divider"></div>
+                <div class="modal-trips" id="modal-both-trips" onclick="resetTrip()">Both Trips</div>
+            </div>
+        </div>
+    </div>
+  </div>
 <!-----------------------Babbal Mode Slide ----------------------------------->
 
         <div class="mySlides" style="width:480px; height:700px; padding:0px; margin:0px;background-color:rgb(43, 43, 43); overflow: hidden;">
@@ -346,6 +370,7 @@
     <script src="infographics.js"></script>
     <script src="modal.js"></script>
     <script src="bootstrap.bundle.min.js"></script>
+    <script src="long-press-event.min.js"></script>
     <script>
         if(internet == "on"){
             var map;
