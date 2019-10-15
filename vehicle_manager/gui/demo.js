@@ -102,9 +102,9 @@ var dRange = 20;
 function rangeDemo(){
     dRange = Math.floor((Math.random()*100)+1);
     document.getElementById("range-value").innerHTML= dRange;
-    document.getElementById("pop-range-suste").innerHTML = (dRange * 0.8).toFixed(0);
-    document.getElementById("pop-range-thikka").innerHTML = (dRange * 1.2).toFixed(0);
-    document.getElementById("pop-range-babbal").innerHTML = (dRange * 0.6).toFixed(0);
+    // document.getElementById("pop-range-suste").innerHTML = (dRange * 0.8).toFixed(0);
+    // document.getElementById("pop-range-thikka").innerHTML = (dRange * 1.2).toFixed(0);
+    // document.getElementById("pop-range-babbal").innerHTML = (dRange * 0.6).toFixed(0);
 }
 
 setInterval(function(){   

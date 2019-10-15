@@ -26,10 +26,10 @@ let myKeyboard = new Keyboard({
     "{escape}": "esc ⎋",
     "{tab}": "tab ⇥",
     // "{backspace}": "⌫",
-    "{backspace}": "BKP",
+    "{backspace}": "del",
     "{capslock}": "caps lock ⇪",
     // "{shift}": "⇧",
-    "{shift}": "^",
+    "{shift}": "shift",
     "{controlleft}": "ctrl ⌃",
     "{controlright}": "ctrl ⌃",
     "{altleft}": "alt ⌥",
@@ -41,19 +41,19 @@ let myKeyboard = new Keyboard({
 });
 
 function handleShift() {
-  let currentLayout = keyboard.options.layoutName;
+  let currentLayout = myKeyboard.options.layoutName;
   let shiftToggle = currentLayout === "default" ? "shift" : "default";
 
-  keyboard.setOptions({
+  myKeyboard.setOptions({
     layoutName: shiftToggle
   });
 }
 
 function handleNumbers() {
-  let currentLayout = keyboard.options.layoutName;
+  let currentLayout = myKeyboard.options.layoutName;
   let numbersToggle = currentLayout !== "numbers" ? "numbers" : "default";
 
-  keyboard.setOptions({
+  myKeyboard.setOptions({
     layoutName: numbersToggle
   });
 }

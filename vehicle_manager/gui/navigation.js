@@ -17,13 +17,33 @@ myLogoContainer = document.getElementById("yatri-logo-2");
 myLogo = document.getElementById("yatri-logo-1");
 myStatusRange = document.getElementById('status-range');
 myRangeUnit = document.getElementById('range-unit');
-
+mySlideIndicator = document.getElementById('slide-indicator-shell');
+myTopSpeedColumn = document.getElementById('status-top-speed');
 function shrinkRange(){
     // myStatusRange.style.animation = "shrinking-status-range-width 0.2s 1 ease-out normal forwards";
     myRange.style.animation = "shrinking-range-value-font 0.2s 1 ease-out normal forwards";
     myRangeUnit.style.animation = "shrinking-range-unit-margin 0.2s 1 ease-out normal forwards";
 }
 
+function enlargeRange() {
+        // myStatusRange.style.animation = "shrinking-status-range-width 0.2s 1 ease-out normal forwards";
+        myRange.style.animation = "shrinking-range-value-font 0.2s 1 ease-in reverse forwards";
+        myRangeUnit.style.animation = "shrinking-range-unit-margin 0.2s 1 ease-in reverse forwards";
+}
+
+let socState = "soc";
+function toggleSOC(){
+    if(socState == "soc"){
+        myRangeUnit.innerHTML="&nbsp;km";
+        socState = "range";
+    }
+    else if(socState == "range"){
+        myRangeUnit.innerHTML="&nbsp;%";
+        socState = "soc"
+    }
+}
+
+// Function to toggle the keyboard on and off //
 function toggleKeyboard(){
     if(bikeMode == "babbal"){
         return;
@@ -34,9 +54,7 @@ function toggleKeyboard(){
         console.log("Opening Keyboard");
         if(myKeyboard != null){
             keyboard = 'open';
-            // if(pos == 0){
-            //     slideLeft();
-            // }
+            gotoThikkaSlide();
             if(bikeMode == "standby"){
                 myStatus.style.animation ="vanishingStatusInStandby 0.5s 1 ease-out forwards";
             }
@@ -61,7 +79,7 @@ function toggleKeyboard(){
                 document.getElementById("status-2").style.animation = "appearingStatusPadding 0.5s 1 ease-out forwards";
             }
             else if(bikeMode == "standby"){
-                myStatus.style.animation ="appearingStatusInStandby 0.5s 1 ease-out forwards";
+                myStatus.style.animation ="appearingStatusInStandby 0.5s 1 ease-out normal forwards";
             }
             if(greeter == "off" && bikeMode=="standby"){
                 myGreeter.style.animation = "appearingGreeter 0.5s 1 ease-out normal forwards";
@@ -86,6 +104,8 @@ function setMode(mode){
     if(mode=="standby"){
         if(bikeMode=="thikka"){
             // myRange.style.animation = "rangeEnlarge 0.5s 1 ease-out normal forwards";
+            enlargeRange();
+            toggleSOC();
             mySpeed.style.animation = "vanishingExtraStatus 0.5s 1 ease-out normal forwards";
             myPower.style.animation = "vanishingExtraStatus 0.5s 1 ease-out normal forwards";
             if(keyboard == "closed"){
@@ -115,9 +135,7 @@ function setMode(mode){
     // Go to THIKKA mode
     else if(mode=="thikka"){
         if(bikeMode=="standby"){
-            // if(pos == 0){
-            //     slideLeft();
-            // }
+            gotoThikkaSlide();
 
             if(greeter == "on"){
                 myGreeter.style.animation = "vanishingGreeter 0.5s 1 ease-out normal forwards";
@@ -137,6 +155,7 @@ function setMode(mode){
             myPower.style.animation = "appearingExtraStatus 1.5s 1 ease-out normal forwards";
             // myRange.style.animation = "rangeSqueeze 0.5s 1 ease-out normal forwards";
             shrinkRange();
+            toggleSOC();
         }
         else if(bikeMode == "babbal"){
             babbalToThikka();
@@ -153,6 +172,13 @@ function setMode(mode){
         if(bikeMode == "thikka"){
                 thikkaToBabbal();
         }
+    }
+
+    if(bikeMode != "standby"){
+        mySlideIndicator.style.opacity = "0";
+    }
+    else{
+        mySlideIndicator.style.opacity = "1";
     }
 }
 
@@ -177,17 +203,17 @@ function modifyBabbalStatusForStandby() {
 }
 // setMode("babbal");
 
-function standbyToBabbal(){
-    myMap.style.animation = "vanishingMap 0.5s 1 ease-out normal forwards";
-    myHeartbeat.style.animation = "appearingHeartbeat 0.5s 1 ease-out normal forwards"
-    myGreeter.style.animation = "vanishingGreeter 0.5s 1 ease-out normal forwards";
-    myStatus.style.animation = "appearingIndicators 0.5s 1 ease-out normal forwards"
-    myBabbalInfo.style.animation = "appearingBabbalInfo 0.5s 1 ease-out normal forwards";
-    myLogoContainer.style.animation = "expandingLogo 0.5s 1 ease-out normal forwards";
-    myLogo.style.animation = "expandingLogoActual 0.5s 1 ease-out normal forwards";
-    greeter = "off";
-    bikeMode="babbal"
-}
+// function standbyToBabbal(){
+//     myMap.style.animation = "vanishingMap 0.5s 1 ease-out normal forwards";
+//     myHeartbeat.style.animation = "appearingHeartbeat 0.5s 1 ease-out normal forwards"
+//     myGreeter.style.animation = "vanishingGreeter 0.5s 1 ease-out normal forwards";
+//     myStatus.style.animation = "appearingIndicators 0.5s 1 ease-out normal forwards"
+//     myBabbalInfo.style.animation = "appearingBabbalInfo 0.5s 1 ease-out normal forwards";
+//     myLogoContainer.style.animation = "expandingLogo 0.5s 1 ease-out normal forwards";
+//     myLogo.style.animation = "expandingLogoActual 0.5s 1 ease-out normal forwards";
+//     greeter = "off";
+//     bikeMode="babbal"
+// }
 
 function thikkaToBabbal(){
     if(keyboard == "open"){
@@ -195,19 +221,27 @@ function thikkaToBabbal(){
     }
     myMap.style.animation = "vanishingMap 0.5s 1 ease-out normal forwards";
     myHeartbeat.style.animation = "appearingHeartbeat 0.5s 1 ease-out normal forwards"
-    myBabbalInfo.style.animation = "appearingBabbalInfo 0.5s 1 ease-out normal forwards";
-    document.getElementById("info").style.animation = "vanishingInfo 0.5s 1 ease-out normal forwards";
-    myLogo.style.animation = "expandingLogoActual 0.5s 1 ease-out normal forwards"
+    // myBabbalInfo.style.animation = "appearingBabbalInfo 0.5s 1 ease-out normal forwards";
+    // document.getElementById("info").style.animation = "vanishingInfo 0.5s 1 ease-out normal forwards";
+    // myLogoContainer.style.animation = "expandingLogo 0.5s 1 ease-out normal forwards";
+    // myLogo.style.animation = "expandingLogoActual 0.5s 1 ease-out normal forwards"
+    mySpeed.style.animation = "vanishingSpeedStatus 0.5s 1 ease-out normal forwards";
+    myPower.style.animation = "vanishingPowerStatus 0.5s 1 ease-out normal forwards";
+    myTopSpeedColumn.style.animation = "appearingTopSpeed 0.5s 1 ease-out normal forwards"
     bikeMode="babbal"
 }
 
 function babbalToThikka(){
     myMap.style.animation = "appearingMap 0.5s 1 ease-out normal forwards";
     myHeartbeat.style.animation = "vanishingHeartbeat 0.5s 1 ease-out normal forwards";
-    myBabbalInfo.style.animation = "vanishingBabbalInfo 0.5s 1 ease-out normal forwards";
-    document.getElementById("info").style.animation = "appearingInfo 0.5s 1 ease-out normal forwards";
-    myLogo.style.animation = "shrinkingLogoActual 0.5s 1 ease-in normal forwards";
+    // myBabbalInfo.style.animation = "vanishingBabbalInfo 0.5s 1 ease-out normal forwards";
+    // document.getElementById("info").style.animation = "appearingInfo 0.5s 1 ease-out normal forwards";
+    // myLogoContainer.style.animation = "shrinkingLogo 0.5s 1 ease-out normal forwards";
+    // myLogo.style.animation = "shrinkingLogoActual 0.5s 1 ease-in normal forwards";
     // myStatus.style.animation = "appearingIndicators 0.5s 1 ease-out normal forwards";
+    mySpeed.style.animation = "appearingSpeedStatus 0.5s 1 ease-out normal forwards";
+    myPower.style.animation = "appearingPowerStatus 0.5s 1 ease-out normal forwards";
+    myTopSpeedColumn.style.animation = "vanishingTopSpeed 0.5s 1 ease-out normal forwards"
     bikeMode="thikka";
 }
 

@@ -53,7 +53,7 @@
 body {    
     margin: 0 !important;
 	padding: 0 !important;
-	width: 480px;
+	width: 1200px;
 	background: white !important;
 	color: black !important;
 
@@ -575,20 +575,18 @@ now - topBar
 }
 
 
-
-.logo{
+#yatri-logo-1{
 	background: white;
 	width: 30%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top:	8%;
+	margin-top:	5%;
 	/* padding-bottom:	64px; */
 	vertical-align: middle;
 }
 
-.yatri-logo {
-	height: 13%;
-	/* line-height: 80%; */
+#yatri-logo-2 {
+	height: 10%;
 	text-align: center;
 	display: block;
 	overflow:hidden;
@@ -639,6 +637,10 @@ now - page2
 	height: 100%;
 }
 #info {
+	height: 170px;
+}
+#indicator{
+	margin-top: 4%;
 	height: 170px;
 }
 #mode {
@@ -722,7 +724,6 @@ now - page2
 
 }
 
-
 .beam{
 	height: 120px;
 	position:relative;
@@ -733,7 +734,6 @@ now - page2
 
 	
 }
-
 
 .modeMain{
 	height: 25px;
@@ -752,7 +752,7 @@ now - page2
 
 .second-column{
 	height: 100%;
-	width: 34%;
+	width: 33%;
 	float: left;
 	position: relative;
 }
@@ -783,7 +783,31 @@ now - page2
 	font-size: 50px;
 	color: rgb(131, 131, 131);
 }
-
+#status-top-speed {
+	height: 100%;
+	width: 0%;
+	float:left;
+	overflow: hidden;
+	background: rgb(247, 247, 247);
+	border-radius: 80px;
+	z-index: 3;
+}
+#top-title {
+	width: 46%;
+	font-size: 50px;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	float: left;
+	padding-top: 7%;
+	text-align: right;
+}
+#top-value {
+	width: 28%;
+	float:left;
+}
+#top-unit {
+	width: 24%;
+	float:left;
+}
 
 #status-speed {
 	opacity: 0;
@@ -792,3 +816,93 @@ now - page2
 #status-power {
 	opacity: 0;
 }
+
+#slide-indicator-shell {
+	height: 2%;
+	width: 100%;
+
+}
+
+#slide-indicator {
+	margin-top: 2%;
+	height: 80%;
+	width: 40%;
+	margin-left: 35%;
+}
+.slide-button {
+	height: 50%;
+	width: 25%;
+	margin: 1%;
+	background: rgb(240, 240, 240);
+	float: left;
+	border-radius: 20px;
+}
+
+@keyframes appearingTopSpeed {
+	0% {
+	  width: 0%;
+	  opacity: 0;
+	}
+	99%{
+		opacity: 0;
+	}
+	100% {
+	  width: 60%;
+	  opacity:1;
+	}
+  }
+  @keyframes vanishingSpeedStatus {
+	0% {
+	  width: 33%;
+	  opacity: 1;
+	}
+	100% {
+	  width: 0%;
+	  opacity: 0;
+	}
+  }
+  @keyframes vanishingPowerStatus {
+	0% {
+	  width: 33%;
+	  opacity: 1;
+	}
+	100% {
+	  width: 0%;
+	  opacity: 0;
+	}
+  }
+
+  @keyframes vanishingTopSpeed {
+	0% {
+	  width: 60%;
+	  opacity: 0.1;
+	}
+	100% {
+	  width: 0%;
+	  opacity: 0;
+	}
+  }
+  @keyframes appearingSpeedStatus {
+	0% {
+	  width: 0%;
+	}
+	80% {
+		opacity: 0.1;
+	}
+	100% {
+	  width: 33%;
+	  opacity: 1;
+	}
+  }
+  @keyframes appearingPowerStatus {
+	0% {
+	  width: 0%;
+	}
+	80% {
+		opacity: 0.1;
+	}
+	100% {
+	  width: 33%;
+	  opacity: 1;
+	}
+  }

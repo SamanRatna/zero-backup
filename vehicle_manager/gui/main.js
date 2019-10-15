@@ -68,7 +68,8 @@ now - SLider
 //current position.
 var pos = 0;
 //number of slides
-var totalSlides = $('#slider-wrap ul li').length;
+// var totalSlides = $('#slider-wrap ul li').length;
+var totalSlides=3;
 //get the slide width
 var sliderWidth = $('#slider-wrap').width();
 
@@ -129,12 +130,34 @@ $(document).ready(function () {
 
 
 });//DOCUMENT READY
-
-
+slideButtonOne = document.getElementById("slide-1");
+slideButtonTwo = document.getElementById("slide-2");
+slideButtonThree = document.getElementById("slide-3");
+function sliderUpdate(slide){
+    if(slide==0){
+        slideButtonOne.style.background = "rgb(200, 200, 200)";
+        slideButtonTwo.style.background = "rgb(240, 240, 240)";
+        slideButtonThree.style.background = "rgb(240, 240, 240)";
+    }
+    else if(slide == 1){
+        slideButtonOne.style.background = "rgb(240, 240, 240)";
+        slideButtonTwo.style.background = "rgb(200, 200, 200)";
+        slideButtonThree.style.background = "rgb(240, 240, 240)";
+    }
+    else if(slide==2){
+        slideButtonOne.style.background = "rgb(240, 240, 240)";
+        slideButtonTwo.style.background = "rgb(240, 240, 240)";
+        slideButtonThree.style.background = "rgb(200, 200, 200)";
+    }
+}
+sliderUpdate(0);
 /***********
  SLIDE LEFT
 ************/
 function slideLeft() {
+    if(bikeMode != "standby"){
+        return;
+    }
     pos--;
     if (pos == -1) { pos = totalSlides - 1; }
     $('#slider-wrap ul#slider').css('left', -(sliderWidth * pos));
@@ -142,6 +165,7 @@ function slideLeft() {
     //*> optional
     countSlides();
     pagination();
+    sliderUpdate(pos);
 }
 
 
@@ -149,6 +173,9 @@ function slideLeft() {
  SLIDE RIGHT
 *************/
 function slideRight() {
+    if(bikeMode != "standby"){
+        return;
+    }
     pos++;
     if (pos == totalSlides) { pos = 0; }
     $('#slider-wrap ul#slider').css('left', -(sliderWidth * pos));
@@ -156,9 +183,20 @@ function slideRight() {
     //*> optional 
     countSlides();
     pagination();
+    sliderUpdate(pos);
 }
 
-
+function gotoThikkaSlide(){
+    if(pos == 0){
+        slideRight();
+    }
+    else if(pos==1){
+        return;
+    }
+    else if(pos==2){
+        slideLeft();
+    }
+}
 
 
 /************************
