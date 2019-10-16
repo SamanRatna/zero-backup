@@ -3,6 +3,8 @@ var rightTurnStatus = 0;
 var modeValue = 3;
 var highBeamStatus = 0;
 var speed = 0;
+var tripDistanceA = 0;
+var tripDistanceB = 0;
 
 function sliderButtonVisibility(visibility){
     if(visibility == "on"){
@@ -154,4 +156,10 @@ function updateRightTurnStatus(arg) {
 // eel.expose(updateHighBeamStatus);
 function updateHighBeamStatus(arg) {
     highBeamValue = arg;
+}
+
+//eel.expose(updateTripDistance);
+function updateTripDistance(argA, argB) {
+    tripDistanceA = argA;
+    tripDistanceB = argB;
 }

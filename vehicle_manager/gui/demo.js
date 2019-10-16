@@ -1,7 +1,9 @@
+// Babbal Speed Value in Babbal Slide
 setInterval( function(){
     document.getElementById('babbal-speed-value').innerHTML = Math.floor((Math.random() * 100) + 1);
 }, 250)
 
+//Speed Generator Function
 var dMode = 0;
 function speedGenerator(){
     if(dMode == 0){
@@ -18,6 +20,7 @@ function speedGenerator(){
     }
 }
 
+// Total Distance Demo
 var dTotalDistance= 0;
 function totalDistanceDemo(){
     if(dTotalDistance < 599){
@@ -29,6 +32,7 @@ function totalDistanceDemo(){
     setTotalDistance(dTotalDistance);
 }
 
+// Battery Demo
 var dBatteryTemp=15;
 var dBatteryMode = 0;
 function batteryTempDemo(){
@@ -53,6 +57,7 @@ function batteryTempDemo(){
     setBatteryTemp(dBatteryTemp);
 }
 
+// Trip Distance Toggle Demo
 var dTripMode = 0;
 function tripDemo(){
     if(dTripMode == 0){
@@ -74,6 +79,11 @@ function tripDemo(){
     }
 }
 
+// Trip Distance Demo
+function tripDistanceDemo(){
+    
+}
+// Average Speed Demo
 var dAvSpeedMode = 0;
 var dAvSpeed = 0;
 function avSpeedDemo(){
@@ -98,6 +108,7 @@ function avSpeedDemo(){
     setAverageSpeed(dAvSpeed);
 }
 
+// Range Value Demo
 var dRange = 20;
 function rangeDemo(){
     dRange = Math.floor((Math.random()*100)+1);

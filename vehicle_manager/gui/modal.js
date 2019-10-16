@@ -25,6 +25,7 @@ socOpen.onclick = function() {
       socModal.className = "Modal";
     }, 100);
     container.parentElement.className = "ModalOpen";
+    
 }
 
 // Open the reset trip modal
@@ -56,4 +57,11 @@ window.onclick = function(event) {
         container.classList.remove("is-blurred");
         // container.parentElement.className = "";
     }
+}
+
+function closeModal() {
+    modal.className = "Modal is-hidden is-visuallyHidden";
+    body.className = "";
+    container.classList.remove("is-blurred");
+    // container.parentElement.className = "";
 }

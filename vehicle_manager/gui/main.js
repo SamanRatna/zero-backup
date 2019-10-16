@@ -585,16 +585,12 @@ var leftTurn;
 var rightTurn;
 
 
-// $(function () {
-//     $('[data-toggle="popover"]').popover()
-//   })
-
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover({ 
-      html : true,
-    //   title: "Range (in km)",
-      content: function() {
-        return $('#popover_content_wrapper').html();
-      }
-    });
-  });
+// $(document).ready(function(){
+//     $('[data-toggle="popover"]').popover({ 
+//       html : true,
+//     //   title: "Range (in km)",
+//       content: function() {
+//         return $('#popover_content_wrapper').html();
+//       }
+//     });
+//   });

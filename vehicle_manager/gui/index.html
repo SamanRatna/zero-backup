@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="notification.css">
     <link rel="stylesheet" type="text/css" href="status.css">
     <link rel="stylesheet" type="text/css" href="modal.css">
+    <link rel="stylesheet" type="text/css" href="success.css">
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css"> -->
     <link rel="stylesheet" type="text/css" href="simple-keyboard.css">
@@ -51,7 +52,6 @@
         <div id="slide">
             <div class="active" id="slider-wrap">
                 <ul id="slider">
-                    
                     <!-- Yatri GIF-->
                     <li data-color="#ffffff">
                         <div style="overflow:hidden;">
@@ -92,7 +92,7 @@
                                 <div class="info-title">Total Distance</div>
                             </div>
                             <!-- Trips -->
-                            <div class="infocard infocard-left" id="infocard-trips" style="padding-top: 5%;" data-long-press-delay="200">
+                            <div class="infocard infocard-left" id="infocard-trips" style="padding-top: 5%;">
                                 <div class="trips" id="trip-a">
                                     <div class="trip-id">A: </div>
                                     <div class="trip-button" id="trip-a-button" onclick="toggleTrip('a')">
@@ -299,7 +299,7 @@
     <!-- Modal content -->
     <div class="Modal-content">
         <span id="closeModal" class="Close">&times;</span>
-        <div id="modal-range">
+        <div id="modal-trips">
             <div id="modal-battery">
                     <div class="modal-range-icon">
                             <img src="files/images/reset.svg" style="max-height: 120px;"/>
@@ -307,13 +307,60 @@
                     Reset Trips ?
             </div>
             <div id="modal-trip-select">
-                <div class="modal-trips" id="modal-trip-a" onclick="resetTrip('a')">Trip A</div>
-                <div class="modal-trip-divider"></div>
-                <div class="modal-trips" id="modal-trip-b" onclick="resetTrip('b')">Trip B</div>
-                <div class="modal-trip-divider"></div>
-                <div class="modal-trips" id="modal-both-trips" onclick="resetTrip()">Both Trips</div>
+                <div class="trip-reset-success">
+                        <svg class="icon-check" id="trip-a-reset-success" height="120" width="200"viewBox="0 0 225 225" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+                                <g transform="matrix(1,0,0,1,-178.667,-170.667)">
+                                    <g class="check" transform="matrix(1,0,0,1,176,113)">
+                                        <path d="M65,166L101,202L165,138" style="fill:none;stroke:#444444;stroke-width:13px;" />
+                                    </g>
+                                    <circle class="circle" cx="291" cy="283" r="104" style="fill:none;stroke:#444444;stroke-width:13px;" />
+                                </g>
+                            </svg>
+                </div>
+                <div class="modal-trips" id="modal-trip-a" onclick="resetTrip('a')">
+                        <div class="modal-selection-hlight">Trip A</div>
+                    </div>
+                <!-- <div class="modal-trip-divider"></div> -->
+                <div class="trip-reset-success">
+                    <svg class="icon-check" id="trip-b-reset-success" height="120" width="200"viewBox="0 0 225 225" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+                        <g transform="matrix(1,0,0,1,-178.667,-170.667)">
+                            <g class="check" transform="matrix(1,0,0,1,176,113)">
+                                <path d="M65,166L101,202L165,138" style="fill:none;stroke:#444444;stroke-width:13px;" />
+                            </g>
+                            <circle class="circle" cx="291" cy="283" r="104" style="fill:none;stroke:#444444;stroke-width:13px;" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="modal-trips" id="modal-trip-b" onclick="resetTrip('b')">
+                    <div class="modal-selection-hlight">Trip B</div>
+                </div>
+                <!-- <div class="modal-trip-divider"></div> -->
+                <div class="trip-reset-success">
+                        <svg class="icon-check"  id="trip-both-reset-success" height="120" width="200"viewBox="0 0 225 225" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+                                <g transform="matrix(1,0,0,1,-178.667,-170.667)">
+                                    <g class="check" transform="matrix(1,0,0,1,176,113)">
+                                        <path d="M65,166L101,202L165,138" style="fill:none;stroke:#444444;stroke-width:13px;" />
+                                    </g>
+                                    <circle class="circle" cx="291" cy="283" r="104" style="fill:none;stroke:#444444;stroke-width:13px;" />
+                                </g>
+                            </svg>
+                </div>
+                <div class="modal-trips" id="modal-both-trips" onclick="resetTrip()">
+                        <div class="modal-selection-hlight">Both Trips</div>
+                    </div>
             </div>
         </div>
+        <div id="modal-trip-reset-success">
+                <!-- <img src="files/images/success.svg" width="80%" stroke-dasharray="0, 25200"/> -->
+                <svg id="icon-check" height="300" width="700"viewBox="0 0 225 225" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+                    <g transform="matrix(1,0,0,1,-178.667,-170.667)">
+                        <g class="check" transform="matrix(1,0,0,1,176,113)">
+                            <path d="M65,166L101,202L165,138" style="fill:none;stroke:#444444;stroke-width:13px;" />
+                        </g>
+                        <circle class="circle" cx="291" cy="283" r="104" style="fill:none;stroke:#444444;stroke-width:13px;" />
+                    </g>
+                </svg>
+            </div>
     </div>
   </div>
 <!-----------------------Babbal Mode Slide ----------------------------------->
@@ -350,7 +397,16 @@
             </div>
         </div>
     </div>
-<!------------------------------- JavaScripts ------------------------------------ -->
+<!------------------------------- JavaScripts --------------------------------------->
+
+<!-- Third Party JS -->
+<script src="hammer.js"></script>
+<!-- <script src="long-press-event.min.js"></script> -->
+<script> var LONG_TAP_THRESHOLD = 500;</script>
+<script src="Tocca.min.js"></script>
+<script src="simple-keyboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+
     <script src="jquery.min.js"></script>
     <!-- <script src="html5media.min.js"></script> -->
     <!-- <script src="plyr.min.js"></script> -->
@@ -358,19 +414,11 @@
     <!-- <script type="text/javascript" src="/eel.js"></script> -->
     <script src="bikeStatus.js"></script>
     <script src="navigation.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.min.js"></script> -->
-    <script src="simple-keyboard.js"></script>
     <script src="keyboard.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.js"></script>
-    <!-- <script src="canvasjs.min.js"></script> -->
     <script src="speedChart.js"></script>
-    <!-- <script src="tripChart.js"></script> -->
-    <script src="hammer.js"></script>
     <script src="swipe.js"></script>
     <script src="infographics.js"></script>
     <script src="modal.js"></script>
-    <script src="bootstrap.bundle.min.js"></script>
-    <script src="long-press-event.min.js"></script>
     <script>
         if(internet == "on"){
             var map;
@@ -381,12 +429,16 @@
               });
             }
         }
-          </script>
-          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs&callback=initMap"
-          async defer></script>
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs&callback=initMap"
+          async defer>
+    </script>
     <script src="demo.js"></script>
     <!-- <script> updateBikeMode("MODE_THIKKA"); </script> -->
     <!-- <script> updateBikeMode("MODE_BABBAL"); </script> -->
+    <script src="bootstrap.bundle.min.js"></script>
+    <script>openTripResetModal();</script>
+
 </body>
 
 </html>

@@ -47,7 +47,18 @@
     filter: blur(100px);
     -webkit-filter: blur(30px);
   }
-
+  #modal-trips{
+    height: 100%;
+    width: 100%;
+    background: rgb(255, 255, 255, 0.5);
+    overflow: hidden;
+    /* padding: 2%; */
+    /* font-family: 'Comfortaa', cursive; */
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 90px;
+    border-radius: 50px;
+    /* font-weight: 500; */
+  }
   #modal-range{
     height: 100%;
     width: 100%;
@@ -69,12 +80,13 @@
     border-radius: 50px 50px 0px 0px;
     background: rgb(240, 240, 240);
     padding-top: 5%;
+    display: block;
   }
 
   #modal-mode{
     height: 75%;
     width: 100%;
-    background: white;
+    /* background: white; */
     /* border-radius: 0px 0px 50px 50px; */
     background: rgb(240, 240, 240);
     padding-top: 5%;
@@ -82,31 +94,54 @@
   #modal-trip-select{
     height: 75%;
     width: 100%;
-    background: white;
+    /* background: white; */
     /* border-radius: 0px 0px 50px 50px; */
     background: rgb(240, 240, 240);
+    display: block;
   }
   .modal-range{
     height: 33%;
     width: 100%;
   }
-  /* #modal-suste{
-    height: 33%;
+  #modal-trip-reset-success{
+    display: none;
+    padding-left: 20%;
+    padding-top: 33%;
+    height: 100%;
     width: 100%;
+    background: rgb(240, 240, 240);
+    overflow: hidden;
+    border-radius: 50px;
   }
-  #modal-thikka{
-    height: 33%;
-    width: 100%;
-  }
-  #modal-babbal{
-    height: 33%;
-    width: 100%;
-  } */
+
   .modal-trips {
     height: 30%;
-    width: 100%;
-    padding-left: 20%;
+    width: 80%;
     padding-top: 4%;
+    float: right;
+    /* background: lime;
+    border-style: solid; */
+  }
+  /* .modal-selection-hlight{
+    height: 80%;
+    width: 100%;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(219,219,219,1) 31%, rgba(246,246,246,1) 100%);
+  } */
+  @keyframes tripSelectionHilight{
+    0%{
+
+    }
+    100%{
+
+    }
+  }
+  .trip-reset-success {
+    height: 30%;
+    width: 20%;
+    float:left;
+    padding-top: 5%;
+    padding-left: 1%;
   }
   .modal-trip-divider {
     height: 1%;
@@ -115,31 +150,7 @@
     margin-left: 12.5%;
     border-radius: 50%;
   }
-  /* #modal-trip-b{
-    border-bottom-style: solid;
-    border-top-style: solid;
-    border-bottom-color: white;
-    border-top-color: white;
-    border-bottom-width: 20px;
-    border-top-width: 20px;
-  } */
-  /* #modal-trip-a{
-    height: 33%;
-    width: 100%;
-    padding-left: 20%;
-  }
-  #modal-trip-b{
-    height: 33%;
-    width: 100%;
-    padding-left: 20%;
-    border-bottom-style: solid;
-    border-top-style: solid;
-  }
-  #modal-trips{
-    height: 33%;
-    width: 100%;
-    padding-left: 20%;
-  } */
+
   .modal-range-icon{
     height: 100%;
     width: 20%;
