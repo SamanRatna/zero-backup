@@ -221,27 +221,20 @@ function thikkaToBabbal(){
     }
     myMap.style.animation = "vanishingMap 0.5s 1 ease-out normal forwards";
     myHeartbeat.style.animation = "appearingHeartbeat 0.5s 1 ease-out normal forwards"
-    // myBabbalInfo.style.animation = "appearingBabbalInfo 0.5s 1 ease-out normal forwards";
-    // document.getElementById("info").style.animation = "vanishingInfo 0.5s 1 ease-out normal forwards";
-    // myLogoContainer.style.animation = "expandingLogo 0.5s 1 ease-out normal forwards";
-    // myLogo.style.animation = "expandingLogoActual 0.5s 1 ease-out normal forwards"
     mySpeed.style.animation = "vanishingSpeedStatus 0.5s 1 ease-out normal forwards";
     myPower.style.animation = "vanishingPowerStatus 0.5s 1 ease-out normal forwards";
-    myTopSpeedColumn.style.animation = "appearingTopSpeed 0.5s 1 ease-out normal forwards"
+    myTopSpeedColumn.style.animation = "appearingTopSpeed 0.5s 1 ease-out normal forwards";
+    // document.getElementById("power-pop").style.animation = "powerPopWidthUp 0.5s 1 ease-out normal forwards";
     bikeMode="babbal"
 }
 
 function babbalToThikka(){
     myMap.style.animation = "appearingMap 0.5s 1 ease-out normal forwards";
     myHeartbeat.style.animation = "vanishingHeartbeat 0.5s 1 ease-out normal forwards";
-    // myBabbalInfo.style.animation = "vanishingBabbalInfo 0.5s 1 ease-out normal forwards";
-    // document.getElementById("info").style.animation = "appearingInfo 0.5s 1 ease-out normal forwards";
-    // myLogoContainer.style.animation = "shrinkingLogo 0.5s 1 ease-out normal forwards";
-    // myLogo.style.animation = "shrinkingLogoActual 0.5s 1 ease-in normal forwards";
-    // myStatus.style.animation = "appearingIndicators 0.5s 1 ease-out normal forwards";
     mySpeed.style.animation = "appearingSpeedStatus 0.5s 1 ease-out normal forwards";
     myPower.style.animation = "appearingPowerStatus 0.5s 1 ease-out normal forwards";
-    myTopSpeedColumn.style.animation = "vanishingTopSpeed 0.5s 1 ease-out normal forwards"
+    myTopSpeedColumn.style.animation = "vanishingTopSpeed 0.5s 1 ease-out normal forwards";
+    // document.getElementById("power-pop").style.animation = "powerPopWidthDown 0.5s 1s 1 ease-out normal forwards";
     bikeMode="thikka";
 }
 

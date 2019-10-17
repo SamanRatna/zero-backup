@@ -45,6 +45,7 @@ var powerChart = new Chart(ctx, {
                     fontStyle: "bold",
                     beginAtZero: true,
                     maxTicksLimit: 5,
+                    max: 35,
                     padding: 20,
                     display: false
                 },
@@ -66,20 +67,11 @@ var powerChart = new Chart(ctx, {
                 }
             }]
         },
-        // tooltips: {
-        //     mode: 'index',
-        //     intersect: false,
-        //     bodyFontSize: 50
-        //   },
-        //  hover: {
-        //     mode: 'nearest',
-        //     intersect: true
-        //   },
     }
 });
 
 function addData(chart, label, data) {
-    if(chart.data.labels.length = 25){
+    if(chart.data.labels.length >= 25){
         chart.data.labels.shift();
         chart.data.labels.push(label);
     }
@@ -91,6 +83,7 @@ function addData(chart, label, data) {
         }
     });
     chart.update();
+    setPowerChartPopup(data);
 }
 
 function removeData(chart) {
@@ -100,3 +93,27 @@ function removeData(chart) {
     });
     chart.update();
 }
+
+let currentPosition = 75;
+function setPowerChartPopup(power){
+    var position = 75 - (power/40*50);
+    gotoPosition(position);
+}
+
+let positionMode = 1;
+function gotoPosition(newPosition){
+    value = newPosition + "%";
+    document.documentElement.style.setProperty('--powerPopTopNew', value);
+    if(positionMode==1){
+        document.getElementById("power-pop").style.animation = "powerPopPosition1 0.3s 1 normal forwards";
+        positionMode=2;
+    }
+    else if(positionMode==2){
+        document.getElementById("power-pop").style.animation = "powerPopPosition2 0.3s 1 normal forwards";
+        positionMode=1;
+    }
+    setTimeout(function(){
+    document.documentElement.style.setProperty('--powerPopTopOld', value);
+    }, 250)
+}
+

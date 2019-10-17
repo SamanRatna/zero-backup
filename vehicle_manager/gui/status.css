@@ -1,6 +1,4 @@
 #range-info {
-    /* position: absolute; */
-    background: lime;
     width: 80%;
     height: 0%;
 }
@@ -9,12 +7,12 @@
     width: 45%;
 } */
 #range-value {
-    font-size: 120px;
+  font-size: 120px;
 }
 
 #range-unit {
-  font-size: 60px;
-    margin-top: 70px;
+  font-size: 50px;
+  margin-top: 75px;
 }
 
 @keyframes shrinking-status-range-width {
@@ -37,22 +35,12 @@
 
   @keyframes shrinking-range-unit-margin {
     0% {
-      margin-top: 55px;;
+      margin-top: 75px;;
     }
     100%{
-      margin-top: 35px;
+      margin-top: 45px;
     }
   }
-
-  .popover-title{
-      color: pink;
-  }
-
-  /* #range-container{
-      height: 70px;
-      width: 300px; */
-      /* background: pink;
-  } */
 
   #range-suste{
       height: 100%;
@@ -62,7 +50,6 @@
       text-align: center;
       font-size:40px;
       font-weight: bold;
-      /* background: lime; */
   }
   #range-thikka{
     height: 100%;
@@ -72,7 +59,6 @@
     font-family: 'Comfortaa', cursive;
     font-size: 40px;
     font-weight: bold;
-    /* background: grey; */
 }
 #range-babbal{
     height: 100%;
@@ -82,7 +68,6 @@
     font-family: 'Comfortaa', cursive;
     font-size: 40px;
     font-weight: bold;
-    /* background: yellow; */
 }
 
 .popover{
@@ -106,9 +91,8 @@
   width: 25%;
   height: 75%;
   position: absolute;
-  top: 30%;
-  left: 74%;
-  /* display: none; */
+  top: 75%;
+  left: 78%;
 }
 
 #power-pop-box {
@@ -122,15 +106,56 @@
 #power-pop-value {
   width: 55%;
   float: left;
-  font-size: 5rem;
+  font-size: 90px;
   text-align: right;
 }
 
 #power-pop-unit {
   width: 45%;
   float: left;
-  font-size: 4rem;
+  font-size: 50px;
   line-height: 2;
-  color: rgb(170, 170, 170);
+  color: rgb(150, 150, 150);
   text-align: left;
+  margin-top: 12%;
+}
+:root{
+  --powerPopTopOld: 25%;
+  --powerPopTopNew: 25%;
+}
+
+@keyframes powerPopPosition1{
+  0%{
+    top: var(--powerPopTopOld);
+  }
+  100%{
+    top: var(--powerPopTopNew);
+  }
+}
+
+@keyframes powerPopPosition2{
+  0%{
+    top: var(--powerPopTopOld);
+  }
+  100%{
+    top: var(--powerPopTopNew);
+  }
+}
+
+@keyframes powerPopWidthUp{
+  0%{
+    width: 0%;
+  }
+  100%{
+    width: 25%;
+  }
+}
+
+@keyframes powerPopWidthDown{
+  0%{
+    width: 25%;
+  }
+  100%{
+    width: 0%;
+  }
 }

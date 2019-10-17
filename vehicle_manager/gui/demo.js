@@ -133,6 +133,7 @@ setInterval(function(){
     // addData(speedChart, "80s", speed);
     // updateSpeed(speed);
     addData(powerChart, "80s", hp);
+    // setPowerChartPopup(hp);
     // updateSpeed(speed);
     rangeDemo();
     document.getElementById("power-value").innerHTML=hp;
@@ -142,7 +143,7 @@ setInterval(function(){
     document.getElementsByClassName("rangeMain").innerHTML = Math.floor((Math.random() * 100) + 1);
     totalDistanceDemo();
     batteryTempDemo();
-}, 300);
+}, 500);
 
 setInterval(function(){   
     batteryTempDemo();
