@@ -102,6 +102,7 @@ function activateTripReset(trip){
 
 function deactivateTripReset(trip){
     if(trip == "a"){
+        // document.getElementById("modal-selection-hlight-a").style.animation = "tripSelectionHilight 0.2s 1 ease-out normal forwards";
         document.getElementById("modal-trip-b").style.color = "black";
         document.getElementById("modal-both-trips").style.color = "black";
         document.getElementById("trip-a-reset-success").style.display = "none";

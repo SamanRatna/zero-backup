@@ -10,11 +10,14 @@
     width: 100%;
     text-align: center;
     overflow: hidden;
+    position: relative;
 }
 
 #babbal-speed-value {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
     font-size: 16rem;
+    font-weight: lighter;
     color: rgb(0, 0, 0);
     width: 55%;
     float: left;
@@ -22,7 +25,8 @@
 }
 
 #babbal-speed-unit {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 7rem;
     color: rgb(190, 190, 190);
     width: 40%;

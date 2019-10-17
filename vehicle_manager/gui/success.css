@@ -2,8 +2,8 @@
     display: none;
 }
 .icon-check .circle {
-    -webkit-animation-name: check;
-    animation-name: check;
+    -webkit-animation-name: circleCheck;
+    animation-name: circleCheck;
     -webkit-animation-duration: 2s;
     animation-duration: 2s;
     /* stroke-dashoffset: 700; */
@@ -30,6 +30,15 @@
 }
 
 @keyframes check {
+    /* from{
+        stroke-dashoffset: 700;
+    } */
+    to {
+            stroke-dashoffset: 0;
+    }
+}
+
+@keyframes circleCheck {
     from{
         stroke-dashoffset: 700;
     }

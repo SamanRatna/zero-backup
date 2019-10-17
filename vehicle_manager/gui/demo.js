@@ -81,7 +81,7 @@ function tripDemo(){
 
 // Trip Distance Demo
 function tripDistanceDemo(){
-    
+
 }
 // Average Speed Demo
 var dAvSpeedMode = 0;
@@ -118,14 +118,25 @@ function rangeDemo(){
     // document.getElementById("pop-range-babbal").innerHTML = (dRange * 0.6).toFixed(0);
 }
 
+function randomPowerGenerator(){
+    var randNum = (Math.random() + Math.random()) / 2; 
+    var randNum = (Math.random() + Math.random() + Math.random()) / 3; 
+    var randNum = (Math.random() + Math.random() + Math.random() + Math.random()) / 4 * 35; 
+    return Math.floor(randNum);
+}
+
 setInterval(function(){   
     speedGenerator();
+    hp = randomPowerGenerator();
     //document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
     document.getElementById("speed-value").innerHTML=speed;
-    addData(speedChart, "80s", speed);
+    // addData(speedChart, "80s", speed);
+    // updateSpeed(speed);
+    addData(powerChart, "80s", hp);
     // updateSpeed(speed);
     rangeDemo();
-    document.getElementById("power-value").innerHTML=Math.floor((Math.random()*100)+1); 
+    document.getElementById("power-value").innerHTML=hp;
+    document.getElementById("power-pop-value").innerHTML=hp;
     document.getElementById("babbal-range-value").innerHTML=Math.floor((Math.random()*100)+1);
     document.getElementById("top-speed-value").innerHTML=Math.floor((Math.random()*100)+1);
     document.getElementsByClassName("rangeMain").innerHTML = Math.floor((Math.random() * 100) + 1);

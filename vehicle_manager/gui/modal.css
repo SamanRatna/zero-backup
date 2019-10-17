@@ -119,21 +119,25 @@
     width: 80%;
     padding-top: 4%;
     float: right;
+    position: relative;
+    z-index: 5;
     /* background: lime;
     border-style: solid; */
   }
-  /* .modal-selection-hlight{
+  .modal-selection-hlight{
+    position: absolute;
     height: 80%;
-    width: 100%;
+    width: 0%;
     background: rgb(255,255,255);
-    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(219,219,219,1) 31%, rgba(246,246,246,1) 100%);
-  } */
+    background: linear-gradient(90deg, rgba(240,240,240,1) 0%, rgba(219,219,219,1) 99%, rgba(219,219,219,1) 100%);;
+    z-index: 10;
+  }
   @keyframes tripSelectionHilight{
     0%{
-
+      width: 0%;
     }
     100%{
-
+      width: 100%;
     }
   }
   .trip-reset-success {

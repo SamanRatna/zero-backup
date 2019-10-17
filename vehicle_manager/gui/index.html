@@ -135,7 +135,7 @@
                     <!-- Speed Chart -->
                     <li data-color="#ffffff">
                         <div>
-                            <canvas id="speed-chart" width="1200px" height="960px"></canvas>
+                            <!-- <canvas id="speed-chart" width="1200px" height="960px"></canvas> -->
                         </div>
                     </li>
                 </ul>
@@ -151,7 +151,16 @@
             </text>
             </svg>
             <!-- <object type="image/svg+xml" data="files/images/ekg.svg" >Your browser does not support SVG</object> -->
-            <img src="files/images/ekg.svg" width="70%"></object>
+            <!-- <img src="files/images/ekg.svg" width="70%"></object> -->
+            <!-- <div width="75%" height="550px" margin-left="50px"> -->
+                    <canvas id="power-chart" style="width: 1200px !important; height: 700px !important; float: left;"></canvas>
+            <!-- </div> -->
+            <div id="power-pop">
+                <div id="power-pop-box">
+                    <div id="power-pop-value">10</div>
+                    <div id="power-pop-unit">&nbsp;hp</div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="slide-indicator-shell">
@@ -162,18 +171,6 @@
         </div>
     </div>
     <div id="yatri-estate-2">
-        <!-- <div id='babbal-info'>
-            <div id='top-speed'>
-                <div id="top-speed-label">Top Speed:</div>
-                <div id="top-speed-value">0</div>
-                <div id="top-speed-unit">&nbsp;KMPH</div>
-            </div>
-            <div id='babbal-range'>
-                <div id="babbal-range-value">25</div>
-                <div id="babbal-range-unit">KM</div>
-            </div>
-        </div> -->
-
         <div class="status" id="status-2">
             <div class ="status-row" id="info">
                 <div class="first-column" id="status-speed">
@@ -318,7 +315,8 @@
                             </svg>
                 </div>
                 <div class="modal-trips" id="modal-trip-a" onclick="resetTrip('a')">
-                        <div class="modal-selection-hlight">Trip A</div>
+                        <div class="modal-selection-hlight" id="modal-selection-hlight-a"></div>
+                        Trip A
                     </div>
                 <!-- <div class="modal-trip-divider"></div> -->
                 <div class="trip-reset-success">
@@ -332,7 +330,8 @@
                     </svg>
                 </div>
                 <div class="modal-trips" id="modal-trip-b" onclick="resetTrip('b')">
-                    <div class="modal-selection-hlight">Trip B</div>
+                    <div class="modal-selection-hlight" id="modal-selection-hlight-b"></div>
+                    Trip B
                 </div>
                 <!-- <div class="modal-trip-divider"></div> -->
                 <div class="trip-reset-success">
@@ -346,7 +345,8 @@
                             </svg>
                 </div>
                 <div class="modal-trips" id="modal-both-trips" onclick="resetTrip()">
-                        <div class="modal-selection-hlight">Both Trips</div>
+                        <div class="modal-selection-hlight" id="modal-selection-hlight-both"></div>
+                        Both Trips
                     </div>
             </div>
         </div>
@@ -399,14 +399,14 @@
     </div>
 <!------------------------------- JavaScripts --------------------------------------->
 
-<!-- Third Party JS -->
-<script src="hammer.js"></script>
-<!-- <script src="long-press-event.min.js"></script> -->
-<script> var LONG_TAP_THRESHOLD = 500;</script>
-<script src="Tocca.min.js"></script>
-<script src="simple-keyboard.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.js"></script>
-
+    <!-- Third Party JS -->
+    <script src="hammer.js"></script>
+    <!-- <script src="long-press-event.min.js"></script> -->
+    <script> var LONG_TAP_THRESHOLD = 500;</script>
+    <script src="Tocca.min.js"></script>
+    <script src="simple-keyboard.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.js"></script> -->
+    <script src="chart280.bundle.js"></script>
     <script src="jquery.min.js"></script>
     <!-- <script src="html5media.min.js"></script> -->
     <!-- <script src="plyr.min.js"></script> -->
@@ -415,10 +415,12 @@
     <script src="bikeStatus.js"></script>
     <script src="navigation.js"></script>
     <script src="keyboard.js"></script>
-    <script src="speedChart.js"></script>
+    <!-- <script src="speedChart.js"></script> -->
+    <script src="powerChart.js"></script>
     <script src="swipe.js"></script>
     <script src="infographics.js"></script>
     <script src="modal.js"></script>
+    <script src="bootstrap.bundle.min.js"></script>
     <script>
         if(internet == "on"){
             var map;
@@ -434,10 +436,9 @@
           async defer>
     </script>
     <script src="demo.js"></script>
-    <!-- <script> updateBikeMode("MODE_THIKKA"); </script> -->
-    <!-- <script> updateBikeMode("MODE_BABBAL"); </script> -->
-    <script src="bootstrap.bundle.min.js"></script>
-    <script>openTripResetModal();</script>
+    <!-- <script> updateBikeMode("MODE_THIKKA"); </script>
+    <script> updateBikeMode("MODE_BABBAL"); </script> -->
+    <!-- <script>openTripResetModal();</script> -->
 
 </body>
 

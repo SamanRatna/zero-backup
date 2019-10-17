@@ -101,3 +101,36 @@
     float: left;
     text-align: left;
 }
+
+#power-pop {
+  width: 25%;
+  height: 75%;
+  position: absolute;
+  top: 30%;
+  left: 74%;
+  /* display: none; */
+}
+
+#power-pop-box {
+  margin-top: 30%;
+  width: 90%;
+  height: 20%;
+  background: rgba(220, 220, 220, 0.3);
+  border-radius: 90px 0px 0px 90px;
+}
+
+#power-pop-value {
+  width: 55%;
+  float: left;
+  font-size: 5rem;
+  text-align: right;
+}
+
+#power-pop-unit {
+  width: 45%;
+  float: left;
+  font-size: 4rem;
+  line-height: 2;
+  color: rgb(170, 170, 170);
+  text-align: left;
+}
