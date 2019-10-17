@@ -113,9 +113,6 @@ var dRange = 20;
 function rangeDemo(){
     dRange = Math.floor((Math.random()*100)+1);
     document.getElementById("range-value").innerHTML= dRange;
-    // document.getElementById("pop-range-suste").innerHTML = (dRange * 0.8).toFixed(0);
-    // document.getElementById("pop-range-thikka").innerHTML = (dRange * 1.2).toFixed(0);
-    // document.getElementById("pop-range-babbal").innerHTML = (dRange * 0.6).toFixed(0);
 }
 
 function randomPowerGenerator(){
@@ -128,7 +125,6 @@ function randomPowerGenerator(){
 setInterval(function(){   
     speedGenerator();
     hp = randomPowerGenerator();
-    //document.getElementsByClassName("speed")[0].innerHTML=Math.floor((Math.random()*100)+1); 
     document.getElementById("speed-value").innerHTML=speed;
     // addData(speedChart, "80s", speed);
     // updateSpeed(speed);
@@ -138,8 +134,6 @@ setInterval(function(){
     rangeDemo();
     document.getElementById("power-value").innerHTML=hp;
     document.getElementById("power-pop-value").innerHTML=hp;
-    document.getElementById("babbal-range-value").innerHTML=Math.floor((Math.random()*100)+1);
-    document.getElementById("top-speed-value").innerHTML=Math.floor((Math.random()*100)+1);
     document.getElementsByClassName("rangeMain").innerHTML = Math.floor((Math.random() * 100) + 1);
     totalDistanceDemo();
     batteryTempDemo();
@@ -152,4 +146,40 @@ setInterval(function(){
 
 setInterval(function(){   
     tripDemo();
+}, 1500);
+
+// Indicators demo
+setInterval(function () {
+    let rturn = Math.round(Math.random());
+    let lturn = Math.round(Math.random());
+    let beam = Math.round(Math.random());
+
+    if(rturn==1 && lturn==1){
+        document.getElementById("rightTurn").src = "files/images/rightArrowOff.png";
+        document.getElementById("leftTurn").src = "files/images/leftArrowOff.png";
+    }
+    else{
+        if(rturn == 0){
+            document.getElementById("rightTurn").src = "files/images/rightArrowOff.png";
+        }
+        else{
+            document.getElementById("rightTurn").src = "files/images/rightArrowOn.png";
+        }
+    
+        if(lturn == 0){
+            document.getElementById("leftTurn").src = "files/images/leftArrowOff.png";
+        }
+        else{
+            document.getElementById("leftTurn").src = "files/images/leftArrowOn.png";
+        }
+    }
+    
+
+    if(beam == 0){
+        document.getElementById("beam").src = "files/images/highBeamOff.png";
+    }
+    else{
+        document.getElementById("beam").src = "files/images/highBeamOn.png";
+    }
+
 }, 1500);

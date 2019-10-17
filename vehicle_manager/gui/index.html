@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="main.css">
     <link rel="stylesheet" type="text/css" href="babbal.css">
     <link rel="stylesheet" type="text/css" href="navigation.css">
-    <!-- <link rel="stylesheet" type="text/css" href="gauge.css"> -->
     <link rel="stylesheet" type="text/css" href="infographics.css">
     <link rel="stylesheet" type="text/css" href="thermometer.css">
     <link rel="stylesheet" type="text/css" href="notification.css">
@@ -18,7 +17,8 @@
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css"> -->
     <link rel="stylesheet" type="text/css" href="simple-keyboard.css">
-    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="comfortaa.css">
     <!-- it is always important to load all other dependencies then only call main.css and main.js -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -150,11 +150,7 @@
                 <div id="babbal-speed-unit">kmph</div>
             </text>
             </svg>
-            <!-- <object type="image/svg+xml" data="files/images/ekg.svg" >Your browser does not support SVG</object> -->
-            <!-- <img src="files/images/ekg.svg" width="70%"></object> -->
-            <!-- <div width="75%" height="550px" margin-left="50px"> -->
-                    <canvas id="power-chart" style="width: 1200px !important; height: 700px !important; float: left;"></canvas>
-            <!-- </div> -->
+            <canvas id="power-chart" style="width: 1200px !important; height: 700px !important; float: left;"></canvas>
             <div id="power-pop">
                 <div id="power-pop-box">
                     <div id="power-pop-value">10</div>
@@ -201,11 +197,11 @@
                 </span>
 
                 <span class="firstColumn">
-                        <div><img class="leftTurn" src="files/images/leftArrowOn.png" /></div>
+                        <div><img id="leftTurn" src="files/images/leftArrowOff.png" /></div>
                 </span><span class="secondColumn">
-                    <div><img class="beam" src="files/images/highBeamOn.png" /></div>
+                    <div><img id="beam" src="files/images/highBeamOff.png" /></div>
                 </span><span class="thirdColumn">
-                        <div><img class="rightTurn" src="files/images/rightArrowOn.png" /></div>
+                        <div><img id="rightTurn" src="files/images/rightArrowOff.png" /></div>
                 </span>
             </div>
         </div>
@@ -351,7 +347,6 @@
             </div>
         </div>
         <div id="modal-trip-reset-success">
-                <!-- <img src="files/images/success.svg" width="80%" stroke-dasharray="0, 25200"/> -->
                 <svg id="icon-check" height="300" width="700"viewBox="0 0 225 225" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
                     <g transform="matrix(1,0,0,1,-178.667,-170.667)">
                         <g class="check" transform="matrix(1,0,0,1,176,113)">
@@ -363,45 +358,10 @@
             </div>
     </div>
   </div>
-<!-----------------------Babbal Mode Slide ----------------------------------->
-
-        <div class="mySlides" style="width:480px; height:700px; padding:0px; margin:0px;background-color:rgb(43, 43, 43); overflow: hidden;">
-            <div id='babbal-logo'>
-                    <img style="max-height:70%; max-width:70%; padding-top:25px;" src="files/images/logo.png" />
-            </div>
-<!-- 
-            <div id='babbal-speed'>
-                    <svg height="30" width="200">
-                    <text x="0" y="15" fill="red">
-                        <p><span id='babbal-speed-value'>125</span><span id='babbal-speed-unit'>km/hr</span></p>
-                    </text>
-                    </svg>
-                    <object type="image/svg+xml" data="files/images/ekg.svg">Your browser does not support SVG</object>
-            </div>
--->
-
-            <div id='babbal-info'>
-                <div id='top-speed'>
-                    <p class='top-speed-text'>
-                    <span id='top-speed-label'>TOP SPEED:</span>
-                    <span id='top-speed-value'>0</span>
-                    KMPH
-                    </p>
-                </div>
-                <div id='babbal-range'>
-                    <p class='babbal-range-text'>
-                        KM
-                        <span id='babbal-range-value' style='font-size:8rem;'>25</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
 <!------------------------------- JavaScripts --------------------------------------->
 
     <!-- Third Party JS -->
     <script src="hammer.js"></script>
-    <!-- <script src="long-press-event.min.js"></script> -->
     <script> var LONG_TAP_THRESHOLD = 500;</script>
     <script src="Tocca.min.js"></script>
     <script src="simple-keyboard.js"></script>

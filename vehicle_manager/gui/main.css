@@ -640,15 +640,12 @@ now - page2
 	height: 170px;
 }
 #indicator{
-	margin-top: 4%;
+	margin-top: 8%;
 	height: 170px;
 }
 #mode {
 	height: 33px;
 }
-/* #indicator {
-	background: lime;
-} */
 .firstColumn{
 	margin-top: 0px;
 	display: inline-block;
@@ -706,7 +703,7 @@ now - page2
 
 }
 
-.leftTurn{
+#leftTurn{
 	height: 80px;
 	position:relative;
 	display: block;
@@ -715,7 +712,7 @@ now - page2
 
 }
 
-.rightTurn{
+#rightTurn{
 	height: 80px;	
 	position:relative;
 	display: block;
@@ -724,10 +721,10 @@ now - page2
 
 }
 
-.beam{
+#beam{
 	height: 120px;
 	position:relative;
-	top: 10px;
+	top: 20px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
