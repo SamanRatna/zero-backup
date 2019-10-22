@@ -18,13 +18,12 @@
     border: 1rem;
     background-color: none;
     margin: auto;
-    /* padding: 20px; */
     border-radius: 50px 50px 50px 50px;
     max-width:95%;
     height: 70%;
     overflow: hidden;
   }
-  
+
   .ModalOpen { overflow: hidden; }
   
   .is-hidden { display: none; }
@@ -181,3 +180,25 @@
     text-align: center;
     color: grey;
   }
+  .keyboard-modal-content {
+    border: 1rem;
+    background-color: none;
+    margin: auto;
+    border-radius: 50px 50px 50px 50px;
+    height: 10%;
+    max-width:60%;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+  }
+#modal-keyboard {
+  background: rgb(240, 240, 240);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 35px;
+  width: 45%;
+  height: 20%;
+  text-align: center;
+  margin-top: 105%;
+  margin-left: 30%;
+  border-radius: 50px;
+}

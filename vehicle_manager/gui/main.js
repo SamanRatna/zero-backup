@@ -536,7 +536,6 @@ now - topBar
 
 */
 
-
 timeCount();
 function timeCount() {
     var today = new Date();
@@ -554,19 +553,21 @@ function timeCount() {
     var minute = today.getMinutes();
     if(minute<10)minute = "0"+minute;
 
-    var second = today.getSeconds();
-    if(second<10)second = "0"+second;
+    // var second = today.getSeconds();
+    // if(second<10)second = "0"+second;
 
 
 
     document.getElementsByClassName("time")[0].innerHTML = 
-    hour+":"+minute+":"+second;
+    // hour+":"+minute+":"+second;
+    hour+":"+minute
 
     document.getElementById('time-notification').innerHTML = hour + ':' + minute;
 
     document.getElementsByClassName("date")[0].innerHTML = 
-    day+","+date+" "+month+" "+year;
-
+    // day+","+date+" "+month+" "+year;
+    date+" "+month+" "+year;
+    
     setTimeout("timeCount()", 10);
 }
 
@@ -584,13 +585,16 @@ var leftTurn;
 
 var rightTurn;
 
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover({ 
+      html : true,
+    //   title: "Range (in km)",
+      content: function() {
+        return $('#popover_content_wrapper').html();
+      }
+    });
+  });
 
 // $(document).ready(function(){
-//     $('[data-toggle="popover"]').popover({ 
-//       html : true,
-//     //   title: "Range (in km)",
-//       content: function() {
-//         return $('#popover_content_wrapper').html();
-//       }
-//     });
-//   });
+//   $('[data-toggle="popover"]').popover();   
+// });

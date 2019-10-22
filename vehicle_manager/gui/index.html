@@ -21,7 +21,6 @@
     <link rel="stylesheet" type="text/css" href="comfortaa.css">
     <!-- it is always important to load all other dependencies then only call main.css and main.js -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
 </head>
 
 <body style="background: white;">
@@ -247,7 +246,7 @@
     <div id="socModal" class="Modal is-hidden is-visuallyHidden">
         <!-- Modal content -->
         <div class="Modal-content">
-            <span id="closeModal" class="Close">&times;</span>
+            <span id="closeModal" class="Close"></span>
             <div id="modal-range">
                 <div id="modal-battery">
                         <div class="modal-range-icon">
@@ -291,7 +290,7 @@
 <div id="tripResetModal" class="Modal is-hidden is-visuallyHidden">
     <!-- Modal content -->
     <div class="Modal-content">
-        <span id="closeModal" class="Close">&times;</span>
+        <span id="closeModal" class="Close"></span>
         <div id="modal-trips">
             <div id="modal-battery">
                     <div class="modal-range-icon">
@@ -356,6 +355,20 @@
                     </g>
                 </svg>
             </div>
+    </div>
+  </div>
+<!-- Keyboard Disabled Popover -->
+  <!-- <div id="popover_content_wrapper" style="display: none; text-align: center;">
+    <div id="keyboard-disabled-msg">Keyboard Disabled</div>
+</div> -->
+
+<div id="keyboard-modal" class="Modal is-hidden is-visuallyHidden">
+    <!-- Modal content -->
+    <div id="keyboard-modal-content">
+        <span id="closeModal" class="Close"></span>
+        <div id="modal-keyboard">
+            Keyboard Disabled
+        </div>
     </div>
   </div>
 <!------------------------------- JavaScripts --------------------------------------->

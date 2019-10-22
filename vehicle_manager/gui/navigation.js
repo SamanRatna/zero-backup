@@ -46,6 +46,7 @@ function toggleSOC(){
 // Function to toggle the keyboard on and off //
 function toggleKeyboard(){
     if(bikeMode == "babbal"){
+        openKeyboardModal();
         return;
     }
 
