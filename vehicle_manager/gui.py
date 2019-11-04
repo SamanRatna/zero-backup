@@ -2,10 +2,15 @@ import eel
 import threading
 
 eel.init('gui')
-
+my_options = {
+    'mode': "chrome", #or "chrome-app",
+    'host': 'localhost',
+    'port': 8080,
+    'chromeFlags': ["--start-fullscreen", "--browser-startup-dialog"]
+}
 def startGUI():
     try:
-        eel.start('index.html', cmdline_args=['--no-sandbox'])
+        eel.start('index.html', options=my_options)
     except (SystemExit, MemoryError, KeyboardInterrupt):
         pass
     print ('This is printed when the window is closed!')

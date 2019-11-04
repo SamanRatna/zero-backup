@@ -1,5 +1,5 @@
 import json
-from periphery import GPIO
+import RPi.GPIO as GPIO
 from vehicle_states import *
 from event_handler import *
 import threading
@@ -24,89 +24,65 @@ class GPIOReader():
             raise Exception("GPIOReader is a Singleton Class.")
         else:
             GPIOReader.__instance = self
-            self.initializeGPIO('gpio_config.json')
+            self.initializeGPIO()
             self.initializeGPIOThreads()
 
     """
     initializeGPIO:
         initializes the GPIOs with the help of config file provided as an argument
     """
-    def initializeGPIO(self, gpio_config_file):
-        with open(gpio_config_file) as cfg_file:
-            config = json.load(cfg_file)
-        self.in_hibeam = GPIO(config['in_hibeam']['pin'], config['in_hibeam']['direction'])
-        self.in_hibeam.edge = "both"
+    def initializeGPIO(self):
+        GPIO.setmode(GPIO.BCM)
+        inputChannel = [2,3,4,17,27,22,10,9]
+        GPIO.setup(inputChannel, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.add_event_detect(2, GPIO.FALLING, callback=self.threadHibeam , bouncetime=250)
+        GPIO.add_event_detect(10, GPIO.FALLING, callback=self.threadStand ,bouncetime=250)
+        # GPIO.add_event_detect(9, GPIO.FALLING, callback=threadBrake ,bouncetime=150)
+        GPIO.add_event_detect(3, GPIO.FALLING, callback=self.threadLeftTurn ,bouncetime=250)
+        GPIO.add_event_detect(4, GPIO.FALLING, callback=self.threadRightTurn ,bouncetime=250)
+        GPIO.add_event_detect(27, GPIO.FALLING, callback=self.threadRUPress ,bouncetime=250)
+        GPIO.add_event_detect(22, GPIO.FALLING, callback=self.threadRBPress ,bouncetime=250)
+        # GPIO.add_event_detect(17, GPIO.FALLING, callback=threadRDPress ,bouncetime=150)
 
-        self.in_lturn = GPIO(config['in_lturn']['pin'], config['in_lturn']['direction'])
-        self.in_lturn.edge = "falling"
-
-        self.in_rturn = GPIO(config['in_rturn']['pin'], config['in_rturn']['direction'])
-        self.in_rturn.edge = "falling"
-
-        self.in_button_rd = GPIO(config['in_button_rd']['pin'], config['in_button_rd']['direction'])
-        self.in_button_rd.edge = "both"
-
-        self.in_button_ru = GPIO(config['in_button_ru']['pin'], config['in_button_ru']['direction'])
-        self.in_button_ru.edge = "falling"
-
-        self.in_button_rb = GPIO(config['in_button_rb']['pin'], config['in_button_rb']['direction'])
-        self.in_button_rb.edge = "falling"
-
-        self.in_stand = GPIO(config['in_stand']['pin'], config['in_stand']['direction'])
-        self.in_stand.edge = "both"
-
-        self.in_brake = GPIO(config['in_brake']['pin'], config['in_brake']['direction'])
 
     def initializeGPIOThreads(self):
-        self.tHibeam = threading.Thread(target = self.threadHibeam)
-        self.tStand = threading.Thread(target = self.threadStand)
+        # self.tHibeam = threading.Thread(target = self.threadHibeam)
+        # self.tStand = threading.Thread(target = self.threadStand)
         self.tBrake = threading.Thread(target = self.threadBrake)
-        self.tLTurn = threading.Thread(target = self.threadLeftTurn)
-        self.tRTurn = threading.Thread(target = self.threadRightTurn)
-        self.tRUPress = threading.Thread(target = self.threadRUPress)
-        self.tRBPress = threading.Thread(target = self.threadRBPress)
+        # self.tLTurn = threading.Thread(target = self.threadLeftTurn)
+        # self.tRTurn = threading.Thread(target = self.threadRightTurn)
+        # self.tRUPress = threading.Thread(target = self.threadRUPress)
+        # self.tRBPress = threading.Thread(target = self.threadRBPress)
         self.tRDPress = threading.Thread(target = self.threadRDPress)
 
-        self.tHibeam.start()
-        self.tStand.start()
+        # self.tHibeam.start()
+        # self.tStand.start()
         self.tBrake.start()
-        self.tLTurn.start()
-        self.tRTurn.start()
-        self.tRUPress.start()
-        self.tRBPress.start()
+        # self.tLTurn.start()
+        # self.tRTurn.start()
+        # self.tRUPress.start()
+        # self.tRBPress.start()
         self.tRDPress.start()
 
-    def threadHibeam(self):
-        while True:
-            self.in_hibeam.poll()
-            sleep(0.1)
-            state = self.in_hibeam.read()
+    def threadHibeam(self, value):
+            state = GPIO.input(2);
             vehicleEvents.onHibeamToggle(state)
 
-    def threadLeftTurn(self):
-        while True:
-            state = self.in_lturn.poll()
+    def threadLeftTurn(self, value):
             vehicleEvents.onLeftSideLightToggle()
-            sleep(0.3)
 
-    def threadRightTurn(self):
-        while True:
-            state = self.in_rturn.poll()
+    def threadRightTurn(self, value):
             vehicleEvents.onRightSideLightToggle()
-            sleep(0.3)
     
-    def threadRBPress(self):
-        while True:
-            state = self.in_button_rb.poll()
+    def threadRBPress(self, value):
             vehicleEvents.onRBPress()
-            sleep(0.3)
 
     def threadRDPress(self):
         while True:
-            state = self.in_button_rd.poll()
+            GPIO.wait_for_edge(17, GPIO.FALLING)
             button_press = time()
             sleep(0.1)
-            self.in_button_rd.poll()
+            GPIO.wait_for_edge(17, GPIO.RISING)
             button_release = time()
             print(button_release - button_press)
             if ((button_release - button_press) < 0.40):
@@ -115,25 +91,19 @@ class GPIOReader():
                 vehicleEvents.onRDHold()
             sleep(0.2)
 
-    def threadRUPress(self):
-        while True:
-            state = self.in_button_ru.poll()
+    def threadRUPress(self, value):
             vehicleEvents.onRUPress()
-            sleep(0.3)
 
-    def threadStand(self):
-        while True:
-            self.in_stand.poll()
-            sleep(0.1)
-            state = self.in_stand.read()
+    def threadStand(self, value):
+            state = GPIO.input(pin)
             vehicleEvents.onStandSwitch(state)
-            sleep(0.2)
     
     def threadBrake(self):
-        state_0 = self.in_brake.read()
+        state_0 = GPIO.input(9)
         while True:
-            state_1 = self.in_brake.read()
+            state_1 = GPIO.input(9)
             if (state_0 != state_1):
+                #print("Brake State: "+ str(state_1))
                 vehicleEvents.onBrakeToggle(state_1)
                 state_0 = state_1
             sleep(0.2)
@@ -198,81 +168,74 @@ class GPIOWriter():
             raise Exception("GPIOWriter is a Singleton Class.")
         else:
             GPIOWriter.__instance = self
-            self.initializeGPIO('gpio_config.json')
+            self.initializeGPIO()
     """
     initializeGPIO:
         initializes the GPIOs with the help of config file provided as an argument
     """
-    def initializeGPIO(self, gpio_config_file):
-        with open(gpio_config_file) as cfg_file:
-            config = json.load(cfg_file)
-        
-        self.out_start_thikka = GPIO(config['out_start_thikka']['pin'], config['out_start_thikka']['direction'])
-        self.out_suste = GPIO(config['out_suste']['pin'], config['out_suste']['direction'])
-        self.out_reverse = GPIO(config['out_reverse']['pin'], config['out_reverse']['direction'])
-        self.out_babbal = GPIO(config['out_babbal']['pin'], config['out_babbal']['direction'])
-        self.out_charge = GPIO(config['out_charge']['pin'], config['out_charge']['direction'])
-        self.out_charge_motor = GPIO(config['out_charge_motor']['pin'], config['out_charge_motor']['direction'])
-        self.out_ign = GPIO(config['out_ign']['pin'], config['out_ign']['direction'])
-        self.out_lturn = GPIO(config['out_lturn']['pin'], config['out_lturn']['direction'])
-        self.out_rturn = GPIO(config['out_rturn']['pin'], config['out_rturn']['direction'])
-        self.out_brake = GPIO(config['out_brake']['pin'], config['out_brake']['direction'])
+    def initializeGPIO(self):
+        GPIO.setmode(GPIO.BCM)
+        outputChannel = [14, 15, 18, 23, 24, 25, 8, 7, 16, 12]
+        GPIO.setup(outputChannel, GPIO.OUT, initial=GPIO.HIGH)
+
 
     def setIgn(self, value):
-        self.out_ign.write(value)
+        GPIO.output(8, value)
     
     def setLTurn(self, value):
-        self.out_lturn.write(value)
+        GPIO.output(7, value)
     
     def setRTurn(self, value):
-        self.out_rturn.write(value)
+        GPIO.output(16, value)
     
     def setCharge(self, value):
-        self.out_charge.write(value)
+        GPIO.output(25, value)
     
     def setBrake(self, value):
-        self.out_brake.write(value)
+        GPIO.output(12, value)
 
     def setMode(self, mode):
         if mode == eBikeMode.MODE_THIKKA:
-            self.out_suste.write(True)
-            self.out_babbal.write(True)
-            self.out_reverse.write(True)
-            self.out_charge_motor.write(True)
-            self.out_start_thikka.write(False)
+            GPIO.output(14, True)
+            GPIO.output(18, True)
+            GPIO.output(23, True)
+            GPIO.output(25, True)
+            GPIO.output(15, False)
 
         elif mode == eBikeMode.MODE_SUSTE:
-            self.out_babbal.write(True)
-            self.out_reverse.write(True)
-            self.out_start_thikka.write(True)
-            self.out_charge_motor.write(True)
-            self.out_suste.write(False)
+            GPIO.output(18, True)
+            GPIO.output(23, True)
+            GPIO.output(15, False)
+            GPIO.output(24, True)
+            GPIO.output(14, False)
+
         elif mode == eBikeMode.MODE_BABBAL:
-            self.out_reverse.write(True)
-            self.out_start_thikka.write(True)
-            self.out_suste.write(True)
-            self.out_charge_motor.write(True)
-            self.out_babbal.write(False)
+            GPIO.output(23, True)
+            GPIO.output(15, False)
+            GPIO.output(24, True)
+            GPIO.output(14, True)
+            GPIO.output(18, False)
+
         elif mode == eBikeMode.MODE_REVERSE:
-            self.out_start_thikka.write(True)
-            self.out_suste.write(True)
-            self.out_babbal.write(True)
-            self.out_charge_motor.write(True)
-            self.out_reverse.write(False)
+            GPIO.output(15, True)
+            GPIO.output(24, True)
+            GPIO.output(14, True)
+            GPIO.output(18, True)
+            GPIO.output(23, False)
 
         elif mode == eBikeMode.MODE_CHARGING:
-            self.out_start_thikka.write(True)
-            self.out_suste.write(True)
-            self.out_babbal.write(True)
-            self.out_reverse.write(True)
-            self.out_charge_motor.write(False)
-            self.out_start_thikka.write(True)
+            GPIO.output(15, True)
+            GPIO.output(14, True)
+            GPIO.output(18, True)
+            GPIO.output(23, True)
+            GPIO.output(24, False)
+
         elif mode == eBikeMode.MODE_STANDBY:
-            self.out_start_thikka.write(True)
-            self.out_suste.write(True)
-            self.out_babbal.write(True)
-            self.out_reverse.write(True)
-            self.out_charge_motor.write(True)
+            GPIO.output(15, True)
+            GPIO.output(14, True)
+            GPIO.output(18, True)
+            GPIO.output(23, True)
+            GPIO.output(24, False)
 
 class GPIOWriterMock:
     def __init__(self):

@@ -110,7 +110,7 @@ setInterval(function () {
     // document.getElementsByClassName("leftTurn")[0].src== "files/images/leftArrowOn.png";
 }, 1500);
 
-// eel.expose(updateBikeMode);
+eel.expose(updateBikeMode);
 function updateBikeMode(arg) {
     console.log(arg + ' from main');
 
