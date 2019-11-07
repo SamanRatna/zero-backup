@@ -52,15 +52,15 @@
         splash quiet plymouth.ignore-serial-consoles logo.nologo vt.global_cursor_default=0
 
 # References:
-Splash Screen and Boot Logs
-    https://yingtongli.me/blog/2016/12/21/splash.html
-    https://scribles.net/customizing-boot-up-screen-on-raspberry-pi/
-Mouse cursor
-    https://raspberrypi.stackexchange.com/questions/53127/how-to-permanently-hide-mouse-pointer-or-cursor-on-raspberry-pi
-Chromium Kiosk
-    https://pimylifeup.com/raspberry-pi-kiosk/
-    https://www.sylvaindurand.org/launch-chromium-in-kiosk-mode/
-    https://github.com/lukaskubis/raspbian-jesse-kiosk
-Window Manager
-    https://wiki.embeddedarm.com/wiki/TS-7970#Debian_Starting_Automatically
+1. Splash Screen and Boot Logs
+        https://yingtongli.me/blog/2016/12/21/splash.html
+        https://scribles.net/customizing-boot-up-screen-on-raspberry-pi/
+2. Mouse cursor
+        https://raspberrypi.stackexchange.com/questions/53127/how-to-permanently-hide-mouse-pointer-or-cursor-on-raspberry-pi
+3. Chromium Kiosk
+        https://pimylifeup.com/raspberry-pi-kiosk/
+        https://www.sylvaindurand.org/launch-chromium-in-kiosk-mode/
+        https://github.com/lukaskubis/raspbian-jesse-kiosk
+4. Window Manager
+        https://wiki.embeddedarm.com/wiki/TS-7970#Debian_Starting_Automatically
 
