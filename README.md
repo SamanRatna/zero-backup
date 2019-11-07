@@ -44,3 +44,23 @@
         $ sudo apt remove qpdfview* vlc* alsa* galculator thonny geany gpicview* xarchiver
         $ sudo apt autoremove
         $ sudo apt purge
+
+## G. Taking care of Splash Screen and boot logs.
+    1. Add the following line at the end of the line in /boot/config.txt file.
+        disable_splash=1
+    2. Add the following line at the end of the line in /boot/cmdline.txt.
+        splash quiet plymouth.ignore-serial-consoles logo.nologo vt.global_cursor_default=0
+
+# References:
+Splash Screen and Boot Logs
+    [Link] https://yingtongli.me/blog/2016/12/21/splash.html
+    [Link] https://scribles.net/customizing-boot-up-screen-on-raspberry-pi/
+Mouse cursor
+    [Link] https://raspberrypi.stackexchange.com/questions/53127/how-to-permanently-hide-mouse-pointer-or-cursor-on-raspberry-pi
+Chromium Kiosk
+    [Link] https://pimylifeup.com/raspberry-pi-kiosk/
+    [Link] https://www.sylvaindurand.org/launch-chromium-in-kiosk-mode/
+    [Link] https://github.com/lukaskubis/raspbian-jesse-kiosk
+Window Manager
+    [Link] https://wiki.embeddedarm.com/wiki/TS-7970#Debian_Starting_Automatically
+
