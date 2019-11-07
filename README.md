@@ -1,5 +1,5 @@
 # Setup instructions for RaspberryPi:
----
+
 ## A. Prepare the RPi.
     1. Setup ssh and/or serial port communications in RPi. And, make sure you can remote login into the RPi.
     2. Update and upgrade RPi.
@@ -53,14 +53,14 @@
 
 # References:
 Splash Screen and Boot Logs
-    [Link] https://yingtongli.me/blog/2016/12/21/splash.html
-    [Link] https://scribles.net/customizing-boot-up-screen-on-raspberry-pi/
+    https://yingtongli.me/blog/2016/12/21/splash.html
+    https://scribles.net/customizing-boot-up-screen-on-raspberry-pi/
 Mouse cursor
-    [Link] https://raspberrypi.stackexchange.com/questions/53127/how-to-permanently-hide-mouse-pointer-or-cursor-on-raspberry-pi
+    https://raspberrypi.stackexchange.com/questions/53127/how-to-permanently-hide-mouse-pointer-or-cursor-on-raspberry-pi
 Chromium Kiosk
-    [Link] https://pimylifeup.com/raspberry-pi-kiosk/
-    [Link] https://www.sylvaindurand.org/launch-chromium-in-kiosk-mode/
-    [Link] https://github.com/lukaskubis/raspbian-jesse-kiosk
+    https://pimylifeup.com/raspberry-pi-kiosk/
+    https://www.sylvaindurand.org/launch-chromium-in-kiosk-mode/
+    https://github.com/lukaskubis/raspbian-jesse-kiosk
 Window Manager
-    [Link] https://wiki.embeddedarm.com/wiki/TS-7970#Debian_Starting_Automatically
+    https://wiki.embeddedarm.com/wiki/TS-7970#Debian_Starting_Automatically
 
