@@ -1,0 +1,2 @@
+matchbox-window-manager -use_titlebar no &
+exec chromium-browser --kiosk --incognito --noerrdialogs --disable-translate --no-first-run --fast --fast-start --disable-infobars "http://localhost:8000/index.html"
