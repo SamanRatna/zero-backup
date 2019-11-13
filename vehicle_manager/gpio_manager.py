@@ -81,11 +81,13 @@ class GPIOReader():
         while True:
             GPIO.wait_for_edge(17, GPIO.FALLING)
             button_press = time()
-            sleep(0.1)
-            GPIO.wait_for_edge(17, GPIO.RISING)
+            sleep(0.2)
+            #GPIO.wait_for_edge(17, GPIO.RISING)
+            while GPIO.input(17) == GPIO.LOW:
+                sleep(0.01)
             button_release = time()
             print(button_release - button_press)
-            if ((button_release - button_press) < 0.40):
+            if ((button_release - button_press) < 0.8):
                 vehicleEvents.onRDPress()
             else:
                 vehicleEvents.onRDHold()
