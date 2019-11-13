@@ -125,16 +125,16 @@ function randomPowerGenerator(){
 setInterval(function(){   
     speedGenerator();
     hp = randomPowerGenerator();
-    document.getElementById("speed-value").innerHTML=speed;
+    //document.getElementById("speed-value").innerHTML=speed;
     // addData(speedChart, "80s", speed);
     // updateSpeed(speed);
     addData(powerChart, "80s", hp);
     // setPowerChartPopup(hp);
     // updateSpeed(speed);
-    rangeDemo();
-    document.getElementById("power-value").innerHTML=hp;
+    //rangeDemo();
+    //document.getElementById("power-value").innerHTML=hp;
     document.getElementById("power-pop-value").innerHTML=hp;
-    document.getElementsByClassName("rangeMain").innerHTML = Math.floor((Math.random() * 100) + 1);
+    //document.getElementsByClassName("rangeMain").innerHTML = Math.floor((Math.random() * 100) + 1);
     totalDistanceDemo();
     batteryTempDemo();
 }, 500);

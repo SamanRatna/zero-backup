@@ -31,6 +31,12 @@ def publishRightTurnStatus(status):
     else:
         eel.updateRightTurnStatus(0)
 
+def publishSpeedPower(speed, power):
+    eel.updateSpeedPower(speed, power)
+
+def publishSOC(soc):
+    eel.updateSOC(soc)
+
 def startGUIThread():
     try:
         guiThread = threading.Thread(target=startGUI)

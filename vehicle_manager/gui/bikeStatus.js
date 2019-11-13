@@ -163,3 +163,15 @@ function updateTripDistance(argA, argB) {
     tripDistanceA = argA;
     tripDistanceB = argB;
 }
+
+eel.expose(updateSpeedPower);
+function updateSpeedPower(speed, power) {
+    document.getElementById('speed-value').innerHTML = speed;
+    document.getElementById('power-value').innerHTML = power;
+    console.log('CAN: Speed= '+speed+ ' Power= '+ power)
+}
+eel.expose(updateSOC);
+function updateSOC(soc) {
+    document.getElementById('range-value').innerHTML = soc;
+    console.log('CAN: SOC= '+ soc)
+}

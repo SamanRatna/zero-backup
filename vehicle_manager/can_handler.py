@@ -4,6 +4,7 @@ import time
 import can
 import random
 import os
+from gui import *
 
 class CANHandler:
     def __init__(self):
@@ -23,9 +24,9 @@ class CANHandler:
         self.driveMode              = 0
         self.odometer               = 0     # km
         self.peakChargingCurrent    = 0     # Ampere
-        self.peakDischargingCurrent  = 0     # Ampere
+        self.peakDischargingCurrent = 0     # Ampere
         self.dischargingCurrent     = 0     # Ampere
-
+        self.power                  = 0     # hp
         #Configure CAN Interface
         can.rc['interface'] = 'socketcan_native'
         can.rc['channel'] = 'can0'
@@ -57,7 +58,7 @@ class CANHandler:
                                 self.chargingStatus = 'Charging'
 
                             self.packVoltage = round( ((new_data[3]<<8) + new_data[4])*0.1 , 1) 
-
+                            self.power = self.packVoltage * self.dischargingCurrent / 746
                             self.chargingCurrent = round(((new_data[5]<<8) + new_data[6])*0.01, 1)
                             logMessage = 'Frame:    0' + ' - ' + 'ChargingCurrent: ' + str(self.chargingCurrent) + ' A ' + ' - ' + 'PackVoltage:    ' + str(self.packVoltage) + ' V' + ' - ' + 'ChargingStatus:  ' + str(self.chargingStatus)
                             #print(logMessage)
@@ -82,7 +83,7 @@ class CANHandler:
                             self.averageCurrent = round(((new_data[1]<<8) + new_data[2])*0.01, 1)
 
                             logMessage = 'Frame:    2' + ' - ' + 'AverageCurrent:    ' + str(self.averageCurrent) + ' A'
-                            print(logMessage)
+                            #print(logMessage)
                             self.canLogger.info(logMessage)
                         
                         #Battery Frame 4   
@@ -231,13 +232,26 @@ class CANHandler:
             frame = can.Message(arbitration_id=0x18C00001,data=[6], extended_id=True)
             self.bus.send(frame)
             time.sleep(0.5)
-
+    
+    def pushFastData(self):
+        while True:
+            time.sleep(0.1)
+            publishSpeedPower(self.bikeSpeed, self.power)
+    
+    def pushSlowData(self):
+        while True:
+            publishSOC(self.stateOfCharge)
+            time.sleep(1)
     
     def startCAN(self):
         self.tExtractCANData = threading.Thread(target=self.extractCANData)
         self.tExtractCANData.start()
         self.tRequestFrames = threading.Thread(target=self.requestCANFrames)
         self.tRequestFrames.start()
+        self.tPushFastData = threading.Thread(target=self.pushFastData)
+        self.tPushFastData.start()
+        self.tPushSlowData = threading.Thread(target=self.pushSlowData)
+        self.tPushSlowData.start()
         # self.tPrintData = threading.Thread(target=self.printData)
         # self.tPrintData.start()
 
