@@ -6,8 +6,10 @@ import vehicle_states
 import threading
 import time
 from gui import *
+from can_handler import *
 
 startGUIThread()
 stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
 tlContoller = TailLightController(GPIOWriter.getInstance())
 gpioReader = GPIOReader.getInstance()
+cany = CANHandler()

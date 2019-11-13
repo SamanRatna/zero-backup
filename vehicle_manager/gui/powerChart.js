@@ -28,7 +28,7 @@ var powerChart = new Chart(ctx, {
             fill: true,
             backgroundColor: gradientFill,
             borderWidth: 0,
-            data: [10, 12, 15, 17, 18, 17, 16, 12, 13, 10, 12, 15, 17, 18, 17, 16, 12, 13, 12, 15, 17, 18, 17, 16]
+            data: [10, 12, 15, 17, 18, 17, 16, 12, 13, 10, 12, 15, 17, 18, 17, 16, 12, 13, 12, 15, 17, 18, 17, 3000]
         }]
     },
     options: {
@@ -95,8 +95,9 @@ function removeData(chart) {
 }
 
 let currentPosition = 75;
+let maxPower = 120
 function setPowerChartPopup(power){
-    var position = 75 - (power/40*50);
+    var position = 75 - (power/maxPower*50);
     gotoPosition(position);
 }
 

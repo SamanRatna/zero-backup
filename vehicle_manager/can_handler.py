@@ -26,7 +26,7 @@ class CANHandler:
         self.peakChargingCurrent    = 0     # Ampere
         self.peakDischargingCurrent = 0     # Ampere
         self.dischargingCurrent     = 0     # Ampere
-        self.power                  = 0     # hp
+        self.power                  = 0     # W
         #Configure CAN Interface
         can.rc['interface'] = 'socketcan_native'
         can.rc['channel'] = 'can0'
@@ -35,7 +35,7 @@ class CANHandler:
         #Configure logger
         logging.basicConfig(filename="can.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='w')
         self.canLogger=logging.getLogger()
-        self.canLogger.setLevel(logging.INFO)
+        self.canLogger.setLevel(logging.WARNING)
         
         #Start CAN
         self.startCAN()
@@ -57,12 +57,12 @@ class CANHandler:
                             else:
                                 self.chargingStatus = 'Charging'
 
-                            self.packVoltage = round( ((new_data[3]<<8) + new_data[4])*0.1 , 1) 
-                            self.power = self.packVoltage * self.dischargingCurrent / 746
+                            self.packVoltage = int( ((new_data[3]<<8) + new_data[4])*0.1)
+                            self.power = int(self.packVoltage * self.dischargingCurrent)
                             self.chargingCurrent = round(((new_data[5]<<8) + new_data[6])*0.01, 1)
-                            logMessage = 'Frame:    0' + ' - ' + 'ChargingCurrent: ' + str(self.chargingCurrent) + ' A ' + ' - ' + 'PackVoltage:    ' + str(self.packVoltage) + ' V' + ' - ' + 'ChargingStatus:  ' + str(self.chargingStatus)
+                            logMessage = 'Frame:    0' + ' - ' +'PackVoltage:    ' + str(self.packVoltage) + ' V' + ' - ' + 'Power:  ' + str(self.power)
                             #print(logMessage)
-                            self.canLogger.info(logMessage)
+                            self.canLogger.warning(logMessage)
                         
                         #Battery Frame 1   
                         # elif( (len(data) > 1) and (data[0] == 1)):
@@ -90,9 +90,9 @@ class CANHandler:
                         elif( (len(data) > 1) and (data[0] == 4)):
                             new_data=[data[0], data[2], data[1], data[3], data[4], data[6], data[5], data[7] ]
 
-                            self.highTemp = round(((new_data[1]<<8) + new_data[2])*0.1, 1)
+                            self.highTemp = int(((new_data[1]<<8) + new_data[2])*0.1)
 
-                            self.lowTemp = round(((new_data[5]<<8) + new_data[6])*0.1, 1)
+                            self.lowTemp = int(((new_data[5]<<8) + new_data[6])*0.1)
                             logMessage = 'Frame:    4' + ' - ' + 'HighTemp:    ' + str(self.highTemp) + ' Celsius' + ' - ' + 'LowTemp:  ' + str(self.lowTemp) + ' Celsius'
                             #print(logMessage)
                             self.canLogger.info(logMessage)
@@ -100,7 +100,7 @@ class CANHandler:
                         #Battery Frame 5
                         elif( (len(data) > 1) and (data[0] == 5)):
                             new_data=[data[0], data[1], data[3], data[2], data[5], data[4], data[7], data[6] ]
-                            self.stateOfCharge = round(((new_data[2]<<8) + new_data[3])*0.1 , 1)
+                            self.stateOfCharge = int(((new_data[2]<<8) + new_data[3])*0.1)
 
                             self.timeToCharge = (new_data[6]<<8) + new_data[7]
                             logMessage = 'Frame:    5' + ' - ' + 'SOC:  ' + str(self.stateOfCharge) + ' % - TimeToCharge:   ' + str(self.timeToCharge) + ' min '
@@ -110,7 +110,7 @@ class CANHandler:
                         elif( (len(data) > 1) and (data[0] == 6)):
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
 
-                            self.timeToDischarge = round(((new_data[1]<<8) + new_data[2]), 1)
+                            self.timeToDischarge = int(((new_data[1]<<8) + new_data[2]))
                             logMessage = 'Frame:    6' + ' - ' + 'TimeToDischarge:    ' + str(self.highTemp) + ' Celsius'
                             #print(logMessage)
                             self.canLogger.info(logMessage)
@@ -128,7 +128,7 @@ class CANHandler:
                         bat_current_hex = new_data[0] + new_data[1]
                         bat_voltage_hex = new_data[4] + new_data[5]
                         bat_current = int(int(bat_current_hex, 16)*0.0625)
-                        print('Battery Current from Motor: ', bat_current)
+                        #print('Battery Current from Motor: ', bat_current)
                         bat_voltage = int(int(bat_voltage_hex, 16)*0.0625)
                         bat_v_notint = int(bat_voltage_hex, 16)*0.0625
                         # Fix negative current issue
@@ -137,6 +137,8 @@ class CANHandler:
                             recuperation = 1
                         else:
                             recuperation = 0
+                        self.dischargingCurrent = bat_current
+                        self.power = int(self.packVoltage * self.dischargingCurrent)
                         # Calculate Battery SoC and Range
                         s_o_charge = int((bat_v_notint - 95.12) / (101.2 - 95.12) * 100)
                         if s_o_charge < 0:
@@ -144,12 +146,15 @@ class CANHandler:
                         elif s_o_charge > 100:
                             s_o_charge = 100
                         est_range = s_o_charge * 1.5  # Assuming 150km when 100%
+                        logMessage = 'Frame:    663' + ' - ' + 'DischargingCurrent:  ' + str(self.dischargingCurrent) + ' A - ' + 'Power:   '+str(self.power) 
+                        #print(logMessage)
+                        self.canLogger.warning(logMessage)
                     # Motor Controller
                     elif message.arbitration_id == 1024:
                         # Perform data swap in binary
                         data = message.data
                         new_data = [data[1], data[0], data[3], data[2], data[5], data[4], data[7], data[6]]
-                        self.bikeSpeed = round(((new_data[0]<<8) + new_data[1])*0.0625, 1)
+                        self.bikeSpeed = int(((new_data[0]<<8) + new_data[1])*0.0625)
                         self.maxTorque = round(((new_data[2]<<8) + new_data[3])*0.1, 1)
                         self.actualTorque = round(((new_data[4]<<8) + new_data[5])*0.0625, 1)
                         self.motorTemp = round(((new_data[6]<<8) + new_data[7]), 1)
@@ -252,8 +257,8 @@ class CANHandler:
         self.tPushFastData.start()
         self.tPushSlowData = threading.Thread(target=self.pushSlowData)
         self.tPushSlowData.start()
-        # self.tPrintData = threading.Thread(target=self.printData)
-        # self.tPrintData.start()
+        self.tPrintData = threading.Thread(target=self.printData)
+        #self.tPrintData.start()
 
     def printData(self):
         while True:
@@ -271,3 +276,4 @@ class CANHandler:
             print('Discharging Current          : ', self.dischargingCurrent, '     A')
             print('Peak Charging Current        : ', self.peakChargingCurrent, '        A')
             print('Peak Discharging Current     : ', self.peakDischargingCurrent, '     A')
+            print('Power                        : ', self.power, '                      hp')

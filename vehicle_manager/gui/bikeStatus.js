@@ -167,7 +167,16 @@ function updateTripDistance(argA, argB) {
 eel.expose(updateSpeedPower);
 function updateSpeedPower(speed, power) {
     document.getElementById('speed-value').innerHTML = speed;
+    document.getElementById('babbal-speed-value').innerHTML = speed;
     document.getElementById('power-value').innerHTML = power;
+    if(power < 0){
+        document.getElementById("power-pop-value").innerHTML=0;
+        addData(powerChart, "80s", 0);
+    } else {
+        document.getElementById("power-pop-value").innerHTML=power;
+        addData(powerChart, "80s", power);
+    }
+
     console.log('CAN: Speed= '+speed+ ' Power= '+ power)
 }
 eel.expose(updateSOC);
