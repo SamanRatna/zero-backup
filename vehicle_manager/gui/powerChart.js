@@ -45,7 +45,7 @@ var powerChart = new Chart(ctx, {
                     fontStyle: "bold",
                     beginAtZero: true,
                     maxTicksLimit: 5,
-                    max: 35,
+                    max: 120,
                     padding: 20,
                     display: false
                 },

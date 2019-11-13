@@ -173,8 +173,8 @@ function updateSpeedPower(speed, power) {
         document.getElementById("power-pop-value").innerHTML=0;
         addData(powerChart, "80s", 0);
     } else {
-        document.getElementById("power-pop-value").innerHTML=power;
-        addData(powerChart, "80s", power);
+        document.getElementById("power-pop-value").innerHTML=speed;
+        addData(powerChart, "80s", speed);
     }
 
     console.log('CAN: Speed= '+speed+ ' Power= '+ power)
