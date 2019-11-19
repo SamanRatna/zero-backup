@@ -1,0 +1,36 @@
+* {
+    /* height: 1920px;
+    width: 1200px; */
+    font-family: 'Barlow', sans-serif;
+    font-size: 50px;
+}
+.page {
+    height: 1920px;
+    width: 1200px;
+}
+.frame-notification {
+    position: relative;
+    height:5%;
+    width: 100%;
+}
+.frame-status {
+    position: relative;
+    height: 13%;
+    width: 80%;
+    margin-left: 10%;
+}
+.frame-mode {
+    position: relative;
+    height: 9%;
+    width: 100%;
+}
+.frame-slider {
+    position: relative;
+    height: 59%;
+    width: 100%;
+}
+.frame-logo {
+    position: relative;
+    height: 14%;
+    width: 100%;
+}

@@ -1,0 +1,30 @@
+#mode-notification {
+	color: white;
+    padding-left: 2%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 3rem;
+	border-radius: 0px 0px 10px 0px;
+	background: rgb(172, 172, 172);
+	width: 25%;
+	height: 100%;
+	float:left;
+	text-align: left;
+}
+#bluetooth-notification {
+	width: 7%;
+	max-height: 90%;
+	float: right;
+	text-align: center;
+	margin-top:5px;
+}
+
+#time-notification {
+    height: 100%;
+    padding: 0px;
+    width: 13%;
+    float: right;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 3rem;
+    color: white;
+
+}

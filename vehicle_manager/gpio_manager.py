@@ -41,9 +41,8 @@ class GPIOReader():
         GPIO.add_event_detect(3, GPIO.FALLING, callback=self.threadLeftTurn ,bouncetime=250)
         GPIO.add_event_detect(4, GPIO.FALLING, callback=self.threadRightTurn ,bouncetime=250)
         GPIO.add_event_detect(27, GPIO.FALLING, callback=self.threadRUPress ,bouncetime=250)
-        GPIO.add_event_detect(22, GPIO.FALLING, callback=self.threadRBPress ,bouncetime=250)
+        # GPIO.add_event_detect(22, GPIO.FALLING, callback=self.threadRBPress ,bouncetime=250)
         # GPIO.add_event_detect(17, GPIO.FALLING, callback=threadRDPress ,bouncetime=150)
-
 
     def initializeGPIOThreads(self):
         # self.tHibeam = threading.Thread(target = self.threadHibeam)
@@ -51,18 +50,26 @@ class GPIOReader():
         self.tBrake = threading.Thread(target = self.threadBrake)
         # self.tLTurn = threading.Thread(target = self.threadLeftTurn)
         # self.tRTurn = threading.Thread(target = self.threadRightTurn)
-        # self.tRUPress = threading.Thread(target = self.threadRUPress)
-        # self.tRBPress = threading.Thread(target = self.threadRBPress)
+        self.tRUPress = threading.Thread(target = self.threadRUPress)
+        self.tRBPress = threading.Thread(target = self.threadRBPress)
         self.tRDPress = threading.Thread(target = self.threadRDPress)
-
+        # self.tLowBattery = threading.Thread(target = self.threadLowBattery)
         # self.tHibeam.start()
         # self.tStand.start()
         self.tBrake.start()
         # self.tLTurn.start()
         # self.tRTurn.start()
-        # self.tRUPress.start()
-        # self.tRBPress.start()
+        self.tRUPress.start()
+        self.tRBPress.start()
         self.tRDPress.start()
+    def threadLowBattery(self):
+        while True:
+            GPIO.output(19, False)
+            GPIO.output(26, False)  
+            sleep(0.5)
+            GPIO.output(19, True)
+            GPIO.output(26, True)
+            sleep(0.5)
 
     def threadHibeam(self, value):
             state = GPIO.input(2);
@@ -74,8 +81,13 @@ class GPIOReader():
     def threadRightTurn(self, value):
             vehicleEvents.onRightSideLightToggle()
     
-    def threadRBPress(self, value):
-            vehicleEvents.onRBPress()
+    def threadRBPress(self):
+        while True:
+            sleep(0.2)
+            state = GPIO.input(22)
+            #print('RB state: ', state)
+            if( state == GPIO.LOW):
+                vehicleEvents.onRBPress()
 
     def threadRDPress(self):
         while True:
@@ -93,9 +105,13 @@ class GPIOReader():
                 vehicleEvents.onRDHold()
             sleep(0.2)
 
-    def threadRUPress(self, value):
-            vehicleEvents.onRUPress()
-
+    def threadRUPress(self):
+        while True:
+            sleep(0.2)
+            state = GPIO.input(27)
+            #print('RU state: ', state)
+            if( state == GPIO.LOW):
+                vehicleEvents.onRUPress()
     def threadStand(self, value):
             state = GPIO.input(pin)
             vehicleEvents.onStandSwitch(state)
@@ -178,8 +194,10 @@ class GPIOWriter():
     def initializeGPIO(self):
         GPIO.setmode(GPIO.BCM)
         outputChannel = [14, 15, 18, 23, 24, 25, 8, 7, 16, 12]
+        ledChannel = [5, 6, 13, 19, 26]
         GPIO.setup(outputChannel, GPIO.OUT, initial=GPIO.HIGH)
-
+        GPIO.setup(ledChannel, GPIO.OUT, initial=GPIO.LOW)
+        self.bootupLedAnimation()
 
     def setIgn(self, value):
         GPIO.output(8, value)
@@ -203,6 +221,10 @@ class GPIOWriter():
             GPIO.output(23, True)
             GPIO.output(25, True)
             GPIO.output(15, False)
+            #led-output
+            GPIO.output(5, False)
+            GPIO.output(6, True)
+            GPIO.output(13, False)
 
         elif mode == eBikeMode.MODE_SUSTE:
             GPIO.output(18, True)
@@ -210,6 +232,10 @@ class GPIOWriter():
             GPIO.output(15, False)
             GPIO.output(24, True)
             GPIO.output(14, False)
+            #led-output
+            GPIO.output(5, True)
+            GPIO.output(6, False)
+            GPIO.output(13, False)
 
         elif mode == eBikeMode.MODE_BABBAL:
             GPIO.output(23, True)
@@ -217,6 +243,10 @@ class GPIOWriter():
             GPIO.output(24, True)
             GPIO.output(14, True)
             GPIO.output(18, False)
+            #led-output
+            GPIO.output(5, False)
+            GPIO.output(6, False)
+            GPIO.output(13, True)
 
         elif mode == eBikeMode.MODE_REVERSE:
             GPIO.output(15, True)
@@ -224,6 +254,10 @@ class GPIOWriter():
             GPIO.output(14, True)
             GPIO.output(18, True)
             GPIO.output(23, False)
+            #led-output
+            GPIO.output(5, False)
+            GPIO.output(6, False)
+            GPIO.output(13, False)
 
         elif mode == eBikeMode.MODE_CHARGING:
             GPIO.output(15, True)
@@ -231,6 +265,10 @@ class GPIOWriter():
             GPIO.output(18, True)
             GPIO.output(23, True)
             GPIO.output(24, False)
+            #led-output
+            GPIO.output(5, True)
+            GPIO.output(6, False)
+            GPIO.output(13, True)
 
         elif mode == eBikeMode.MODE_STANDBY:
             GPIO.output(15, True)
@@ -238,6 +276,106 @@ class GPIOWriter():
             GPIO.output(18, True)
             GPIO.output(23, True)
             GPIO.output(24, False)
+            #led-output
+            #self.bootupLedAnimation()
+            
+
+            GPIO.output(5, True)
+            GPIO.output(6, True)
+            GPIO.output(13, True)
+    
+    def setSOC(self, soc):
+        if(soc >= 80):
+            GPIO.output(19, True)
+            GPIO.output(26, True)
+        elif(soc >= 60):
+            GPIO.output(19, True)
+            GPIO.output(26, False)        
+        elif(soc >= 40):
+            GPIO.output(19, False)
+            GPIO.output(26, True)        
+        elif(soc >= 20):
+            GPIO.output(19, False)
+            GPIO.output(26, False)  
+            sleep(0.3)
+            GPIO.output(19, True)
+            GPIO.output(26, True)
+            sleep(0.3)      
+        else:
+            GPIO.output(19, False)
+            GPIO.output(26, False)  
+
+    def bootupLedAnimation(self):
+        GPIO.output(5,True)
+        sleep(0.2)
+        GPIO.output(5,False)
+        GPIO.output(6,True)
+        sleep(0.2)
+        GPIO.output(6,False)
+        GPIO.output(13,True)
+        sleep(0.2)
+        GPIO.output(13,False)
+        GPIO.output(19,True)
+        sleep(0.2)
+        GPIO.output(19,False)
+        GPIO.output(26,True)
+        sleep(0.2)
+        GPIO.output(26,False)
+        sleep(0.2)
+        GPIO.output(5,True)
+        sleep(0.2)
+        GPIO.output(5,False)
+        GPIO.output(6,True)
+        sleep(0.2)
+        GPIO.output(6,False)
+        GPIO.output(13,True)
+        sleep(0.2)
+        GPIO.output(13,False)
+        GPIO.output(19,True)
+        sleep(0.2)
+        GPIO.output(19,False)
+        GPIO.output(26,True)
+        sleep(0.2)
+        GPIO.output(26,False)
+        sleep(0.2)
+
+        GPIO.output(5,True)
+        GPIO.output(6,True)
+        GPIO.output(13,True)
+        GPIO.output(19,True)
+        GPIO.output(26,True)
+        sleep(0.2)
+        GPIO.output(5,False)
+        GPIO.output(6,False)
+        GPIO.output(13,False)
+        GPIO.output(19,False)
+        GPIO.output(26,False)
+        sleep(0.2)
+        GPIO.output(5,True)
+        GPIO.output(6,True)
+        GPIO.output(13,True)
+        GPIO.output(19,True)
+        GPIO.output(26,True)
+        sleep(0.2)
+        GPIO.output(5,False)
+        GPIO.output(6,False)
+        GPIO.output(13,False)
+        GPIO.output(19,False)
+        GPIO.output(26,False)
+        sleep(0.2)
+        GPIO.output(5,True)
+        GPIO.output(6,True)
+        GPIO.output(13,True)
+        GPIO.output(19,True)
+        GPIO.output(26,True)
+        sleep(0.2)
+        GPIO.output(5,False)
+        GPIO.output(6,False)
+        GPIO.output(13,False)
+        GPIO.output(19,False)
+        GPIO.output(26,False)
+        
+
 
 class GPIOWriterMock:
     def __init__(self):

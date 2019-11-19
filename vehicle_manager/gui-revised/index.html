@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<!-- -->
+
+<head>
+    <title>Yatri Project 0.2</title>
+    <link rel="stylesheet" type="text/css" href="css/frame.css">
+    <link rel="stylesheet" type="text/css" href="css/frame-status.css">
+    <link rel="stylesheet" type="text/css" href="css/frame-mode-logo.css">
+    <link rel="stylesheet" type="text/css" href="css/frame-notification.css">
+    <link rel="stylesheet" type="text/css" href="css/frame-slider.css">
+    <link rel="stylesheet" type="text/css" href="css/modal.css">
+
+    <!-- <link rel="stylesheet" type="text/css" href="css/inherit.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Barlow:400,700&display=swap" rel="stylesheet">
+
+    <!-- it is always important to load all other dependencies then only call main.css and main.js -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body style="background: turquoise;">
+
+<div class="page" id="page-zero" style="padding:0px; margin:0px;background-color:white;">
+    <!------------ Notification Frame ------------>
+    <div class='frame-notification'>
+        <div id='notification-time'>Time</div>
+    </div>
+    
+    <!----------- Status Frame ------------>
+    <div class='frame-status'>
+        <div id="power-status">
+            <div id='power-status-value'>0</div>
+            <div id='power-status-unit'>hp</div>
+        </div>
+        <div id='speed-status'>
+            <div id='speed-status-value'>0</div>
+            <div id='speed-status-unit'>km/h</div>
+        </div>
+        <div id='soc-status'>
+            <div id='soc-status-value'>75</div>
+            <div id='soc-status-unit'>%</div>
+        </div>    
+    </div>
+    
+    <!------------ Mode Frame ------------>
+    <div class='frame-mode'>
+        <div id="mode-line"></div>
+        <div id="mode-line-speed-forward"></div>
+        <div id="mode-line-speed-reverse"></div>
+        <div id="mode-text-left">SUSTE</div>
+        <div id="mode-text-middle">STANDBY</div>
+        <div id="mode-text-right">BABBAL</div>
+        <div id="mode-wave-container">
+            <img src='icons/jumping-dots.gif' id='mode-wave'>
+        </div>
+    </div>
+
+    <!------------ Slider Frame ------------>
+    <div class='frame-slider'>
+        <div id="slider-one" class="carousel slide">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner slide-content">
+              <div class="item slide-content active">
+                <img src="images/bike.png" id='slide-image-bike' alt="Project Zero Bike">
+              </div>
+          
+              <div class="item slide-content">
+                <div class='slide-content' id='slide-map-container'>
+                    <div id='slide-map'></div>
+                    <div id='slide-gradient-top'></div>
+                    <div id='slide-gradient-bottom'></div>
+                    <div id='navigation-button'><img src='icons/navigate.svg'></div>
+                </div>
+                <img src='images/map-still.JPG' class='slide-content'>
+              </div>
+          
+              <div class="item slide-content">
+                <img src="images/teaser.jpg" alt="New York">
+              </div>
+            </div>
+          </div>
+
+            <div id='left-slider' href="#slider-one">
+                <img src='icons/slider-home-left.svg' class='slider-left' id='left-slider-content'>
+            </div>
+            <div id='right-slider' href="#slider-one">
+                <img src="icons/slider-map-right.svg" class='slider-right' id='right-slider-content'>
+            </div>
+    </div>
+
+    <!------------ Logo Frame ------------>
+    <div class='frame-logo'>
+        <img id='yatri-logo' src='images/logo.png'/>
+    </div>
+</div>
+
+<!-- SOC and Range Popup/Modal -->
+<div id="socModal" class="Modal is-hidden is-visuallyHidden">
+        <!-- Modal content -->
+        <div class="Modal-content">
+            <span id="closeModal" class="Close"></span>
+            <div id="modal-range">
+                <div id="modal-battery">
+                        <div class="modal-range-icon">
+                                <img src="icons/battery.svg" style="max-height: 120px;"/>
+                        </div>
+                        <div class="modal-range-title">Battery</div>
+                        <div class="modal-range-value">60</div>
+                        <div class="modal-range-unit">%</div>
+                </div>
+                <div id="modal-mode">
+                    <div class="modal-range" id="modal-suste">
+                        <div class="modal-range-icon">
+                            <img src="icons/roller.svg" style="max-height: 120px;"/>
+                        </div>
+                        <div class="modal-range-title">Suste</div>
+                        <div class="modal-range-value">60</div>
+                        <div class="modal-range-unit">km</div>
+                    </div>
+                    <div class="modal-range" id="modal-thikka">
+                        <div class="modal-range-icon">
+                            <img src="icons/motorcycle.svg" style="max-height: 120px;"/>
+                        </div>
+                        <div class="modal-range-title">Thikka</div>
+                        <div class="modal-range-value">50</div>
+                        <div class="modal-range-unit">km</div>
+                    </div>
+                    <div class="modal-range" id="modal-babbal">
+                        <div class="modal-range-icon">
+                            <img src="icons/speed.svg" style="max-height: 110px;"/>
+                        </div>
+                        <div class="modal-range-title">Babbal</div>
+                        <div class="modal-range-value">40</div>
+                        <div class="modal-range-unit">km</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src='javascript/notification.js'></script>
+<script src='javascript/slider.js'></script>
+<script src='javascript/modal.js'></script>
+<script src='javascript/animations.js'></script>
+
+<script type="text/javascript" src="/eel.js"></script>
+<script src='javascript/bikeStatus.js'></script>
+<script src='javascript/map.js'></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs&callback=initMap" async defer>
+</script>
+<script src='javascript/speedDemo.js'></script>
+</body>
+
+</html>

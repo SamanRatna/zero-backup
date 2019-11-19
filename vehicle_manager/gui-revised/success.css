@@ -1,0 +1,48 @@
+.icon-check {
+    display: none;
+}
+.icon-check .circle {
+    -webkit-animation-name: circleCheck;
+    animation-name: circleCheck;
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    /* stroke-dashoffset: 700; */
+    stroke-dasharray: 700;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+}
+
+.icon-check .check {
+    -webkit-animation-name: check;
+    animation-name: check;
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    stroke-dashoffset: 1000;
+    stroke-dasharray: 1000;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes check {
+    /* from{
+        stroke-dashoffset: 700;
+    } */
+    to {
+            stroke-dashoffset: 0;
+    }
+}
+
+@keyframes circleCheck {
+    from{
+        stroke-dashoffset: 700;
+    }
+    to {
+            stroke-dashoffset: 0;
+    }
+}

@@ -1,7 +1,7 @@
 import eel
 import threading
 
-eel.init('gui')
+eel.init('gui-revised')
 # my_options = {
 #     'mode': "chrome", #or "chrome-app",
 #     'host': 'localhost',

@@ -1,0 +1,12 @@
+#notification-time {
+    position: relative;
+    float: right;
+    width: 18%;
+    height: 60%;
+    margin-right: 0.5%;
+    margin-top: 1.5%;
+    font-size: 35px;
+    text-align: center;
+
+    color: #898989;
+}

@@ -1,0 +1,122 @@
+#mode-line {
+    position: absolute;
+    width: 1005px;
+    height: 0px;
+    left: 98px;
+    top: 50px;
+
+    border: 1px solid rgba(174, 174, 174, 0.4);
+    z-index: 0;
+}
+/* 
+    left value for center of the lines: px
+    Width for full-speed: 503px
+
+    left value for full-reverse-speed: 98 px;
+*/
+#mode-line-speed-forward {
+    position: absolute;
+    width: 0px; 
+    /*  */
+    height: 0px;
+    left: 600px;
+    top: 49px;
+
+    border: 2px solid #30D5C8;
+    box-shadow: 0px 0px 5px #30D5C8;
+    z-index: 1;
+    display: none;
+}
+#mode-line-speed-reverse {
+    position: absolute;
+    width: 0px;
+    /* Width for full-speed: 503px */
+    height: 0px;
+    left: 600px;
+    /* Left for full-speed 98px */
+    top: 49px;
+
+    border: 2px solid #30D5C8;
+    box-shadow: 0px 0px 5px #30D5C8;
+    z-index: 1;
+    display: block;
+}
+
+#mode-text-middle {
+    position: absolute;
+    width: 176px;
+    height: 51px;
+    left: 512px;
+    top: 80px;
+
+    font-family: Barlow;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 42px;
+    text-align: center;
+
+    color: #000000;
+}
+#mode-text-left {
+    position: absolute;
+    width: 176px;
+    height: 51px;
+    left: 330px;
+    top: 80px;
+
+    /* Mode Active */
+
+    font-family: Barlow;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 35px;
+    line-height: 42px;
+    text-align: center;
+
+    color: #AEAEAE;
+    opacity: 0;
+}
+#mode-text-right {
+    position: absolute;
+    width: 176px;
+    height: 51px;
+    left: 700px;
+    top: 80px;
+
+    /* Mode Active */
+
+    font-family: Barlow;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 35px;
+    line-height: 42px;
+    text-align: center;
+
+    color: #AEAEAE;
+    opacity: 0;
+}
+#yatri-logo {
+    position: absolute;
+    width: 25%;
+    height: 30%;
+    left: 38%;
+    top: 30%;
+}
+
+#mode-wave-container {
+    position: absolute;
+    width: 176px;
+    height: 51px;
+    left: 700px;
+    top: 80px;
+    display: none;
+}
+
+#mode-wave {
+    position: absolute;
+    background: white;
+    left: 0px;
+    top: 0px;
+    opacity: 0.8;
+}

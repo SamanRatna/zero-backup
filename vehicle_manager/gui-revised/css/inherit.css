@@ -1,0 +1,10 @@
+#yatri-estate{
+    position: relative;
+    height: 59%;
+    width: 100%;
+    background: grey;
+  }
+
+  #slide{
+    overflow: hidden;
+  }

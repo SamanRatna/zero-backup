@@ -5,9 +5,11 @@ import can
 import random
 import os
 from gui import *
+from gpio_manager import GPIOWriter
 
 class CANHandler:
-    def __init__(self):
+    def __init__(self, _gpioWriter):
+        self.gpioWriter = _gpioWriter
         #Parameters
         self.chargingStatus = 'Discharging'
         self.chargingCurrent        = 0     # Ampere
@@ -33,12 +35,13 @@ class CANHandler:
         self.bus = can.interface.Bus()
 
         #Configure logger
-        logging.basicConfig(filename="can.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='w')
+        logging.basicConfig(filename="chitwan.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='a')
         self.canLogger=logging.getLogger()
         self.canLogger.setLevel(logging.WARNING)
         
         #Start CAN
         self.startCAN()
+
 
     def extractCANData(self):
         while True:
@@ -47,6 +50,8 @@ class CANHandler:
                 if message.arbitration_id != 128:
                     if message.arbitration_id == 415236097:
                         data = message.data
+                        canlogdata = str(message.arbitration_id) + ' - ' + str(data)
+                        self.canLogger.warning(canlogdata)
                         #Battery Frame 0
                         if( (len(data) > 1) and (data[0] == 0)):
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
@@ -62,7 +67,7 @@ class CANHandler:
                             self.chargingCurrent = round(((new_data[5]<<8) + new_data[6])*0.01, 1)
                             logMessage = 'Frame:    0' + ' - ' +'PackVoltage:    ' + str(self.packVoltage) + ' V' + ' - ' + 'Power:  ' + str(self.power)
                             #print(logMessage)
-                            self.canLogger.warning(logMessage)
+                            #self.canLogger.warning(logMessage)
                         
                         #Battery Frame 1   
                         # elif( (len(data) > 1) and (data[0] == 1)):
@@ -104,7 +109,7 @@ class CANHandler:
 
                             self.timeToCharge = (new_data[6]<<8) + new_data[7]
                             logMessage = 'Frame:    5' + ' - ' + 'SOC:  ' + str(self.stateOfCharge) + ' % - TimeToCharge:   ' + str(self.timeToCharge) + ' min '
-                            #print(logMessage)
+                            print(logMessage)
                             self.canLogger.info(logMessage)
                         #Battery Frame 6
                         elif( (len(data) > 1) and (data[0] == 6)):
@@ -146,9 +151,9 @@ class CANHandler:
                         elif s_o_charge > 100:
                             s_o_charge = 100
                         est_range = s_o_charge * 1.5  # Assuming 150km when 100%
-                        logMessage = 'Frame:    663' + ' - ' + 'DischargingCurrent:  ' + str(self.dischargingCurrent) + ' A - ' + 'Power:   '+str(self.power) 
+                        #logMessage = 'Frame:    663' + ' - ' + 'DischargingCurrent:  ' + str(self.dischargingCurrent) + ' A - ' + 'Power:   '+str(self.power) 
                         #print(logMessage)
-                        self.canLogger.warning(logMessage)
+                        #self.canLogger.warning(logMessage)
                     # Motor Controller
                     elif message.arbitration_id == 1024:
                         # Perform data swap in binary
@@ -164,9 +169,9 @@ class CANHandler:
                         # Fix negative torque issue
                         if self.actualTorque > 4096/2:
                             self.actualTorque = int(self.actualTorque-4096)
-                        logMessage = 'Frame:    1024' + ' - ' + 'BikeSpeed:  ' + str(self.bikeSpeed) + ' rpm - ActualTorque:   ' + str(self.actualTorque) + ' Nm '
+                        #logMessage = 'Frame:    1024' + ' - ' + 'BikeSpeed:  ' + str(self.bikeSpeed) + ' rpm - ActualTorque:   ' + str(self.actualTorque) + ' Nm '
                         #print(logMessage)
-                        self.canLogger.info(logMessage)
+                        #self.canLogger.info(logMessage)
                     elif message.arbitration_id == 336:
                         # Perform data swap in binary
                         data = message.data
@@ -195,8 +200,8 @@ class CANHandler:
                         drive_prof_hex = new_data[0] + new_data[1]
                         drive_prof = int(drive_prof_hex, 16)*1
                         self.driveMode = drive_prof
-                        logMessage = 'Frame:    664' + ' - ' + 'DriveMode:  ' + str(drive_prof)
-                        #print(logMessage)
+                        #logMessage = 'Frame:    664' + ' - ' + 'DriveMode:  ' + str(drive_prof)
+                        print(logMessage)
                         self.canLogger.info(logMessage)
                     elif message.arbitration_id == 769:
                         # Perform data swap in binary
@@ -215,9 +220,9 @@ class CANHandler:
                         self.odometer = odometer
                         htsink_temp = int(int(htsink_temp_hex, 16)*1)
                         dig_input = int(int(dig_input_hex, 16)*1)
-                        logMessage = 'Frame:    769' + ' - ' + 'Odometer:  ' + str(odometer) + ' km'
+                        #logMessage = 'Frame:    769' + ' - ' + 'Odometer:  ' + str(odometer) + ' km'
                         #print(logMessage)
-                        self.canLogger.info(logMessage)
+                        # self.canLogger.info(logMessage)
 
     def requestCANFrames(self):
         while True:
@@ -246,6 +251,9 @@ class CANHandler:
     def pushSlowData(self):
         while True:
             publishSOC(self.stateOfCharge)
+            #self.stateOfCharge = 55
+            # print('SOC: ', self.stateOfCharge)
+            self.gpioWriter.setSOC(self.stateOfCharge)
             time.sleep(1)
     
     def startCAN(self):
