@@ -43,3 +43,11 @@ def startGUIThread():
         guiThread.start()
     except:
         print("Error: Unable to start the GUI thread.")
+
+@eel.expose
+def rebootBoard():
+    print('Rebooting the computer...')
+
+@eel.expose
+def startFastCharge():
+    print('Starting Fast Charging')

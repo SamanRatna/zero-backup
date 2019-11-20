@@ -1,0 +1,93 @@
+/* * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+} */
+
+#logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: yatri-fill 1s ease forwards 3s;
+}
+
+#logo path:nth-child(1){
+    stroke-dasharray: 950px;
+    stroke-dashoffset: 950px;
+    animation: yatri-animation 4s ease forwards;
+}
+#logo path:nth-child(2){
+    stroke-dasharray: 719px;
+    stroke-dashoffset: 719px;
+    animation: yatri-animation 4s ease forwards;
+}
+#logo path:nth-child(3){
+    stroke-dasharray: 536px;
+    stroke-dashoffset: 536px;
+    animation: yatri-animation 4s ease forwards;
+}
+#logo path:nth-child(4){
+    stroke-dasharray: 648px;
+    stroke-dashoffset: 648px;
+    animation: yatri-animation 4s ease forwards;
+}
+#logo path:nth-child(5){
+    stroke-dasharray: 434px;
+    stroke-dashoffset: 434px;
+    animation: yatri-animation 4s ease forwards;
+}
+
+@keyframes yatri-animation{
+    to{
+        stroke-dashoffset: 0px;
+    }
+}
+
+@keyframes yatri-fill{
+    from{
+        fill: transparent;
+    }
+    to{
+        fill: black;
+    }
+}
+.splash-frame-logo {
+    position: absolute;
+    height: 14%;
+    width: 100%;
+    bottom: 0;
+}
+
+#logo-lower {
+    position: absolute;
+    top: 53%;
+    left: 48.5%;
+    opacity: 0;
+    animation: splash-logo-animation 1s ease forwards 3s;
+}
+
+#splash-yatri-logo {
+    position: absolute;
+    width: 25%;
+    height: 30%;
+    left: 38%;
+    top: 30%;
+    opacity: 0;
+    animation: splash-logo-animation 1s ease forwards 3s;
+}
+
+@keyframes splash-logo-animation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -2,6 +2,7 @@ $slide=0;
 $clickDisabled=0;
 $clickTimeout = 750;
 
+// Carousel in the User Slide
 $(document).ready(function(){
     // Cycles to the next item
     $("#right-slider").click(function(){
@@ -41,15 +42,14 @@ $(document).ready(function(){
             }, $clickTimeout)
         }
       });
-
   });
 
-  $("#slider-one").carousel('next');
-            $slide = $slide + 1;
-            if($slide == 1){
-                $('#left-slider').css("display","block");
-            }
-            else if($slide == 2){
-                $('#right-slider').css("display","none");
-                $('#left-slider-content').attr('src', 'icons/slider-map-left.svg')
-            }
+//   $("#slider-one").carousel('next');
+//             $slide = $slide + 1;
+//             if($slide == 1){
+//                 $('#left-slider').css("display","block");
+//             }
+//             else if($slide == 2){
+//                 $('#right-slider').css("display","none");
+//                 $('#left-slider-content').attr('src', 'icons/slider-map-left.svg')
+//             }

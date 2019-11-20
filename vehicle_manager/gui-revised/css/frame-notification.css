@@ -10,3 +10,32 @@
 
     color: #898989;
 }
+
+.notification-signal {
+    position: relative;
+    float: left;
+    width: 60px;
+    height: 60px;
+}
+
+#notification-hibeam{
+    display:none;
+}
+#notification-lowbeam{
+    display:none;
+}
+#notification-leftsidelight{
+    display:none;
+}
+#notification-rightsidelight{
+    display:none;
+}
+
+@keyframes signal-activate {
+    from {
+        display: none;
+    }
+    to {
+        display: block;
+    }
+}

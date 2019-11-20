@@ -1,3 +1,5 @@
+plusSlides(1);
+
 setMode('MODE_THIKKA');
 
 //Speed Generator Function
@@ -36,3 +38,8 @@ setInterval(function(){
     setSpeed(dSpeed);
 }, 50);
 
+//signal-demo
+activateLeftSideLight(true);
+activateRightSideLight(true);
+activateHibeam(true);
+activateLowbeam(true);
