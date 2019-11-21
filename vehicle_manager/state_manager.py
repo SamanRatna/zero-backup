@@ -31,7 +31,7 @@ class StateManager():
         vehicleEvents.onRDPress += self.bikeModeMgr.onRightDown
         vehicleEvents.onRBPress += self.bikeModeMgr.onRightBack
         vehicleEvents.onRDHold += self.bikeModeMgr.onRightDownHold
-
+        vehicleEvents.onCharging += self.bikeModeMgr.onCharging
         vehicleEvents.onStandSwitch += self.updateStandState
         """
         vehicleEvents.onRightSideLightToggle += self.updateSideLightState

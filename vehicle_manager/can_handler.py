@@ -6,6 +6,7 @@ import random
 import os
 from gui import *
 from gpio_manager import GPIOWriter
+from event_handler import *
 
 class CANHandler:
     def __init__(self, _gpioWriter):
@@ -14,6 +15,7 @@ class CANHandler:
         #Parameters
         self.chargingStatus = 'Discharging'
         self.chargingCurrent        = 0     # Ampere
+        self.chargingCurrentCharger = 0     # Ampere
         self.packVoltage            = 0     # Volts
         self.stateOfCharge          = 0     # Percentage
         self.timeToCharge           = 0     # Minutes
@@ -36,13 +38,18 @@ class CANHandler:
         self.bus = can.interface.Bus()
 
         #Configure logger
-        logging.basicConfig(filename="chitwan.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='a')
+        logging.basicConfig(filename="can.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='w')
         self.canLogger=logging.getLogger()
         self.canLogger.setLevel(logging.WARNING)
         
         #Start CAN
         self.startCAN()
 
+    def setChargingStatus(self, status):
+        if(status != self.chargingStatus):
+            print('Charge Status: ', status)
+            self.chargingStatus = status
+            vehicleEvents.onCharging(self.chargingStatus)
 
     def extractCANData(self):
         while True:
@@ -59,14 +66,15 @@ class CANHandler:
 
                             batteryStatus = (new_data[1]<<8) + new_data[2]
                             if((batteryStatus & 128) == 0):
-                                self.chargingStatus = 'Discharging'
+                                self.setChargingStatus('discharging')
                             else:
-                                self.chargingStatus = 'Charging'
+                                self.setChargingStatus('charging')
 
                             self.packVoltage = int( ((new_data[3]<<8) + new_data[4])*0.1)
                             self.power = int(self.packVoltage * self.dischargingCurrent)
                             self.chargingCurrent = round(((new_data[5]<<8) + new_data[6])*0.01, 1)
-                            logMessage = 'Frame:    0' + ' - ' +'PackVoltage:    ' + str(self.packVoltage) + ' V' + ' - ' + 'Power:  ' + str(self.power)
+                            #self.canLogger.warning(self.chargingCurrent)
+                            #logMessage = 'Frame:    0' + ' - ' +'PackVoltage:    ' + str(self.packVoltage) + ' V' + ' - ' + 'Power:  ' + str(self.power)
                             #print(logMessage)
                             #self.canLogger.warning(logMessage)
                         
@@ -90,7 +98,7 @@ class CANHandler:
 
                             logMessage = 'Frame:    2' + ' - ' + 'AverageCurrent:    ' + str(self.averageCurrent) + ' A'
                             #print(logMessage)
-                            self.canLogger.info(logMessage)
+                            #self.canLogger.info(logMessage)
                         
                         #Battery Frame 4   
                         elif( (len(data) > 1) and (data[0] == 4)):
@@ -101,7 +109,7 @@ class CANHandler:
                             self.lowTemp = int(((new_data[5]<<8) + new_data[6])*0.1)
                             logMessage = 'Frame:    4' + ' - ' + 'HighTemp:    ' + str(self.highTemp) + ' Celsius' + ' - ' + 'LowTemp:  ' + str(self.lowTemp) + ' Celsius'
                             #print(logMessage)
-                            self.canLogger.info(logMessage)
+                            #self.canLogger.info(logMessage)
                         
                         #Battery Frame 5
                         elif( (len(data) > 1) and (data[0] == 5)):
@@ -110,8 +118,8 @@ class CANHandler:
 
                             self.timeToCharge = (new_data[6]<<8) + new_data[7]
                             logMessage = 'Frame:    5' + ' - ' + 'SOC:  ' + str(self.stateOfCharge) + ' % - TimeToCharge:   ' + str(self.timeToCharge) + ' min '
-                            print(logMessage)
-                            self.canLogger.info(logMessage)
+                            #print(logMessage)
+                            #self.canLogger.info(logMessage)
                         #Battery Frame 6
                         elif( (len(data) > 1) and (data[0] == 6)):
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
@@ -119,7 +127,7 @@ class CANHandler:
                             self.timeToDischarge = int(((new_data[1]<<8) + new_data[2]))
                             logMessage = 'Frame:    6' + ' - ' + 'TimeToDischarge:    ' + str(self.highTemp) + ' Celsius'
                             #print(logMessage)
-                            self.canLogger.info(logMessage)
+                            #self.canLogger.info(logMessage)
                         
                     elif message.arbitration_id == 663:
                         # Perform data swap in binary
@@ -202,8 +210,8 @@ class CANHandler:
                         drive_prof = int(drive_prof_hex, 16)*1
                         self.driveMode = drive_prof
                         #logMessage = 'Frame:    664' + ' - ' + 'DriveMode:  ' + str(drive_prof)
-                        print(logMessage)
-                        self.canLogger.info(logMessage)
+                        #print(logMessage)
+                       # self.canLogger.info(logMessage)
                     elif message.arbitration_id == 769:
                         # Perform data swap in binary
                         data = message.data
@@ -224,6 +232,11 @@ class CANHandler:
                         #logMessage = 'Frame:    769' + ' - ' + 'Odometer:  ' + str(odometer) + ' km'
                         #print(logMessage)
                         # self.canLogger.info(logMessage)
+                    elif message.arbitration_id == 773:
+                        data = message.data
+                        new_data = [data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7]]
+                        self.chargingCurrentCharger = round(((new_data[3]<<8) + new_data[4])*0.1, 1)
+                        self.canLogger.warning(self.chargingCurrentCharger)
 
     def requestCANFrames(self):
         while True:

@@ -28,17 +28,20 @@ def startGUI():
 def publishBikeMode(mode):
     eel.updateBikeMode(mode.name)
 
-def publishLeftTurnStatus(status):
-    if status==True:
-        eel.updateLeftTurnStatus(1)
-    else:
-        eel.updateLeftTurnStatus(0)
+# def publishLeftTurnStatus(status):
+#     if status==True:
+#         eel.updateLeftTurnStatus(1)
+#     else:
+#         eel.updateLeftTurnStatus(0)
 
-def publishRightTurnStatus(status):
-    if status==True:
-        eel.updateRightTurnStatus(1)
-    else:
-        eel.updateRightTurnStatus(0)
+# def publishRightTurnStatus(status):
+#     if status==True:
+#         eel.updateRightTurnStatus(1)
+#     else:
+#         eel.updateRightTurnStatus(0)
+
+def publishSideLightStatus(status):
+    eel.updateSideLight(status)
 
 def publishSpeedPower(speed, power):
     eel.updateSpeedPower(speed, power)
@@ -68,6 +71,8 @@ def startFastCharge(option):
         return;
     pFastCharge = multiprocessing.Process(target = fastCharge, args=(option,))
     pFastCharge.start()
+    pFastCharge.join()
+    print('Finished the charge process.')
 
 def fastCharge(option):
     count = 1200*option

@@ -8,7 +8,10 @@ class BikeModeManager:
         self.gpioMgr = gpioWriter
         self.mode.onStateChange()
         print(self.mode)
-        
+    
+    def onCharging(self, status):
+        self.mode.onCharge(status)
+
     def onRightUp(self):
         self.mode.onRightUp()
     
@@ -35,6 +38,9 @@ class BikeMode:
     def __init__(self,_context):
         self.context = _context
 
+    def onCharge(self, status):
+        pass
+        
     def onRightUp(self):
         pass
 
@@ -61,8 +67,13 @@ class ModeStandby(BikeMode):
     def onRightDown(self):
         self.context.transitionTo(ModeThikka(self.context))
 
+    def onCharge(self, status):
+        if(status == 'charging'):
+            self.context.transitionTo(ModeCharging(self.context))
+
     def onStateChange(self):
         self.context.setMode(eBikeMode.MODE_STANDBY)
+    
 
 class ModeSuste(BikeMode):
     def onRightDown(self):
@@ -105,6 +116,9 @@ class ModeReverse(BikeMode):
         self.context.setMode(eBikeMode.MODE_REVERSE)
 
 class ModeCharging(BikeMode):
+    def onCharge(self, status):
+        if(status == 'discharging'):
+            self.context.transitionTo(ModeStandby(self.context))
+
     def onStateChange(self):
         self.context.setMode(eBikeMode.MODE_CHARGING)
-

@@ -56,13 +56,13 @@ eel.expose(updateSpeedPower);
 function updateSpeedPower(speed, power) {
     setSpeed(speed);
     document.getElementById('power-status-value').innerHTML = power;
-    console.log('CAN: Speed= '+speed+ ' Power= '+ power)
+    // console.log('CAN: Speed= '+speed+ ' Power= '+ power)
 }
 eel.expose(updateSOC);
 function updateSOC(soc) {
     document.getElementById('soc-status-value').innerHTML = soc;
     document.getElementById('engg-battery-status').innerHTML = soc;
-    console.log('CAN: SOC= '+ soc)
+    // console.log('CAN: SOC= '+ soc)
 }
 
 eel.expose(updateChargingStatus);

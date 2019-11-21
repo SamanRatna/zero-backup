@@ -74,13 +74,13 @@ class TLS_Normal(TailLightState):
             self.context.gpioWriter.setLTurn(False)
             self.leftTurnState = True
             self.righTurnState = False
-            publishLeftTurnStatus(self.leftTurnState)
-            publishRightTurnStatus(self.rightTurnState)
+            publishSideLightStatus('left')
             print("Turning Left...")
         else:
             self.context.gpioWriter.setLTurn(True)
             self.leftTurnState = False
             publishLeftTurnStatus(self.leftTurnState)
+            publishSideLightStatus('off')
             print("Stopped turning Left...")
 
     def onRightTurn(self):
@@ -89,17 +89,16 @@ class TLS_Normal(TailLightState):
             self.context.gpioWriter.setRTurn(False)
             self.rightTurnState = True
             self.leftTurnState = False
-            publishLeftTurnStatus(self.leftTurnState)
-            publishRightTurnStatus(self.rightTurnState)
+            publishSideLightStatus('right')
             print("Turning Right...")
         else:
             self.context.gpioWriter.setRTurn(True)
             self.rightTurnState = False
-            publishRightTurnStatus(self.rightTurnState)
+            publishSideLightStatus('off')
             print("Stopped turning Right...")
 
     def onCharging(self, state):
-        if state == False:
+        if state == 'charging':
             self.context.transitionTo(TLS_Charging(self.context))
         else:
             self.context.transitionTo(TLS_Normal(self.context))
