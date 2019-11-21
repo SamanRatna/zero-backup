@@ -1,7 +1,16 @@
 import eel
 import threading
-
+import multiprocessing
+import os
+import time
+import netifaces
+import logging
+#Configure logger
+logging.basicConfig(filename="charge.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='w')
+chargeLogger=logging.getLogger()
+chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
+
 # my_options = {
 #     'mode': "chrome", #or "chrome-app",
 #     'host': 'localhost',
@@ -37,8 +46,11 @@ def publishSpeedPower(speed, power):
 def publishSOC(soc):
     eel.updateSOC(soc)
 
+def publishChargingStatus(status, current):
+    eel.updateChargingStatus(status, current)
+
 def startGUIThread():
-    try:
+    try:        
         guiThread = threading.Thread(target=startGUI)
         guiThread.start()
     except:
@@ -47,7 +59,27 @@ def startGUIThread():
 @eel.expose
 def rebootBoard():
     print('Rebooting the computer...')
+    os.system('sudo shutdown -h now')
 
 @eel.expose
-def startFastCharge():
-    print('Starting Fast Charging')
+def startFastCharge(option):
+    if(option == 0):
+        print('Option Not available yet.')
+        return;
+    pFastCharge = multiprocessing.Process(target = fastCharge, args=(option,))
+    pFastCharge.start()
+
+def fastCharge(option):
+    count = 1200*option
+    while(count > 0):
+        chargeLogger.warning('Sending')
+        os.system('cansend can0 300#01E8034C04AA00')
+        time.sleep(0.05)
+        count = count - 1
+
+@eel.expose
+def getConnectivityStatus():
+    print('Getting Connectivity Status')
+    iface = netifaces.gateways()['default'][netifaces.AF_INET][1]
+    ip = netifaces.ifaddresses(iface)[netifaces.AF_INET][0]['addr']
+    eel.updateConnectivityStatus(iface, ip)

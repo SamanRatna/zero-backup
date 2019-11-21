@@ -37,15 +37,13 @@
     font-size: 200px;
     line-height: 105%;
 }
-.speed-status-middle{
+.status-unit-middle{
     position: relative;
     height: 15%;
     width: 100%;
     font-size: 45px;
-    line-height: 100%;
     color: #898989;
 }
-
 
 #soc-status{
     position: absolute;

@@ -1,4 +1,4 @@
-plusSlides(1);
+// plusSlides(1);
 
 setMode('MODE_THIKKA');
 
@@ -39,7 +39,3 @@ setInterval(function(){
 }, 50);
 
 //signal-demo
-activateLeftSideLight(true);
-activateRightSideLight(true);
-activateHibeam(true);
-activateLowbeam(true);

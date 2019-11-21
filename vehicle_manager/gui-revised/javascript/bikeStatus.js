@@ -61,5 +61,12 @@ function updateSpeedPower(speed, power) {
 eel.expose(updateSOC);
 function updateSOC(soc) {
     document.getElementById('soc-status-value').innerHTML = soc;
+    document.getElementById('engg-battery-status').innerHTML = soc;
     console.log('CAN: SOC= '+ soc)
+}
+
+eel.expose(updateChargingStatus);
+function updateChargingStatus(status, current) {
+    document.getElementById('engg-charging-status').innerHTML = status;
+    document.getElementById('engg-charging-current').innerHTML = current;
 }

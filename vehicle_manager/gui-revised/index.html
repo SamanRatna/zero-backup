@@ -53,13 +53,13 @@
                 <div class='engg-option-left'>
                     <img class='engg-option-icon' src='icons/cable.svg' style="opacity: 0.2">
                 </div>
-                <div class='engg-option-left'>
+                <div class='engg-option-left' id='reboot-computer'>
                     <img class='engg-option-icon' src='icons/stand-by.svg' style="opacity: 0.2">
                 </div>
                 <div class='engg-option-left'>
                     <img class='engg-option-icon' src='icons/wifi.svg' style="opacity: 0.2">
                 </div>
-                <div class='engg-option-left' id='reboot-computer'>
+                <div class='engg-option-left' id='refresh'>
                     <img class='engg-option-icon' src='icons/refresh.svg'>
                 </div>
                 <div class='engg-option-left'>
@@ -82,22 +82,22 @@
                 </div>
                 <div class='engg-info-card'>
                     <div class='engg-infocard-title'>Charging Current</div>
-                    <div class='engg-infocard-value' id='engg-charging-status'></div>
+                    <div class='engg-infocard-value' id='engg-charging-current'></div>
                     <div class='engg-infocard-unit'>A</div>
                 </div>
                 <div class='engg-info-card'>
                     <div class='engg-infocard-title'>Battery SOC</div>
-                    <div class='engg-infocard-value' id='engg-charging-status'></div>
+                    <div class='engg-infocard-value' id='engg-battery-status'></div>
                     <div class='engg-infocard-unit'>%</div>
                 </div>
                 <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Wifi Status</div>
-                    <div class='engg-infocard-value' id='engg-charging-status'></div>
+                    <div class='engg-infocard-title'>Connectivity Status</div>
+                    <div class='engg-infocard-value' id='engg-connectivity-status'></div>
                     <div class='engg-infocard-unit'></div>
                 </div>
                 <div class='engg-info-card'>
-                    <div class='engg-infocard-title'></div>
-                    <div class='engg-infocard-value' id='engg-charging-status'></div>
+                    <div class='engg-infocard-title'>IP Address</div>
+                    <div class='engg-infocard-value' id='engg-ip-address'></div>
                     <div class='engg-infocard-unit'></div>
                 </div>
                 <div class='engg-info-card'>
@@ -238,22 +238,49 @@
             </div>
         </div>
       </div>
+<!-- Fast Charge Popup/Modal -->
+<div id="fastChargeModal" class="Modal is-hidden is-visuallyHidden">
+    <!-- Modal content -->
+    <div class="Modal-content">
+        <span id="closeModal" class="Close"></span>
+        <div id="modal-range">
+            <div id="modal-battery">
+                    <div class="modal-range-icon">
+                            <img src="icons/clock-circular-outline.svg" style="max-height: 130px;"/>
+                    </div>
+                    <div class="charge-modal-title">Charging Options</div>
+                    <!-- <div class="modal-range-value">60</div>
+                    <div class="modal-range-unit">%</div> -->
+            </div>
+            <div class="charge-modal-options">
+                <div class='time-option' id='ten-min'> 10 min</div>
+                <div class='time-option' id='sixty-min'>60 min</div>
+                <div class='time-option' id='thirty-min'>30 min</div>
+                <div class='time-option' id='seventyfive-min'>75 min</div>
+                <!-- <div class='time-option' id='thirty-min'>30 min</div>
+                <div class='time-option' id='ninety-min'>90 min</div> -->
+                <div class='time-option' id='stop-charging'>Stop Charging</div>
+            </div>
+        </div>
+    </div>
+  </div>
       </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/eel.js"></script>
 <script src='javascript/splash.js'></script>
 <script src='javascript/notification.js'></script>
 <script src='javascript/slider.js'></script>
 <script src='javascript/modal.js'></script>
 <script src='javascript/animations.js'></script>
 <script src='javascript/notification-animation.js'></script>
-<!-- <script type="text/javascript" src="/eel.js"></script>
-<script src='javascript/bikeStatus.js'></script> -->
+<script src='javascript/bikeStatus.js'></script>
 <script src='javascript/map.js'></script>
 <script src='javascript/enggMenu.js'></script>
+<script src='javascript/chargeModal.js'></script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs&callback=initMap" async defer>
 </script> -->
-<script src='javascript/speedDemo.js'></script>
+<!-- <script src='javascript/speedDemo.js'></script> -->
 </body>
 
 </html>

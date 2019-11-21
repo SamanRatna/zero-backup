@@ -9,6 +9,7 @@ from gpio_manager import GPIOWriter
 
 class CANHandler:
     def __init__(self, _gpioWriter):
+    # def __init__(self):
         self.gpioWriter = _gpioWriter
         #Parameters
         self.chargingStatus = 'Discharging'
@@ -50,8 +51,8 @@ class CANHandler:
                 if message.arbitration_id != 128:
                     if message.arbitration_id == 415236097:
                         data = message.data
-                        canlogdata = str(message.arbitration_id) + ' - ' + str(data)
-                        self.canLogger.warning(canlogdata)
+                        #canlogdata = str(message.arbitration_id) + ' - ' + str(data)
+                        #self.canLogger.warning(canlogdata)
                         #Battery Frame 0
                         if( (len(data) > 1) and (data[0] == 0)):
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
@@ -242,18 +243,31 @@ class CANHandler:
             frame = can.Message(arbitration_id=0x18C00001,data=[6], extended_id=True)
             self.bus.send(frame)
             time.sleep(0.5)
-    
+    def startFastCharge(self):
+        print('Starting Fast Charging')
+        count = 0
+        while(count < 1000):
+            # print('Fast Charging')
+            os.system('cansend can0 300#01E8034C040500')
+            count = count + 1
+    # def requestFastCharge(self):
+    #         frame = can.Message(arbitration_id=0x300,data=[01 E8 03 4C 04 AA 00], extended_id=False)
+    #         self.bus.send(frame)
+    #         time.sleep(0.1)
+
     def pushFastData(self):
         while True:
-            time.sleep(0.1)
+            time.sleep(0.2)
             publishSpeedPower(self.bikeSpeed, self.power)
-    
+            publishChargingStatus(self.chargingStatus, self.chargingCurrent)
+            #self.startFastCharge()
+
     def pushSlowData(self):
         while True:
             publishSOC(self.stateOfCharge)
             #self.stateOfCharge = 55
             # print('SOC: ', self.stateOfCharge)
-            self.gpioWriter.setSOC(self.stateOfCharge)
+            # self.gpioWriter.setSOC(self.stateOfCharge)
             time.sleep(1)
     
     def startCAN(self):
