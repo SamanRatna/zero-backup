@@ -45,6 +45,7 @@ const rightSideLight = document.getElementById('notification-rightsidelight');
 
 eel.expose(updateBeam);
 function updateBeam(status){
+    console.log('Beam Status: '+ status)
     if(status == 'off'){
         lowbeam.style.display = 'none';
         hibeam.style.display = 'none';

@@ -14,6 +14,12 @@ function setMode(mode){
         modeTextLeft.style.opacity = 0;
         modeTextRight.style.opacity = 0;
         modeTextMiddle.innerHTML = 'STANDBY';
+        modeTextLeft.style.color = '#AEAEAE';
+        
+        modeTextLeft.style.fontWeight = 'normal';
+        modeTextRight.style.color = '#AEAEAE';
+        
+        modeTextRight.style.fontWeight = 'normal';
         modeTextMiddle.style.color = '#000000';
         modeTextMiddle.style.fontWeight = 'bold';
         modeChargingWave.style.display = 'none';

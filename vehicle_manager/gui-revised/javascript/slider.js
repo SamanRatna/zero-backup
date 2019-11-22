@@ -12,6 +12,7 @@ $(document).ready(function(){
             $slide = $slide + 1;
             if($slide == 1){
                 $('#left-slider').css("display","block");
+                $('#right-slider-content').attr('src', 'icons/slider-stats-right.svg')
             }
             else if($slide == 2){
                 $('#right-slider').css("display","none");
@@ -33,10 +34,9 @@ $(document).ready(function(){
                 $('#right-slider-content').attr('src', 'icons/slider-map-right.svg')
             }
             else if($slide == 1){
-                $('#right-slider').css("display","block");
-                $('#left-slider-content').attr('src', 'icons/slider-home-left.svg')
                 $('#right-slider-content').attr('src', 'icons/slider-stats-right.svg')
-            }
+                $('#right-slider').css("display","block");
+                $('#left-slider-content').attr('src', 'icons/slider-home-left.svg')            }
             setTimeout(function(){
                 $clickDisabled=0;
             }, $clickTimeout)

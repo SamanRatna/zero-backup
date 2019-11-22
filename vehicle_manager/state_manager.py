@@ -2,6 +2,7 @@ from vehicle_states import *
 from mode_manager import BikeModeManager
 from gpio_manager import GPIOWriter
 from event_handler import *
+from gui import *
 
 class StateManager():
 
@@ -40,10 +41,11 @@ class StateManager():
         vehicleEvents.onHibeamToggle += self.updateHeadLightState
 
     def updateHeadLightState(self, hibeam_signal):
-        if hibeam_signal == 0:
+        if hibeam_signal == True:
             self.headLightState = eHeadLightState.HL_HI_BEAM
         else:
-            self.headLightState = eHeadLightState.HL_LOW_BEAM
+            self.headLightState = eHeadLightState.HL_OFF
+        publishBeamStatus(self.headLightState)
         print(self.headLightState)
 
     """

@@ -43,6 +43,9 @@ def publishBikeMode(mode):
 def publishSideLightStatus(status):
     eel.updateSideLight(status)
 
+def publishBeamStatus(status):
+    eel.updateBeam(status)
+
 def publishSpeedPower(speed, power):
     eel.updateSpeedPower(speed, power)
 

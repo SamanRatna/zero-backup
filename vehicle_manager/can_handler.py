@@ -237,6 +237,10 @@ class CANHandler:
                         new_data = [data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7]]
                         self.chargingCurrentCharger = round(((new_data[3]<<8) + new_data[4])*0.1, 1)
                         self.canLogger.warning(self.chargingCurrentCharger)
+                    elif message.arbitration_id == 768:
+                        data=message.data
+                        #new_data = [data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7]]
+                        self.canLogger.warning('Charging Command')
 
     def requestCANFrames(self):
         while True:
