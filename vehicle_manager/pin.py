@@ -1,0 +1,20 @@
+IN_HIBEAM           = 2
+IN_LOWBEAM          = 23
+IN_LTURN            = 3
+IN_RTURN            = 4
+IN_BTN_RD           = 17
+IN_BTN_RU           = 27
+IN_BTN_RB           = 22
+IN_STAND            = 10
+IN_BRAKE            = 9
+
+OUT_LTURN           = 7
+OUT_RTURN           = 16
+OUT_BRAKE           = 12
+OUT_SUSTE           = 14
+OUT_START_THIKKA    = 15
+OUT_BABBAL          = 18
+OUT_REVERSE         = 23
+OUT_CHARGE_MOTOR    = 24
+OUT_CHARGE          = 25
+OUT_IGN             = 8
