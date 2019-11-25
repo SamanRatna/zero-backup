@@ -26,6 +26,9 @@ class GPIOReader():
             GPIOReader.__instance = self
             self.pinState = {}
             self.inputState = {}
+            self.rdTimer = RepeatableTimer(1.5, self.rdBtnProcess)
+            self.btnDown = 0
+            self.btnUp = 0
             self.initializeGPIO()
             self.initializeGPIOThreads()
 
@@ -37,7 +40,8 @@ class GPIOReader():
         GPIO.setmode(GPIO.BCM)
         inputChannel = [2,3,4,17,27,22,10,9]
         GPIO.setup(inputChannel, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
+    def rdBtnProcess(self):
+        vehicleEvents.onRDHold()
     def initializeGPIOThreads(self):
         self.tRDPress = threading.Thread(target = self.threadRDPress)
         self.tRDPress.start()
@@ -94,8 +98,21 @@ class GPIOReader():
             if value == False:
                 vehicleEvents.onRBPress()
         elif eventId == eGPIO.IN_BUTTON_RD:
+            # if value == False:
+            #     self.btnDown = time()
+            # elif value == True:
+            #     self.btnUp = time()
+            #     if(self.btnUp - self.btnDown < 0.5):
+            #         vehicleEvents.onRDPress()
+            #     else:
+            #         vehicleEvents.onRDHold()
             if value == False:
-                vehicleEvents.onRDPress()
+                self.rdTimer.start()
+            else:
+                if self.rdTimer.isAlive():
+                    self.rdTimer.cancel()
+                    vehicleEvents.onRDPress()
+
         elif eventId == eGPIO.IN_BUTTON_RU:
             if value == False:
                 vehicleEvents.onRUPress()
@@ -104,6 +121,23 @@ class GPIOReader():
         elif eventId == eGPIO.IN_BRAKE:
             vehicleEvents.onBrakeToggle(value)
 
+class RepeatableTimer(object):
+    def __init__(self, interval, function, args=[], kwargs={}):
+        self._interval = interval
+        self._function = function
+        self._args = args
+        self._kwargs = kwargs
+        self.t = threading.Timer(self._interval, self._function, *self._args, **self._kwargs)
+    def start(self):
+        self.t = threading.Timer(self._interval, self._function, *self._args, **self._kwargs)
+        self.t.start()
+    def cancel(self):
+        print('Cancelling the timer.')
+        self.t.cancel()
+    def isAlive(self):
+        print('Timer is Alive.')
+        return self.t.is_alive()
+        
 class GPIOWriter():
     __instance = None
     @staticmethod

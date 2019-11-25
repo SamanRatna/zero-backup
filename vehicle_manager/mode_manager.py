@@ -89,7 +89,7 @@ class ModeThikka(BikeMode):
     def onRightUp(self):
         self.context.transitionTo(ModeSuste(self.context))
 
-    def onRightDown(self):
+    def onRightDownHold(self):
         self.context.transitionTo(ModeStandby(self.context))
 
     def onRightBack(self):
