@@ -60,9 +60,13 @@ function updateSpeedPower(speed, power) {
     // console.log('CAN: Speed= '+speed+ ' Power= '+ power)
 }
 eel.expose(updateSOC);
-function updateSOC(soc) {
+function updateSOC(soc, rangeSuste,rangeThikka, rangeBabbal) {
     document.getElementById('soc-status-value').innerHTML = soc;
     document.getElementById('engg-battery-status').innerHTML = soc;
+    document.getElementById('modal-soc').innerHTML = soc;
+    document.getElementById('range-suste').innerHTML = rangeSuste;
+    document.getElementById('range-thikka').innerHTML = rangeThikka;
+    document.getElementById('range-babbal').innerHTML = rangeBabbal;
     // console.log('CAN: SOC= '+ soc)
 }
 

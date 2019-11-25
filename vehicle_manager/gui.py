@@ -49,12 +49,15 @@ def publishBeamStatus(status):
 def publishSpeedPower(speed, power):
     eel.updateSpeedPower(speed, power)
 
-def publishSOC(soc):
-    eel.updateSOC(soc)
+def publishSOC(soc, rangeSuste, rangeThikka, rangeBabbal):
+    eel.updateSOC(soc, rangeSuste, rangeThikka, rangeBabbal)
 
 def publishChargingStatus(status, current):
     eel.updateChargingStatus(status, current)
 
+# def publishRange(rangeSuste, rangeThikka, rangeBabbal):
+    # eel.updateRangeInKm(rangeSuste, rangeThikka, rangeBabbal)
+    # pass
 def startGUIThread():
     try:        
         guiThread = threading.Thread(target=startGUI)

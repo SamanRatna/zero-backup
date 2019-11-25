@@ -32,6 +32,10 @@ class CANHandler:
         self.peakDischargingCurrent = 0     # Ampere
         self.dischargingCurrent     = 0     # Ampere
         self.power                  = 0     # W
+        self.remainingCapacity      = 0     # Ampere-hour
+        self.rangeThikka            = 0     # km
+        self.rangeSuste             = 0     # km
+        self.rangeBabbal            = 0     # km
         #Configure CAN Interface
         can.rc['interface'] = 'socketcan_native'
         can.rc['channel'] = 'can0'
@@ -115,7 +119,7 @@ class CANHandler:
                         elif( (len(data) > 1) and (data[0] == 5)):
                             new_data=[data[0], data[1], data[3], data[2], data[5], data[4], data[7], data[6] ]
                             self.stateOfCharge = int(((new_data[2]<<8) + new_data[3])*0.1)
-
+                            self.remainingCapacity = int(((new_data[4]<<8) + new_data[5])*0.1)
                             self.timeToCharge = (new_data[6]<<8) + new_data[7]
                             logMessage = 'Frame:    5' + ' - ' + 'SOC:  ' + str(self.stateOfCharge) + ' % - TimeToCharge:   ' + str(self.timeToCharge) + ' min '
                             #print(logMessage)
@@ -281,7 +285,9 @@ class CANHandler:
 
     def pushSlowData(self):
         while True:
-            publishSOC(self.stateOfCharge)
+            self.calculateRange()
+            publishSOC(self.stateOfCharge, self.rangeSuste, self.rangeThikka, self.rangeBabbal)
+            # publishRange(self.rangeSuste, self.rangeThikka, self.rangeBabbal)
             #self.stateOfCharge = 55
             # print('SOC: ', self.stateOfCharge)
             # self.gpioWriter.setSOC(self.stateOfCharge)
@@ -297,10 +303,11 @@ class CANHandler:
         self.tPushSlowData = threading.Thread(target=self.pushSlowData)
         self.tPushSlowData.start()
         self.tPrintData = threading.Thread(target=self.printData)
-        #self.tPrintData.start()
+        # self.tPrintData.start()
 
     def printData(self):
         while True:
+            self.calculateRange()
             time.sleep(0.5)
             os.system('clear')
             print('Drive Mode                   : ', self.driveMode)
@@ -316,3 +323,44 @@ class CANHandler:
             print('Peak Charging Current        : ', self.peakChargingCurrent, '        A')
             print('Peak Discharging Current     : ', self.peakDischargingCurrent, '     A')
             print('Power                        : ', self.power, '                      hp')
+            print('Remaining Capacity           : ', self.remainingCapacity, '          Ah')
+            print('Range Thikka                 : ', self.rangeThikka, '          km')
+            print('Range Suste                 : ', self.rangeSuste, '          km')
+            print('Range Babbal                 : ', self.rangeBabbal, '          km')
+    def calculateRange(self):
+        # massBike                = 275               #kg
+        # overallEfficiency       = 0.85
+        # wheelRadius             = 1.94/(2*3.14)
+        # avgSpeedInMeterThikka   = 12.5              #mps
+        # avgSpeedInKmThikka      = 45                #kmph
+        # avgSpeedInMeterSuste    = 8.33
+        # avgSpeedInKmSuste       = 30
+        # avgSpeedInMeterBabbal   = 20.8
+        # avgSpeedInKmBabbal      = 75
+        # acclDueToGravity        = 9.8               #m/s**2
+        # rollingResistance       = 0.0030
+        # airDensity              = 1.11
+        # dragCoeff               = 0.70
+        # area                    = 0.78
+        # batteryFactor           = 1.00
+
+        if((self.packVoltage==0)):
+            return 0
+        # Original Formula
+        # power = (massBike * acclDueToGravity * avgSpeedInMeterThikka * rollingResistance) + (airDensity * dragCoeff * area * avgSpeedInMeterThikka**3)
+        # wattHourPerKmThikka = power / avgSpeedInKmThikka
+        # print('wattHourPerKmThikka: ', str(wattHourPerKmThikka))
+        # Modified Formula
+        # wattHourPerKmThikka = massBike * acclDueToGravity * rollingResistance / 3.6 + airDensity * dragCoeff * area * (avgSpeedInKmThikka**2) / 46.656
+        # print('wattHourPerKmThikka: ', str(wattHourPerKmThikka))
+
+        # Optimized Formula
+        # wattHourPerKmThikka = 2.25 + 0.013*avgSpeedInKmThikka**2
+        wattHourPerKmThikka = 28.575
+        wattHourPerKmSuste = 13.95
+        wattHourPerKmBabbal = 75.375
+        # print('wattHourPerKmThikka: ', str(wattHourPerKmThikka))
+        # AmpereHourPerKmThikka = wattHourPerKmThikka/self.packVoltage
+        self.rangeThikka = int(self.remainingCapacity*self.packVoltage/wattHourPerKmThikka)
+        self.rangeSuste = int(self.remainingCapacity*self.packVoltage/wattHourPerKmSuste)
+        self.rangeBabbal = int(self.remainingCapacity*self.packVoltage/wattHourPerKmBabbal)
