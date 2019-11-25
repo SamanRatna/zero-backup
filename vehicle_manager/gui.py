@@ -44,7 +44,7 @@ def publishSideLightStatus(status):
     eel.updateSideLight(status)
 
 def publishBeamStatus(status):
-    eel.updateBeam(status)
+    eel.updateBeam(status.name)
 
 def publishSpeedPower(speed, power):
     eel.updateSpeedPower(speed, power)

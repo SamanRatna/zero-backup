@@ -32,9 +32,15 @@ function setMode(mode){
         modeTextLeft.style.opacity = 1;
         modeTextRight.style.opacity = 1;
         modeTextMiddle.innerHTML = 'THIKKA';
-        modeTextMiddle.style.color = '#000000';
+        modeTextLeft.style.fontWeight = 'normal';
+        modeTextLeft.style.color = '#AEAEAE';
+
         modeTextMiddle.style.fontWeight = 'bold';
-        modeChargingWave.style.display = 'none';
+        modeTextMiddle.style.color = '#000000';
+
+        modeTextRight.style.fontWeight = 'normal';
+        modeTextRight.style.color = '#AEAEAE';
+        modeChargingWave.style.display = 'none';        modeChargingWave.style.display = 'none';
         // Speed Bar
         speedBarForward.style.display = 'block';
         speedBarReverse.style.display = 'none';
@@ -101,7 +107,7 @@ const defaultSpeedBarOffset = 600;
 let reverseSpeedBarOffset = 600;
 const reverseSpeedFactor = 5;
 function setSpeed(speed){
-    statusSpeed.innerHTML = speed;
+    // statusSpeed.innerHTML = speed;
 
     if(currentMode != 'MODE_REVERSE'){
         currentSpeedBarWidth = speed/maxSpeed * maxSpeedBarWidth;

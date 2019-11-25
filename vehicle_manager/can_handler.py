@@ -13,7 +13,7 @@ class CANHandler:
     # def __init__(self):
         self.gpioWriter = _gpioWriter
         #Parameters
-        self.chargingStatus = 'Discharging'
+        self.chargingStatus         = 'discharging'
         self.chargingCurrent        = 0     # Ampere
         self.chargingCurrentCharger = 0     # Ampere
         self.packVoltage            = 0     # Volts

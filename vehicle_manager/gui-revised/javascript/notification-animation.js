@@ -46,15 +46,15 @@ const rightSideLight = document.getElementById('notification-rightsidelight');
 eel.expose(updateBeam);
 function updateBeam(status){
     console.log('Beam Status: '+ status)
-    if(status == 'off'){
+    if(status == 'HL_OFF'){
         lowbeam.style.display = 'none';
         hibeam.style.display = 'none';
     }
-    else if(status == 'high'){
+    else if(status == 'HL_HI_BEAM'){
         lowbeam.style.display = 'none';
         hibeam.style.display = 'block';
     }
-    else if(status == 'low'){
+    else if(status == 'HL_LOW_BEAM'){
         lowbeam.style.display = 'block';
         hibeam.style.display = 'none';
     }

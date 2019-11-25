@@ -41,7 +41,7 @@ class StateManager():
         vehicleEvents.onHibeamToggle += self.updateHeadLightState
 
     def updateHeadLightState(self, hibeam_signal):
-        if hibeam_signal == True:
+        if hibeam_signal == False:
             self.headLightState = eHeadLightState.HL_HI_BEAM
         else:
             self.headLightState = eHeadLightState.HL_OFF

@@ -51,9 +51,10 @@ function updateTripDistance(argA, argB) {
     tripDistanceA = argA;
     tripDistanceB = argB;
 }
-
+let statusSpeed2 = document.getElementById('speed-status-value');
 eel.expose(updateSpeedPower);
 function updateSpeedPower(speed, power) {
+    statusSpeed2.innerHTML = speed;
     setSpeed(speed);
     document.getElementById('power-status-value').innerHTML = power;
     // console.log('CAN: Speed= '+speed+ ' Power= '+ power)

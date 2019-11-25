@@ -18,11 +18,11 @@ def eventRDPress():
 def eventRDHold():
     print("RD Hold Event Triggered.")
 
-def eventLeftTurn():
-    print("Left Turn Toggled")
+def eventLeftTurn(value):
+    print("Left Turn Toggled: ", str(value))
 
-def eventRightTurn():
-    print("Right Turn Toggled")
+def eventRightTurn(value):
+    print("Right Turn Toggled: ", str(value))
 
 def eventStand(state):
     print("Stand Toggled: " + str(state) )

@@ -24,10 +24,10 @@ class TailLightController:
     def onBrake(self, state):
         self.mode.onBrake(state)
 
-    def onLeftTurn(self):
+    def onLeftTurn(self, value):
         self.mode.onLeftTurn()
 
-    def onRightTurn(self):
+    def onRightTurn(self, value):
         self.mode.onRightTurn()
 
     def onCharging(self, state):
@@ -39,10 +39,8 @@ class TailLightState:
         self.onStateChange()
     def onCharging(self, state):
         pass
-
     def onIgnition(self, state):
         pass
- 
     def onLeftTurn(self):
         pass
     def onRightTurn(self):
@@ -51,13 +49,18 @@ class TailLightState:
         pass
     def onStateChange(self):
         pass
-
+        
 class TLS_Normal(TailLightState):
     def __init__(self, _context):
         TailLightState.__init__(self,_context)
         self.leftTurnState = False
         self.rightTurnState = False
-
+    def setTurnStates(self, left, right):
+        self.leftTurnState = left
+        self.rightTurnState = right
+        print('self.leftTurnState: ', self.leftTurnState)
+        print('self.rightTurnState: ', self.rightTurnState)
+        
     def onStateChange(self):
         self.context.gpioWriter.setIgn(True)
         self.context.gpioWriter.setCharge(True)
@@ -72,28 +75,27 @@ class TLS_Normal(TailLightState):
         if self.leftTurnState == False:
             self.context.gpioWriter.setRTurn(True)
             self.context.gpioWriter.setLTurn(False)
-            self.leftTurnState = True
-            self.righTurnState = False
+            self.setTurnStates(True, False)
             publishSideLightStatus('left')
             print("Turning Left...")
+ 
         else:
             self.context.gpioWriter.setLTurn(True)
-            self.leftTurnState = False
-            publishLeftTurnStatus(self.leftTurnState)
+            self.setTurnStates(False, False)
             publishSideLightStatus('off')
             print("Stopped turning Left...")
+
 
     def onRightTurn(self):
         if self.rightTurnState == False:
             self.context.gpioWriter.setLTurn(True)
             self.context.gpioWriter.setRTurn(False)
-            self.rightTurnState = True
-            self.leftTurnState = False
+            self.setTurnStates(False,True)
             publishSideLightStatus('right')
             print("Turning Right...")
         else:
             self.context.gpioWriter.setRTurn(True)
-            self.rightTurnState = False
+            self.setTurnStates(False, False)
             publishSideLightStatus('off')
             print("Stopped turning Right...")
 
