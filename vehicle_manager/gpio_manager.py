@@ -26,7 +26,7 @@ class GPIOReader():
             GPIOReader.__instance = self
             self.pinState = {}
             self.inputState = {}
-            self.rdTimer = RepeatableTimer(1.5, self.rdBtnProcess)
+            self.rdTimer = RepeatableTimer(1.0, self.rdBtnProcess)
             self.btnDown = 0
             self.btnUp = 0
             self.initializeGPIO()
