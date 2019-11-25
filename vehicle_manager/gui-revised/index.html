@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/modal.css">
     <link rel="stylesheet" type="text/css" href="css/splash.css">
     <link rel="stylesheet" type="text/css" href="css/engg-menu.css">
-
+    <link rel="stylesheet" type="text/css" href="css/slider-old.css">
     <!-- <link rel="stylesheet" type="text/css" href="css/inherit.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
@@ -63,13 +63,10 @@
                     <img class='engg-option-icon' src='icons/refresh.svg'>
                 </div>
                 <div class='engg-option-left'>
-                    <!-- <img class='engg-option-icon' src='icons/cable.svg'> -->
                 </div>
                 <div class='engg-option-left'>
-                    <!-- <img class='engg-option-icon' src='icons/stand-by.svg'> -->
                 </div>
                 <div class='engg-option-left'>
-                    <!-- <img class='engg-option-icon' src='icons/wifi.svg'> -->
                 </div>
             </div>
 
@@ -137,7 +134,7 @@
             <div class='status-unit-middle' id='speed-status-unit'>km/h</div>
         </div>
         <div id='soc-status'>
-            <div class='status-value-right' id='soc-status-value'>75</div>
+            <div class='status-value-right' id='soc-status-value'>-</div>
             <div class='status-unit-right' id='soc-status-unit'>%</div>
         </div>    
     </div>
@@ -155,37 +152,40 @@
         </div>
     </div>
 
-    <!------------ Slider Frame ------------>
-    <div class='frame-slider'>
-        <div id="slider-one" class="carousel slide">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner slide-content">
-              <div class="item slide-content active">
-                <img src="images/bike.png" id='slide-image-bike' alt="Project Zero Bike">
-              </div>
-          
-              <div class="item slide-content">
-                <div class='slide-content' id='slide-map-container'>
+    <!-- Slider Old Style -->
+    <div class='frame-slider' id="wrapper">
+        <div id="slider-wrap">
+            <ul id="slider">
+                <!-- Bike Image -->
+                <li style="padding-top: 50px;" data-color="#ffffff">
+                    <img src="images/bike.png" width='1200px' id='slide-image-bike' alt="Project Zero Bike">
+                </li>
+                <!-- Navigation -->
+                <li class='slide-content' id='slide-map-container' data-color="#3498db">
+                    <div class='slide-content'>
+                        <img src='images/no-internet-5.gif' class='slide-content'>
+                    </div>
+
                     <div id='slide-map'></div>
                     <div id='slide-gradient-top'></div>
                     <div id='slide-gradient-bottom'></div>
                     <div id='navigation-button'><img src='icons/navigate.svg'></div>
-                </div>
-                <img src='images/map-still.JPG' class='slide-content'>
-              </div>
-          
-              <div class="item slide-content">
-                <img src="images/teaser.jpg" alt="New York">
-              </div>
-            </div>
-          </div>
+                </li>
+                
+                <!-- Infographics -->
+                <li data-color="#9b59b6">
+                    <img src="images/teaser.jpg" alt="New York">
+                </li>
+            </ul>
 
             <div id='left-slider' href="#slider-one">
-                <img src='icons/slider-home-left.svg' class='slider-left' id='left-slider-content'>
-            </div>
-            <div id='right-slider' href="#slider-one">
-                <img src="icons/slider-map-right.svg" class='slider-right' id='right-slider-content'>
-            </div>
+                    <img src='icons/slider-home-left.svg' class='slider-left' id='left-slider-content'>
+                </div>
+                <div id='right-slider' href="#slider-one">
+                    <img src="icons/slider-map-right.svg" class='slider-right' id='right-slider-content'>
+                </div>        
+        </div>
+
     </div>
 
     <!------------ Logo Frame ------------>
@@ -267,19 +267,19 @@
       </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/eel.js"></script>
-<script src='javascript/splash.js'></script>
-<script src='javascript/notification.js'></script>
 <script src='javascript/slider.js'></script>
+<script src='javascript/splash.js'></script>
+<script type="text/javascript" src="/eel.js"></script>
+<script src='javascript/notification.js'></script>
 <script src='javascript/modal.js'></script>
 <script src='javascript/animations.js'></script>
 <script src='javascript/notification-animation.js'></script>
 <script src='javascript/bikeStatus.js'></script>
-<script src='javascript/map.js'></script>
-<script src='javascript/enggMenu.js'></script>
 <script src='javascript/chargeModal.js'></script>
+<script src='javascript/map.js'></script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs&callback=initMap" async defer>
 </script> -->
+<script src='javascript/enggMenu.js'></script>
 <!-- <script src='javascript/speedDemo.js'></script> -->
 </body>
 
