@@ -42,6 +42,15 @@ class GPIOReader():
         self.tRDPress = threading.Thread(target = self.threadRDPress)
         self.tRDPress.start()
    
+    def threadRDPress(self):
+        self.monitorGPIO()
+        self.pinState = self.inputState
+        while True:
+            self.monitorGPIO()
+            self.processInput()
+            self.pinState = self.inputState
+            sleep(0.1)
+
     def monitorGPIO(self):
         inputState= {}
         inputState[eGPIO.IN_HIBEAM] = GPIO.input(pin.IN_HIBEAM)
