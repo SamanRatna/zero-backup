@@ -1,5 +1,5 @@
 var data = {
-    labels: ["BATTERY", "CONTROLLER", "ECU", "AMBIENT", "MOTOR"],
+    labels: ["CONTROLLER", "ECU", "BATTERY", "AMBIENT", "MOTOR"],
     datasets: [{
         borderColor: 'rgba(48, 213, 200, 0.6)',
         borderWidth: 8,
