@@ -280,7 +280,7 @@ class CANHandler:
         while True:
             time.sleep(0.2)
             publishSpeedPower(self.bikeSpeed, self.power)
-            publishChargingStatus(self.chargingStatus, self.chargingCurrent)
+            publishChargingStatus(self.chargingStatus, self.chargingCurrent, self.timeToCharge)
             #self.startFastCharge()
 
     def pushSlowData(self):
@@ -303,7 +303,7 @@ class CANHandler:
         self.tPushSlowData = threading.Thread(target=self.pushSlowData)
         self.tPushSlowData.start()
         self.tPrintData = threading.Thread(target=self.printData)
-        # self.tPrintData.start()
+        self.tPrintData.start()
 
     def printData(self):
         while True:
@@ -312,6 +312,7 @@ class CANHandler:
             os.system('clear')
             print('Drive Mode                   : ', self.driveMode)
             print('Bike Speed                   : ', self.bikeSpeed, '      kmph')
+            print('Time To Charge               : ', self.timeToCharge, '         min')
             print('Time To Discharge            : ', self.timeToDischarge, '         min')
             print('Distance Travelled           : ', self.odometer, '       km')
             print('Actual Torque                : ', self.actualTorque, '       Nm')

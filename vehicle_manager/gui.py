@@ -52,8 +52,8 @@ def publishSpeedPower(speed, power):
 def publishSOC(soc, rangeSuste, rangeThikka, rangeBabbal):
     eel.updateSOC(soc, rangeSuste, rangeThikka, rangeBabbal)
 
-def publishChargingStatus(status, current):
-    eel.updateChargingStatus(status, current)
+def publishChargingStatus(status, current, timeToCharge):
+    eel.updateChargingStatus(status, current, timeToCharge)
 
 # def publishRange(rangeSuste, rangeThikka, rangeBabbal):
     # eel.updateRangeInKm(rangeSuste, rangeThikka, rangeBabbal)

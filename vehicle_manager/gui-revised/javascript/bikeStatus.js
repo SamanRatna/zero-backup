@@ -71,7 +71,8 @@ function updateSOC(soc, rangeSuste,rangeThikka, rangeBabbal) {
 }
 
 eel.expose(updateChargingStatus);
-function updateChargingStatus(status, current) {
+function updateChargingStatus(status, current, timeToCharge) {
     document.getElementById('engg-charging-status').innerHTML = status;
     document.getElementById('engg-charging-current').innerHTML = current;
+    document.getElementById('engg-charge-time').innerHTML = timeToCharge;
 }
