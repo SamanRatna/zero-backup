@@ -13,11 +13,13 @@
     <link rel="stylesheet" type="text/css" href="css/splash.css">
     <link rel="stylesheet" type="text/css" href="css/engg-menu.css">
     <link rel="stylesheet" type="text/css" href="css/slider-old.css">
+    <link rel="stylesheet" type="text/css" href="css/infographics.css">
+    <link rel="stylesheet" href='css/font.css'>
     <!-- <link rel="stylesheet" type="text/css" href="css/inherit.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
     <link rel="stylesheet" type="text/css" href="main.css">
-    <link href="https://fonts.googleapis.com/css?family=Barlow:400,700&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Barlow:400,700&display=swap" rel="stylesheet"> -->
 
     <!-- it is always important to load all other dependencies then only call main.css and main.js -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -172,9 +174,36 @@
                     <div id='navigation-button'><img src='icons/navigate.svg'></div>
                 </li>
                 
-                <!-- Infographics -->
-                <li data-color="#9b59b6">
-                    <img src="images/teaser.jpg" alt="New York">
+                <!---------------------------------- Infographics ------------------------------->
+                <li id='slide-infographics' data-color="#9b59b6">
+                    <div id='odo-trip-info'>
+                        <div id='odo-info'>
+                            <div id='odo-info-title'>ODO</div>
+                            <div id='odo-info-value'>-</div>
+                            <div id='odo-info-unit'>KM</div>
+                        </div>
+                        <div id='trip-info'>
+                            <div id='trip-info-title'>TRIP</div>
+                            <div id='trip-info-value'>-</div>
+                            <div id='trip-info-unit'>KM</div>
+                        </div>
+                    </div>
+                    <img id='trip-reset' src='icons/reset.svg' />
+                    <div  class='slide-info' id='speed-infograph'>
+                        <img class='infograph-btn' id='infograph-btn-speed' src='icons/infograph-speed.svg' />
+                    </div>
+                    <!-------------------------Temperature Infographics  --------------------->
+                    <div  class='slide-info' id='temperature-infograph'>
+                        <img class='infograph-btn' id='infograph-btn-temperature' src='icons/infograph-temperature.svg' />
+                        <div id="temperature-chart">
+                            <canvas id="temperature-canvas"></canvas>
+                        </div>
+                    </div>
+                    <div  class='slide-info' id='carbon-infograph'>
+                        <img class='infograph-btn' id='infograph-btn-carbon' src='icons/infograph-carbon.svg' />
+
+                    </div>
+
                 </li>
             </ul>
 
@@ -195,7 +224,7 @@
 </div>
 </div>
 
-<!-- SOC and Range Popup/Modal -->
+<!---------------------------- SOC and Range Popup/Modal --------------------------------------->
 <div id="socModal" class="Modal is-hidden is-visuallyHidden">
         <!-- Modal content -->
         <div class="Modal-content">
@@ -238,7 +267,7 @@
             </div>
         </div>
       </div>
-<!-- Fast Charge Popup/Modal -->
+<!-------------------------------------- Fast Charge Popup/Modal ---------------------------------------->
 <div id="fastChargeModal" class="Modal is-hidden is-visuallyHidden">
     <!-- Modal content -->
     <div class="Modal-content">
@@ -267,8 +296,11 @@
       </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+<script src='javascript/temperature-chart.js'></script>
 <script src='javascript/slider.js'></script>
 <script src='javascript/splash.js'></script>
+<script src='javascript/infograph.js'></script>
 <script type="text/javascript" src="/eel.js"></script>
 <script src='javascript/notification.js'></script>
 <script src='javascript/modal.js'></script>

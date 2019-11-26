@@ -39,7 +39,7 @@
     border: 2px solid #30D5C8;
     box-shadow: 0px 0px 5px #30D5C8;
     z-index: 1;
-    display: block;
+    display: none;
 }
 
 #mode-text-middle {
