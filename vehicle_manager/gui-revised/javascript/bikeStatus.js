@@ -70,6 +70,10 @@ function updateSOC(soc, rangeSuste,rangeThikka, rangeBabbal) {
     // console.log('CAN: SOC= '+ soc)
 }
 
+eel.expose(updateOdometer)
+function updateOdometer(odometer) {
+    document.getElementById('odo-info-value').innerHTML = odometer;
+}
 eel.expose(updateChargingStatus);
 function updateChargingStatus(status, current, timeToCharge) {
     document.getElementById('engg-charging-status').innerHTML = status;

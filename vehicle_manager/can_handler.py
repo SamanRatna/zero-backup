@@ -36,6 +36,19 @@ class CANHandler:
         self.rangeThikka            = 0     # km
         self.rangeSuste             = 0     # km
         self.rangeBabbal            = 0     # km
+
+        # BMS 18 Frame 2
+        self.averageCurrent         = 0
+        self.hiVoltModule           = 0
+        self.hiVoltCell             = 0
+        self.hiCellVolt             = 0
+        self.lowVoltModule          = 0
+        # BMS 18 Frame 3
+        self.lowVoltCell            = 0
+        self.lowCellVolt            = 0
+        self.hiLowDiff              = 0
+        self.highTempModule         = 0
+        self.highTempNumber         = 0
         #Configure CAN Interface
         can.rc['interface'] = 'socketcan_native'
         can.rc['channel'] = 'can0'
@@ -62,8 +75,6 @@ class CANHandler:
                 if message.arbitration_id != 128:
                     if message.arbitration_id == 415236097:
                         data = message.data
-                        #canlogdata = str(message.arbitration_id) + ' - ' + str(data)
-                        #self.canLogger.warning(canlogdata)
                         #Battery Frame 0
                         if( (len(data) > 1) and (data[0] == 0)):
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
@@ -77,62 +88,133 @@ class CANHandler:
                             self.packVoltage = int( ((new_data[3]<<8) + new_data[4])*0.1)
                             self.power = int(self.packVoltage * self.dischargingCurrent)
                             self.chargingCurrent = round(((new_data[5]<<8) + new_data[6])*0.01, 1)
-                            #self.canLogger.warning(self.chargingCurrent)
-                            #logMessage = 'Frame:    0' + ' - ' +'PackVoltage:    ' + str(self.packVoltage) + ' V' + ' - ' + 'Power:  ' + str(self.power)
-                            #print(logMessage)
-                            #self.canLogger.warning(logMessage)
+                            
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 0:' + 'BatteryStatus : ' + str(self.chargingStatus)
+                            self.canLogger.warning(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 0:' + 'PackVoltage (V): ' + str(self.packVoltage)
+                            self.canLogger.warning(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 0:' + 'ChargingCurrent (A): ' + str(self.packVoltage)
+                            self.canLogger.warning(logMessage)
                         
                         #Battery Frame 1   
-                        # elif( (len(data) > 1) and (data[0] == 1)):
-                        #     #print('Frame 1 Received')
-                        #     new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
+                        elif( (len(data) > 1) and (data[0] == 1)):
+                            new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
 
-                        #     self.peakChargingCurrent = round(((new_data[1]<<8) + new_data[2])*0.01, 1)
-                        #     self.dischargingCurrent = round(((new_data[3]<<8) + new_data[4])*0.01, 1)
-                        #     self.peakDischargingCurrent = round(((new_data[5]<<8) + new_data[6])*0.01, 1)
-                        #     logMessage = 'Frame:    1' + ' - ' + 'PeakCC:    ' + str(self.peakChargingCurrent) + ' A' + ' - ' + 'DischargingCurrent:  ' + str(self.dischargingCurrent) + ' A' + ' - ' + 'PeakDC:  ' + str(self.peakDischargingCurrent) + ' A'
-                        #     print(new_data)
-                        #     print(logMessage)
-                        #     self.canLogger.info(logMessage)
+                            self.peakChargingCurrent = round(((new_data[1]<<8) + new_data[2])*0.01, 1)
+                            self.dischargingCurrent = round(((new_data[3]<<8) + new_data[4])*0.01, 1)
+                            self.peakDischargingCurrent = round(((new_data[5]<<8) + new_data[6])*0.01, 1)
+
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 1:' + 'PeakChargingCurrent (A): ' + str(self.peakChargingCurrent)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 1:' + 'DischargingCurrent (A): ' + str(self.dischargingCurrent)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 1:' + 'PeakDIschargingCurrent (A): ' + str(self.peakDischargingCurrent)
+                            self.canLogger.info(logMessage)
+
                         #Battery Frame 2
                         elif( (len(data) > 1) and (data[0] == 2)):
                             new_data=[data[0], data[2], data[1], data[3], data[4], data[6], data[5], data[7] ]
 
                             self.averageCurrent = round(((new_data[1]<<8) + new_data[2])*0.01, 1)
+                            self.hiVoltModule = new_data[3]
+                            self.hiVoltCell = new_data[4]
+                            self.hiCellVolt = round(((new_data[5]<<8) + new_data[6]), 1)
+                            self.lowVoltModule = new_data[7]
+                            
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 2:' + 'AverageCurrent (A): ' + str(self.averageCurrent)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 2:' + 'ModuleNumberOfHighCellVolt : ' + str(self.hiVoltModule)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 2:' + 'CellNumberOfHighCellVolt : ' + str(self.hiVoltCell)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 2:' + 'HighCellVolt (mV): ' + str(self.hiCellVolt)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 2:' + 'ModuleNumberOfLowCellVolt : ' + str(self.lowVoltModule)
+                            self.canLogger.info(logMessage)
+                        #Battery Frame 3
+                        elif( (len(data) > 1) and (data[0] == 3)):
+                            new_data=[data[0], data[1], data[3], data[2], data[5], data[4], data[6], data[7] ]
 
-                            logMessage = 'Frame:    2' + ' - ' + 'AverageCurrent:    ' + str(self.averageCurrent) + ' A'
-                            #print(logMessage)
-                            #self.canLogger.info(logMessage)
-                        
+                            self.lowVoltCell = new_data[1]
+                            self.lowCellVolt = round(((new_data[2]<<8) + new_data[3]), 1)
+                            self.hiLowDiff = round(((new_data[4]<<8) + new_data[5]), 1)
+                            self.highTempModule = new_data[6]
+                            self.highTempNumber = new_data[7]
+                            
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 3:' + 'LowVoltCell : ' + str(self.lowVoltCell)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 3:' + 'LowCellVolt (mV): ' + str(self.lowCellVolt)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 3:' + 'HiLowDiff (mV): ' + str(self.hiLowDiff)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 3:' + 'HighTempModule : ' + str(self.highTempModule)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 3:' + 'HighTempNumber : ' + str(self.highTempNumber)
+                            self.canLogger.info(logMessage)
                         #Battery Frame 4   
                         elif( (len(data) > 1) and (data[0] == 4)):
                             new_data=[data[0], data[2], data[1], data[3], data[4], data[6], data[5], data[7] ]
 
                             self.highTemp = int(((new_data[1]<<8) + new_data[2])*0.1)
-
+                            self.lowTempModule = new_data[3]
+                            self.lowTempNumber = new_data[4]
                             self.lowTemp = int(((new_data[5]<<8) + new_data[6])*0.1)
-                            logMessage = 'Frame:    4' + ' - ' + 'HighTemp:    ' + str(self.highTemp) + ' Celsius' + ' - ' + 'LowTemp:  ' + str(self.lowTemp) + ' Celsius'
-                            #print(logMessage)
-                            #self.canLogger.info(logMessage)
+                            self.tempDiffLow = int(new_data[7]*0.1)
+
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 4:' + 'HighTemp (C): ' + str(self.highTemp)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 4:' + 'lowTempModule : ' + str(self.lowTempModule)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 4:' + 'lowTempNumber : ' + str(self.lowTempNumber)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 4:' + 'lowTemp (C): ' + str(self.lowTemp)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 4:' + 'tempDiffLow (C): ' + str(self.tempDiffLow)
+                            self.canLogger.info(logMessage)
                         
                         #Battery Frame 5
                         elif( (len(data) > 1) and (data[0] == 5)):
                             new_data=[data[0], data[1], data[3], data[2], data[5], data[4], data[7], data[6] ]
+                            self.tempDiffHigh = int(new_data[1]*0.1)
                             self.stateOfCharge = int(((new_data[2]<<8) + new_data[3])*0.1)
                             self.remainingCapacity = int(((new_data[4]<<8) + new_data[5])*0.1)
                             self.timeToCharge = (new_data[6]<<8) + new_data[7]
-                            logMessage = 'Frame:    5' + ' - ' + 'SOC:  ' + str(self.stateOfCharge) + ' % - TimeToCharge:   ' + str(self.timeToCharge) + ' min '
-                            #print(logMessage)
-                            #self.canLogger.info(logMessage)
+
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 5:' + 'tempDiffHigh (C): ' + str(self.tempDiffHigh)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 5:' + 'stateOfCharge (%): ' + str(self.stateOfCharge)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 5:' + 'remainingCapacity (Ah): ' + str(self.remainingCapacity)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 5:' + 'timeToCharge (min): ' + str(self.timeToCharge)
+                            self.canLogger.info(logMessage)
+
                         #Battery Frame 6
                         elif( (len(data) > 1) and (data[0] == 6)):
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
 
                             self.timeToDischarge = int(((new_data[1]<<8) + new_data[2]))
-                            logMessage = 'Frame:    6' + ' - ' + 'TimeToDischarge:    ' + str(self.highTemp) + ' Celsius'
-                            #print(logMessage)
-                            #self.canLogger.info(logMessage)
-                        
+                            self.bmsOpVolt = int(((new_data[3]<<8) + new_data[4])*10)
+                            self.bmsBoardTemp = int(((new_data[3]<<8) + new_data[4])*0.1)
+
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 6:' + 'timeToDischarge (min): ' + str(self.timeToDischarge)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 6:' + 'bmsOpVolt (mV): ' + str(self.bmsOpVolt)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 6:' + 'bmsBoardTemp (C): ' + str(self.bmsBoardTemp)
+                            self.canLogger.info(logMessage)
+                        #Battery Frame 7
+                        elif( (len(data) > 1) and (data[0] == 7)):
+                            new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
+
+                            self.fullChargedCycle = int(((new_data[1]<<8) + new_data[2]))
+                            self.fullDischargedCycle = int(((new_data[3]<<8) + new_data[4]))
+
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 7:' + 'fullChargedCycle : ' + str(self.fullChargedCycle)
+                            self.canLogger.info(logMessage)
+                            logMessage = str(message.arbitration_id) + ' : '+ 'Frame 7:' + 'fullDischargedCycle : ' + str(self.fullDischargedCycle)
+                            self.canLogger.info(logMessage)
+
                     elif message.arbitration_id == 663:
                         # Perform data swap in binary
                         data = message.data
@@ -287,6 +369,7 @@ class CANHandler:
         while True:
             self.calculateRange()
             publishSOC(self.stateOfCharge, self.rangeSuste, self.rangeThikka, self.rangeBabbal)
+            publishOdometer(self.odometer)
             # publishRange(self.rangeSuste, self.rangeThikka, self.rangeBabbal)
             #self.stateOfCharge = 55
             # print('SOC: ', self.stateOfCharge)
@@ -303,7 +386,7 @@ class CANHandler:
         self.tPushSlowData = threading.Thread(target=self.pushSlowData)
         self.tPushSlowData.start()
         self.tPrintData = threading.Thread(target=self.printData)
-        self.tPrintData.start()
+        #self.tPrintData.start()
 
     def printData(self):
         while True:
