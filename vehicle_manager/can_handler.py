@@ -57,7 +57,7 @@ class CANHandler:
         #Configure logger
         logging.basicConfig(filename="can.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='w')
         self.canLogger=logging.getLogger()
-        self.canLogger.setLevel(logging.WARNING)
+        self.canLogger.setLevel(logging.INFO)
         
         #Start CAN
         self.startCAN()
@@ -77,6 +77,7 @@ class CANHandler:
                         data = message.data
                         #Battery Frame 0
                         if( (len(data) > 1) and (data[0] == 0)):
+                            # print('Received Frame 0')
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
 
                             batteryStatus = (new_data[1]<<8) + new_data[2]
@@ -90,14 +91,15 @@ class CANHandler:
                             self.chargingCurrent = round(((new_data[5]<<8) + new_data[6])*0.01, 1)
                             
                             logMessage = str(message.arbitration_id) + ' : '+ 'Frame 0:' + 'BatteryStatus : ' + str(self.chargingStatus)
-                            self.canLogger.warning(logMessage)
+                            self.canLogger.info(logMessage)
                             logMessage = str(message.arbitration_id) + ' : '+ 'Frame 0:' + 'PackVoltage (V): ' + str(self.packVoltage)
-                            self.canLogger.warning(logMessage)
+                            self.canLogger.info(logMessage)
                             logMessage = str(message.arbitration_id) + ' : '+ 'Frame 0:' + 'ChargingCurrent (A): ' + str(self.packVoltage)
-                            self.canLogger.warning(logMessage)
+                            self.canLogger.info(logMessage)
                         
                         #Battery Frame 1   
                         elif( (len(data) > 1) and (data[0] == 1)):
+                            # print('Received Frame 1')
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
 
                             self.peakChargingCurrent = round(((new_data[1]<<8) + new_data[2])*0.01, 1)
@@ -113,6 +115,7 @@ class CANHandler:
 
                         #Battery Frame 2
                         elif( (len(data) > 1) and (data[0] == 2)):
+                            # print('Received Frame 2')
                             new_data=[data[0], data[2], data[1], data[3], data[4], data[6], data[5], data[7] ]
 
                             self.averageCurrent = round(((new_data[1]<<8) + new_data[2])*0.01, 1)
@@ -133,6 +136,7 @@ class CANHandler:
                             self.canLogger.info(logMessage)
                         #Battery Frame 3
                         elif( (len(data) > 1) and (data[0] == 3)):
+                            # print('Received Frame 3')
                             new_data=[data[0], data[1], data[3], data[2], data[5], data[4], data[6], data[7] ]
 
                             self.lowVoltCell = new_data[1]
@@ -153,6 +157,7 @@ class CANHandler:
                             self.canLogger.info(logMessage)
                         #Battery Frame 4   
                         elif( (len(data) > 1) and (data[0] == 4)):
+                            # print('Received Frame 4')
                             new_data=[data[0], data[2], data[1], data[3], data[4], data[6], data[5], data[7] ]
 
                             self.highTemp = int(((new_data[1]<<8) + new_data[2])*0.1)
@@ -174,6 +179,7 @@ class CANHandler:
                         
                         #Battery Frame 5
                         elif( (len(data) > 1) and (data[0] == 5)):
+                            # print('Received Frame 5')
                             new_data=[data[0], data[1], data[3], data[2], data[5], data[4], data[7], data[6] ]
                             self.tempDiffHigh = int(new_data[1]*0.1)
                             self.stateOfCharge = int(((new_data[2]<<8) + new_data[3])*0.1)
@@ -191,6 +197,7 @@ class CANHandler:
 
                         #Battery Frame 6
                         elif( (len(data) > 1) and (data[0] == 6)):
+                            # print('Received Frame 6')
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
 
                             self.timeToDischarge = int(((new_data[1]<<8) + new_data[2]))
@@ -205,6 +212,7 @@ class CANHandler:
                             self.canLogger.info(logMessage)
                         #Battery Frame 7
                         elif( (len(data) > 1) and (data[0] == 7)):
+                            # print('Received Frame 7')
                             new_data=[data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7] ]
 
                             self.fullChargedCycle = int(((new_data[1]<<8) + new_data[2]))
@@ -333,9 +341,14 @@ class CANHandler:
             frame = can.Message(arbitration_id=0x18C00001,data=[0], extended_id=True)
             self.bus.send(frame)
             time.sleep(0.1)
+            frame = can.Message(arbitration_id=0x18C00001,data=[1], extended_id=True)
+            self.bus.send(frame)
+            time.sleep(0.1)
             frame = can.Message(arbitration_id=0x18C00001,data=[2], extended_id=True)
             self.bus.send(frame)
-            #print('Frame 1 Requested')
+            time.sleep(0.1)
+            frame = can.Message(arbitration_id=0x18C00001,data=[3], extended_id=True)
+            self.bus.send(frame)
             time.sleep(0.1)
             frame = can.Message(arbitration_id=0x18C00001,data=[4], extended_id=True)
             self.bus.send(frame)
@@ -345,7 +358,10 @@ class CANHandler:
             time.sleep(0.1)
             frame = can.Message(arbitration_id=0x18C00001,data=[6], extended_id=True)
             self.bus.send(frame)
-            time.sleep(0.5)
+            time.sleep(0.1)
+            frame = can.Message(arbitration_id=0x18C00001,data=[7], extended_id=True)
+            self.bus.send(frame)
+            time.sleep(0.3)
     def startFastCharge(self):
         print('Starting Fast Charging')
         count = 0
