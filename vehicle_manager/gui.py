@@ -5,7 +5,7 @@ import os
 import time
 import netifaces
 import logging
-from events import *
+from event_handler import *
 #Configure logger
 logging.basicConfig(filename="charge.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='w')
 chargeLogger=logging.getLogger()

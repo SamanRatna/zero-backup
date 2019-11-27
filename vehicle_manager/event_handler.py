@@ -33,7 +33,7 @@ def eventBrake(state):
 def eventHibeam(state):
     print("Hibeam toggled: " + str(state))
 
-def eventTripReset(state):
+def eventTripReset():
     print("Trip Reset Requested")
 
 vehicleEvents.onRUPress += eventRUPress
