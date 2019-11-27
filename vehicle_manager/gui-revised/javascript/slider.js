@@ -130,3 +130,13 @@ function slideRight() {
     if (pos == totalSlides) { pos = 0; }
     $('#slider-wrap ul#slider').css('left', -(sliderWidth * pos));
 }
+
+function skipToInfograph() {
+    document.getElementById('right-slider').click();
+}
+setTimeout(function(){
+    skipToInfograph();
+}, 1000)
+setTimeout(function(){
+    skipToInfograph();
+}, 2000)
