@@ -31,26 +31,6 @@ function updateBikeMode(arg) {
     setMode(arg);
 }
 
-// eel.expose(updateLeftTurnStatus);
-function updateLeftTurnStatus(arg) {
-    leftTurnStatus = arg;
-}
-
-// eel.expose(updateRightTurnStatus);
-function updateRightTurnStatus(arg) {
-    rightTurnStatus = arg;
-}
-
-// eel.expose(updateHighBeamStatus);
-function updateHighBeamStatus(arg) {
-    highBeamValue = arg;
-}
-
-//eel.expose(updateTripDistance);
-function updateTripDistance(argA, argB) {
-    tripDistanceA = argA;
-    tripDistanceB = argB;
-}
 let statusSpeed2 = document.getElementById('speed-status-value');
 eel.expose(updateSpeedPower);
 function updateSpeedPower(speed, power) {
@@ -80,4 +60,8 @@ function updateChargingStatus(status, current, timeToCharge) {
     document.getElementById('engg-charging-status').innerHTML = status;
     document.getElementById('engg-charging-current').innerHTML = current;
     document.getElementById('engg-charge-time').innerHTML = timeToCharge;
+}
+
+function initiateTripReset(){
+    eel.resetTripData()
 }
