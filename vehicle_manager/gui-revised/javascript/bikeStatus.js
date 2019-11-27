@@ -71,8 +71,9 @@ function updateSOC(soc, rangeSuste,rangeThikka, rangeBabbal) {
 }
 
 eel.expose(updateOdometer)
-function updateOdometer(odometer) {
+function updateOdometer(odometer, tripOdo) {
     document.getElementById('odo-info-value').innerHTML = odometer;
+    document.getElementById('trip-info-value').innerHTML = tripOdo;
 }
 eel.expose(updateChargingStatus);
 function updateChargingStatus(status, current, timeToCharge) {

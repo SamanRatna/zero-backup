@@ -1,7 +1,7 @@
 from events import Events
 
 class VehicleEvents(Events):
-    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging')
+    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset')
 
 vehicleEvents = VehicleEvents()
 
@@ -33,6 +33,9 @@ def eventBrake(state):
 def eventHibeam(state):
     print("Hibeam toggled: " + str(state))
 
+def eventTripReset(state):
+    print("Trip Reset Requested")
+
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
 vehicleEvents.onRDPress += eventRDPress
@@ -42,3 +45,4 @@ vehicleEvents.onLeftSideLightToggle += eventLeftTurn
 vehicleEvents.onBrakeToggle += eventBrake
 vehicleEvents.onStandSwitch += eventStand
 vehicleEvents.onRDHold += eventRDHold
+vehicleEvents.onTripReset += eventTripReset

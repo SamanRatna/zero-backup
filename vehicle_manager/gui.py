@@ -5,6 +5,7 @@ import os
 import time
 import netifaces
 import logging
+from events import *
 #Configure logger
 logging.basicConfig(filename="charge.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='w')
 chargeLogger=logging.getLogger()
@@ -52,8 +53,8 @@ def publishSpeedPower(speed, power):
 def publishSOC(soc, rangeSuste, rangeThikka, rangeBabbal):
     eel.updateSOC(soc, rangeSuste, rangeThikka, rangeBabbal)
 
-def publishOdometer(odometer):
-    eel.updateOdometer(odometer)
+def publishOdometer(odometer, trip):
+    eel.updateOdometer(odometer, trip)
 
 def publishChargingStatus(status, current, timeToCharge):
     eel.updateChargingStatus(status, current, timeToCharge)
@@ -97,3 +98,8 @@ def getConnectivityStatus():
     iface = netifaces.gateways()['default'][netifaces.AF_INET][1]
     ip = netifaces.ifaddresses(iface)[netifaces.AF_INET][0]['addr']
     eel.updateConnectivityStatus(iface, ip)
+
+@eel.expose
+def resetTripData():
+    print('Trip Reset Requested.')
+    vehicleEvents.onTripReset()

@@ -7,11 +7,13 @@ import os
 from gui import *
 from gpio_manager import GPIOWriter
 from event_handler import *
+import json
 
 class CANHandler:
     def __init__(self, _gpioWriter):
     # def __init__(self):
         self.gpioWriter = _gpioWriter
+        self.odoBeforeTrip          = 0     # km
         #Parameters
         self.chargingStatus         = 'discharging'
         self.chargingCurrent        = 0     # Ampere
@@ -28,6 +30,8 @@ class CANHandler:
         self.motorTemp              = 0     # Celsius
         self.driveMode              = 0
         self.odometer               = 0     # km
+        self.tripOdoInitial         = 0     # km
+        self.tripOdo                = 0     # km
         self.peakChargingCurrent    = 0     # Ampere
         self.peakDischargingCurrent = 0     # Ampere
         self.dischargingCurrent     = 0     # Ampere
@@ -61,6 +65,10 @@ class CANHandler:
         
         #Start CAN
         self.startCAN()
+
+        #Subscribe to Trip Reset
+        self.readTripData()
+        vehicleEvents.onTripReset += self.initiateTripReset
 
     def setChargingStatus(self, status):
         if(status != self.chargingStatus):
@@ -384,8 +392,9 @@ class CANHandler:
     def pushSlowData(self):
         while True:
             self.calculateRange()
+            self.computeTripOdo()
             publishSOC(self.stateOfCharge, self.rangeSuste, self.rangeThikka, self.rangeBabbal)
-            publishOdometer(self.odometer)
+            publishOdometer(self.odometer, self.tripOdo)
             # publishRange(self.rangeSuste, self.rangeThikka, self.rangeBabbal)
             #self.stateOfCharge = 55
             # print('SOC: ', self.stateOfCharge)
@@ -425,7 +434,7 @@ class CANHandler:
             print('Power                        : ', self.power, '                      hp')
             print('Remaining Capacity           : ', self.remainingCapacity, '          Ah')
             print('Range Thikka                 : ', self.rangeThikka, '          km')
-            print('Range Suste                 : ', self.rangeSuste, '          km')
+            print('Range Suste                  : ', self.rangeSuste, '          km')
             print('Range Babbal                 : ', self.rangeBabbal, '          km')
     def calculateRange(self):
         # massBike                = 275               #kg
@@ -464,3 +473,21 @@ class CANHandler:
         self.rangeThikka = int(self.remainingCapacity*self.packVoltage/wattHourPerKmThikka)
         self.rangeSuste = int(self.remainingCapacity*self.packVoltage/wattHourPerKmSuste)
         self.rangeBabbal = int(self.remainingCapacity*self.packVoltage/wattHourPerKmBabbal)
+    
+    def initiateTripReset(self):
+        tripReset = {
+            'initial': self.odometer
+        }
+        with open('trip.json', 'w') as f:  # writing JSON object
+            json.dump(tripReset, f)
+        self.tripOdoInitial = self.odometer
+        self.tripOdo = 0
+        publishOdometer(self.odometer, self.tripOdo)
+    
+    def computeTripOdo(self):
+        self.tripOdo = self.odometer - self.tripOdoInitial
+
+    def readTripData(self):
+        with open('trip.json', 'r') as f:
+            self.tripData = json.load(f)
+        self.tripOdoInitial = self.tripData['initial']
