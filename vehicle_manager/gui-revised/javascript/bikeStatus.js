@@ -65,6 +65,7 @@ function updateChargingStatus(status, current, timeToCharge) {
 eel.expose(updateSpeedInfograph);
 function updateSpeedInfograph(maxSpeed, odoAverage, tripAverage) {
     console.log('updatingSpeedInfograph');
+    setAverageSpeed(maxSpeed, odoAverage, tripAverage);
 }
 
 function initiateTripReset(){

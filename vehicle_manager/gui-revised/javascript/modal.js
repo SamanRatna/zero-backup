@@ -1,8 +1,8 @@
 var modal;
 // Get the socModal
-var socModal = document.getElementById('socModal');
-var tripResetModal = document.getElementById("tripResetModal");
-var keyboardModal = document.getElementById("keyboard-modal");
+var socModal = document.getElementById('range2-modal');
+// var tripResetModal = document.getElementById("tripResetModal");
+var naviModal = document.getElementById("navigation-modal");
 // Get the main container and the body
 var body = document.getElementsByTagName('body');
 var container = document.getElementById('page-zero');
@@ -11,10 +11,10 @@ var container = document.getElementById('page-zero');
 var socOpen = document.getElementById("soc-status");
 
 // Open button for trip reset
-var tripResetOpen = document.getElementById("infocard-trips");
+// var tripResetOpen = document.getElementById("infocard-trips");
 
 // Open button for keyboard modal
-// var keyboardOpen = document.getElementById("yatri-logo-1");
+var naviOpen = document.getElementById("navigation-button");
 
 // Get the close button
 var btnClose = document.getElementById("closeModal");
@@ -29,22 +29,40 @@ socOpen.onclick = function() {
       socModal.className = "Modal";
     }, 100);
     container.parentElement.className = "ModalOpen";
-    
+    setTimeout(function(){
+        console.log('Closing the modal.')
+        closeModal();
+    }, 3000);
 }
 
 // Open the reset trip modal
 // tripResetOpen.onclick = function() {
-function openTripResetModal(){
-    modal = tripResetModal;
-    tripResetModal.className = "Modal is-visuallyHidden";
+// function openTripResetModal(){
+//     modal = tripResetModal;
+//     tripResetModal.className = "Modal is-visuallyHidden";
+//     setTimeout(function() {
+//     //   container.className = "MainContainer is-blurred";
+//     container.classList.add("is-blurred");
+//       tripResetModal.className = "Modal";
+//     }, 100);
+//     container.parentElement.className = "ModalOpen";
+// }
+
+// Open the SOC modal
+naviOpen.onclick = function() {
+    modal=naviModal;
+    naviModal.className = "Modal is-visuallyHidden";
     setTimeout(function() {
     //   container.className = "MainContainer is-blurred";
-    container.classList.add("is-blurred");
-      tripResetModal.className = "Modal";
+    // container.classList.add("is-blurred");
+    naviModal.className = "Modal";
     }, 100);
     container.parentElement.className = "ModalOpen";
+    setTimeout(function(){
+        console.log('Closing the modal.')
+        closeModal();
+    }, 2000);
 }
-
 // Close the modal
 btnClose.onclick = function() {
     modal.className = "Modal is-hidden is-visuallyHidden";
@@ -70,16 +88,17 @@ function closeModal() {
     // container.parentElement.className = "";
 }
 
-function openKeyboardModal(){
-    modal = keyboardModal;
-    keyboardModal.className = "Modal is-visuallyHidden";
-    setTimeout(function() {
-    //   container.className = "MainContainer is-blurred";
-    // container.classList.add("is-blurred");
-      keyboardModal.className = "Modal";
-    }, 100);
-    container.parentElement.className = "ModalOpen";
-    setTimeout(function(){
-        closeModal();
-    }, 2000);
-}
+// function openKeyboardModal(){
+//     modal = keyboardModal;
+//     keyboardModal.className = "Modal is-visuallyHidden";
+//     setTimeout(function() {
+//     //   container.className = "MainContainer is-blurred";
+//     // container.classList.add("is-blurred");
+//       keyboardModal.className = "Modal";
+//     }, 100);
+//     container.parentElement.className = "ModalOpen";
+//     setTimeout(function(){
+//         console.log('Closing the modal.')
+//         closeModal();
+//     }, 2000);
+// }

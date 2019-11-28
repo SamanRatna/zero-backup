@@ -162,7 +162,7 @@
                 <li style="padding-top: 50px;" data-color="#ffffff">
                     <img src="images/bike.png" width='1200px' id='slide-image-bike' alt="Project Zero Bike">
                 </li>
-                <!-- Navigation -->
+                <!------------------------------- Navigation ----------------------------------->
                 <li class='slide-content' id='slide-map-container' data-color="#3498db">
                     <div class='slide-content'>
                         <img src='images/no-internet-5.gif' class='slide-content'>
@@ -194,21 +194,18 @@
                         <img class='infograph-btn' id='infograph-btn-speed' src='icons/infograph-speed.svg' />
                         <div id="speed-chart">
                             <svg id="meter" style="height: 140%; width: 70%;"  transform="rotate(270)">
-                                <!-- <circle r="100" cx="55%" cy="50%"
-                                stroke="#f5f5f5" stroke-width="18" fill="#f5f5f5">
-                                </circle> -->
-                                <circle id="av-speed-meter" r="88" cx="55%" cy="68%"
-                                stroke="#B0FFF9" stroke-width="60" stroke-dasharray="275, 550" fill="none" stroke-linecap='round'>
+                                <circle id="odo-speed-meter" r="88" cx="55%" cy="68%"
+                                stroke="#B0FFF9" stroke-width="60" stroke-dasharray="0, 550" fill="none" stroke-linecap='round'>
                                 </circle>
-                                <circle id="av-speed-meter" r="156" cx="55%" cy="68%"
-                                stroke="#30D5C8" stroke-width="60" stroke-dasharray="490, 917" fill="none" stroke-linecap='round'>
+                                <circle id="trip-speed-meter" r="156" cx="55%" cy="68%"
+                                stroke="#30D5C8" stroke-width="60" stroke-dasharray="0, 980" fill="none" stroke-linecap='round'>
                                 </circle>
-                                <circle id="av-speed-meter" r="225" cx="55%" cy="68%"
-                                stroke="#09aaaa" stroke-width="61" stroke-dasharray="707, 1413" fill="none" stroke-linecap='round'>
+                                <circle id="max-speed-meter" r="225" cx="55%" cy="68%"
+                                stroke="#09aaaa" stroke-width="61" stroke-dasharray="0, 1413" fill="none" stroke-linecap='round'>
                                 </circle>
-                                <circle cx="65%" cy="15%" r="32.5" fill="#B0FFF9"/>
+                                <circle cx="65%" cy="15%" r="32.5" fill="#09aaaa"/>
                                 <circle cx="55%" cy="15%" r="32.5" fill="#30D5C8"/>
-                                <circle cx="45%" cy="15%" r="32.5" fill="#09aaaa"/>
+                                <circle cx="45%" cy="15%" r="32.5" fill="#B0FFF9"/>
                                 <!-- <text x="25%" y="-47.5%" fill="#454545" font-family='Barlow' font-size='2em' transform="rotate(90)">MAX SPEED</text>
                                 <text x="25%" y="-40%" fill="#454545" font-family='Barlow' font-size='2em' transform="rotate(90)">TRIP AVERAGE</text>
                                 <text x="25%" y="-32.5%" fill="#454545" font-family='Barlow' font-size='2em' transform="rotate(90)">ODO AVERAGE</text>                           -->
@@ -217,9 +214,9 @@
                         <div class='speed-label' id='label-max-speed'>MAX SPEED</div>
                         <div class='speed-label' id='label-trip-average'>TRIP AVERAGE</div>
                         <div class='speed-label' id='label-odo-average'>ODO AVERAGE</div>
-                        <div class='speed-value' id='value-max-speed'>120</div>
-                        <div class='speed-value' id='value-trip-average'>65</div>
-                        <div class='speed-value' id='value-odo-average'>55</div>
+                        <div class='speed-value' id='value-max-speed'>0</div>
+                        <div class='speed-value' id='value-trip-average'>0</div>
+                        <div class='speed-value' id='value-odo-average'>0</div>
                         <div class='speed-unit'>km/h</div>
                     </div>
                     <!-------------------------Temperature Infographics  --------------------->
@@ -268,8 +265,7 @@
 </div>
 
 <!---------------------------- SOC and Range Popup/Modal --------------------------------------->
-<div id="socModal" class="Modal is-hidden is-visuallyHidden">
-        <!-- Modal content -->
+<!-- <div id="socModal" class="Modal is-hidden is-visuallyHidden">
         <div class="Modal-content">
             <span id="closeModal" class="Close"></span>
             <div id="modal-range">
@@ -287,7 +283,7 @@
                             <img src="icons/roller.svg" style="max-height: 120px;"/>
                         </div>
                         <div class="modal-range-title">Suste</div>
-                        <div class="modal-range-value" id='range-suste'>-</div>
+                        <div class="modal-range-value" >-</div>
                         <div class="modal-range-unit">km</div>
                     </div>
                     <div class="modal-range" id="modal-thikka">
@@ -295,7 +291,7 @@
                             <img src="icons/motorcycle.svg" style="max-height: 120px;"/>
                         </div>
                         <div class="modal-range-title">Thikka</div>
-                        <div class="modal-range-value" id='range-thikka'>-</div>
+                        <div class="modal-range-value">-</div>
                         <div class="modal-range-unit">km</div>
                     </div>
                     <div class="modal-range" id="modal-babbal">
@@ -303,13 +299,13 @@
                             <img src="icons/speed.svg" style="max-height: 110px;"/>
                         </div>
                         <div class="modal-range-title">Babbal</div>
-                        <div class="modal-range-value" id='range-babbal'>-</div>
+                        <div class="modal-range-value">-</div>
                         <div class="modal-range-unit">km</div>
                     </div>
                 </div>
             </div>
         </div>
-      </div>
+      </div> -->
 <!-------------------------------------- Fast Charge Popup/Modal ---------------------------------------->
 <div id="fastChargeModal" class="Modal is-hidden is-visuallyHidden">
     <!-- Modal content -->
@@ -335,13 +331,49 @@
             </div>
         </div>
     </div>
-  </div>
-      </div>
+</div>
+
+<!-------------------------------------- Feature Disabled Popup/Modal ---------------------------------------->
+<div id="navigation-modal" class="Modal is-hidden is-visuallyHidden">
+    <!-- Modal content -->
+    <div id="navigation-modal-content">
+        <span id="closeModal" class="Close"></span>
+        <div id="modal-navigation">
+            Feature Disabled
+        </div>
+    </div>
+</div>
+
+<!-------------------------------------- Range v2 Popup/Modal ---------------------------------------->
+<div id="range2-modal" class="Modal is-hidden is-visuallyHidden">
+    <!-- Modal content -->
+    <div id="range2-modal-content">
+        <span id="closeModal" class="Close"></span>
+        <div id="modal-range2">
+            <div class='modal-ranges'>
+                <div class='modal-range-label'>SUSTE</div>
+                <div class='modal-range-value' id='range-suste'>-</div>
+                <div class='modal-range-unit'>km</div>
+            </div>
+            <div class='modal-ranges'>
+                    <div class='modal-range-label'>THIKKA</div>
+                    <div class='modal-range-value' id='range-thikka'>-</div>
+                    <div class='modal-range-unit'>km</div>
+            </div>
+            <div class='modal-ranges'>
+                    <div class='modal-range-label'>BABBAL</div>
+                    <div class='modal-range-value' id='range-babbal'>-</div>
+                    <div class='modal-range-unit'>km</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.5.0/lottie.js'></script>
-<!-- <script src='javascript/speed-chart.js'></script> -->
 <script src='javascript/speedometer.js'></script>
 <script src='javascript/temperature-chart.js'></script>
 <script src='javascript/carbon-chart.js'></script>

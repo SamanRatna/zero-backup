@@ -196,3 +196,60 @@
   margin-left: 30%;
   border-radius: 50px;
 }
+
+/* ************************************************* */
+#modal-range2{
+  position: absolute;
+  height: 7%;
+  width: 90%;
+  left: 5%;
+  top: 22%;
+  background: #FFFFFF;
+  border: 2px solid #A3A3A3;
+  box-sizing: border-box;
+  border-radius: 16px;
+  /* padding-left:5%;
+  padding-right: 5%; */
+}
+
+.modal-ranges {
+  position: relative;
+  float: left;
+  width: 26%;
+  height: 60%;
+  margin-top: 4%;
+  margin: 3.5%;
+}
+
+.modal-range-label{
+  position: relative;
+  float: left;
+  height: 100%;
+  width: 50%;
+  text-align: left;
+  font-size: 35px;
+  font-weight: 500;
+  color: #808080;
+}
+
+.modal-range-value {
+  position: relative;
+  float: left;
+  height: 100%;
+  width: 30%;
+  text-align: center;
+  font-size: 35px;
+  font-weight: 500;
+  color: #808080;
+}
+.modal-range-unit {
+  position: relative;
+  float: left;
+  height: 100%;
+  width: 20%;
+  text-align: left;
+  font-size: 35px;
+  font-weight: 500;
+  color: #808080;
+  text-align: left;
+}

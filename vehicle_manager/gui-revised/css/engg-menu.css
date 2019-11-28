@@ -123,3 +123,16 @@
     font-size: 75px;
     background:#E7E7E7;
 }
+
+#modal-navigation {
+    background: rgb(240, 240, 240);
+    /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+    font-family: Barlow;
+    font-size: 40px;
+    width: 45%;
+    height:65px;
+    text-align: center;
+    margin-top: -33%;
+    margin-left: 30%;
+    border-radius: 50px;
+  }
