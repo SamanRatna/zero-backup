@@ -62,6 +62,11 @@ function updateChargingStatus(status, current, timeToCharge) {
     document.getElementById('engg-charge-time').innerHTML = timeToCharge;
 }
 
+eel.expose(updateSpeedInfograph);
+function updateSpeedInfograph(maxSpeed, odoAverage, tripAverage) {
+    console.log('updatingSpeedInfograph');
+}
+
 function initiateTripReset(){
     eel.resetTripData()
 }

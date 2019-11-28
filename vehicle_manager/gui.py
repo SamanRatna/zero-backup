@@ -59,6 +59,11 @@ def publishOdometer(odometer, trip):
 def publishChargingStatus(status, current, timeToCharge):
     eel.updateChargingStatus(status, current, timeToCharge)
 
+def publishSpeedInfograph(maxSpeed, odoAverage, tripAverage):
+    eel.updateSpeedInfograph(int(maxSpeed), int(odoAverage), int(tripAverage))
+    print('maxSpeed: ', str(maxSpeed))
+    print('odoAverage: ', str(odoAverage))
+    print('tripAverage: ', str(tripAverage))
 # def publishRange(rangeSuste, rangeThikka, rangeBabbal):
     # eel.updateRangeInKm(rangeSuste, rangeThikka, rangeBabbal)
     # pass
