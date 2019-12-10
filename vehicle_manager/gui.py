@@ -6,11 +6,15 @@ import time
 import netifaces
 import logging
 from event_handler import *
+
 #Configure logger
 logging.basicConfig(filename="charge.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='w')
 chargeLogger=logging.getLogger()
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
+vehicleReadings.maxSpeed += publishMaxSpeed
+vehicleReadings.averageSpeeds += publishAverageSpeeds
+vehicleReadings.distances += publishDistances
 
 # my_options = {
 #     'mode': "chrome", #or "chrome-app",
@@ -67,6 +71,16 @@ def publishSpeedInfograph(maxSpeed, odoAverage, tripAverage):
 # def publishRange(rangeSuste, rangeThikka, rangeBabbal):
     # eel.updateRangeInKm(rangeSuste, rangeThikka, rangeBabbal)
     # pass
+
+def publishMaxSpeed(value):
+    pass
+
+def publishAverageSpeeds(value):
+    pass
+
+def publishDistances(value):
+    pass
+
 def startGUIThread():
     try:        
         guiThread = threading.Thread(target=startGUI)

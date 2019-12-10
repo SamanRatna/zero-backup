@@ -288,6 +288,7 @@ class CANHandler:
                         # Fix negative velocity issue
                         if self.bikeSpeed > 4096/2:
                             self.bikeSpeed = 0
+                        vehicleReadings.speedReading(self.bikeSpeed)
 
                         if(self.bikeSpeed > 5):
                             if(not self.stopwatch.running):
@@ -352,6 +353,8 @@ class CANHandler:
                         dig_input_hex = new_data[6]
                         odometer = int(int(odometer_hex, 16)*0.0039)
                         self.odometer = odometer
+                        vehicleReading.odoReading(self.odometer)
+
                         htsink_temp = int(int(htsink_temp_hex, 16)*1)
                         dig_input = int(int(dig_input_hex, 16)*1)
                         # self.initializeRideTime()

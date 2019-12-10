@@ -3,8 +3,26 @@ from events import Events
 class VehicleEvents(Events):
     __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset')
 
-vehicleEvents = VehicleEvents()
+class VehicleReadings(Events):
+    __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances')
 
+vehicleEvents = VehicleEvents()
+vehicleReadings = VehicleReadings()
+
+def eventOdoReading(value):
+    print("Odo Reading: ", value)
+
+def eventOdoReading(value):
+    print("Speed Reading: ", value)
+
+def eventMaxSpeed(value):
+    print("Max Speed: ", value)
+
+def eventAverageSpeeds(value1, value2):
+    print("Average Speeds: ", value1, value2)
+
+def eventDistances(value1, value2):
+    print("Distances: ", value1, value2)
 
 def eventRUPress():
     print("RU Press Event Triggered.")
@@ -46,3 +64,8 @@ vehicleEvents.onBrakeToggle += eventBrake
 vehicleEvents.onStandSwitch += eventStand
 vehicleEvents.onRDHold += eventRDHold
 vehicleEvents.onTripReset += eventTripReset
+vehicleReadings.odoReading += eventOdoReading
+vehicleReadings.speedReading += eventSpeedReading
+vehicleReadings.maxSpeed += eventMaxSpeed
+vehicleReadings.averageSpeeds += eventAverageSpeeds
+vehicleReadings.distances += eventDistances
