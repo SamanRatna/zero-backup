@@ -12,9 +12,8 @@ logging.basicConfig(filename="charge.log", format = '%(asctime)s - %(levelname)s
 chargeLogger=logging.getLogger()
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
-vehicleReadings.maxSpeed += publishMaxSpeed
-vehicleReadings.averageSpeeds += publishAverageSpeeds
-vehicleReadings.distances += publishDistances
+maxSpeed = 0
+bikeMode = "MODE_STANDBY"
 
 # my_options = {
 #     'mode': "chrome", #or "chrome-app",
@@ -31,7 +30,9 @@ def startGUI():
     startGUI()
 
 def publishBikeMode(mode):
+    global bikeMode
     eel.updateBikeMode(mode.name)
+    bikeMode = mode.name
 
 # def publishLeftTurnStatus(status):
 #     if status==True:
@@ -57,29 +58,19 @@ def publishSpeedPower(speed, power):
 def publishSOC(soc, rangeSuste, rangeThikka, rangeBabbal):
     eel.updateSOC(soc, rangeSuste, rangeThikka, rangeBabbal)
 
-def publishOdometer(odometer, trip):
-    eel.updateOdometer(odometer, trip)
-
 def publishChargingStatus(status, current, timeToCharge):
     eel.updateChargingStatus(status, current, timeToCharge)
 
-def publishSpeedInfograph(maxSpeed, odoAverage, tripAverage):
-    eel.updateSpeedInfograph(int(maxSpeed), int(odoAverage), int(tripAverage))
-    print('maxSpeed: ', str(maxSpeed))
-    print('odoAverage: ', str(odoAverage))
-    print('tripAverage: ', str(tripAverage))
-# def publishRange(rangeSuste, rangeThikka, rangeBabbal):
-    # eel.updateRangeInKm(rangeSuste, rangeThikka, rangeBabbal)
-    # pass
-
 def publishMaxSpeed(value):
-    pass
+    global maxSpeed
+    eel.updateMaxSpeed(value)
+    maxSpeed = value
 
-def publishAverageSpeeds(value):
-    pass
+def publishAverageSpeeds(odoAverage, tripAverage):
+    eel.updateAverageSpeeds(odoAverage, tripAverage)
 
-def publishDistances(value):
-    pass
+def publishDistances(odometer, tripDistance):
+    eel.updateDistances(odometer, tripDistance)
 
 def startGUIThread():
     try:        
@@ -122,3 +113,13 @@ def getConnectivityStatus():
 def resetTripData():
     print('Trip Reset Requested.')
     vehicleEvents.onTripReset()
+
+@eel.expose
+def getGUIData():
+    global maxSpeed
+    global bikeMode
+    eel.updateBikeMode(bikeMode)
+    publishMaxSpeed(maxSpeed)
+vehicleReadings.maxSpeed += publishMaxSpeed
+vehicleReadings.averageSpeeds += publishAverageSpeeds
+vehicleReadings.distances += publishDistances

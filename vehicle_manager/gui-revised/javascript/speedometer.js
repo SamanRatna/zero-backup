@@ -35,3 +35,19 @@ function setAverageSpeed(max, odo, trip){
     tripSpeedValue.innerHTML = trip;
 }
 // setAverageSpeed(100, 50, 70);
+
+function setMaxSpeed(max) {
+    gaugeValue = ((max * scfMax) / topSpeed);
+    maxSpeedMeter.setAttribute("stroke-dasharray", gaugeValue + "," + cfMax);
+    maxSpeedValue.innerHTML = max;
+}
+
+function setAverageSpeeds(odo, trip) {
+    gaugeValue = ((odo * scfOdo) / topSpeed);
+    odoSpeedMeter.setAttribute("stroke-dasharray", gaugeValue + "," + cfOdo);
+    odoSpeedValue.innerHTML = odo;
+
+    gaugeValue = ((trip * scfTrip) / topSpeed);
+    tripSpeedMeter.setAttribute("stroke-dasharray", gaugeValue + "," + cfTrip);
+    tripSpeedValue.innerHTML = trip;
+}

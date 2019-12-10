@@ -42,8 +42,7 @@ function updateSpeedPower(speed, power) {
 eel.expose(updateSOC);
 function updateSOC(soc, rangeSuste,rangeThikka, rangeBabbal) {
     document.getElementById('soc-status-value').innerHTML = soc;
-    document.getElementById('engg-battery-status').innerHTML = soc;
-    document.getElementById('modal-soc').innerHTML = soc;
+    // document.getElementById('engg-battery-status').innerHTML = soc;
     document.getElementById('range-suste').innerHTML = rangeSuste;
     document.getElementById('range-thikka').innerHTML = rangeThikka;
     document.getElementById('range-babbal').innerHTML = rangeBabbal;
@@ -68,6 +67,32 @@ function updateSpeedInfograph(maxSpeed, odoAverage, tripAverage) {
     setAverageSpeed(maxSpeed, odoAverage, tripAverage);
 }
 
+eel.expose(updateMaxSpeed);
+function updateMaxSpeed(value){
+    setMaxSpeed(value);
+}
+
+eel.expose(updateAverageSpeeds);
+function updateAverageSpeeds(odo, trip){
+    setAverageSpeeds(odo, trip);
+}
+
+eel.expose(updateDistances)
+function updateDistances(odometer, tripOdo) {
+    document.getElementById('odo-info-value').innerHTML = odometer;
+    document.getElementById('trip-info-value').innerHTML = tripOdo;
+}
+
 function initiateTripReset(){
     eel.resetTripData()
 }
+
+function initializeGUI(){
+    eel.getGUIData()
+}
+
+// eel.expose(updateGUIData)
+// function updateGUIData(maxSpeed){
+//     setMaxSpeed(maxSpeed);
+// }
+initializeGUI();

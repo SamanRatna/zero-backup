@@ -12,7 +12,7 @@ vehicleReadings = VehicleReadings()
 def eventOdoReading(value):
     print("Odo Reading: ", value)
 
-def eventOdoReading(value):
+def eventSpeedReading(value):
     print("Speed Reading: ", value)
 
 def eventMaxSpeed(value):
@@ -64,8 +64,8 @@ vehicleEvents.onBrakeToggle += eventBrake
 vehicleEvents.onStandSwitch += eventStand
 vehicleEvents.onRDHold += eventRDHold
 vehicleEvents.onTripReset += eventTripReset
-vehicleReadings.odoReading += eventOdoReading
-vehicleReadings.speedReading += eventSpeedReading
+# vehicleReadings.odoReading += eventOdoReading
+# vehicleReadings.speedReading += eventSpeedReading
 vehicleReadings.maxSpeed += eventMaxSpeed
-vehicleReadings.averageSpeeds += eventAverageSpeeds
-vehicleReadings.distances += eventDistances
+# vehicleReadings.averageSpeeds += eventAverageSpeeds
+# vehicleReadings.distances += eventDistances
