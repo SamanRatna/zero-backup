@@ -7,14 +7,11 @@ import os
 from gui import *
 from gpio_manager import GPIOWriter
 from event_handler import *
-import json
-from stopwatch import Stopwatch
 
 class CANHandler:
     def __init__(self, _gpioWriter):
     # def __init__(self):
         self.gpioWriter = _gpioWriter
-        self.odoBeforeTrip          = 0     # km
         #Parameters
         self.chargingStatus         = 'discharging'
         self.chargingCurrent        = 0     # Ampere
@@ -31,8 +28,6 @@ class CANHandler:
         self.motorTemp              = 0     # Celsius
         self.driveMode              = 0
         self.odometer               = 0     # km
-        self.tripOdoOffset         = 0     # km
-        self.tripOdo                = 0     # km
         self.peakChargingCurrent    = 0     # Ampere
         self.peakDischargingCurrent = 0     # Ampere
         self.dischargingCurrent     = 0     # Ampere
@@ -55,11 +50,6 @@ class CANHandler:
         self.highTempModule         = 0
         self.highTempNumber         = 0
 
-        self.rideTime = 0
-        self.initialRideTimeStatus = 0
-        self.tripRideTimeOffset = 0
-        self.tripSpeedInitial = 0
-        self.maxBikeSpeed = 0
         #Configure CAN Interface
         can.rc['interface'] = 'socketcan_native'
         can.rc['channel'] = 'can0'
@@ -70,15 +60,8 @@ class CANHandler:
         self.canLogger=logging.getLogger()
         self.canLogger.setLevel(logging.INFO)
         
-        self.readTripData()
         #Start CAN
-        self.stopwatch = Stopwatch()
         self.startCAN()
-
-        #Subscribe to Trip Reset
-        
-        
-        vehicleEvents.onTripReset += self.initiateTripReset
 
     def setChargingStatus(self, status):
         if(status != self.chargingStatus):
@@ -280,27 +263,18 @@ class CANHandler:
                         # Perform data swap in binary
                         data = message.data
                         new_data = [data[1], data[0], data[3], data[2], data[5], data[4], data[7], data[6]]
-                        self.bikeSpeed = int(((new_data[0]<<8) + new_data[1])*0.0625)
-
+                        speed = int(((new_data[0]<<8) + new_data[1])*0.0625)
+                        # Fix negative velocity issue
+                        if speed > 4096/2:
+                            self.bikeSpeed = 0
+                        else:
+                            self.bikeSpeed = speed
                         self.maxTorque = round(((new_data[2]<<8) + new_data[3])*0.1, 1)
                         self.actualTorque = round(((new_data[4]<<8) + new_data[5])*0.0625, 1)
                         self.motorTemp = round(((new_data[6]<<8) + new_data[7]), 1)
-                        # Fix negative velocity issue
-                        if self.bikeSpeed > 4096/2:
-                            self.bikeSpeed = 0
+                        
                         vehicleReadings.speedReading(self.bikeSpeed)
 
-                        if(self.bikeSpeed > 5):
-                            if(not self.stopwatch.running):
-                                self.stopwatch.start()
-                        else:
-                            if(self.stopwatch.running):
-                                self.stopwatch.stop()
-                                self.rideTime = self.stopwatch.duration
-                        
-                        if((self.bikeSpeed > self.maxBikeSpeed)):
-                            self.maxBikeSpeed = self.bikeSpeed
-                        
                         # Fix negative torque issue
                         if self.actualTorque > 4096/2:
                             self.actualTorque = int(self.actualTorque-4096)
@@ -353,13 +327,11 @@ class CANHandler:
                         dig_input_hex = new_data[6]
                         odometer = int(int(odometer_hex, 16)*0.0039)
                         self.odometer = odometer
-                        vehicleReading.odoReading(self.odometer)
+                        vehicleReadings.odoReading(self.odometer)
 
                         htsink_temp = int(int(htsink_temp_hex, 16)*1)
                         dig_input = int(int(dig_input_hex, 16)*1)
-                        # self.initializeRideTime()
-                        if(not self.initialRideTimeStatus):
-                            self.initializeRideTime()
+
                         #logMessage = 'Frame:    769' + ' - ' + 'Odometer:  ' + str(odometer) + ' km'
                         #print(logMessage)
                         # self.canLogger.info(logMessage)
@@ -421,13 +393,7 @@ class CANHandler:
     def pushSlowData(self):
         while True:
             self.calculateRange()
-            self.computeTripOdo()
-            if(self.initialRideTimeStatus):
-                self.computeAverageSpeed()
-                publishSpeedInfograph(self.maxBikeSpeed, self.averageSpeed, self.tripAverageSpeed)
             publishSOC(self.stateOfCharge, self.rangeSuste, self.rangeThikka, self.rangeBabbal)
-            publishOdometer(self.odometer, self.tripOdo)
-            # publishRange(self.rangeSuste, self.rangeThikka, self.rangeBabbal)
             #self.stateOfCharge = 55
             # print('SOC: ', self.stateOfCharge)
             # self.gpioWriter.setSOC(self.stateOfCharge)
@@ -506,57 +472,3 @@ class CANHandler:
         self.rangeSuste = int(self.remainingCapacity*self.packVoltage/wattHourPerKmSuste)
         self.rangeBabbal = int(self.remainingCapacity*self.packVoltage/wattHourPerKmBabbal)
     
-    def initiateTripReset(self):
-        tripReset = {
-            'tripDistanceOffsetOnBoot': self.odometer,
-            'averageTripSpeedOnBoot': 0
-        }
-        with open('trip.json', 'w') as f:  # writing JSON object
-            json.dump(tripReset, f)
-        self.tripOdoOffset = self.odometer
-        self.tripOdo = 0
-        self.tripRideTimeOffset = self.stopwatch.duration/3600 + self.initialTripRideTIme 
-        publishOdometer(self.odometer, self.tripOdo)
-    
-    def computeTripOdo(self):
-        self.tripOdo = self.odometer - self.tripOdoOffset
-        # self.tripRideTime = self.stopwatch.duration
-
-
-    def readTripData(self):
-        with open('trip.json', 'r') as f:
-            self.tripData = json.load(f)
-        self.tripOdoOffset = self.tripData['tripDistanceOffsetOnBoot']
-        self.tripSpeedInitial = self.tripData['averageTripSpeedOnBoot']
-
-        with open('speed.json', 'r') as f:
-            speed = json.load(f)
-            self.averageSpeed = speed['odoAverageSpeedOnBoot']
-            self.maxBikeSpeed = speed['maxSpeedOnBoot']
-        print('tripOdoOffset: ', str(self.tripOdoOffset))
-        print('tripSpeedInitial: ', str(self.tripSpeedInitial))
-        print('Average Speed On Boot: ', str(self.averageSpeed))
-        print('Max Speed On Boot: ', str(self.maxBikeSpeed))
-
-    
-    def initializeRideTime(self):
-        self.initialRideTime = self.odometer / self.averageSpeed
-        print('InitialRideTime: ', str(self.initialRideTime))
-        self.computeTripOdo()
-        self.initialTripRideTime = self.tripOdo / self.tripSpeedInitial
-        print('initialTripRideTime: ', str(self.initialTripRideTime))
-        self.initialRideTimeStatus = 1
-
-    def computeAverageSpeed(self):
-        self.averageSpeed = self.odometer / (self.initialRideTime + self.stopwatch.duration/3600)
-        # print('Total Distance: ', str(self.odometer))
-        # print('Ride Time: ', str(self.rideTime))
-        # print('Average Speed: ', str(self.averageSpeed))
-
-        self.computeTripOdo()
-        self.tripRideTime = (self.stopwatch.duration / 3600) + self.initialTripRideTime - self.tripRideTimeOffset
-        self.tripAverageSpeed = self.tripOdo / self.tripRideTime
-        # print('initialTripRideTime: ', str(self.initialTripRideTime))
-        # print('tripRideTime: ', str(self.tripRideTime))
-        # print('Trip Average Speed: ', str(self.tripAverageSpeed))
-        # print('Trip Average Speed: ', str(self.tripAverageSpeed))
