@@ -17,8 +17,9 @@
   .containerMain {
 	position: relative;
   }
-  
-  
+  *::selection {
+	  background:transparent;
+} 
   /* NextMain & previousMain buttons */
   .prevMain,
   .nextMain {
