@@ -253,3 +253,17 @@
   color: #808080;
   text-align: left;
 }
+/* ************************************************* */
+
+#modal-navigation {
+  background: rgb(220, 220, 220);
+  font-family: Barlow;
+  font-size: 70px;
+  width: 80%;
+  height:10%;
+  line-height: 150%;
+  text-align: center;
+  margin-top: 50%;
+  margin-left: 10%;
+  border-radius: 50px;
+}
