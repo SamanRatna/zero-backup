@@ -1,0 +1,13 @@
+#!/bin/bash
+matchbox-window-manager -use_titlebar no &
+ 
+#exec xfce4-terminal
+#exec /home/pi/Share/yatri-project-zero/scripts/2.sh
+exec xset s noblank &
+exec xset s off &
+exec xset -dpms &
+
+exec sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State' &
+exec sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences &
+chromium-browser --kiosk --disable-overscroll-edge-effect --disable-pinch --disable-translate --no-first-run --fast --fast-start --disable-infobars --disable-features=TranslateUI "http://localhost:8000/index.html"
+
