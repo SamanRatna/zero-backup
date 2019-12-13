@@ -6,6 +6,7 @@
   
   img {
 	vertical-align: middle;
+	-webkit-user-drag: none;
   }
   
   .mySlides{
