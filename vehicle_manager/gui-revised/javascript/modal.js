@@ -25,14 +25,14 @@ socOpen.onclick = function() {
     socModal.className = "Modal is-visuallyHidden";
     setTimeout(function() {
     //   container.className = "MainContainer is-blurred";
-    container.classList.add("is-blurred");
+    // container.classList.add("is-blurred");
       socModal.className = "Modal";
     }, 100);
     container.parentElement.className = "ModalOpen";
     setTimeout(function(){
-        console.log('Closing the modal.')
+        console.log('Closing the SOC modal.')
         closeModal();
-    }, 3000);
+    }, 10000);
 }
 
 // Open the reset trip modal
@@ -54,14 +54,14 @@ naviOpen.onclick = function() {
     naviModal.className = "Modal is-visuallyHidden";
     setTimeout(function() {
     //   container.className = "MainContainer is-blurred";
-    // container.classList.add("is-blurred");
+    container.classList.add("is-blurred");
     naviModal.className = "Modal";
     }, 100);
     container.parentElement.className = "ModalOpen";
     setTimeout(function(){
         console.log('Closing the modal.')
         closeModal();
-    }, 2000);
+    }, 3000);
 }
 // Close the modal
 btnClose.onclick = function() {

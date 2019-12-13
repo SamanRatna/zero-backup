@@ -131,12 +131,12 @@ function slideRight() {
     $('#slider-wrap ul#slider').css('left', -(sliderWidth * pos));
 }
 
-function skipToInfograph() {
-    document.getElementById('right-slider').click();
-}
-setTimeout(function(){
-    skipToInfograph();
-}, 1000)
-setTimeout(function(){
-    skipToInfograph();
-}, 2000)
+// function skipToInfograph() {
+//     document.getElementById('right-slider').click();
+// }
+// setTimeout(function(){
+//     skipToInfograph();
+// }, 1000)
+// setTimeout(function(){
+//     skipToInfograph();
+// }, 2000)
