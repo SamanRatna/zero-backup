@@ -7,7 +7,7 @@ After=graphical.target
 Environment=DISPLAY=:0.0
 Environment=XAUTHORITY=/home/pi/.Xauthority
 Type=simple
-ExecStart=/bin/bash /home/pi/Desktop/2.sh
+ExecStart=/bin/bash /home/pi/Share/yatri-project-zero/scripts/2.sh
 Restart=on-abort
 User=pi
 Group=pi
