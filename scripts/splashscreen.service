@@ -1,0 +1,15 @@
+[Unit]
+Description=Splash screen
+DefaultDependencies=no
+#After=local-fs.target
+After=raspi-config.service
+
+[Service]
+#ExecStart=/usr/bin/fbi -d /dev/fb0 --noverbose -a /home/pi/image001.png
+ExecStart=omxplayer /home/pi/Videos/yatri-splash.mp4
+#StandardInput=tty
+#StandardOutput=tty
+
+[Install]
+#WantedBy=sysinit.target
+WantedBy=basic.target
