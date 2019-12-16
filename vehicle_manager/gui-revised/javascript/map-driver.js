@@ -24,4 +24,9 @@ function loadScript(url, callback){
 function reloadMap(){
     loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs", initMap);
 }
+
+function reloadPage(){
+    window.location.reload();
+}
 document.getElementById('yatri-logo').addEventListener('click', reloadMap);
+document.getElementById('notification-time').addEventListener('click', reloadPage);
