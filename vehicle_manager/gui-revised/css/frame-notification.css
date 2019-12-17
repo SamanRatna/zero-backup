@@ -1,13 +1,13 @@
 #notification-time {
     position: relative;
     float: right;
-    width: 18%;
+    width: 10%;
     height: 60%;
-    margin-right: 0.5%;
+    margin-right: 4.5%;
     margin-top: 1.5%;
     font-size: 35px;
     text-align: center;
-
+    /* background: pink; */
     color: #898989;
 }
 
@@ -29,6 +29,10 @@
 }
 #notification-rightsidelight{
     display:none;
+}
+#notification-bluetooth{
+    float: right;
+    display: none;
 }
 
 @keyframes signal-activate {
