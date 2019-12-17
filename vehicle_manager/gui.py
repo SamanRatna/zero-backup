@@ -72,6 +72,9 @@ def publishAverageSpeeds(odoAverage, tripAverage):
 def publishDistances(odometer, tripDistance):
     eel.updateDistances(odometer, tripDistance)
 
+def publishBluetoothStatus(status):
+    eel.updateBluetoothStatus(status)
+
 def startGUIThread():
     try:        
         guiThread = threading.Thread(target=startGUI)
@@ -123,3 +126,4 @@ def getGUIData():
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances
+vehicleEvents.onBLEReady += publishBluetoothStatus
