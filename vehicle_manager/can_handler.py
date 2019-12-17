@@ -186,7 +186,7 @@ class CANHandler:
                             self.stateOfCharge = int(((new_data[2]<<8) + new_data[3])*0.1)
                             self.remainingCapacity = int(((new_data[4]<<8) + new_data[5])*0.1)
                             self.timeToCharge = (new_data[6]<<8) + new_data[7]
-
+                            vehicleReadings.batteryStatus(self.stateOfCharge)
                             logMessage = str(message.arbitration_id) + ' : '+ 'Frame 5:' + 'tempDiffHigh (C): ' + str(self.tempDiffHigh)
                             self.canLogger.info(logMessage)
                             logMessage = str(message.arbitration_id) + ' : '+ 'Frame 5:' + 'stateOfCharge (%): ' + str(self.stateOfCharge)

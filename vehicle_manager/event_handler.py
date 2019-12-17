@@ -1,10 +1,10 @@
 from events import Events
 
 class VehicleEvents(Events):
-    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset')
+    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady')
 
 class VehicleReadings(Events):
-    __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances')
+    __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus')
 
 vehicleEvents = VehicleEvents()
 vehicleReadings = VehicleReadings()
@@ -54,6 +54,9 @@ def eventHibeam(state):
 def eventTripReset():
     print("Trip Reset Requested")
 
+def eventBatteryStatus(value):
+    print('Battery Status: ', str(value))
+    
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
 vehicleEvents.onRDPress += eventRDPress
@@ -69,3 +72,4 @@ vehicleEvents.onTripReset += eventTripReset
 vehicleReadings.maxSpeed += eventMaxSpeed
 # vehicleReadings.averageSpeeds += eventAverageSpeeds
 # vehicleReadings.distances += eventDistances
+# vehicleReadings.batteryStatus += eventBatteryStatus

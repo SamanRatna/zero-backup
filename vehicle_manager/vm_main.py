@@ -1,3 +1,4 @@
+import threading
 from event_handler import *
 from gpio_manager import *
 from state_manager import StateManager
@@ -8,10 +9,41 @@ import threading
 import time
 from gui import *
 from can_handler import *
+from example_advertisement import *
+from example_gatt_server import *
 
-startGUIThread()
-stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
-tlContoller = TailLightController(GPIOWriter.getInstance())
-gpioReader = GPIOReader.getInstance()
-cany = CANHandler(GPIOWriter.getInstance())
-vmgrComputer = VehicleInfoCalculator()
+def threadAdvertisement():
+    time.sleep(15)
+    startAdvertisement()
+
+def threadServer():
+    time.sleep(17)
+    vehicleEvents.onBLEReady(1)
+    startServer()
+    vehicleEvents.onBLEReady(0)
+
+def threadVehicleManager():
+    startGUIThread()
+    stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
+    tlContoller = TailLightController(GPIOWriter.getInstance())
+    gpioReader = GPIOReader.getInstance()
+    cany = CANHandler(GPIOWriter.getInstance())
+    vmgrComputer = VehicleInfoCalculator()
+
+# startGUIThread()
+# startAdvertisement()
+# startServer()
+# stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
+# tlContoller = TailLightController(GPIOWriter.getInstance())
+# gpioReader = GPIOReader.getInstance()
+# cany = CANHandler(GPIOWriter.getInstance())
+# vmgrComputer = VehicleInfoCalculator()
+
+if __name__ == '__main__':
+    tAdvertisement = threading.Thread(target = threadAdvertisement)
+    tServer = threading.Thread(target = threadServer)
+    tVmgr = threading.Thread(target = threadVehicleManager)
+    tVmgr.start()
+    tAdvertisement.start()
+    tServer.start()
+    
