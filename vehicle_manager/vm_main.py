@@ -9,8 +9,8 @@ import threading
 import time
 from gui import *
 from can_handler import *
-from example_advertisement import *
-from example_gatt_server import *
+from ble_advertisement import *
+from gatt_server import *
 
 def threadAdvertisement():
     time.sleep(15)
