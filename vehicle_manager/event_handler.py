@@ -57,6 +57,9 @@ def eventTripReset():
 def eventBatteryStatus(value):
     print('Battery Status: ', str(value))
     
+def eventBLEReady(value):
+    print('BLE Status: ', str(value))
+
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
 vehicleEvents.onRDPress += eventRDPress
@@ -70,6 +73,7 @@ vehicleEvents.onTripReset += eventTripReset
 # vehicleReadings.odoReading += eventOdoReading
 # vehicleReadings.speedReading += eventSpeedReading
 vehicleReadings.maxSpeed += eventMaxSpeed
-# vehicleReadings.averageSpeeds += eventAverageSpeeds
+vehicleReadings.averageSpeeds += eventAverageSpeeds
 # vehicleReadings.distances += eventDistances
 # vehicleReadings.batteryStatus += eventBatteryStatus
+vehicleEvents.onBLEReady += eventBLEReady

@@ -23,9 +23,10 @@ class VehicleInfoCalculator:
         self.rideTimeInitialization = False # False means ride-time has not been initialized
 
         #initialze
+        self.subscribeToEvents()
         self.loadData()
         self.stopwatch = Stopwatch()
-        self.subscribeToEvents()
+        print('VehicleInfoCalculator initialized.')
     
     # 
     # Load data from json file on bootup
@@ -57,6 +58,7 @@ class VehicleInfoCalculator:
         vehicleReadings.odoReading += self.initializeRideTime
         vehicleReadings.speedReading += self.updateSpeedReading
         vehicleEvents.onTripReset += self.resetTrip
+        vehicleEvents.onBLEReady += self.onBLEReady
     # 
     # update the member odoReading
     # and then call methods that use odoReading
@@ -175,3 +177,10 @@ class VehicleInfoCalculator:
         
         vehicleReadings.distances(self.odoReading, self.tripDistance) 
         publishOdometer(self.odometer, self.tripOdo)
+
+    def onBLEReady(self, value):
+        print('BLE is ready.')
+        if(value == 1):
+            vehicleReadings.maxSpeed(self.maxSpeed)
+            vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
+            vehicleReadings.distances(self.odoReading, self.tripDistance)

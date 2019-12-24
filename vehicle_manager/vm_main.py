@@ -18,7 +18,7 @@ def threadAdvertisement():
 
 def threadServer():
     time.sleep(17)
-    vehicleEvents.onBLEReady(1)
+    # vehicleEvents.onBLEReady(1)
     startServer()
     vehicleEvents.onBLEReady(0)
 
@@ -27,8 +27,8 @@ def threadVehicleManager():
     stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
     tlContoller = TailLightController(GPIOWriter.getInstance())
     gpioReader = GPIOReader.getInstance()
-    cany = CANHandler(GPIOWriter.getInstance())
     vmgrComputer = VehicleInfoCalculator()
+    cany = CANHandler(GPIOWriter.getInstance())
 
 # startGUIThread()
 # startAdvertisement()
