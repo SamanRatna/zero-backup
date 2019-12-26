@@ -453,8 +453,8 @@ class VehicleManagerService(Service):
         self.add_characteristic(MaxSpeedCharacteristic(bus, 0, self))
         self.add_characteristic(TripSpeedCharacteristic(bus, 1, self))
         self.add_characteristic(OdoSpeedCharacteristic(bus, 2, self))
-        self.add_characteristic(TripDistanceCharacteristic(bus, 3, self))
-        self.add_characteristic(TotalDistanceCharacteristic(bus, 4, self))
+        self.add_characteristic(TripDistanceCharacteristic(bus, 4, self))
+        self.add_characteristic(TotalDistanceCharacteristic(bus, 3, self))
         # self.add_characteristic(TestSecureCharacteristic(bus, 2, self))
 
 class MaxSpeedCharacteristic(Characteristic):
@@ -485,7 +485,7 @@ class MaxSpeedCharacteristic(Characteristic):
     
     def ReadValue(self, options):
         print('Max Speed Read: ' + repr(self.maxSpeed))
-        return [dbus.UInt16(self.maxSpeed), dbus.UInt16(self.maxSpeed)]
+        return [dbus.Byte(self.maxSpeed), dbus.Byte(self.maxSpeed)]
 
     # def WriteValue(self, value, options):
     #     print('TestCharacteristic Write: ' + repr(value))
@@ -693,7 +693,7 @@ class TotalDistanceCharacteristic(Characteristic):
     contains "extended properties", as well as a test descriptor.
 
     """
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed829'
+    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed82a'
 
     def __init__(self, bus, index, service):
         Characteristic.__init__(
@@ -727,7 +727,7 @@ class TotalDistanceDescriptor(Descriptor):
     Dummy test descriptor. Returns a static value.
 
     """
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed82a'
+    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed829'
 
     def __init__(self, bus, index, characteristic):
         Descriptor.__init__(
