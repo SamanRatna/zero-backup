@@ -4,7 +4,7 @@ class VehicleEvents(Events):
     __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady')
 
 class VehicleReadings(Events):
-    __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus')
+    __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage')
 
 vehicleEvents = VehicleEvents()
 vehicleReadings = VehicleReadings()
@@ -72,8 +72,8 @@ vehicleEvents.onRDHold += eventRDHold
 vehicleEvents.onTripReset += eventTripReset
 # vehicleReadings.odoReading += eventOdoReading
 # vehicleReadings.speedReading += eventSpeedReading
-vehicleReadings.maxSpeed += eventMaxSpeed
-vehicleReadings.averageSpeeds += eventAverageSpeeds
+# vehicleReadings.maxSpeed += eventMaxSpeed
+# vehicleReadings.averageSpeeds += eventAverageSpeeds
 # vehicleReadings.distances += eventDistances
 # vehicleReadings.batteryStatus += eventBatteryStatus
 vehicleEvents.onBLEReady += eventBLEReady

@@ -65,7 +65,22 @@ var chart = new Chart('temperature-canvas', {
     options: options
 });
 
-// function changeRed() { 
+// function updateData() { 
 //   chart.data.datasets[1].data = [1, 5, 2, 3, 4];
 //   chart.update();
 // }
+
+function changeBatteryTemperature(value) {
+    chart.data.datasets[0].data[2] = value;
+    chart.update();
+}
+
+function changeMotorTemperature(value){
+    chart.data.datasets[0].data[4] = value;
+    chart.update();
+}
+
+function changeControllerTemperature(value){
+    chart.data.datasets[0].data[0] = value;
+    chart.update();
+}

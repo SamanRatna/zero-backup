@@ -87,8 +87,11 @@ class VehicleInfoCalculator:
     # 
     # 
     def computeTripDistance(self):
+        tempTripDistance = self.tripDistance
         self.tripDistance = self.odoReading - self.tripOdoOffset
-        vehicleReadings.distances(self.odoReading, self.tripDistance)
+
+        if(tempTripDistance != self.tripDistance):
+            vehicleReadings.distances(self.odoReading, self.tripDistance)
     
     def computeMaxSpeed(self):
         if self.speedReading > self.maxSpeed:
@@ -144,6 +147,9 @@ class VehicleInfoCalculator:
     # trip-distance should be computed
     # 
     def computeAverageSpeeds(self):
+        tempAverageSpeed = self.averageSpeed
+        tempTripAverageSpeed = self.tripAverageSpeed
+
         self.averageSpeed = int(self.odoReading / (self.rideTimeOnboot + self.stopwatch.duration/3600))
         # print('Total Distance: ', str(self.odometer))
         # print('Ride Time: ', str(self.rideTime))
@@ -161,7 +167,9 @@ class VehicleInfoCalculator:
         # print('Trip Average Speed: ', str(self.tripAverageSpeed))
         # print('Trip Average Speed: ', str(self.tripAverageSpeed))
         # print("OdoReading: ", str(self.odoReading),": rideTimeOnboot: ", str(self.rideTimeOnboot),": tripRideTimeOnboot: ", str(self.tripRideTimeOnboot), ": tripRideTimeOffset: ", str(self.tripRideTimeOffset) )
-        vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
+
+        if( (tempAverageSpeed != self.averageSpeed) or (tempTripAverageSpeed != self.tripAverageSpeed) ):
+            vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
 
     def resetTrip(self):
         self.tripRideTimeOffset = self.stopwatch.duration/3600 + self.tripRideTimeOnboot

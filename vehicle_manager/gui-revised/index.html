@@ -44,72 +44,6 @@
         </div>
     </div> -->
 
-    <!------------------------------------------------Engineering Slide------------------------------------------------------------------------>
-    <!-- <div class="mySlides">
-        <div class="page" id="page-one" style="padding:0px; margin:0px;background-color:white;">
-            <div class='frame-notification' id='engg-notification'>Engineering Menu</div>
-            <div class='frame-engg-options'>
-                <div class='engg-option-left' id='fast-charge'>
-                    <img class='engg-option-icon' src='icons/energy-station.svg'>
-                </div>
-                <div class='engg-option-left'>
-                    <img class='engg-option-icon' src='icons/cable.svg' style="opacity: 0.2">
-                </div>
-                <div class='engg-option-left' id='reboot-computer'>
-                    <img class='engg-option-icon' src='icons/stand-by.svg' style="opacity: 0.2">
-                </div>
-                <div class='engg-option-left'>
-                    <img class='engg-option-icon' src='icons/wifi.svg' style="opacity: 0.2">
-                </div>
-                <div class='engg-option-left' id='refresh'>
-                    <img class='engg-option-icon' src='icons/refresh.svg'>
-                </div>
-                <div class='engg-option-left'>
-                </div>
-                <div class='engg-option-left'>
-                </div>
-                <div class='engg-option-left'>
-                </div>
-            </div>
-
-            <div class='frame-slider' id='engg-info-frame'>
-                <div class='engg-info-card'></div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Charging Status</div>
-                    <div class='engg-infocard-value' id='engg-charging-status'></div>
-                    <div class='engg-infocard-unit'></div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Charging Current</div>
-                    <div class='engg-infocard-value' id='engg-charging-current'></div>
-                    <div class='engg-infocard-unit'>A</div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Battery SOC</div>
-                    <div class='engg-infocard-value' id='engg-battery-status'></div>
-                    <div class='engg-infocard-unit'>%</div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Connectivity Status</div>
-                    <div class='engg-infocard-value' id='engg-connectivity-status'></div>
-                    <div class='engg-infocard-unit'></div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>IP Address</div>
-                    <div class='engg-infocard-value' id='engg-ip-address'></div>
-                    <div class='engg-infocard-unit'></div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Time To Charge</div>
-                    <div class='engg-infocard-value' id='engg-charge-time'></div>
-                    <div class='engg-infocard-unit'>min</div>
-                </div>
-            </div>
-            <div class='splash-frame-logo'>
-                <img id='engg-yatri-logo' src='images/logo.png' onclick='plusSlides(1)'/>
-            </div>
-        </div>
-    </div> -->
 
     <!------------------------------------------------User Slide------------------------------------------------------------------------>
 
@@ -132,7 +66,7 @@
             <div class='status-unit-left' id='power-status-unit'>hp</div>
         </div>
         <div id='speed-status'>
-            <div class='status-value-middle' id='speed-status-value'>0</div>
+            <div class='status-value-middle' id='speed-status-value'  onclick='plusSlides(1)'>0</div>
             <div class='status-unit-middle' id='speed-status-unit'>km/h</div>
         </div>
         <div id='soc-status'>
@@ -165,7 +99,7 @@
                 <!------------------------------- Navigation ----------------------------------->
                 <li class='slide-content' id='slide-map-container' data-color="#3498db">
                     <div class='slide-content'>
-                        <img src='images/no-internet-5.gif' class='slide-content'>
+                        <img src='images/no-internet-5.gif' class='slide-content' id='project-zero'>
                     </div>
 
                     <div id='slide-map'></div>
@@ -259,11 +193,76 @@
 
     <!------------ Logo Frame ------------>
     <div class='frame-logo'>
-        <img id='yatri-logo' src='images/logo.png' onclick="plusSlides(-1)"/>
+        <img id='yatri-logo' src='images/logo.png'/>
     </div>
 </div>
 </div>
+<!------------------------------------------------Engineering Slide------------------------------------------------------------------------>
+    <div class="mySlides">
+        <div class="page" id="page-one" style="padding:0px; margin:0px;background-color:white;">
+            <div class='frame-notification' id='engg-notification'>Engineering Menu</div>
+            <div class='frame-engg-options'>
+                <div class='engg-option-left' id='fast-charge'>
+                    <img class='engg-option-icon' src='icons/energy-station.svg'>
+                </div>
+                <div class='engg-option-left'>
+                    <img class='engg-option-icon' src='icons/cable.svg' style="opacity: 0.2">
+                </div>
+                <div class='engg-option-left' id='reboot-computer'>
+                    <img class='engg-option-icon' src='icons/stand-by.svg' style="opacity: 0.2">
+                </div>
+                <div class='engg-option-left'>
+                    <img class='engg-option-icon' src='icons/wifi.svg' style="opacity: 0.2">
+                </div>
+                <div class='engg-option-left' id='refresh'>
+                    <img class='engg-option-icon' src='icons/refresh.svg'>
+                </div>
+                <div class='engg-option-left'>
+                </div>
+                <div class='engg-option-left'>
+                </div>
+                <div class='engg-option-left'>
+                </div>
+            </div>
 
+            <div class='frame-slider' id='engg-info-frame'>
+                <div class='engg-info-card'></div>
+                <div class='engg-info-card'>
+                    <div class='engg-infocard-title'>Charging Status</div>
+                    <div class='engg-infocard-value' id='engg-charging-status'></div>
+                    <div class='engg-infocard-unit'></div>
+                </div>
+                <div class='engg-info-card'>
+                    <div class='engg-infocard-title'>Charging Current</div>
+                    <div class='engg-infocard-value' id='engg-charging-current'></div>
+                    <div class='engg-infocard-unit'>A</div>
+                </div>
+                <div class='engg-info-card'>
+                    <div class='engg-infocard-title'>Pack Voltage</div>
+                    <div class='engg-infocard-value' id='engg-battery-status'></div>
+                    <div class='engg-infocard-unit'>V</div>
+                </div>
+                <div class='engg-info-card'>
+                    <div class='engg-infocard-title'>Connectivity Status</div>
+                    <div class='engg-infocard-value' id='engg-connectivity-status'></div>
+                    <div class='engg-infocard-unit'></div>
+                </div>
+                <div class='engg-info-card'>
+                    <div class='engg-infocard-title'>IP Address</div>
+                    <div class='engg-infocard-value' id='engg-ip-address'></div>
+                    <div class='engg-infocard-unit'></div>
+                </div>
+                <div class='engg-info-card'>
+                    <div class='engg-infocard-title'>Time To Charge</div>
+                    <div class='engg-infocard-value' id='engg-charge-time'></div>
+                    <div class='engg-infocard-unit'>min</div>
+                </div>
+            </div>
+            <div class='splash-frame-logo'>
+                <img id='engg-yatri-logo' src='images/logo.png' onclick='plusSlides(-1)'/>
+            </div>
+        </div>
+    </div>
 <!---------------------------- SOC and Range Popup/Modal --------------------------------------->
 <!-- <div id="socModal" class="Modal is-hidden is-visuallyHidden">
         <div class="Modal-content">

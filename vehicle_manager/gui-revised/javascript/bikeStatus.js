@@ -56,9 +56,9 @@ function updateOdometer(odometer, tripOdo) {
 }
 eel.expose(updateChargingStatus);
 function updateChargingStatus(status, current, timeToCharge) {
-    document.getElementById('engg-charging-status').innerHTML = status;
-    document.getElementById('engg-charging-current').innerHTML = current;
-    document.getElementById('engg-charge-time').innerHTML = timeToCharge;
+    // document.getElementById('engg-charging-status').innerHTML = status;
+    // document.getElementById('engg-charging-current').innerHTML = current;
+    // document.getElementById('engg-charge-time').innerHTML = timeToCharge;
 }
 
 eel.expose(updateSpeedInfograph);
@@ -81,6 +81,21 @@ eel.expose(updateDistances)
 function updateDistances(odometer, tripOdo) {
     document.getElementById('odo-info-value').innerHTML = odometer;
     document.getElementById('trip-info-value').innerHTML = tripOdo;
+}
+
+eel.expose(updateBatteryTemperature);
+function updateBatteryTemperature(temp){
+    changeBatteryTemperature(temp);
+}
+
+eel.expose(updateMotorTemperature);
+function updateMotorTemperature(temp){
+    changeMotorTemperature(temp);
+}
+
+eel.expose(updateControllerTemperature);
+function updateControllerTemperature(temp){
+    changeControllerTemperature(temp);
 }
 
 function initiateTripReset(){

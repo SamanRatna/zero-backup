@@ -8,7 +8,7 @@ import logging
 from event_handler import *
 
 #Configure logger
-logging.basicConfig(filename="charge.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='w')
+logging.basicConfig(filename="yatri.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='a')
 chargeLogger=logging.getLogger()
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
@@ -75,6 +75,21 @@ def publishDistances(odometer, tripDistance):
 def publishBluetoothStatus(status):
     eel.updateBluetoothStatus(status)
 
+def publishBatteryTemperature(temp):
+    eel.updateBatteryTemperature(temp)
+    print('Battery Temperature: ', str(temp))
+
+def publishMotorTemperature(temp):
+    eel.updateMotorTemperature(temp)
+    print('Motor Temperature: ', str(temp))
+
+def publishControllerTemperature(temp):
+    eel.updateControllerTemperature(temp)
+    print('Controller Temperature: ', str(temp))
+
+def publishPackVoltage(voltage):
+    eel.updatePackVoltage(voltage)
+
 def startGUIThread():
     try:        
         guiThread = threading.Thread(target=startGUI)
@@ -127,3 +142,7 @@ vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances
 vehicleEvents.onBLEReady += publishBluetoothStatus
+vehicleReadings.batteryTemperature += publishBatteryTemperature
+vehicleReadings.motorTemperature += publishMotorTemperature
+vehicleReadings.controllerTemperature += publishControllerTemperature
+vehicleReadings.packVoltage += publishPackVoltage

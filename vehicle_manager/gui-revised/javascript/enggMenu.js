@@ -34,3 +34,8 @@ function updateConnectivityStatus(iface, ip){
   enggConnectivityStatus.innerHTML = iface;
   enggIPAddress.innerHTML = ip;
 }
+
+eel.expose(updatePackVoltage);
+function updatePackVoltage(voltage){
+  document.getElementById('engg-battery-status').innerHTML = voltage;
+}
