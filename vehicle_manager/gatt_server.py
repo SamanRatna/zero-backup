@@ -404,15 +404,21 @@ class BatteryLevelCharacteristic(Characteristic):
                 { 'Value': [dbus.Byte(self.battery_lvl)] }, [])
 
     def drain_battery(self):
-        if not self.notifying:
+        # if not self.notifying:
+        #     return True
+        # if self.battery_lvl > 0:
+        #     self.battery_lvl -= 2
+        #     if self.battery_lvl < 0:
+        #         self.battery_lvl = 0
+        # print('Battery Level drained: ' + repr(self.battery_lvl))
+        # self.notify_battery_level()
+        # return True
+            if self.battery_lvl > 0:
+                self.battery_lvl -= 2
+            if self.battery_lvl <= 0:
+                self.battery_lvl = 100
+            print('Battery Level drained: ' + repr(self.battery_lvl))
             return True
-        if self.battery_lvl > 0:
-            self.battery_lvl -= 2
-            if self.battery_lvl < 0:
-                self.battery_lvl = 0
-        print('Battery Level drained: ' + repr(self.battery_lvl))
-        self.notify_battery_level()
-        return True
 
     def actualBatteryLevel(self, value):
         self.battery_lvl = value        
@@ -453,8 +459,8 @@ class VehicleManagerService(Service):
         self.add_characteristic(MaxSpeedCharacteristic(bus, 0, self))
         self.add_characteristic(TripSpeedCharacteristic(bus, 1, self))
         self.add_characteristic(OdoSpeedCharacteristic(bus, 2, self))
-        self.add_characteristic(TripDistanceCharacteristic(bus, 4, self))
-        self.add_characteristic(TotalDistanceCharacteristic(bus, 3, self))
+        self.add_characteristic(TripDistanceCharacteristic(bus, 3, self))
+        # self.add_characteristic(TotalDistanceCharacteristic(bus, 3, self))
         # self.add_characteristic(TestSecureCharacteristic(bus, 2, self))
 
 class MaxSpeedCharacteristic(Characteristic):
@@ -646,6 +652,7 @@ class TripDistanceCharacteristic(Characteristic):
                 service)
         self.value = []
         self.tripDistance = 0
+        self.totalDistance = 0
         vehicleReadings.distances += self.SetTripDistance
         self.add_descriptor(TripDistanceDescriptor(bus, 0, self))
         # self.add_descriptor(
@@ -653,11 +660,12 @@ class TripDistanceCharacteristic(Characteristic):
 
     def SetTripDistance(self, odoDistance, tripDistance):
         self.tripDistance = tripDistance
+        self.totalDistance = odoDistance
         print('Received Trip Distance: ' + repr(self.tripDistance))
     
     def ReadValue(self, options):
         print('Trip Distance Read: ' + repr(self.tripDistance))
-        return [dbus.Byte(self.tripDistance)]
+        return [dbus.Byte(self.totalDistance), dbus.Byte(self.tripDistance)]
 
     # def WriteValue(self, value, options):
     #     print('TestCharacteristic Write: ' + repr(value))
