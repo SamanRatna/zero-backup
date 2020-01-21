@@ -26,6 +26,11 @@ class GPIOReader():
             GPIOReader.__instance = self
             self.pinState = {}
             self.inputState = {}
+            self.modeState = {}
+            self.modeState[eGPIO.IN_BUTTON_RD] = True
+            self.modeState[eGPIO.IN_BUTTON_RU] = True
+            self.modeState[eGPIO.IN_BUTTON_RB] = False
+
             self.rdTimer = RepeatableTimer(1.0, self.rdBtnProcess)
             self.btnDown = 0
             self.btnUp = 0
@@ -57,15 +62,27 @@ class GPIOReader():
 
     def monitorGPIO(self):
         inputState= {}
+        modeState = {}
         inputState[eGPIO.IN_HIBEAM] = GPIO.input(pin.IN_HIBEAM)
         inputState[eGPIO.IN_LTURN] = GPIO.input(pin.IN_LTURN)
         inputState[eGPIO.IN_RTURN] = GPIO.input(pin.IN_RTURN)
+        '''
+        This code was used when RPi was used for Mode Control
         inputState[eGPIO.IN_BUTTON_RD] = GPIO.input(pin.IN_BTN_RD)
         inputState[eGPIO.IN_BUTTON_RU] = GPIO.input(pin.IN_BTN_RU)
         inputState[eGPIO.IN_BUTTON_RB] = GPIO.input(pin.IN_BTN_RB)
+        '''
         inputState[eGPIO.IN_STAND] = GPIO.input(pin.IN_STAND)
         inputState[eGPIO.IN_BRAKE] = GPIO.input(pin.IN_BRAKE)
         self.inputState = inputState
+
+        modeState[eGPIO.IN_BUTTON_RD] = GPIO.input(pin.IN_BTN_RD)
+        modeState[eGPIO.IN_BUTTON_RU] = GPIO.input(pin.IN_BTN_RU)
+        modeState[eGPIO.IN_BUTTON_RB] = GPIO.input(pin.IN_BTN_RB)
+        if ((modeState[eGPIO.IN_BUTTON_RD] != self.modeState[eGPIO.IN_BUTTON_RD]) or (modeState[eGPIO.IN_BUTTON_RB] != self.modeState[eGPIO.IN_BUTTON_RB]) or (modeState[eGPIO.IN_BUTTON_RU] != self.modeState[eGPIO.IN_BUTTON_RU])):
+            self.modeState = modeState
+            # print(modeState)
+            self.checkMode(self.modeState)
 
     def updateGPIO(self):
         while True:
@@ -73,6 +90,17 @@ class GPIOReader():
             self.processInput()
             self.pinState = self.inputState
             sleep(0.1)
+    def checkMode(self, state):
+        if state[eGPIO.IN_BUTTON_RD] and state[eGPIO.IN_BUTTON_RU] and  state[eGPIO.IN_BUTTON_RB]:
+            vehicleEvents.onModeChange('MODE_REVERSE')
+        elif state[eGPIO.IN_BUTTON_RD] and state[eGPIO.IN_BUTTON_RU] and  (not state[eGPIO.IN_BUTTON_RB]):
+            vehicleEvents.onModeChange('MODE_STANDBY')
+        elif state[eGPIO.IN_BUTTON_RD] and (not state[eGPIO.IN_BUTTON_RU]) and  (not state[eGPIO.IN_BUTTON_RB]):
+            vehicleEvents.onModeChange('MODE_SUSTE')
+        elif state[eGPIO.IN_BUTTON_RD] and (not state[eGPIO.IN_BUTTON_RU]) and  state[eGPIO.IN_BUTTON_RB]:
+            vehicleEvents.onModeChange('MODE_THIKKA')
+        elif (not state[eGPIO.IN_BUTTON_RD]) and (not state[eGPIO.IN_BUTTON_RU]) and  state[eGPIO.IN_BUTTON_RB]:
+            vehicleEvents.onModeChange('MODE_BABBAL')
 
     def processInput(self):
         for x in self.inputState:
@@ -94,6 +122,12 @@ class GPIOReader():
         elif eventId == eGPIO.IN_RTURN:
             if value == False:
                 vehicleEvents.onRightSideLightToggle(value)
+        elif eventId == eGPIO.IN_STAND:
+            vehicleEvents.onStandSwitch(value)
+        elif eventId == eGPIO.IN_BRAKE:
+            vehicleEvents.onBrakeToggle(value)
+        '''
+        This code was used when the mode was controlled using RPi
         elif eventId == eGPIO.IN_BUTTON_RB:
             if value == False:
                 vehicleEvents.onRBPress()
@@ -116,10 +150,7 @@ class GPIOReader():
         elif eventId == eGPIO.IN_BUTTON_RU:
             if value == False:
                 vehicleEvents.onRUPress()
-        elif eventId == eGPIO.IN_STAND:
-            vehicleEvents.onStandSwitch(value)
-        elif eventId == eGPIO.IN_BRAKE:
-            vehicleEvents.onBrakeToggle(value)
+        '''
 
 class RepeatableTimer(object):
     def __init__(self, interval, function, args=[], kwargs={}):

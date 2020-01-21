@@ -30,9 +30,13 @@ def startGUI():
     startGUI()
 
 def publishBikeMode(mode):
+    '''
+    # This code was used when RPi was used for Mode Control
     global bikeMode
     eel.updateBikeMode(mode.name)
     bikeMode = mode.name
+    '''
+    eel.updateBikeMode(mode)
 
 # def publishLeftTurnStatus(status):
 #     if status==True:
@@ -146,3 +150,4 @@ vehicleReadings.batteryTemperature += publishBatteryTemperature
 vehicleReadings.motorTemperature += publishMotorTemperature
 vehicleReadings.controllerTemperature += publishControllerTemperature
 vehicleReadings.packVoltage += publishPackVoltage
+vehicleEvents.onModeChange += publishBikeMode
