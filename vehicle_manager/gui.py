@@ -8,7 +8,7 @@ import logging
 from event_handler import *
 
 #Configure logger
-logging.basicConfig(filename="yatri.log", format = '%(asctime)s - %(levelname)s - %(message)s', filemode='a')
+logging.basicConfig(filename="yatri.log", format = '%(asctime)s : %(levelname)s : %(message)s', filemode='a')
 chargeLogger=logging.getLogger()
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
@@ -46,31 +46,31 @@ def publishBikeMode(mode):
 #     else:
 #         eel.updateRightTurnStatus(0)
 
-def publishSideLightStatus(status):
-    eel.updateSideLight(status)
+# def publishSideLightStatus(status):
+#     eel.updateSideLight(status)
 
-def publishBeamStatus(status):
-    eel.updateBeam(status.name)
+# def publishBeamStatus(status):
+#     eel.updateBeam(status.name)
 
 def publishSpeedPower(speed, power):
-    eel.updateSpeedPower(speed, power)
+    eel.updateSpeedPower(round(speed), round(power))
 
 def publishSOC(soc, rangeSuste, rangeThikka, rangeBabbal):
-    eel.updateSOC(soc, rangeSuste, rangeThikka, rangeBabbal)
+    eel.updateSOC(round(soc), round(rangeSuste), round(rangeThikka), round(rangeBabbal))
 
 def publishChargingStatus(status, current, timeToCharge):
     eel.updateChargingStatus(status, current, timeToCharge)
 
 def publishMaxSpeed(value):
     global maxSpeed
-    eel.updateMaxSpeed(value)
+    eel.updateMaxSpeed(round(value))
     maxSpeed = value
 
 def publishAverageSpeeds(odoAverage, tripAverage):
-    eel.updateAverageSpeeds(odoAverage, tripAverage)
+    eel.updateAverageSpeeds(round(odoAverage), round(tripAverage))
 
 def publishDistances(odometer, tripDistance):
-    eel.updateDistances(odometer, tripDistance)
+    eel.updateDistances(round(odometer), round(tripDistance))
 
 def publishBluetoothStatus(status):
     eel.updateBluetoothStatus(status)
