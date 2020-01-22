@@ -1,3 +1,14 @@
+/*
+Pin Connections:
+Arduino -> MCP2515
+5V  -> Vcc
+GND -> GND
+D10 -> CS
+D12 -> SO
+D11 -> SI
+D13 -> SCK
+D2  -> INT
+*/
 #include <mcp_can.h>
 #include <SPI.h>
 
@@ -42,7 +53,7 @@ void setup()
 
 void loop()
 {
-  byte sndStat = CAN0.sendMsgBuf(elconChargerId, CAN_EXTENDED, 8, chargerMsg17A);
+  byte sndStat = CAN0.sendMsgBuf(elconChargerId, CAN_EXTENDED, 8, elconMsg17A);
   if(sndStat == CAN_OK){
     Serial.println("Message Sent Successfully!");
   } else {
