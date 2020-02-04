@@ -9,7 +9,7 @@ from event_handler import *
 
 #Configure logger
 logging.basicConfig(filename="yatri.log", format = '%(asctime)s : %(levelname)s : %(message)s', filemode='a')
-chargeLogger=logging.getLogger()
+chargeLogger=logging.getLogger('event-logger')
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
 maxSpeed = 0
@@ -77,15 +77,15 @@ def publishBluetoothStatus(status):
 
 def publishBatteryTemperature(temp):
     eel.updateBatteryTemperature(temp)
-    print('Battery Temperature: ', str(temp))
+    # print('Battery Temperature: ', str(temp))
 
 def publishMotorTemperature(temp):
     eel.updateMotorTemperature(temp)
-    print('Motor Temperature: ', str(temp))
+    # print('Motor Temperature: ', str(temp))
 
 def publishControllerTemperature(temp):
     eel.updateControllerTemperature(temp)
-    print('Controller Temperature: ', str(temp))
+    # print('Controller Temperature: ', str(temp))
 
 def publishPackVoltage(voltage):
     eel.updatePackVoltage(voltage)
