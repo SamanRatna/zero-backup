@@ -7,7 +7,7 @@ import os
 from gui import *
 from gpio_manager import GPIOWriter
 from event_handler import *
-
+from mqtt_publisher import *
 class CANHandler:
     def __init__(self, _gpioWriter):
     # def __init__(self):
@@ -63,18 +63,18 @@ class CANHandler:
         #Configure logger
         LOG_FILENAME = "yatri.log"
         # logging.basicConfig(filename=LOG_FILENAME, format = '%(asctime)s : %(name)s : %(levelname)s : %(message)s', filemode='a')
-        logging.basicConfig(filemode='a')
+        # logging.basicConfig(filemode='a')
         LOG_FORMAT = ('%(asctime)s : %(name)s : %(levelname)s : %(message)s')
         self.canLogger=logging.getLogger("event_logger")
         self.canLogger.setLevel(logging.INFO)
-        self.canLoggerHandler = logging.FileHandler(LOG_FILENAME)
+        self.canLoggerHandler = logging.FileHandler('../logs/yatri.log  ')
         self.canLoggerHandler.setLevel(logging.INFO)
         self.canLoggerHandler.setFormatter(logging.Formatter(LOG_FORMAT))
         self.canLogger.addHandler(self.canLoggerHandler)
 
         self.dataLogger=logging.getLogger("periodic_logger")
         self.dataLogger.setLevel(logging.INFO)
-        self.dataLoggerHandler = logging.FileHandler('data-log.log')
+        self.dataLoggerHandler = logging.FileHandler('../logs/data-log.log')
         self.dataLoggerHandler.setLevel(logging.INFO)
         self.dataLoggerHandler.setFormatter(logging.Formatter('%(asctime)s : %(message)s'))
         self.dataLogger.addHandler(self.dataLoggerHandler)
@@ -524,6 +524,7 @@ class CANHandler:
         while True:
             message = str(self.stateOfCharge) + ' : ' + str(self.bikeSpeed) + ' : ' + str(self.motorCurrent) + ' : ' + str(self.motorVoltage) + ' : ' + str(self.actualTorque)  + ' : ' + str(self.odometer)
             self.dataLogger.info(message)
+            # updateSpeed(self.bikeSpeed)
             time.sleep(0.1)
 
     def startCAN(self):

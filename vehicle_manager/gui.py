@@ -8,7 +8,7 @@ import logging
 from event_handler import *
 
 #Configure logger
-logging.basicConfig(filename="yatri.log", format = '%(asctime)s : %(levelname)s : %(message)s', filemode='a')
+# logging.basicConfig(filemode='a')
 chargeLogger=logging.getLogger('event-logger')
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
