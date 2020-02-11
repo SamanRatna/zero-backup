@@ -163,3 +163,111 @@ text-align: center;
 color: #FFFFFF;
 z-index: 10000;
 }
+#locationField {
+    width: 736px;
+    height: 80px;
+    left: 58px;
+    top: 86px;
+    display: block;
+}
+  input[type=text] {
+    width: 100%;
+    height:100%;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    font-size: 45px;
+    background-color: white;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 50px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    vertical-align: middle;
+    text-align: left;
+    /* font-family: 'Comfortaa', cursive; */
+    color: black;
+    display:none;
+  }
+  
+  input[type=text]:focus {
+    /* width: 100%; */
+    outline: none
+} 
+
+.pac-item-query{
+    font-size:50px;
+}
+
+.pac-icon {
+    /* height: 100%; */
+    width: inherit !important;
+}
+
+#search-suggestions{
+    position: absolute;
+min-width: 736px;
+/* height: 324px; */
+/* height: 80px; */
+left: 58px;
+top: 196px;
+
+background: #FFFFFF;
+border: 1px solid #C4C4C4;
+box-sizing: border-box;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 40px;
+color: black;
+padding: 3%;
+font-size: 45px;
+display: none;
+flex-wrap: nowrap;
+flex-direction: column;
+}
+
+#search-suggestions > div {
+    font-size: 35px;
+    display: flex;
+    line-height: 200%;
+}
+
+#summary-box {
+    position: absolute;
+    width: 698px;
+    height: 80px;
+    left: 265px;
+    top: 970px;
+    padding-left: 5%;
+    padding-right: 5%;
+    background: #FFFFFF;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    color: black;
+    display:none;
+    font-size: 45px;
+    line-height: 160%;
+}
+
+#summary-label {
+    width: 60%;
+    height: 100%;
+    color: black;
+    font-size: 45px;
+    display:block;
+    float: left;
+    color: #6A6A6A;
+}
+
+#summary-distance {
+    width: 40%;
+    height: 100%;
+    color: black;
+    font-size: 45px;
+    display:block;
+    float: left;
+    text-align: right;
+    color: #6A6A6A;
+}

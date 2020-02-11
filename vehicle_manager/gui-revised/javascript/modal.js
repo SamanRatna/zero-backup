@@ -14,7 +14,7 @@ var socOpen = document.getElementById("soc-status");
 // var tripResetOpen = document.getElementById("infocard-trips");
 
 // Open button for keyboard modal
-var naviOpen = document.getElementById("navigation-button");
+// var naviOpen = document.getElementById("navigation-button");
 
 // Get the close button
 var btnClose = document.getElementById("closeModal");
@@ -48,21 +48,21 @@ socOpen.onclick = function() {
 //     container.parentElement.className = "ModalOpen";
 // }
 
-// Open the SOC modal
-naviOpen.onclick = function() {
-    modal=naviModal;
-    naviModal.className = "Modal is-visuallyHidden";
-    setTimeout(function() {
-    //   container.className = "MainContainer is-blurred";
-    container.classList.add("is-blurred");
-    naviModal.className = "Modal";
-    }, 100);
-    container.parentElement.className = "ModalOpen";
-    setTimeout(function(){
-        console.log('Closing the modal.')
-        closeModal();
-    }, 3000);
-}
+// Open the navigation modal
+// naviOpen.onclick = function() {
+//     modal=naviModal;
+//     naviModal.className = "Modal is-visuallyHidden";
+//     setTimeout(function() {
+//     //   container.className = "MainContainer is-blurred";
+//     container.classList.add("is-blurred");
+//     naviModal.className = "Modal";
+//     }, 100);
+//     container.parentElement.className = "ModalOpen";
+//     setTimeout(function(){
+//         console.log('Closing the modal.')
+//         closeModal();
+//     }, 3000);
+// }
 // Close the modal
 btnClose.onclick = function() {
     modal.className = "Modal is-hidden is-visuallyHidden";

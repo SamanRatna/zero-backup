@@ -131,12 +131,30 @@ function slideRight() {
     $('#slider-wrap ul#slider').css('left', -(sliderWidth * pos));
 }
 
-// function skipToInfograph() {
-//     document.getElementById('right-slider').click();
-// }
-// setTimeout(function(){
-//     skipToInfograph();
-// }, 1000)
+function skipToInfograph() {
+    document.getElementById('right-slider').click();
+}
+setTimeout(function(){
+    skipToInfograph();
+}, 1000)
 // setTimeout(function(){
 //     skipToInfograph();
 // }, 2000)
+let navigateButton = document.getElementById("navigation-button");
+let searchField = document.getElementById('autocomplete');
+
+navigateButton.addEventListener('click', function(){
+    navigateButton.style.display = 'none';
+    searchField.style.display = 'flex';
+    searchField.focus();
+   });
+
+function closeSearchBox(){
+    searchField.style.display = 'none';
+    navigateButton.style.display = 'block';
+}
+// searchField.addEventListener('focusout', function(){
+//     searchField.style.display = 'none';
+//     navigateButton.style.display = 'block';
+//     clearOldSuggestions();
+// });
