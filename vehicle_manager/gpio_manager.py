@@ -166,7 +166,7 @@ class GPIOWriter():
         ledChannel = [5, 6, 13, 19, 26]
         GPIO.setup(outputChannel, GPIO.OUT, initial=GPIO.HIGH)
         GPIO.setup(ledChannel, GPIO.OUT, initial=GPIO.LOW)
-        self.bootupLedAnimation()
+        # self.bootupLedAnimation()
 
     def setIgn(self, value):
         GPIO.output(8, value)

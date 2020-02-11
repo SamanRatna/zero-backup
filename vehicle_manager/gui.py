@@ -90,6 +90,9 @@ def publishControllerTemperature(temp):
 def publishPackVoltage(voltage):
     eel.updatePackVoltage(voltage)
 
+def publishStandState(state):
+    eel.updateStandState(state)
+
 def startGUIThread():
     try:        
         guiThread = threading.Thread(target=startGUI)
@@ -146,3 +149,4 @@ vehicleReadings.batteryTemperature += publishBatteryTemperature
 vehicleReadings.motorTemperature += publishMotorTemperature
 vehicleReadings.controllerTemperature += publishControllerTemperature
 vehicleReadings.packVoltage += publishPackVoltage
+vehicleReadings.onStandSwitch += publishStandState

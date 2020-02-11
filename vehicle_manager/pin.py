@@ -5,8 +5,8 @@ IN_RTURN            = 4
 IN_BTN_RD           = 17
 IN_BTN_RU           = 27
 IN_BTN_RB           = 22
-IN_STAND            = 10
-IN_BRAKE            = 9
+IN_STAND            = 9
+IN_BRAKE            = 10
 
 OUT_LTURN           = 7
 OUT_RTURN           = 16
