@@ -251,118 +251,118 @@ class Descriptor(dbus.service.Object):
         raise NotSupportedException()
 
 
-class HeartRateService(Service):
-    """
-    Fake Heart Rate Service that simulates a fake heart beat and control point
-    behavior.
+# class HeartRateService(Service):
+#     """
+#     Fake Heart Rate Service that simulates a fake heart beat and control point
+#     behavior.
 
-    """
-    HR_UUID = '0000180d-0000-1000-8000-00805f9b34fb'
+#     """
+#     HR_UUID = '0000180d-0000-1000-8000-00805f9b34fb'
 
-    def __init__(self, bus, index):
-        Service.__init__(self, bus, index, self.HR_UUID, True)
-        self.add_characteristic(HeartRateMeasurementChrc(bus, 0, self))
-        self.add_characteristic(BodySensorLocationChrc(bus, 1, self))
-        self.add_characteristic(HeartRateControlPointChrc(bus, 2, self))
-        self.energy_expended = 0
-
-
-class HeartRateMeasurementChrc(Characteristic):
-    HR_MSRMT_UUID = '00002a37-0000-1000-8000-00805f9b34fb'
-
-    def __init__(self, bus, index, service):
-        Characteristic.__init__(
-                self, bus, index,
-                self.HR_MSRMT_UUID,
-                ['notify'],
-                service)
-        self.notifying = False
-        self.hr_ee_count = 0
-
-    def hr_msrmt_cb(self):
-        value = []
-        value.append(dbus.Byte(0x06))
-
-        value.append(dbus.Byte(randint(90, 130)))
-
-        if self.hr_ee_count % 10 == 0:
-            value[0] = dbus.Byte(value[0] | 0x08)
-            value.append(dbus.Byte(self.service.energy_expended & 0xff))
-            value.append(dbus.Byte((self.service.energy_expended >> 8) & 0xff))
-
-        self.service.energy_expended = \
-                min(0xffff, self.service.energy_expended + 1)
-        self.hr_ee_count += 1
-
-        print('Updating value: ' + repr(value))
-
-        self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
-
-        return self.notifying
-
-    def _update_hr_msrmt_simulation(self):
-        print('Update HR Measurement Simulation')
-
-        if not self.notifying:
-            return
-
-        GObject.timeout_add(1000, self.hr_msrmt_cb)
-
-    def StartNotify(self):
-        if self.notifying:
-            print('Already notifying, nothing to do')
-            return
-
-        self.notifying = True
-        self._update_hr_msrmt_simulation()
-
-    def StopNotify(self):
-        if not self.notifying:
-            print('Not notifying, nothing to do')
-            return
-
-        self.notifying = False
-        self._update_hr_msrmt_simulation()
+#     def __init__(self, bus, index):
+#         Service.__init__(self, bus, index, self.HR_UUID, True)
+#         self.add_characteristic(HeartRateMeasurementChrc(bus, 0, self))
+#         self.add_characteristic(BodySensorLocationChrc(bus, 1, self))
+#         self.add_characteristic(HeartRateControlPointChrc(bus, 2, self))
+#         self.energy_expended = 0
 
 
-class BodySensorLocationChrc(Characteristic):
-    BODY_SNSR_LOC_UUID = '00002a38-0000-1000-8000-00805f9b34fb'
+# class HeartRateMeasurementChrc(Characteristic):
+#     HR_MSRMT_UUID = '00002a37-0000-1000-8000-00805f9b34fb'
 
-    def __init__(self, bus, index, service):
-        Characteristic.__init__(
-                self, bus, index,
-                self.BODY_SNSR_LOC_UUID,
-                ['read'],
-                service)
+#     def __init__(self, bus, index, service):
+#         Characteristic.__init__(
+#                 self, bus, index,
+#                 self.HR_MSRMT_UUID,
+#                 ['notify'],
+#                 service)
+#         self.notifying = False
+#         self.hr_ee_count = 0
 
-    def ReadValue(self, options):
-        # Return 'Chest' as the sensor location.
-        return [ 0x01 ]
+#     def hr_msrmt_cb(self):
+#         value = []
+#         value.append(dbus.Byte(0x06))
 
-class HeartRateControlPointChrc(Characteristic):
-    HR_CTRL_PT_UUID = '00002a39-0000-1000-8000-00805f9b34fb'
+#         value.append(dbus.Byte(randint(90, 130)))
 
-    def __init__(self, bus, index, service):
-        Characteristic.__init__(
-                self, bus, index,
-                self.HR_CTRL_PT_UUID,
-                ['write'],
-                service)
+#         if self.hr_ee_count % 10 == 0:
+#             value[0] = dbus.Byte(value[0] | 0x08)
+#             value.append(dbus.Byte(self.service.energy_expended & 0xff))
+#             value.append(dbus.Byte((self.service.energy_expended >> 8) & 0xff))
 
-    def WriteValue(self, value, options):
-        print('Heart Rate Control Point WriteValue called')
+#         self.service.energy_expended = \
+#                 min(0xffff, self.service.energy_expended + 1)
+#         self.hr_ee_count += 1
 
-        if len(value) != 1:
-            raise InvalidValueLengthException()
+#         print('Updating value: ' + repr(value))
 
-        byte = value[0]
-        print('Control Point value: ' + repr(byte))
+#         self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
 
-        if byte != 1:
-            raise FailedException("0x80")
+#         return self.notifying
 
-        print('Energy Expended field reset!')
-        self.service.energy_expended = 0
+#     def _update_hr_msrmt_simulation(self):
+#         print('Update HR Measurement Simulation')
+
+#         if not self.notifying:
+#             return
+
+#         GObject.timeout_add(1000, self.hr_msrmt_cb)
+
+#     def StartNotify(self):
+#         if self.notifying:
+#             print('Already notifying, nothing to do')
+#             return
+
+#         self.notifying = True
+#         self._update_hr_msrmt_simulation()
+
+#     def StopNotify(self):
+#         if not self.notifying:
+#             print('Not notifying, nothing to do')
+#             return
+
+#         self.notifying = False
+#         self._update_hr_msrmt_simulation()
+
+
+# class BodySensorLocationChrc(Characteristic):
+#     BODY_SNSR_LOC_UUID = '00002a38-0000-1000-8000-00805f9b34fb'
+
+#     def __init__(self, bus, index, service):
+#         Characteristic.__init__(
+#                 self, bus, index,
+#                 self.BODY_SNSR_LOC_UUID,
+#                 ['read'],
+#                 service)
+
+#     def ReadValue(self, options):
+#         # Return 'Chest' as the sensor location.
+#         return [ 0x01 ]
+
+# class HeartRateControlPointChrc(Characteristic):
+#     HR_CTRL_PT_UUID = '00002a39-0000-1000-8000-00805f9b34fb'
+
+#     def __init__(self, bus, index, service):
+#         Characteristic.__init__(
+#                 self, bus, index,
+#                 self.HR_CTRL_PT_UUID,
+#                 ['write'],
+#                 service)
+
+#     def WriteValue(self, value, options):
+#         print('Heart Rate Control Point WriteValue called')
+
+#         if len(value) != 1:
+#             raise InvalidValueLengthException()
+
+#         byte = value[0]
+#         print('Control Point value: ' + repr(byte))
+
+#         if byte != 1:
+#             raise FailedException("0x80")
+
+#         print('Energy Expended field reset!')
+#         self.service.energy_expended = 0
 
 
 class BatteryService(Service):
@@ -394,7 +394,7 @@ class BatteryLevelCharacteristic(Characteristic):
         self.notifying = False
         self.battery_lvl = 100
         vehicleReadings.batteryStatus += self.actualBatteryLevel
-        GObject.timeout_add(5000, self.drain_battery)
+        # GObject.timeout_add(5000, self.drain_battery)
 
     def notify_battery_level(self):
         if not self.notifying:
@@ -457,9 +457,9 @@ class VehicleManagerService(Service):
     def __init__(self, bus, index):
         Service.__init__(self, bus, index, self.TEST_SVC_UUID, True)
         self.add_characteristic(MaxSpeedCharacteristic(bus, 0, self))
+        # self.add_characteristic(OdoSpeedCharacteristic(bus, 1, self))
         self.add_characteristic(TripSpeedCharacteristic(bus, 1, self))
-        self.add_characteristic(OdoSpeedCharacteristic(bus, 2, self))
-        self.add_characteristic(TripDistanceCharacteristic(bus, 3, self))
+        self.add_characteristic(TripDistanceCharacteristic(bus, 2, self))
         # self.add_characteristic(TotalDistanceCharacteristic(bus, 3, self))
         # self.add_characteristic(TestSecureCharacteristic(bus, 2, self))
 
@@ -491,7 +491,7 @@ class MaxSpeedCharacteristic(Characteristic):
     
     def ReadValue(self, options):
         print('Max Speed Read: ' + repr(self.maxSpeed))
-        return [dbus.Byte(self.maxSpeed), dbus.Byte(self.maxSpeed)]
+        return [dbus.Byte(self.maxSpeed)]
 
     # def WriteValue(self, value, options):
     #     print('TestCharacteristic Write: ' + repr(value))
@@ -519,59 +519,59 @@ class MaxSpeedDescriptor(Descriptor):
         #return 'Max Speed of bike.'
         return [dbus.byte('M')]
 
-class OdoSpeedCharacteristic(Characteristic):
-    """
-    Dummy test characteristic. Allows writing arbitrary bytes to its value, and
-    contains "extended properties", as well as a test descriptor.
+# class OdoSpeedCharacteristic(Characteristic):
+#     """
+#     Dummy test characteristic. Allows writing arbitrary bytes to its value, and
+#     contains "extended properties", as well as a test descriptor.
 
-    """
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed823'
+#     """
+#     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed823'
 
-    def __init__(self, bus, index, service):
-        Characteristic.__init__(
-                self, bus, index,
-                self.TEST_CHRC_UUID,
-                # ['read', 'write', 'writable-auxiliaries'],
-                ['read', 'notify'],
-                service)
-        self.value = []
-        self.odoAverageSpeed = 0
-        vehicleReadings.averageSpeeds += self.SetOdoAverageSpeed
-        self.add_descriptor(OdoSpeedDescriptor(bus, 0, self))
-        # self.add_descriptor(
-        #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
+#     def __init__(self, bus, index, service):
+#         Characteristic.__init__(
+#                 self, bus, index,
+#                 self.TEST_CHRC_UUID,
+#                 # ['read', 'write', 'writable-auxiliaries'],
+#                 ['read', 'notify'],
+#                 service)
+#         self.value = []
+#         self.odoAverageSpeed = 0
+#         vehicleReadings.averageSpeeds += self.SetOdoAverageSpeed
+#         self.add_descriptor(OdoSpeedDescriptor(bus, 0, self))
+#         # self.add_descriptor(
+#         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
-    def SetOdoAverageSpeed(self, odoAverage, tripAverage):
-        self.odoAverageSpeed = odoAverage
-        print('Received Odo Average Speed: ' + repr(self.odoAverageSpeed))
+#     def SetOdoAverageSpeed(self, odoAverage, tripAverage):
+#         self.odoAverageSpeed = odoAverage
+#         print('Received Odo Average Speed: ' + repr(self.odoAverageSpeed))
     
-    def ReadValue(self, options):
-        print('Odo Average Speed Read: ' + repr(self.odoAverageSpeed))
-        return [dbus.Byte(self.odoAverageSpeed)]
+#     def ReadValue(self, options):
+#         print('Odo Average Speed Read: ' + repr(self.odoAverageSpeed))
+#         return [dbus.Byte(self.odoAverageSpeed)]
 
-    # def WriteValue(self, value, options):
-    #     print('TestCharacteristic Write: ' + repr(value))
-    #     self.value = value
+#     # def WriteValue(self, value, options):
+#     #     print('TestCharacteristic Write: ' + repr(value))
+#     #     self.value = value
 
 
-class OdoSpeedDescriptor(Descriptor):
-    """
-    Dummy test descriptor. Returns a static value.
+# class OdoSpeedDescriptor(Descriptor):
+#     """
+#     Dummy test descriptor. Returns a static value.
 
-    """
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed824'
+#     """
+#     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed824'
 
-    def __init__(self, bus, index, characteristic):
-        Descriptor.__init__(
-                self, bus, index,
-                self.TEST_DESC_UUID,
-                ['read', 'write'],
-                characteristic)
+#     def __init__(self, bus, index, characteristic):
+#         Descriptor.__init__(
+#                 self, bus, index,
+#                 self.TEST_DESC_UUID,
+#                 ['read', 'write'],
+#                 characteristic)
 
-    def ReadValue(self, options):
-        return [
-                dbus.Byte('T'), dbus.Byte('e'), dbus.Byte('s'), dbus.Byte('t')
-        ]
+#     def ReadValue(self, options):
+#         return [
+#                 dbus.Byte('T'), dbus.Byte('e'), dbus.Byte('s'), dbus.Byte('t')
+#         ]
         #return 'Max Speed of bike.'
         # return [
         #     dbus.Byte('M'), dbus.Byte('a'), dbus.Byte('x'),dbus.Byte('S'),dbus.Byte('p'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('d')
@@ -599,12 +599,16 @@ class TripSpeedCharacteristic(Characteristic):
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
     def SetTripAverageSpeed(self, odoAverage, tripAverage):
-        self.tripAverageSpeed = tripAverage
+        self.tripAverageSpeed = int(tripAverage)
+        self.totalAverageSpeed = int(odoAverage)
         print('Received Trip Average Speed: ' + repr(self.tripAverageSpeed))
     
     def ReadValue(self, options):
         print('Trip Average Speed Read: ' + repr(self.tripAverageSpeed))
-        return [dbus.Byte(self.tripAverageSpeed)]
+        # tripSpeedBytes = bytearray(self.tripAverageSpeed.to_bytes(4, byteorder='little'))
+        # totalSpeedBytes = bytearray(self.totalAverageSpeed.to_bytes(4, byteorder='little'))
+        # return [dbus.Byte(tripSpeedBytes[0]), dbus.Byte(tripSpeedBytes[1]), dbus.Byte(tripSpeedBytes[2]), dbus.Byte(tripSpeedBytes[3]), dbus.Byte(totalSpeedBytes[0]), dbus.Byte(totalSpeedBytes[1]), dbus.Byte(totalSpeedBytes[2]), dbus.Byte(totalSpeedBytes[3])]
+        return [dbus.Byte(self.tripAverageSpeed), dbus.Byte(self.totalAverageSpeed)]
 
     # def WriteValue(self, value, options):
     #     print('TestCharacteristic Write: ' + repr(value))
@@ -659,13 +663,17 @@ class TripDistanceCharacteristic(Characteristic):
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
     def SetTripDistance(self, odoDistance, tripDistance):
-        self.tripDistance = tripDistance
-        self.totalDistance = odoDistance
+        # tripDistance and odoDistance are floats so convert to integers
+        self.tripDistance = int(tripDistance) 
+        self.totalDistance = int(odoDistance)
         print('Received Trip Distance: ' + repr(self.tripDistance))
-    
+        print('Received Total Distance: ' + repr(self.totalDistance))
     def ReadValue(self, options):
         print('Trip Distance Read: ' + repr(self.tripDistance))
-        return [dbus.Byte(self.totalDistance), dbus.Byte(self.tripDistance)]
+        print('Total Distance Read: ' + repr(self.totalDistance))
+        tripDistanceBytes = bytearray(self.tripDistance.to_bytes(4, byteorder='little'))
+        totalDistanceBytes = bytearray(self.totalDistance.to_bytes(4, byteorder='little'))
+        return [dbus.Byte(tripDistanceBytes[0]), dbus.Byte(tripDistanceBytes[1]), dbus.Byte(tripDistanceBytes[2]), dbus.Byte(tripDistanceBytes[3]), dbus.Byte(totalDistanceBytes[0]), dbus.Byte(totalDistanceBytes[1]), dbus.Byte(totalDistanceBytes[2]), dbus.Byte(totalDistanceBytes[3])]
 
     # def WriteValue(self, value, options):
     #     print('TestCharacteristic Write: ' + repr(value))
@@ -695,59 +703,59 @@ class TripDistanceDescriptor(Descriptor):
         #     dbus.Byte('M'), dbus.Byte('a'), dbus.Byte('x'),dbus.Byte('S'),dbus.Byte('p'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('d')
         # ]
 
-class TotalDistanceCharacteristic(Characteristic):
-    """
-    Dummy test characteristic. Allows writing arbitrary bytes to its value, and
-    contains "extended properties", as well as a test descriptor.
+# class TotalDistanceCharacteristic(Characteristic):
+#     """
+#     Dummy test characteristic. Allows writing arbitrary bytes to its value, and
+#     contains "extended properties", as well as a test descriptor.
 
-    """
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed82a'
+#     """
+#     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed82a'
 
-    def __init__(self, bus, index, service):
-        Characteristic.__init__(
-                self, bus, index,
-                self.TEST_CHRC_UUID,
-                # ['read', 'write', 'writable-auxiliaries'],
-                ['read', 'notify'],
-                service)
-        self.value = []
-        self.totalDistance = 0
-        vehicleReadings.distances += self.SetTotalDistance
-        self.add_descriptor(TotalDistanceDescriptor(bus, 0, self))
-        # self.add_descriptor(
-        #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
+#     def __init__(self, bus, index, service):
+#         Characteristic.__init__(
+#                 self, bus, index,
+#                 self.TEST_CHRC_UUID,
+#                 # ['read', 'write', 'writable-auxiliaries'],
+#                 ['read', 'notify'],
+#                 service)
+#         self.value = []
+#         self.totalDistance = 0
+#         vehicleReadings.distances += self.SetTotalDistance
+#         self.add_descriptor(TotalDistanceDescriptor(bus, 0, self))
+#         # self.add_descriptor(
+#         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
-    def SetTotalDistance(self, odoDistance, tripDistance):
-        self.totalDistance = odoDistance
-        print('Received Total Distance: ' + repr(self.totalDistance))
+#     def SetTotalDistance(self, odoDistance, tripDistance):
+#         self.totalDistance = odoDistance
+#         print('Received Total Distance: ' + repr(self.totalDistance))
     
-    def ReadValue(self, options):
-        print('Total Distance Read: ' + repr(self.totalDistance))
-        return [dbus.Byte(self.totalDistance)]
+#     def ReadValue(self, options):
+#         print('Total Distance Read: ' + repr(self.totalDistance))
+#         return [dbus.Byte(self.totalDistance)]
 
-    # def WriteValue(self, value, options):
-    #     print('TestCharacteristic Write: ' + repr(value))
-    #     self.value = value
+#     # def WriteValue(self, value, options):
+#     #     print('TestCharacteristic Write: ' + repr(value))
+#     #     self.value = value
 
 
-class TotalDistanceDescriptor(Descriptor):
-    """
-    Dummy test descriptor. Returns a static value.
+# class TotalDistanceDescriptor(Descriptor):
+#     """
+#     Dummy test descriptor. Returns a static value.
 
-    """
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed829'
+#     """
+#     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed829'
 
-    def __init__(self, bus, index, characteristic):
-        Descriptor.__init__(
-                self, bus, index,
-                self.TEST_DESC_UUID,
-                ['read', 'write'],
-                characteristic)
+#     def __init__(self, bus, index, characteristic):
+#         Descriptor.__init__(
+#                 self, bus, index,
+#                 self.TEST_DESC_UUID,
+#                 ['read', 'write'],
+#                 characteristic)
 
-    def ReadValue(self, options):
-        return [
-                dbus.Byte('T'), dbus.Byte('e'), dbus.Byte('s'), dbus.Byte('t')
-        ]
+#     def ReadValue(self, options):
+#         return [
+#                 dbus.Byte('T'), dbus.Byte('e'), dbus.Byte('s'), dbus.Byte('t')
+#         ]
         #return 'Max Speed of bike.'
         # return [
         #     dbus.Byte('M'), dbus.Byte('a'), dbus.Byte('x'),dbus.Byte('S'),dbus.Byte('p'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('d')

@@ -67,7 +67,7 @@ class CANHandler:
         LOG_FORMAT = ('%(asctime)s : %(name)s : %(levelname)s : %(message)s')
         self.canLogger=logging.getLogger("event_logger")
         self.canLogger.setLevel(logging.INFO)
-        self.canLoggerHandler = logging.FileHandler('../logs/yatri.log  ')
+        self.canLoggerHandler = logging.FileHandler('../logs/yatri.log')
         self.canLoggerHandler.setLevel(logging.INFO)
         self.canLoggerHandler.setFormatter(logging.Formatter(LOG_FORMAT))
         self.canLogger.addHandler(self.canLoggerHandler)
@@ -87,13 +87,17 @@ class CANHandler:
         #self.canLogger.addHandler(handler)
         #Start CAN
         self.startCAN()
+        vehicleEvents.onBLEReady += self.onBLEReady
 
     def setChargingStatus(self, status):
         if(status != self.chargingStatus):
             print('Charge Status: ', status)
             self.chargingStatus = status
             vehicleEvents.onCharging(self.chargingStatus)
-
+    def onBLEReady(self, value):
+        # print('BLE is ready.')
+        if(value == 1):
+            vehicleReadings.batteryStatus(self.stateOfCharge)
     def extractCANData(self):
         while True:
             message = self.bus.recv(0.1)
