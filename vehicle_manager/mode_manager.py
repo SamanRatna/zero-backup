@@ -17,12 +17,6 @@ class BikeModeManager:
     
     def onRightDown(self):
         self.mode.onRightDown()
-
-    def onRightDownHold(self):
-        self.mode.onRightDownHold()
-    
-    def onRightBack(self):
-        self.mode.onRightBack()
     
     def transitionTo(self, state):
         self.mode = state
@@ -50,9 +44,6 @@ class BikeMode:
     def onRightDownHold(self):
         pass
 
-    def onRightBack(self):
-        pass
-
     def onStateChange(self):
         pass
 
@@ -61,11 +52,11 @@ class ModeOff(BikeMode):
         pass
 
 class ModeStandby(BikeMode):
-    def onRightBack(self):
+    def onRightUp(self):
         self.context.transitionTo(ModeReverse(self.context))
 
     def onRightDown(self):
-        self.context.transitionTo(ModeThikka(self.context))
+        self.context.transitionTo(ModeSuste(self.context))
 
     def onCharge(self, status):
         if(status == 'charging'):
@@ -76,11 +67,11 @@ class ModeStandby(BikeMode):
     
 
 class ModeSuste(BikeMode):
+    def onRightUp(self):
+        self.context.transitionTo(ModeStandby(self.context))
+
     def onRightDown(self):
         self.context.transitionTo(ModeThikka(self.context))
-
-    def onRightBack(self):
-        self.context.transitionTo(ModeBabbal(self.context))
 
     def onStateChange(self):
         self.context.setMode(eBikeMode.MODE_SUSTE)
@@ -89,10 +80,7 @@ class ModeThikka(BikeMode):
     def onRightUp(self):
         self.context.transitionTo(ModeSuste(self.context))
 
-    def onRightDownHold(self):
-        self.context.transitionTo(ModeStandby(self.context))
-
-    def onRightBack(self):
+    def onRightDown(self):
         self.context.transitionTo(ModeBabbal(self.context))
 
     def onStateChange(self):
@@ -100,9 +88,6 @@ class ModeThikka(BikeMode):
 
 class ModeBabbal(BikeMode):
     def onRightUp(self):
-        pass
-
-    def onRightDown(self):
         self.context.transitionTo(ModeThikka(self.context))
 
     def onStateChange(self):
@@ -110,7 +95,7 @@ class ModeBabbal(BikeMode):
 
 class ModeReverse(BikeMode):
     def onRightDown(self):
-        self.context.transitionTo(ModeThikka(self.context))
+        self.context.transitionTo(ModeBabbal(self.context))
 
     def onStateChange(self):
         self.context.setMode(eBikeMode.MODE_REVERSE)

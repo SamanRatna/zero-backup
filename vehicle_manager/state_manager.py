@@ -30,8 +30,6 @@ class StateManager():
     def subscribeToEvents(self):
         vehicleEvents.onRUPress += self.bikeModeMgr.onRightUp
         vehicleEvents.onRDPress += self.bikeModeMgr.onRightDown
-        vehicleEvents.onRBPress += self.bikeModeMgr.onRightBack
-        vehicleEvents.onRDHold += self.bikeModeMgr.onRightDownHold
         vehicleEvents.onCharging += self.bikeModeMgr.onCharging
         vehicleEvents.onStandSwitch += self.updateStandState
         """

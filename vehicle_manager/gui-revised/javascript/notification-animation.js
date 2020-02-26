@@ -3,6 +3,7 @@ const lowbeam = document.getElementById('notification-lowbeam');
 const leftSideLight = document.getElementById('notification-leftsidelight');
 const rightSideLight = document.getElementById('notification-rightsidelight');
 const bluetooth = document.getElementById('notification-bluetooth');
+const stand = document.getElementById('notification-stand');
 // eel.expose(activateLeftSideLight)
 // function activateLeftSideLight(value){
 //     if(value == true){
@@ -87,5 +88,16 @@ function updateBluetoothStatus(status){
     }
     else if(status == '0'){
         bluetooth.style.display = 'none';
+    }
+}
+
+eel.expose(updateStandState);
+function updateStandState(status){
+    // console.log(status);
+    if(status == 1){
+        stand.style.display = 'block';
+    }
+    else if(status == 0){
+        stand.style.display = 'none';
     }
 }

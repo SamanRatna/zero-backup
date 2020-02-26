@@ -1,3 +1,4 @@
+import signal
 import json
 import RPi.GPIO as GPIO
 from vehicle_states import *
@@ -6,6 +7,14 @@ import threading
 from time import sleep
 from time import time
 import pin
+
+def keyboardInterruptHandler(signal, frame):
+    print("KeyboardInterrupt (ID: {}) has been caught. Cleaning up...".format(signal))
+    GPIO.cleanup()
+    exit(0)
+
+signal.signal(signal.SIGINT, keyboardInterruptHandler)
+
 class GPIOReader():
     __instance = None
     @staticmethod
@@ -26,7 +35,7 @@ class GPIOReader():
             GPIOReader.__instance = self
             self.pinState = {}
             self.inputState = {}
-            self.rdTimer = RepeatableTimer(1.0, self.rdBtnProcess)
+            # self.rdTimer = RepeatableTimer(1.0, self.rdBtnProcess)
             self.btnDown = 0
             self.btnUp = 0
             self.initializeGPIO()
@@ -38,10 +47,18 @@ class GPIOReader():
     """
     def initializeGPIO(self):
         GPIO.setmode(GPIO.BCM)
-        inputChannel = [2,3,4,17,27,22,10,9]
+        # inputChannel = [2,3,4,17,27,22,10,9]
+        inputChannel = [pin.IN_HIBEAM, pin.IN_LOWBEAM, pin.IN_LTURN, pin.IN_RTURN, pin.IN_BTN_RD, pin.IN_BTN_RU, pin.IN_STAND]
         GPIO.setup(inputChannel, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    def rdBtnProcess(self):
-        vehicleEvents.onRDHold()
+        # GPIO.setup(pin.IN_HIBEAM, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # GPIO.setup(pin.IN_LOWBEAM, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # GPIO.setup(pin.IN_LTURN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # GPIO.setup(pin.IN_RTURN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # GPIO.setup(pin.IN_BTN_RD, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # GPIO.setup(pin.IN_BTN_RU, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # GPIO.setup(pin.IN_STAND, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    # def rdBtnProcess(self):
+    #     vehicleEvents.onRDHold()
     def initializeGPIOThreads(self):
         self.tRDPress = threading.Thread(target = self.threadRDPress)
         self.tRDPress.start()
@@ -62,9 +79,9 @@ class GPIOReader():
         inputState[eGPIO.IN_RTURN] = GPIO.input(pin.IN_RTURN)
         inputState[eGPIO.IN_BUTTON_RD] = GPIO.input(pin.IN_BTN_RD)
         inputState[eGPIO.IN_BUTTON_RU] = GPIO.input(pin.IN_BTN_RU)
-        inputState[eGPIO.IN_BUTTON_RB] = GPIO.input(pin.IN_BTN_RB)
+        # inputState[eGPIO.IN_BUTTON_RB] = GPIO.input(pin.IN_BTN_RB)
         inputState[eGPIO.IN_STAND] = GPIO.input(pin.IN_STAND)
-        inputState[eGPIO.IN_BRAKE] = GPIO.input(pin.IN_BRAKE)
+        # inputState[eGPIO.IN_BRAKE] = GPIO.input(pin.IN_BRAKE)
         self.inputState = inputState
 
     def updateGPIO(self):
@@ -130,6 +147,7 @@ class RepeatableTimer(object):
         self.t = threading.Timer(self._interval, self._function, *self._args, **self._kwargs)
     def start(self):
         self.t = threading.Timer(self._interval, self._function, *self._args, **self._kwargs)
+        print('Starting the timer.')
         self.t.start()
     def cancel(self):
         print('Cancelling the timer.')
@@ -162,71 +180,83 @@ class GPIOWriter():
     """
     def initializeGPIO(self):
         GPIO.setmode(GPIO.BCM)
-        outputChannel = [14, 15, 18, 23, 24, 25, 8, 7, 16, 12]
-        ledChannel = [5, 6, 13, 19, 26]
+        # outputChannel = [14, 15, 18, 23, 24, 25, 8, 7, 16, 12]
+        outputChannel = [pin.OUT_SUSTE, pin.OUT_THIKKA, pin.OUT_BABBAL, pin.OUT_REVERSE, pin.OUT_POWER]
+        # ledChannel = [5, 6, 13, 19, 26]
         GPIO.setup(outputChannel, GPIO.OUT, initial=GPIO.HIGH)
-        GPIO.setup(ledChannel, GPIO.OUT, initial=GPIO.LOW)
+        vehicleEvents.onUserInactivity += self.setPower
+        # GPIO.setup(pin.OUT_SUSTE, GPIO.OUT, initial=GPIO.HIGH)
+        # GPIO.setup(pin.OUT_THIKKA, GPIO.OUT, initial=GPIO.HIGH)
+        # GPIO.setup(pin.OUT_BABBAL, GPIO.OUT, initial=GPIO.HIGH)
+        # GPIO.setup(pin.OUT_REVERSE, GPIO.OUT, initial=GPIO.HIGH)
+
+        # GPIO.setup(ledChannel, GPIO.OUT, initial=GPIO.LOW)
         # self.bootupLedAnimation()
 
-    def setIgn(self, value):
-        GPIO.output(8, value)
+    # def setIgn(self, value):
+    #     GPIO.output(8, value)
     
-    def setLTurn(self, value):
-        GPIO.output(7, value)
+    # def setLTurn(self, value):
+    #     GPIO.output(7, value)
     
-    def setRTurn(self, value):
-        GPIO.output(16, value)
+    # def setRTurn(self, value):
+    #     GPIO.output(16, value)
     
-    def setCharge(self, value):
-        GPIO.output(25, value)
+    # def setCharge(self, value):
+    #     GPIO.output(25, value)
     
-    def setBrake(self, value):
-        GPIO.output(12, value)
+    # def setBrake(self, value):
+    #     GPIO.output(12, value)
+    def setPower(self, status):
+        if status == 0:
+            GPIO.output(pin.OUT_POWER, False)
+        elif status == 1:
+            GPIO.output(pin.OUT_POWER, True)
 
     def setMode(self, mode):
         if mode == eBikeMode.MODE_THIKKA:
-            GPIO.output(14, True)
-            GPIO.output(18, True)
-            GPIO.output(23, True)
-            GPIO.output(25, True)
-            GPIO.output(15, False)
+            GPIO.output(pin.OUT_SUSTE, True)
+            GPIO.output(pin.OUT_BABBAL, True)
+            GPIO.output(pin.OUT_REVERSE, True)
+            # GPIO.output(25, True)
+            GPIO.output(pin.OUT_THIKKA, False)
             #led-output
-            GPIO.output(5, False)
-            GPIO.output(6, True)
-            GPIO.output(13, False)
+            # GPIO.output(5, False)
+            # GPIO.output(6, True)
+            # GPIO.output(13, False)
 
         elif mode == eBikeMode.MODE_SUSTE:
-            GPIO.output(18, True)
-            GPIO.output(23, True)
-            GPIO.output(15, False)
-            GPIO.output(24, True)
-            GPIO.output(14, False)
+            GPIO.output(pin.OUT_BABBAL, True)
+            GPIO.output(pin.OUT_REVERSE, True)
+            GPIO.output(pin.OUT_THIKKA, False)
+            # GPIO.output(24, True)
+            GPIO.output(pin.OUT_SUSTE, False)
             #led-output
-            GPIO.output(5, True)
-            GPIO.output(6, False)
-            GPIO.output(13, False)
+            # GPIO.output(5, True)
+            # GPIO.output(6, False)
+            # GPIO.output(13, False)
 
         elif mode == eBikeMode.MODE_BABBAL:
-            GPIO.output(23, True)
-            GPIO.output(15, False)
-            GPIO.output(24, True)
-            GPIO.output(14, True)
-            GPIO.output(18, False)
+            GPIO.output(pin.OUT_REVERSE, True)
+            GPIO.output(pin.OUT_THIKKA, False)
+            # GPIO.output(24, True)
+            GPIO.output(pin.OUT_SUSTE, True)
+            GPIO.output(pin.OUT_BABBAL, False)
             #led-output
-            GPIO.output(5, False)
-            GPIO.output(6, False)
-            GPIO.output(13, True)
+            # GPIO.output(5, False)
+            # GPIO.output(6, False)
+            # GPIO.output(13, True)
 
         elif mode == eBikeMode.MODE_REVERSE:
-            GPIO.output(15, True)
-            GPIO.output(24, True)
-            GPIO.output(14, True)
-            GPIO.output(18, True)
-            GPIO.output(23, False)
+            GPIO.output(pin.OUT_SUSTE, True)
+            # GPIO.output(24, True)
+            GPIO.output(pin.OUT_THIKKA, True)
+            GPIO.output(pin.OUT_BABBAL, True)
+            GPIO.output(pin.OUT_REVERSE, False)
             #led-output
-            GPIO.output(5, False)
-            GPIO.output(6, False)
-            GPIO.output(13, False)
+            # GPIO.output(5, False)
+            # GPIO.output(6, False)
+            # GPIO.output(13, False)
 
         elif mode == eBikeMode.MODE_CHARGING:
             GPIO.output(15, True)
@@ -235,112 +265,112 @@ class GPIOWriter():
             GPIO.output(23, True)
             GPIO.output(24, False)
             #led-output
-            GPIO.output(5, True)
-            GPIO.output(6, False)
-            GPIO.output(13, True)
+            # GPIO.output(5, True)
+            # GPIO.output(6, False)
+            # GPIO.output(13, True)
 
         elif mode == eBikeMode.MODE_STANDBY:
-            GPIO.output(15, True)
-            GPIO.output(14, True)
-            GPIO.output(18, True)
-            GPIO.output(23, True)
-            GPIO.output(24, False)
+            GPIO.output(pin.OUT_SUSTE, True)
+            GPIO.output(pin.OUT_THIKKA, True)
+            GPIO.output(pin.OUT_BABBAL, True)
+            GPIO.output(pin.OUT_REVERSE, True)
+            # GPIO.output(24, False)
             #led-output
             #self.bootupLedAnimation()
             
 
-            GPIO.output(5, True)
-            GPIO.output(6, True)
-            GPIO.output(13, True)
+            # GPIO.output(5, True)
+            # GPIO.output(6, True)
+            # GPIO.output(13, True)
     
-    def setSOC(self, soc):
-        if(soc >= 80):
-            GPIO.output(19, True)
-            GPIO.output(26, True)
-        elif(soc >= 60):
-            GPIO.output(19, True)
-            GPIO.output(26, False)        
-        elif(soc >= 40):
-            GPIO.output(19, False)
-            GPIO.output(26, True)        
-        elif(soc >= 20):
-            GPIO.output(19, False)
-            GPIO.output(26, False)  
-            sleep(0.3)
-            GPIO.output(19, True)
-            GPIO.output(26, True)
-            sleep(0.3)      
-        else:
-            GPIO.output(19, False)
-            GPIO.output(26, False)  
+    # def setSOC(self, soc):
+    #     if(soc >= 80):
+    #         GPIO.output(19, True)
+    #         GPIO.output(26, True)
+    #     elif(soc >= 60):
+    #         GPIO.output(19, True)
+    #         GPIO.output(26, False)        
+    #     elif(soc >= 40):
+    #         GPIO.output(19, False)
+    #         GPIO.output(26, True)        
+    #     elif(soc >= 20):
+    #         GPIO.output(19, False)
+    #         GPIO.output(26, False)  
+    #         sleep(0.3)
+    #         GPIO.output(19, True)
+    #         GPIO.output(26, True)
+    #         sleep(0.3)      
+    #     else:
+    #         GPIO.output(19, False)
+    #         GPIO.output(26, False)  
 
-    def bootupLedAnimation(self):
-        GPIO.output(5,True)
-        sleep(0.2)
-        GPIO.output(5,False)
-        GPIO.output(6,True)
-        sleep(0.2)
-        GPIO.output(6,False)
-        GPIO.output(13,True)
-        sleep(0.2)
-        GPIO.output(13,False)
-        GPIO.output(19,True)
-        sleep(0.2)
-        GPIO.output(19,False)
-        GPIO.output(26,True)
-        sleep(0.2)
-        GPIO.output(26,False)
-        sleep(0.2)
-        GPIO.output(5,True)
-        sleep(0.2)
-        GPIO.output(5,False)
-        GPIO.output(6,True)
-        sleep(0.2)
-        GPIO.output(6,False)
-        GPIO.output(13,True)
-        sleep(0.2)
-        GPIO.output(13,False)
-        GPIO.output(19,True)
-        sleep(0.2)
-        GPIO.output(19,False)
-        GPIO.output(26,True)
-        sleep(0.2)
-        GPIO.output(26,False)
-        sleep(0.2)
+    # def bootupLedAnimation(self):
+    #     GPIO.output(5,True)
+    #     sleep(0.2)
+    #     GPIO.output(5,False)
+    #     GPIO.output(6,True)
+    #     sleep(0.2)
+    #     GPIO.output(6,False)
+    #     GPIO.output(13,True)
+    #     sleep(0.2)
+    #     GPIO.output(13,False)
+    #     GPIO.output(19,True)
+    #     sleep(0.2)
+    #     GPIO.output(19,False)
+    #     GPIO.output(26,True)
+    #     sleep(0.2)
+    #     GPIO.output(26,False)
+    #     sleep(0.2)
+    #     GPIO.output(5,True)
+    #     sleep(0.2)
+    #     GPIO.output(5,False)
+    #     GPIO.output(6,True)
+    #     sleep(0.2)
+    #     GPIO.output(6,False)
+    #     GPIO.output(13,True)
+    #     sleep(0.2)
+    #     GPIO.output(13,False)
+    #     GPIO.output(19,True)
+    #     sleep(0.2)
+    #     GPIO.output(19,False)
+    #     GPIO.output(26,True)
+    #     sleep(0.2)
+    #     GPIO.output(26,False)
+    #     sleep(0.2)
 
-        GPIO.output(5,True)
-        GPIO.output(6,True)
-        GPIO.output(13,True)
-        GPIO.output(19,True)
-        GPIO.output(26,True)
-        sleep(0.2)
-        GPIO.output(5,False)
-        GPIO.output(6,False)
-        GPIO.output(13,False)
-        GPIO.output(19,False)
-        GPIO.output(26,False)
-        sleep(0.2)
-        GPIO.output(5,True)
-        GPIO.output(6,True)
-        GPIO.output(13,True)
-        GPIO.output(19,True)
-        GPIO.output(26,True)
-        sleep(0.2)
-        GPIO.output(5,False)
-        GPIO.output(6,False)
-        GPIO.output(13,False)
-        GPIO.output(19,False)
-        GPIO.output(26,False)
-        sleep(0.2)
-        GPIO.output(5,True)
-        GPIO.output(6,True)
-        GPIO.output(13,True)
-        GPIO.output(19,True)
-        GPIO.output(26,True)
-        sleep(0.2)
-        GPIO.output(5,False)
-        GPIO.output(6,False)
-        GPIO.output(13,False)
-        GPIO.output(19,False)
-        GPIO.output(26,False)
+    #     GPIO.output(5,True)
+    #     GPIO.output(6,True)
+    #     GPIO.output(13,True)
+    #     GPIO.output(19,True)
+    #     GPIO.output(26,True)
+    #     sleep(0.2)
+    #     GPIO.output(5,False)
+    #     GPIO.output(6,False)
+    #     GPIO.output(13,False)
+    #     GPIO.output(19,False)
+    #     GPIO.output(26,False)
+    #     sleep(0.2)
+    #     GPIO.output(5,True)
+    #     GPIO.output(6,True)
+    #     GPIO.output(13,True)
+    #     GPIO.output(19,True)
+    #     GPIO.output(26,True)
+    #     sleep(0.2)
+    #     GPIO.output(5,False)
+    #     GPIO.output(6,False)
+    #     GPIO.output(13,False)
+    #     GPIO.output(19,False)
+    #     GPIO.output(26,False)
+    #     sleep(0.2)
+    #     GPIO.output(5,True)
+    #     GPIO.output(6,True)
+    #     GPIO.output(13,True)
+    #     GPIO.output(19,True)
+    #     GPIO.output(26,True)
+    #     sleep(0.2)
+    #     GPIO.output(5,False)
+    #     GPIO.output(6,False)
+    #     GPIO.output(13,False)
+    #     GPIO.output(19,False)
+    #     GPIO.output(26,False)
 

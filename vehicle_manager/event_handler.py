@@ -1,10 +1,10 @@
 from events import Events
 
 class VehicleEvents(Events):
-    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady')
+    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'onUserInteraction', 'onUserInactivity')
 
 class VehicleReadings(Events):
-    __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage')
+    __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation')
 
 vehicleEvents = VehicleEvents()
 vehicleReadings = VehicleReadings()
@@ -60,6 +60,12 @@ def eventBatteryStatus(value):
 def eventBLEReady(value):
     print('BLE Status: ', str(value))
 
+def eventUserInteraction(state):
+    print('User Activity: ', str(state))
+
+def readingGPSLocation(lat, lon):
+    print('Latitude: ', lat)
+    print('Longitude: ', lon)
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
 vehicleEvents.onRDPress += eventRDPress
@@ -77,3 +83,5 @@ vehicleEvents.onTripReset += eventTripReset
 # vehicleReadings.distances += eventDistances
 # vehicleReadings.batteryStatus += eventBatteryStatus
 vehicleEvents.onBLEReady += eventBLEReady
+vehicleEvents.onUserInteraction += eventUserInteraction
+vehicleReadings.gpsLocation += readingGPSLocation

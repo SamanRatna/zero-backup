@@ -6,6 +6,7 @@ import time
 import netifaces
 import logging
 from event_handler import *
+from power_manager import *
 
 #Configure logger
 # logging.basicConfig(filemode='a')
@@ -14,6 +15,7 @@ chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
 maxSpeed = 0
 bikeMode = "MODE_STANDBY"
+bluetooth = 0
 
 # my_options = {
 #     'mode': "chrome", #or "chrome-app",
@@ -74,6 +76,8 @@ def publishDistances(odometer, tripDistance):
 
 def publishBluetoothStatus(status):
     eel.updateBluetoothStatus(status)
+    global bluetooth
+    bluetooth = status
 
 def publishBatteryTemperature(temp):
     eel.updateBatteryTemperature(temp)
@@ -139,8 +143,15 @@ def resetTripData():
 def getGUIData():
     global maxSpeed
     global bikeMode
+    global bluetooth
     eel.updateBikeMode(bikeMode)
     publishMaxSpeed(maxSpeed)
+    publishBluetoothStatus(bluetooth)
+
+@eel.expose
+def updateUserActivityStatus(status):
+    vehicleEvents.onUserInteraction(status)
+
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances
@@ -149,4 +160,4 @@ vehicleReadings.batteryTemperature += publishBatteryTemperature
 vehicleReadings.motorTemperature += publishMotorTemperature
 vehicleReadings.controllerTemperature += publishControllerTemperature
 vehicleReadings.packVoltage += publishPackVoltage
-vehicleReadings.onStandSwitch += publishStandState
+vehicleEvents.onStandSwitch += publishStandState

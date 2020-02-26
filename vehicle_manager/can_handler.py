@@ -9,9 +9,9 @@ from gpio_manager import GPIOWriter
 from event_handler import *
 from mqtt_publisher import *
 class CANHandler:
-    def __init__(self, _gpioWriter):
-    # def __init__(self):
-        self.gpioWriter = _gpioWriter
+    # def __init__(self, _gpioWriter):
+    def __init__(self):
+        # self.gpioWriter = _gpioWriter
         #Parameters
         self.chargingStatus         = 'discharging'
         self.chargingCurrent        = 0     # Ampere

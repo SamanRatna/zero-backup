@@ -140,3 +140,8 @@ function slideRight() {
 // setTimeout(function(){
 //     skipToInfograph();
 // }, 2000)
+
+document.addEventListener("click", function(){
+    console.log('Page Active.')
+    eel.updateUserActivityStatus(1);
+  }); 
