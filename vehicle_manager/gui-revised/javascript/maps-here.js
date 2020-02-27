@@ -21,15 +21,21 @@ var currentLocation = '27.7279,85.3284';
   });
   // var defaultLayers = platform.createDefaultLayers({tileSize: 512,  
   //   ppi: 320 });
-  var defaultLayers = platform.createDefaultLayers(512,  320 );
+
+  var defaultLayers = platform.createDefaultLayers(256,  320 );
   
+  // var defaultLayers = platform.createDefaultLayers({
+  //   tileSize: devicePixelRatio > 1 ? 512 : 256,
+  //   ppi: devicePixelRatio > 1 ? 320 : 72
+  // });
+
   //Step 2: initialize a map
   var map = new H.Map(document.getElementById('slide-map'),
-    defaultLayers.vector.normal.map,{
+    defaultLayers.raster.normal.map,{
     center: {lat:27.7279, lng:85.3284},
     zoom: 18,
-    // pixelRatio: window.devicePixelRatio || 1
-    pixelRatio: 1
+    pixelRatio: Math.min(devicePixelRatio, 2)  // capping at 2 since some devices have a pixel ratio above 2 
+    // pixelRatio: 1
   });
   // add a resize listener to make sure that the map occupies the whole container
   window.addEventListener('resize', () => map.getViewPort().resize());
