@@ -1,7 +1,7 @@
 $slide=0;
 $clickDisabled=0;
 $clickTimeout = 750;
-
+var sKeyboard = document.getElementById('s-keyboard')
 // // Carousel in the User Slide
 // $(document).ready(function(){
 //     // Cycles to the next item
@@ -142,16 +142,25 @@ function slideRight() {
 // }, 2000)
 let navigateButton = document.getElementById("navigation-button");
 let searchField = document.getElementById('autocomplete');
-
+let searchFieldStatus = 'closed';
 navigateButton.addEventListener('click', function(){
     navigateButton.style.display = 'none';
     searchField.style.display = 'flex';
     searchField.focus();
+    searchFieldStatus = 'open';
+    sKeyboard.style.display = 'block';
+    keyboardStatus = 'open';
    });
 
 function closeSearchBox(){
+    if(searchFieldStatus != 'open'){
+        return;
+    }
     searchField.style.display = 'none';
     navigateButton.style.display = 'block';
+    searchFieldStatus = 'closed';
+    searchField.value = '';
+    closeKeyboard();
 }
 // searchField.addEventListener('focusout', function(){
 //     searchField.style.display = 'none';

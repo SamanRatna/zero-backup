@@ -93,6 +93,34 @@ function autoCompleteListener(textBox, event) {
   query = textBox.value;
 }
 
+function autoCompleteListenerX(input) {
+
+  if (query != input) {
+    if(input.length == 0){
+      clearOldSuggestions();
+      suggestionsBox.style.display ='none';
+    }
+    else if (input.length >= 1) {
+
+      /**
+      * A full list of available request parameters can be found in the Geocoder Autocompletion
+      * API documentation.
+      *
+      */
+      var params = '?' +
+        'query=' + encodeURIComponent(input) +   // The search text which is the basis of the query
+        '&country=' + 'NPL' + //Limit results by country
+        // '&beginHighlight=' + encodeURIComponent('<mark>') + //  Mark the beginning of the match in a token. 
+        // '&endHighlight=' + encodeURIComponent('</mark>') + //  Mark the end of the match in a token. 
+        '&maxresults=5' +  // The upper limit the for number of suggestions to be included 
+        // in the response.  Default is set to 5.
+        '&apiKey=' + 'H3O5pr1qf71uc8XxXeeTYeA5bKAk5Bb3YLnzzlQb-w0';
+      ajaxRequest.open('GET', AUTOCOMPLETION_URL + params);
+      ajaxRequest.send();
+    }
+  }
+  query = input;
+}
 
 /**
  *  This is the event listener which processes the XMLHttpRequest response returned from the server.

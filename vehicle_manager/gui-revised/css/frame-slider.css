@@ -271,3 +271,13 @@ flex-direction: column;
     text-align: right;
     color: #6A6A6A;
 }
+
+#s-keyboard {
+    display: none;
+    z-index: 100;
+    position: absolute;
+    top: 1510px;
+    /* height: 40% !important; */
+    width: 100%;
+    background-color: #C4C4C4;
+}
