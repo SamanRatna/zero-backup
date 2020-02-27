@@ -140,8 +140,21 @@ function slideRight() {
 // setTimeout(function(){
 //     skipToInfograph();
 // }, 2000)
+let navigateButton = document.getElementById("navigation-button");
+let searchField = document.getElementById('autocomplete');
 
-document.addEventListener("click", function(){
-    console.log('Page Active.')
-    eel.updateUserActivityStatus(1);
-  }); 
+navigateButton.addEventListener('click', function(){
+    navigateButton.style.display = 'none';
+    searchField.style.display = 'flex';
+    searchField.focus();
+   });
+
+function closeSearchBox(){
+    searchField.style.display = 'none';
+    navigateButton.style.display = 'block';
+}
+// searchField.addEventListener('focusout', function(){
+//     searchField.style.display = 'none';
+//     navigateButton.style.display = 'block';
+//     clearOldSuggestions();
+// });

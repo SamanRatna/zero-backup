@@ -23,6 +23,14 @@
 
     <!-- it is always important to load all other dependencies then only call main.css and main.js -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<!-- HERE Maps -->
+<link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+
+<script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+<script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+<script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+<script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
 </head>
 
 <body style="background: turquoise;">
@@ -96,6 +104,7 @@
                 <!-- Bike Image -->
                 <li style="padding-top: 50px;" data-color="#ffffff">
                     <img src="images/bike.png" width='1200px' id='slide-image-bike' alt="Project Zero Bike">
+                    <div id='directions-panel' width='1200px' height='1000px'></div>
                 </li>
                 <!------------------------------- Navigation ----------------------------------->
                 <li class='slide-content' id='slide-map-container' data-color="#3498db">
@@ -107,6 +116,23 @@
                     <div id='slide-gradient-top'></div>
                     <div id='slide-gradient-bottom'></div>
                     <div id='navigation-button'><img src='icons/navigate.svg'></div>
+                    <!-- <div id="locationField">
+                        <input id="autocomplete"
+                               placeholder="Enter your address"
+                               onFocus="geolocate()"
+                               type="text"/>
+                      </div> -->
+                      <div id="locationField">
+                        <input id="autocomplete"
+                        onkeyup="return autoCompleteListener(this, event);"
+                               placeholder="Search"
+                               type="text"/>
+                      </div>
+                      <!-- <div id="search-suggestions"></div> -->
+                      <div id='summary-box'>
+                          <div id='summary-label'></div>
+                          <div id='summary-distance'></div>
+                      </div>
                 </li>
                 
                 <!---------------------------------- Infographics ------------------------------->
@@ -193,7 +219,7 @@
     </div>
 
     <!------------ Logo Frame ------------>
-    <div class='frame-logo'>
+    <div class='frame-logo' id='yatri-logo-id'>
         <img id='yatri-logo' src='images/logo.png'/>
     </div>
 </div>
@@ -384,18 +410,30 @@
 <script src='javascript/slider.js'></script>
 <script src='javascript/splash.js'></script>
 <script src='javascript/infograph.js'></script>
-<script type="text/javascript" src="/eel.js"></script>
+<!-- <script type="text/javascript" src="/eel.js"></script> -->
 <script src='javascript/notification.js'></script>
 <script src='javascript/modal.js'></script>
 <script src='javascript/animations.js'></script>
+
+<!-- EEL based software -->
+<!-- <script type="text/javascript" src="/eel.js"></script>
 <script src='javascript/notification-animation.js'></script>
 <script src='javascript/bikeStatus.js'></script>
+<script src='javascript/enggMenu.js'></script> -->
+
 <!-- <script src='javascript/chargeModal.js'></script> -->
-<script src='javascript/map.js'></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs&callback=initMap" async defer>
+
+<!-- Google Maps -->
+<!-- <script src='javascript/map.js'></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs&libraries=places&callback=initAutocomplete" async defer>
 </script>
-<script src='javascript/map-driver.js' async defer></script>
-<script src='javascript/enggMenu.js'></script>
+<script src='javascript/map-driver.js' async defer></script> -->
+
+<!-- Here Maps -->
+
+<script src='javascript/maps-here.js'></script>
+<script src='javascript/search-box.js'></script>
+
 <!-- <script src='javascript/speedDemo.js'></script> -->
 </body>
 

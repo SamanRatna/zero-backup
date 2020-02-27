@@ -110,4 +110,8 @@ function initializeGUI(){
 // function updateGUIData(maxSpeed){
 //     setMaxSpeed(maxSpeed);
 // }
+document.addEventListener("click", function(){
+    console.log('Page Active.')
+    eel.updateUserActivityStatus(1);
+  });
 initializeGUI();
