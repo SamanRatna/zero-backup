@@ -123,13 +123,15 @@ class GPIOReader():
             #         vehicleEvents.onRDPress()
             #     else:
             #         vehicleEvents.onRDHold()
-            if value == False:
-                self.rdTimer.start()
-            else:
-                if self.rdTimer.isAlive():
-                    self.rdTimer.cancel()
-                    vehicleEvents.onRDPress()
 
+            # if value == False:
+            #     self.rdTimer.start()
+            # else:
+            #     if self.rdTimer.isAlive():
+            #         self.rdTimer.cancel()
+            #         vehicleEvents.onRDPress()
+            if value == False:
+                vehicleEvents.onRDPress()
         elif eventId == eGPIO.IN_BUTTON_RU:
             if value == False:
                 vehicleEvents.onRUPress()

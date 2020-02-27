@@ -95,7 +95,7 @@ class ModeBabbal(BikeMode):
 
 class ModeReverse(BikeMode):
     def onRightDown(self):
-        self.context.transitionTo(ModeBabbal(self.context))
+        self.context.transitionTo(ModeStandby(self.context))
 
     def onStateChange(self):
         self.context.setMode(eBikeMode.MODE_REVERSE)
