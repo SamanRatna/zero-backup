@@ -98,7 +98,7 @@ function autoCompleteListenerX(input) {
   if (query != input) {
     if(input.length == 0){
       clearOldSuggestions();
-      suggestionsBox.style.display ='none';
+      // suggestionsBox.style.display ='none';
     }
     else if (input.length >= 1) {
 
