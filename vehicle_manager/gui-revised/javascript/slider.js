@@ -141,6 +141,7 @@ function slideRight() {
 //     skipToInfograph();
 // }, 2000)
 let navigateButton = document.getElementById("navigation-button");
+let endNavigateButton = document.getElementById("end-navigation-button");
 let searchField = document.getElementById('autocomplete');
 let searchFieldStatus = 'closed';
 navigateButton.addEventListener('click', function(){
@@ -150,6 +151,13 @@ navigateButton.addEventListener('click', function(){
     searchFieldStatus = 'open';
     sKeyboard.style.display = 'block';
     keyboardStatus = 'open';
+   });
+
+endNavigateButton.addEventListener('click', function(){
+    navigateButton.style.display = 'block';
+    endNavigateButton.style.display = 'none';
+    document.getElementById('maneuver-box').style.display = 'none';
+    document.getElementById('summary-box').style.display = 'none';
    });
 
 function closeSearchBox(){

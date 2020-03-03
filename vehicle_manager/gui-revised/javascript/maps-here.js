@@ -4,6 +4,10 @@
  * @param  {H.Map} map      A HERE Map instance within the application
  */
 var currentLocation = '27.7279,85.3284';
+let testLocation = new H.geo.Point(
+  27.7279, 
+  85.3284
+);
 // function moveMapToBerlin(map){
 //     map.setCenter({lat:27.7279, lng:85.3284});
 //     map.setZoom(18);
@@ -184,7 +188,7 @@ function clearOldSuggestions() {
 }
 
 function clearMarkers(){
-  console.log(markers);
+  // console.log(markers);
   while(markers.length){
     map.removeObject(markers.pop());
   }
@@ -374,6 +378,7 @@ var onResult = function(result) {
 
   addRouteShapeToMap(route);
   addSummaryToPanel(route);
+  findManeuverPoint(route.leg[0].maneuver);
   }
 };
 
@@ -398,6 +403,11 @@ function route(destination){
     }
 }
 
+var circleSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+		<circle cx="30" cy="30" r="30" fill="rgb(30, 200, 200)" opacity=".8"/>
+		<circle cx="30" cy="30" r="4" fill="black"/>
+		</svg>`,
+  currentLocationMarker = new H.map.Icon(circleSvg, {size: {w: 30, h: 30}, anchor: {x: 15, y: 15}});
 
 function addRouteShapeToMap(route){
   var lineString = new H.geo.LineString(),
@@ -424,7 +434,8 @@ function addRouteShapeToMap(route){
   var startMarker = new H.map.Marker({
     lat: startPoint.latitude,
     lng: startPoint.longitude
-  });
+  },
+  {icon: currentLocationMarker});
 
   // Create a marker for the end point:
   var endMarker = new H.map.Marker({
@@ -433,9 +444,10 @@ function addRouteShapeToMap(route){
   });
   group.addObject(startMarker);
   group.addObject(endMarker);
-  console.log(markers);
+  // console.log(markers);
   markers.push(startMarker);
   markers.push(endMarker);
+  markers.push(polyline);
   // Add the polyline to the map
   map.addObjects([polyline, startMarker, endMarker]);
   // And zoom to its bounding rectangle
@@ -468,4 +480,32 @@ function addDirectionToPanel(route){
 
 Number.prototype.toMMSS = function () {
   return  Math.floor(this / 60)  +' minutes '+ (this % 60)  + ' seconds.';
+}
+
+function findManeuverPoint(maneuver){
+  document.getElementById('navigation-button').style.display = 'none';
+  document.getElementById('end-navigation-button').style.display = 'block';
+  document.getElementById('maneuver-box').style.display = 'block';
+  var closestManeuver,
+  closestManeuverPoint,
+  minDistance = Infinity;
+  console.log("Current Location: " + currentLocation);
+// calculate the closest maneuver
+maneuver.forEach(function(man) {
+  let currManeuverPoint = new H.geo.Point(
+    man.position.latitude, 
+    man.position.longitude
+  );
+  // console.log("Current Maneuver Point: " + currManeuverPoint);
+  let currDistance = currManeuverPoint.distance(testLocation);
+  console.log("Current Distance is: " + currDistance);
+  if (currDistance < minDistance) {
+    minDistance = currDistance;
+    closestManeuver = man;
+    closestManeuverPoint = currManeuverPoint;
+  }
+});
+console.log(closestManeuverPoint);
+console.log('closest maneuver (%s m) is at: {lat: %s, lng: %s}: \n %s', Math.round(minDistance), closestManeuverPoint.lat, closestManeuverPoint.lng, closestManeuver.instruction);
+document.getElementById('maneuver-box').innerHTML = closestManeuver.instruction;
 }
