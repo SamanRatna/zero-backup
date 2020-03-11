@@ -131,23 +131,23 @@ function slideRight() {
     $('#slider-wrap ul#slider').css('left', -(sliderWidth * pos));
 }
 
-// function skipToInfograph() {
-//     document.getElementById('right-slider').click();
-// }
-// setTimeout(function(){
-//     skipToInfograph();
-// }, 1000)
+function skipToInfograph() {
+    document.getElementById('right-slider').click();
+}
+setTimeout(function(){
+    skipToInfograph();
+}, 1000)
 // setTimeout(function(){
 //     skipToInfograph();
 // }, 2000)
 let navigateButton = document.getElementById("navigation-button");
 let endNavigateButton = document.getElementById("end-navigation-button");
-let searchField = document.getElementById('autocomplete');
+let searchField = document.getElementsByClassName('mapboxgl-ctrl-geocoder');
 let searchFieldStatus = 'closed';
 navigateButton.addEventListener('click', function(){
     navigateButton.style.display = 'none';
-    searchField.style.display = 'flex';
-    searchField.focus();
+    searchField[0].style.display = 'block';
+    // searchField.focus();
     searchFieldStatus = 'open';
     sKeyboard.style.display = 'block';
     keyboardStatus = 'open';

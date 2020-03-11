@@ -3,7 +3,7 @@ var directionsDisplay;
 let currentPosition;
 var directionsService;
 var directionsRenderer;
-let navigateButton = document.getElementById("navigation-button");
+// let navigateButton = document.getElementById("navigation-button");
 let searchField = document.getElementById('autocomplete');
 function initMap() {
     let mapLocation = {lat: 27.7279, lng: 85.3284};
