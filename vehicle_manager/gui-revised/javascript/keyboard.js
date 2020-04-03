@@ -1,9 +1,12 @@
+var el = document.querySelector('input[type="text"]');
+
 let Keyboard = window.SimpleKeyboard.default;
 
 let myKeyboard = new Keyboard({
   onChange: input => onChange(input),
   onKeyPress: button => onKeyPress(button),
   mergeDisplay: true,
+  // preventMouseDownDefault: true,
   layoutName: "default",
   layout: {
     default: [
@@ -61,6 +64,8 @@ function handleNumbers() {
 function onChange(input) {
   document.querySelector(".mapboxgl-ctrl-geocoder--input").value = input;
   console.log("Input changed", input);
+  triggerEvent(el, 'keydown');
+
   // autoCompleteListenerX(input)
 }
 
@@ -110,3 +115,18 @@ document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('t
 // document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0].addEventListener('blur', function(){
 //   closeKeyboard();
 // })
+
+function triggerEvent(el, type){
+  if ('createEvent' in document) {
+       // modern browsers, IE9+
+       var e = document.createEvent('HTMLEvents');
+       e.initEvent(type, false, true);
+       el.dispatchEvent(e);
+   } else {
+       // IE 8
+       var e = document.createEventObject();
+       e.eventType = type;
+       el.fireEvent('on'+e.eventType, e);
+   }
+}
+
