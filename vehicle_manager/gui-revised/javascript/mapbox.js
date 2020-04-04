@@ -1,4 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoieWF0cmkiLCJhIjoiY2swZzY1MDNqMDQ2ZzNubXo2emc4NHZwYiJ9.FtepvvGORqK03qJxFNvlEQ';
+var destinationMarker = new mapboxgl.Marker({
+  draggable: true
+});
 let destination;
 let route;
 var map = new mapboxgl.Map({
@@ -30,7 +33,10 @@ var geocoder = new MapboxGeocoder({ // Initialize the geocoder
     //     );
     //     },
     mapboxgl: mapboxgl, // Set the mapbox-gl instance
-    marker: true, // Do not use the default marker style
+    marker: false, // Do not use the default marker style
+    // marker: {
+    //   color: 'red'
+    //   },
     // proximity: {
     //     longitude: 85.324,
     //     latitude: 27.717
@@ -50,15 +56,16 @@ map.on('load', function() {
       }
     });
   
-    map.addLayer({
-      id: 'point',
-      source: 'single-point',
-      type: 'circle',
-      paint: {
-        'circle-radius': 10,
-        'circle-color': '#448ee4'
-      }
-    });
+    // map.addLayer({
+    //   id: 'point',
+    //   source: 'single-point',
+    //   type: 'circle',
+    //   paint: {
+    //     'circle-radius': 10,
+    //     'circle-color': '#448ee4'
+    //   }
+    // });
+
   
     // Listen for the `result` event from the Geocoder
     // `result` event is triggered when a user makes a selection
@@ -86,6 +93,9 @@ map.on('load', function() {
       }
       ]
     };
+
+    destinationMarker.setLngLat(coordsObj)
+    .addTo(map);
     // if (map.getLayer('end')) {
     //   map.getSource('end').setData(end);
     // } else {
@@ -244,6 +254,23 @@ function addSummaryToPanel(route){
   document.getElementById('maneuver-box').innerHTML = closestManeuver.instruction;
   }
 
+  function onDragEnd() {
+    var lngLat = marker.getLngLat();
+    // coordinates.style.display = 'block';
+    // coordinates.innerHTML =
+    // 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+    let markerCoord = [lngLat.lng, lngLat.lat];
+    console.log(markerCoord);
+    getRoute(markerCoord);
+    }
 
-
-  
+    function onRotateEnd() {
+      let bearing = -map.getBearing();
+      console.log(bearing);
+      document.getElementById("navigation-north").style.transform = "rotate("+bearing+"deg)";
+    }
+    destinationMarker.on('dragend',onDragEnd);
+    map.on('rotateend', onRotateEnd);
+    document.getElementById('navigation-north').addEventListener('click', function(){
+      map.resetNorth();
+    })
