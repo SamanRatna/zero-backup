@@ -458,3 +458,8 @@ flex-direction: column;
         margin-left: -25%;
         top: 1000px;
         } */
+    #navigation-north{
+        position: absolute;
+        right: 0px;
+        top: 85px;
+    }
