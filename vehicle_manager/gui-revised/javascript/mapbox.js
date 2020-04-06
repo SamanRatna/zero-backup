@@ -1,14 +1,18 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoieWF0cmkiLCJhIjoiY2swZzY1MDNqMDQ2ZzNubXo2emc4NHZwYiJ9.FtepvvGORqK03qJxFNvlEQ';
+// create a DOM element for the marker
+let elCurrentMarker = document.createElement('div');
+elCurrentMarker.className = 'current-marker';
+
+let elDestinationMarker = document.createElement('div');
+elDestinationMarker.className = 'destination-marker';
+
 var destinationMarker = new mapboxgl.Marker({
+  element: elDestinationMarker,
   draggable: true
 });
 let destination;
 let route;
 const navigationZoomLevel = 19;
-// create a DOM element for the marker
-var el = document.createElement('div');
-el.className = 'current-marker';
-// el.style.backgroundImage ='url(../icons/current-marker.png)';
 
 var map = new mapboxgl.Map({
     container: 'slide-map', // container id
@@ -141,7 +145,7 @@ var canvas = map.getCanvasContainer();
 var start = [85.324, 27.717];
 // let currentLngLat = new mapboxgl.LngLat(start[0], start[1]+0.0035);
 // Current Location Marker
-var currentMarker = new mapboxgl.Marker(el) // initialize a new marker
+var currentMarker = new mapboxgl.Marker(elCurrentMarker) // initialize a new marker
   .setLngLat(start) // Marker [lng, lat] coordinates
   .addTo(map); // Add the marker to the map
 
