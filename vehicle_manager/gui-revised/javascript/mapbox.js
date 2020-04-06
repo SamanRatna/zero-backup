@@ -274,13 +274,13 @@ function addSummaryToPanel(route){
     getRoute(markerCoord);
     }
 
-    function onRotateEnd() {
+    function onRotate() {
       let bearing = -map.getBearing();
       // console.log(bearing);
       document.getElementById("navigation-north").style.transform = "rotate("+bearing+"deg)";
     }
     destinationMarker.on('dragend',onDragEnd);
-    map.on('rotateend', onRotateEnd);
+    map.on('rotate', onRotate);
     
     document.getElementById('navigation-north').addEventListener('click', function(){
       map.resetNorth();
