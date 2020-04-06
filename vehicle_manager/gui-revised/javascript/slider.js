@@ -153,12 +153,12 @@ let searchFieldStatus = 'closed';
 //     keyboardStatus = 'open';
 //    });
 
-endNavigateButton.addEventListener('click', function(){
-    navigateButton.style.display = 'block';
-    endNavigateButton.style.display = 'none';
-    document.getElementById('maneuver-box').style.display = 'none';
-    document.getElementById('summary-box').style.display = 'none';
-   });
+// endNavigateButton.addEventListener('click', function(){
+//     navigateButton.style.display = 'block';
+//     endNavigateButton.style.display = 'none';
+//     document.getElementById('maneuver-box').style.display = 'none';
+//     document.getElementById('summary-box').style.display = 'none';
+//    });
 
 function closeSearchBox(){
     if(searchFieldStatus != 'open'){

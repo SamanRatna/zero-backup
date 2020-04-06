@@ -4,6 +4,12 @@ var destinationMarker = new mapboxgl.Marker({
 });
 let destination;
 let route;
+const navigationZoomLevel = 19;
+// create a DOM element for the marker
+var el = document.createElement('div');
+el.className = 'current-marker';
+// el.style.backgroundImage ='url(../icons/current-marker.png)';
+
 var map = new mapboxgl.Map({
     container: 'slide-map', // container id
     // style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
@@ -133,9 +139,9 @@ var canvas = map.getCanvasContainer();
 // an arbitrary start will always be the same
 // only the end or destination will change
 var start = [85.324, 27.717];
-
+// let currentLngLat = new mapboxgl.LngLat(start[0], start[1]+0.0035);
 // Current Location Marker
-var marker = new mapboxgl.Marker() // initialize a new marker
+var currentMarker = new mapboxgl.Marker(el) // initialize a new marker
   .setLngLat(start) // Marker [lng, lat] coordinates
   .addTo(map); // Add the marker to the map
 
@@ -266,11 +272,46 @@ function addSummaryToPanel(route){
 
     function onRotateEnd() {
       let bearing = -map.getBearing();
-      console.log(bearing);
+      // console.log(bearing);
       document.getElementById("navigation-north").style.transform = "rotate("+bearing+"deg)";
     }
     destinationMarker.on('dragend',onDragEnd);
     map.on('rotateend', onRotateEnd);
+    
     document.getElementById('navigation-north').addEventListener('click', function(){
       map.resetNorth();
-    })
+    });
+
+    function startNavigation(){
+      let cLngLat = currentMarker.getLngLat();
+      let markerCoord = [cLngLat.lng, cLngLat.lat];
+      map.flyTo({
+        center: [
+        cLngLat.lng,
+        cLngLat.lat
+        ],
+        zoom: navigationZoomLevel,
+        // essential: true // this animation is considered essential with respect to prefers-reduced-motion
+        });
+      document.getElementById('start-navigation-button').style.display = 'none';
+      document.getElementById('end-navigation-button').style.display = 'block';
+      document.getElementById('maneuver-box').style.display = 'block';
+      document.getElementById('summary-box').style.display = 'block';
+
+      // function to get the latitude and longitude of the vehicle and update it
+    }
+
+    function endNavigation(){
+      document.getElementById('start-navigation-button').style.display = 'block';
+      document.getElementById('end-navigation-button').style.display = 'none';
+      document.getElementById('maneuver-box').style.display = 'none';
+      document.getElementById('summary-box').style.display = 'none';
+    }
+
+    document.getElementById('start-navigation-button').addEventListener('click', function(){
+      startNavigation();
+    });
+
+    document.getElementById('end-navigation-button').addEventListener('click', function(){
+      endNavigation();
+    });

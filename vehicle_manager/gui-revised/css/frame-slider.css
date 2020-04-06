@@ -303,19 +303,22 @@ flex-direction: column;
 
 #end-navigation-button{
     position: absolute;
-    display: none;
-    /* width: 165px;
-    height: 165px; */
-    left: 1025px;
-    top: 120px;
-
-    /* background: #FF8484; */
-    /* border: 1px solid #C4C4C4; */
-    /* box-sizing: border-box;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 40px; */
+    height: 85px;
+    width: 85px;
+    right: 0px;
+    top: 175px;
+    border-radius: 80px;
+    display:none;
 }
-
+#start-navigation-button{
+    position: absolute;
+    height: 88px;
+    width: 88px;
+    right: 0px;
+    top: 175px;
+    background-color: white;
+    border-radius: 80px;
+}
 /* Mapbox */
 #inputs,
 #errors,
@@ -463,3 +466,10 @@ flex-direction: column;
         right: 0px;
         top: 85px;
     }
+
+    .current-marker {
+        background-image: url('../icons/current-marker.png');
+        background-size: 70px 70px;
+        width: 70px;
+        height: 70px;
+      }
