@@ -5,9 +5,19 @@
     font-size: 30px;
     /* cursor: none; */
 }
+.startup {
+    height: 1920px;
+    width: 1200px;
+    display: absolute;
+    z-index: 1000;
+}
 .page {
     height: 1920px;
     width: 1200px;
+    display:absolute;
+    left: 0;
+    top: 0;
+    z-index : 0;
 }
 .frame-notification {
     position: relative;
