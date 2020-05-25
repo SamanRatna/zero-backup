@@ -4,7 +4,7 @@ class VehicleEvents(Events):
     __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'onUserInteraction', 'onUserInactivity')
 
 class VehicleReadings(Events):
-    __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation')
+    __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset')
 
 vehicleEvents = VehicleEvents()
 vehicleReadings = VehicleReadings()
@@ -66,6 +66,10 @@ def eventUserInteraction(state):
 def readingGPSLocation(lat, lon):
     print('Latitude: ', lat)
     print('Longitude: ', lon)
+
+def readingCarbonOffset(data):
+    print(data)
+
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
 vehicleEvents.onRDPress += eventRDPress
@@ -85,3 +89,4 @@ vehicleEvents.onTripReset += eventTripReset
 vehicleEvents.onBLEReady += eventBLEReady
 vehicleEvents.onUserInteraction += eventUserInteraction
 vehicleReadings.gpsLocation += readingGPSLocation
+vehicleReadings.carbonOffset += readingCarbonOffset
