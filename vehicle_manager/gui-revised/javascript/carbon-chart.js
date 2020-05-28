@@ -137,3 +137,5 @@ function updateCarbonOffset(data){
     console.log(item);
   });
 }
+
+eel.initCarbonOffset();

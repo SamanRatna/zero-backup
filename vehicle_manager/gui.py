@@ -113,6 +113,11 @@ def rebootBoard():
     os.system('sudo shutdown -h now')
 
 @eel.expose
+def initCarbonOffset():
+    print('Initialization of carbon offset requested...')
+    vehicleEvents.onCarbonOffsetRequest(0)
+
+@eel.expose
 def startFastCharge(option):
     if(option == 0):
         print('Option Not available yet.')

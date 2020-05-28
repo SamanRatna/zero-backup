@@ -1,6 +1,6 @@
 from datetime import date, datetime
 import json
-from event_handler import vehicleReadings
+from event_handler import vehicleReadings, vehicleEvents
 
 class CarbonOffsetCalculator:
     def __init__(self):
@@ -34,7 +34,8 @@ class CarbonOffsetCalculator:
             self.append(self.latestData)
         
         self.sendToUI(0)
-                
+        vehicleEvents.onCarbonOffsetRequest += self.onRequest
+
     def onChange(self, distance):
         # compute carbon offset from the distance travelled
         # check if the cycle has changed
@@ -56,10 +57,13 @@ class CarbonOffsetCalculator:
         with open('carbon-offset.json', 'w') as f:
             json.dump(carbonOffsetData, f)
 
-    def onRequest(self):
-        # send the outstanding values to bluetooth
-        # update the outstandingCarbonOffsetIndex value
-        pass
+    def onRequest(self, mode = 0):
+        # send the outstanding values to bluetooth/UI
+        # update the outstandingCarbonOffsetIndex value if needed
+        if(mode == 0):
+            self.sendToUI(0)
+        elif(mode == 1):
+            pass
 
     def getDate(self):
         today = str(date.today())
