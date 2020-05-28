@@ -6,9 +6,9 @@ Chart.defaults.global.defaultFontColor = 'black';
 Chart.defaults.global.defaultFontSize = 16;
 
 var data = {
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"],
   datasets: [{
-      label: "Stock A",
+      label: "Last 31 rides",
       fill: false,
       lineTension: 0.1,
       backgroundColor: "rgba(225,0,0,0.4)",
@@ -26,9 +26,9 @@ var data = {
     //   pointHoverBorderColor: "brown",
     //   pointHoverBorderWidth: 2,
       pointRadius: 0,
-    //   pointHitRadius: 10,
+      pointHitRadius: 10,
       // notice the gap in the data and the spanGaps: true
-      data: [0, 59, 80, 81, 56, 55, 40, ,60,55,30,78],
+      data: [ ],
       spanGaps: true,
   }
 
@@ -77,3 +77,53 @@ var myBarChart = new Chart(ctx, {
   data: data,
   options: options
 });
+
+function addCarbonData(label, data) {
+  // if(chart.data.labels.length >= 31){
+  //     chart.data.labels.shift();
+  //     chart.data.labels.push(label);
+  // }
+  let chart = myBarChart;
+  chart.data.datasets.forEach((dataset) => {
+      dataset.data.push(data);
+      if(dataset.data.length > 30){
+          dataset.data.shift();
+      }
+  });
+  chart.update();
+}
+
+function updateCarbonData(label, item) {
+  // if(chart.data.labels.length >= 31){
+  //     chart.data.labels.shift();
+  //     chart.data.labels.push(label);
+  // }
+  let chart = myBarChart;
+  chart.data.datasets.forEach((dataset) => {
+    // dataset.data.pop();
+      dataset.data.push(item);
+      if(dataset.data.length > 30){
+          dataset.data.shift();
+      }
+  });
+  chart.update();
+}
+
+function removeCarbonData() {
+  let chart = myBarChart;
+  chart.data.labels.pop();
+  chart.data.datasets.forEach((dataset) => {
+      dataset.data.pop();
+  });
+  chart.update();
+}
+
+eel.expose(updateCarbonOffset);
+function updateCarbonOffset(data){
+  var codata = data;
+  // console.log(codata);
+  codata.forEach(item => {
+    updateCarbonData(item[0], item[1]);
+    console.log(item);
+  });
+}

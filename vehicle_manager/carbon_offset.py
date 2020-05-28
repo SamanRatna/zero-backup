@@ -35,16 +35,18 @@ class CarbonOffsetCalculator:
         
         self.sendToUI(0)
                 
-    def onChange(self, value):
+    def onChange(self, distance):
+        # compute carbon offset from the distance travelled
         # check if the cycle has changed
         # if it has changed, end the current running cycle
         # start a new cycle and initialize the new cycle to current cycle
         # update the values 
         # send the values to GUI
+        carbonOffset = distance * 77
         if(not self.isToday(self.latestData[0])):
             self.carbonOffset[-1] = self.latestData
             self.sumTillLastDay = self.sumTillLastDay + self.latestData[1]
-        self.latestData = [self.getDate(), value - self.sumTillLastDay]
+        self.latestData = [self.getDate(), carbonOffset - self.sumTillLastDay]
         self.sendToUI(1)
 
     def onShutdown(self):

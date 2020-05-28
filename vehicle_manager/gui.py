@@ -3,10 +3,10 @@ import threading
 import multiprocessing
 import os
 import time
-import netifaces
+# import netifaces
 import logging
 from event_handler import *
-from power_manager import *
+# from power_manager import *
 
 #Configure logger
 # logging.basicConfig(filemode='a')
@@ -97,6 +97,9 @@ def publishPackVoltage(voltage):
 def publishStandState(state):
     eel.updateStandState(state)
 
+def publishCarbonOffset(data):
+    eel.updateCarbonOffset(data)
+
 def startGUIThread():
     try:        
         guiThread = threading.Thread(target=startGUI)
@@ -161,3 +164,4 @@ vehicleReadings.motorTemperature += publishMotorTemperature
 vehicleReadings.controllerTemperature += publishControllerTemperature
 vehicleReadings.packVoltage += publishPackVoltage
 vehicleEvents.onStandSwitch += publishStandState
+vehicleReadings.carbonOffset += publishCarbonOffset
