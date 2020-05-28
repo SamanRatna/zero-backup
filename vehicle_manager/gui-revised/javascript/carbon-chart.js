@@ -6,7 +6,8 @@ Chart.defaults.global.defaultFontColor = 'black';
 Chart.defaults.global.defaultFontSize = 16;
 
 var data = {
-  labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"],
+  // labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"],
+  labels: [ ],
   datasets: [{
       label: "Last 31 rides",
       fill: false,
@@ -94,17 +95,27 @@ function addCarbonData(label, data) {
 }
 
 function updateCarbonData(label, item) {
-  // if(chart.data.labels.length >= 31){
-  //     chart.data.labels.shift();
-  //     chart.data.labels.push(label);
-  // }
   let chart = myBarChart;
+  let sameData = false;
+  if(label == chart.data.labels[chart.data.labels.length - 1]){
+    sameData = true;
+  }
+
+  if(sameData == false){
+    chart.data.labels.push(label);
+    if(chart.data.labels.length > 30){
+      chart.data.labels.shift();
+    }
+  }
+
   chart.data.datasets.forEach((dataset) => {
-    // dataset.data.pop();
-      dataset.data.push(item);
-      if(dataset.data.length > 30){
-          dataset.data.shift();
-      }
+    if(sameData == true){
+      dataset.data.pop();
+    }
+    dataset.data.push(item);
+    if(dataset.data.length > 30){
+        dataset.data.shift();
+    }
   });
   chart.update();
 }
@@ -121,7 +132,6 @@ function removeCarbonData() {
 eel.expose(updateCarbonOffset);
 function updateCarbonOffset(data){
   var codata = data;
-  // console.log(codata);
   codata.forEach(item => {
     updateCarbonData(item[0], item[1]);
     console.log(item);

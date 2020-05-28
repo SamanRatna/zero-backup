@@ -78,7 +78,8 @@ class CarbonOffsetCalculator:
             self.runningCarbonOffsetIndex  += 1
     
     def sendToUI(self, mode = 0):
+        # the data has to be sent as an array of array of date and Carbon Offset Data
         if mode == 0: 
-            vehicleReadings.carbonOffset(self.carbonOffset)
+            vehicleReadings.carbonOffset(self.carbonOffset[self.runningCarbonOffsetIndex:])
         elif mode == 1:
-            vehicleReadings.carbonOffset(self.latestData)
+            vehicleReadings.carbonOffset([self.latestData])
