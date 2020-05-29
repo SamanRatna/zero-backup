@@ -16,6 +16,7 @@ OUT_THIKKA          = 23
 OUT_BABBAL          = 24
 OUT_REVERSE         = 6
 OUT_POWER           = 2
+OUT_BRIGHTNESS      = 13
 # OUT_CHARGE_MOTOR    = 24
 # OUT_CHARGE          = 25
 # OUT_IGN             = 8

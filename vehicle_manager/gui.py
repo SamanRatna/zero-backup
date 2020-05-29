@@ -118,6 +118,11 @@ def initCarbonOffset():
     vehicleEvents.onCarbonOffsetRequest(0)
 
 @eel.expose
+def changeBrightness(brightness):
+    vehicleEvents.onBrightnessChange(brightness)
+    # print('Brigtness: ', brightness)
+
+@eel.expose
 def startFastCharge(option):
     if(option == 0):
         print('Option Not available yet.')
