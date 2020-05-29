@@ -7,6 +7,7 @@ import time
 import logging
 from event_handler import *
 # from power_manager import *
+from api_handler import *
 
 #Configure logger
 # logging.basicConfig(filemode='a')
@@ -121,6 +122,12 @@ def initCarbonOffset():
 def changeBrightness(brightness):
     vehicleEvents.onBrightnessChange(brightness)
     # print('Brigtness: ', brightness)
+
+@eel.expose
+def getAPIKey():
+    print('API Request Received')
+    api = returnAPI()
+    return(api)
 
 @eel.expose
 def startFastCharge(option):

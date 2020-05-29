@@ -101,16 +101,28 @@ function closeKeyboard() {
 }
 
 // let searchBar = 'closed';
-document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('transitionstart', function(){
-  let status=true;
-  status = document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.contains('mapboxgl-ctrl-geocoder--collapsed');
-  if(status == true){
-    closeKeyboard();
-  }
-  else {
-    openKeyboard();
-  }
-});
+function initKeyboardListener(){
+  document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('transitionstart', function(){
+    let status=true;
+    status = document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.contains('mapboxgl-ctrl-geocoder--collapsed');
+    if(status == true){
+      closeKeyboard();
+    }
+    else {
+      openKeyboard();
+    }
+  });
+}
+// document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('transitionstart', function(){
+//   let status=true;
+//   status = document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.contains('mapboxgl-ctrl-geocoder--collapsed');
+//   if(status == true){
+//     closeKeyboard();
+//   }
+//   else {
+//     openKeyboard();
+//   }
+// });
 
 // document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0].addEventListener('blur', function(){
 //   closeKeyboard();
