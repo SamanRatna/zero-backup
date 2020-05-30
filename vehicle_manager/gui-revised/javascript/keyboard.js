@@ -1,4 +1,4 @@
-var el = document.querySelector('input[type="text"]');
+let el;
 
 let Keyboard = window.SimpleKeyboard.default;
 
@@ -64,7 +64,7 @@ function handleNumbers() {
 function onChange(input) {
   document.querySelector(".mapboxgl-ctrl-geocoder--input").value = input;
   console.log("Input changed", input);
-  triggerEvent(el, 'keydown');
+  triggerEvent('keydown');
 
   // autoCompleteListenerX(input)
 }
@@ -102,6 +102,7 @@ function closeKeyboard() {
 
 // let searchBar = 'closed';
 function initKeyboardListener(){
+  el = document.querySelector('input[type="text"]');
   document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('transitionstart', function(){
     let status=true;
     status = document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.contains('mapboxgl-ctrl-geocoder--collapsed');
@@ -113,22 +114,8 @@ function initKeyboardListener(){
     }
   });
 }
-// document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('transitionstart', function(){
-//   let status=true;
-//   status = document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.contains('mapboxgl-ctrl-geocoder--collapsed');
-//   if(status == true){
-//     closeKeyboard();
-//   }
-//   else {
-//     openKeyboard();
-//   }
-// });
 
-// document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0].addEventListener('blur', function(){
-//   closeKeyboard();
-// })
-
-function triggerEvent(el, type){
+function triggerEvent(type){
   if ('createEvent' in document) {
        // modern browsers, IE9+
        var e = document.createEvent('HTMLEvents');

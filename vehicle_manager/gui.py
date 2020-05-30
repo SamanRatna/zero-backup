@@ -130,6 +130,11 @@ def getAPIKey():
     return(api)
 
 @eel.expose
+def getCurrentLocation():
+    location = [85.324, 27.717]
+    return location
+
+@eel.expose
 def startFastCharge(option):
     if(option == 0):
         print('Option Not available yet.')
