@@ -4,6 +4,9 @@ let geocoder;
 let destinationMarker, currentMarker;
 const initialZoomLevel = 16;
 const navigationZoomLevel = 19;
+
+startMap();
+
 /*
 Request for API Key from the backend
 */
@@ -39,8 +42,6 @@ function onLocationResponse(location){
   console.log("Current Location Received: " + currentLocation);
   initMap();
 }
-
-startMap();
 
 function initMap(){
   var elCurrentMarker = document.createElement('div');

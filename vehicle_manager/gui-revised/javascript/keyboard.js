@@ -70,7 +70,6 @@ function onChange(input) {
 }
 
 function onKeyPress(button) {
-  console.log("Button pressed", button);
   if (button === "{shift}" || button === "{lock}") handleShift();
   if (button === "{numbers}" || button === "{abc}") handleNumbers();
 
@@ -128,4 +127,3 @@ function triggerEvent(type){
        el.fireEvent('on'+e.eventType, e);
    }
 }
-
