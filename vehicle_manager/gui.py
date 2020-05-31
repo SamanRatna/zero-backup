@@ -8,7 +8,7 @@ import logging
 from event_handler import *
 # from power_manager import *
 from api_handler import *
-from navigation-simulator import *
+from navigation_simulator import *
 #Configure logger
 # logging.basicConfig(filemode='a')
 chargeLogger=logging.getLogger('event-logger')
