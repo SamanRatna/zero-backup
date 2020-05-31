@@ -8,7 +8,7 @@ import logging
 from event_handler import *
 # from power_manager import *
 from api_handler import *
-
+from navigation-simulator import *
 #Configure logger
 # logging.basicConfig(filemode='a')
 chargeLogger=logging.getLogger('event-logger')
@@ -108,6 +108,10 @@ def startGUIThread():
     except:
         print("Error: Unable to start the GUI thread.")
 
+def publishCurrentLocation(lat, lon):
+    data = [lon, lat]
+    eel.updateCurrentLocation(data)
+
 @eel.expose
 def rebootBoard():
     print('Rebooting the computer...')
@@ -187,3 +191,4 @@ vehicleReadings.controllerTemperature += publishControllerTemperature
 vehicleReadings.packVoltage += publishPackVoltage
 vehicleEvents.onStandSwitch += publishStandState
 vehicleReadings.carbonOffset += publishCarbonOffset
+vehicleReadings.gpsLocation += publishCurrentLocation

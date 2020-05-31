@@ -3,7 +3,8 @@ let map;
 let geocoder;
 let destinationMarker, currentMarker;
 const initialZoomLevel = 16;
-const navigationZoomLevel = 19;
+const navigationZoomLevel = 22;
+let maneuvers;
 
 startMap();
 
@@ -100,8 +101,6 @@ function addListeners(){
         features: []
       }
     });
-
-    getRoute(currentLocation);
   });
 
   // Listen for the `result` event from the Geocoder
@@ -145,14 +144,14 @@ function getRoute(end) {
   // make a directions request using cycling profile
   // an arbitrary start will always be the same
   // only the end or destination will change
-  var start = [85.324, 27.717];
-  var url = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&overview=full&access_token=' + mapboxgl.accessToken;
+  var url = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + currentLocation[0] + ',' + currentLocation[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&overview=full&access_token=' + mapboxgl.accessToken;
 
   // make an XHR request https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
   var req = new XMLHttpRequest();
   req.open('GET', url, true);
   req.onload = function() {
     var json = JSON.parse(req.response);
+    maneuvers = json.routes[0].legs[0].steps;
     var data = json.routes[0];
     console.log(json);
     addSummaryToPanel(data);
@@ -194,18 +193,20 @@ function getRoute(end) {
           'line-opacity': 0.75
         }
       });
+      map.getSource('route').setData(geojson);
     }
     // add turn instructions here at the end
     closeKeyboard();
+    updateRouteToBackend(json.routes[0].geometry.coordinates)
   };
   req.send();
 }
 
 function addSummaryToPanel(route){
   let content = route.distance;
-   let distance = content / 1000;
-   document.getElementById('summary-distance').innerHTML = distance.toFixed(1) + 'km';
-   document.getElementById('summary-box').style.display = 'block';
+  let distance = content / 1000;
+  document.getElementById('summary-distance').innerHTML = distance.toFixed(1) + 'km';
+  document.getElementById('summary-box').style.display = 'block';
 }
   
 function addDirectionToPanel(route){
@@ -216,31 +217,30 @@ function addDirectionToPanel(route){
 }
 
 function findManeuverPoint(maneuver){
-  document.getElementById('navigation-button').style.display = 'none';
-  document.getElementById('end-navigation-button').style.display = 'block';
-  document.getElementById('maneuver-box').style.display = 'block';
+  // document.getElementById('navigation-button').style.display = 'none';
+  // document.getElementById('end-navigation-button').style.display = 'block';
+  // document.getElementById('maneuver-box').style.display = 'block';
   var closestManeuver,
   closestManeuverPoint,
   minDistance = Infinity;
-  console.log("Current Location: " + currentLocation);
-// calculate the closest maneuver
-maneuver.forEach(function(man) {
-  let currManeuverPoint = new H.geo.Point(
-    man.position.latitude, 
-    man.position.longitude
-  );
+
+  let currentLngLat = mapboxgl.LngLat.convert(currentLocation);
+  // console.log("Current Location: " + currentLocation);
+  // calculate the closest maneuver
+  maneuver.forEach(function(man) {
+  let currManeuverPoint = mapboxgl.LngLat.convert(man.maneuver.location);
   // console.log("Current Maneuver Point: " + currManeuverPoint);
-  let currDistance = currManeuverPoint.distance(testLocation);
-  console.log("Current Distance is: " + currDistance);
+  let currDistance = currManeuverPoint.distanceTo(currentLngLat);
+  // console.log("Current Distance is: " + currDistance);
   if (currDistance < minDistance) {
     minDistance = currDistance;
     closestManeuver = man;
     closestManeuverPoint = currManeuverPoint;
   }
 });
-console.log(closestManeuverPoint);
-console.log('closest maneuver (%s m) is at: {lat: %s, lng: %s}: \n %s', Math.round(minDistance), closestManeuverPoint.lat, closestManeuverPoint.lng, closestManeuver.instruction);
-document.getElementById('maneuver-box').innerHTML = closestManeuver.instruction;
+// console.log(closestManeuverPoint);
+console.log('closest maneuver (%s m) is at: {lat: %s, lng: %s}: \n %s', Math.round(minDistance), closestManeuverPoint.lat, closestManeuverPoint.lng, closestManeuver.maneuver.instruction);
+document.getElementById('maneuver-box').innerHTML = closestManeuver.maneuver.instruction;
 }
 
 function addPlaceToPanel(place){
@@ -275,10 +275,11 @@ function startNavigation(){
     });
   document.getElementById('start-navigation-button').style.display = 'none';
   document.getElementById('end-navigation-button').style.display = 'block';
-  document.getElementById('maneuver-box').style.display = 'block';
+  document.getElementById('maneuver-box').style.display = 'inline-block';
   document.getElementById('summary-box').style.display = 'block';
 
   // function to get the latitude and longitude of the vehicle and update it
+  eel.startNavigation()
 }
 
 function endNavigation(){
@@ -286,4 +287,16 @@ function endNavigation(){
   document.getElementById('end-navigation-button').style.display = 'none';
   document.getElementById('maneuver-box').style.display = 'none';
   document.getElementById('summary-box').style.display = 'none';
+}
+
+eel.expose(updateCurrentLocation);
+function updateCurrentLocation(location){
+  currentLocation = location;
+  currentMarker.setLngLat(currentLocation);
+  map.setCenter(currentLocation);
+  findManeuverPoint(maneuvers);
+}
+
+function updateRouteToBackend(route){
+  eel.updateRoute(route);
 }

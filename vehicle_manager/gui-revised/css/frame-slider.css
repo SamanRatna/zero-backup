@@ -287,8 +287,8 @@ flex-direction: column;
     display:none;
     width: 900px;
     height: 165px;
-    left: 70px;
-    top: 86px;
+    left: 20px;
+    top: 10px;
 
     background: #FFFFFF;
     border: 1px solid #C4C4C4;
@@ -299,6 +299,9 @@ flex-direction: column;
     color: black;
     padding-left: 5%;
     padding-top: 1%;
+    padding-bottom: 1%;
+    font-size: 60px;
+    z-index: 100;
 }
 
 #end-navigation-button{
