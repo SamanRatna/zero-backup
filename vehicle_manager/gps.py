@@ -3,6 +3,7 @@ import serial
 from event_handler import *
 import threading
 import time
+import math
 
 portwrite = "/dev/ttyUSB2"
 port = "/dev/ttyUSB1"
@@ -19,6 +20,7 @@ port = "/dev/ttyUSB1"
 
 class GPS():
     def __init__(self):
+        self.gpsHistory = []
         print("Connecting port")
         self.serw = serial.Serial(portwrite, baudrate = 115200, timeout = 1)
         self.serw.write(str.encode('AT+QGPS=1\r'))
@@ -61,6 +63,7 @@ class GPS():
             # print("time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s, Magnetic Variation : %s(%s),Checksum : %s "%    (time,lat,dirLat,lon,dirLon,speed,trCourse,date,variation,degree,checksum))
             # print("Latitude : ", lat)
             # print("Longitude: ", lon)
+            self.gpsHistory.append([lat,lon])
             vehicleReadings.gpsLocation(lat, lon)
             time.sleep(5.0)
         # else:
@@ -79,3 +82,18 @@ class GPS():
         while True:
            data = self.ser.readline()
            self.parseGPS(data)
+
+    def calculateHeading(self, location_a, location_b):
+        if (len(self.gpsHistory) < 3):
+            return
+        lat_a = self.gpsHistory[len(self.gpsHistory) - 1][0]
+        lat_b = self.gpsHistory[len(self.gpsHistory)][0]
+        lon_a = self.gpsHistory[len(self.gpsHistory) - 1][1]
+        lon_b = self.gpsHistory[len(self.gpsHistory)][0]
+
+        delta_lon = lon_b - lon_a
+        
+        x = math.cos(lat_b) * math.sin(delta_lon)
+        y = math.cos(lat_a) * math.sin(lat_b) - math.sin(lat_a)*math.cos(lat_b)*math.cos(delta_lon)
+        heading = math.atan2(x,y)
+        print('Heading: ', heading)

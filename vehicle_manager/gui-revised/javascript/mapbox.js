@@ -197,6 +197,7 @@ function getRoute(end) {
     }
     // add turn instructions here at the end
     closeKeyboard();
+    closeSearchBox();
     updateRouteToBackend(json.routes[0].geometry.coordinates)
   };
   req.send();
@@ -239,7 +240,7 @@ function findManeuverPoint(maneuver){
   }
 });
 // console.log(closestManeuverPoint);
-console.log('closest maneuver (%s m) is at: {lat: %s, lng: %s}: \n %s', Math.round(minDistance), closestManeuverPoint.lat, closestManeuverPoint.lng, closestManeuver.maneuver.instruction);
+// console.log('closest maneuver (%s m) is at: {lat: %s, lng: %s}: \n %s', Math.round(minDistance), closestManeuverPoint.lat, closestManeuverPoint.lng, closestManeuver.maneuver.instruction);
 document.getElementById('maneuver-box').innerHTML = closestManeuver.maneuver.instruction;
 }
 
@@ -289,6 +290,11 @@ function endNavigation(){
   document.getElementById('summary-box').style.display = 'none';
 }
 
+eel.expose(updateBearing);
+function updateBearing(bearing){
+  map.setBearing(-bearing);
+}
+
 eel.expose(updateCurrentLocation);
 function updateCurrentLocation(location){
   currentLocation = location;
@@ -299,4 +305,8 @@ function updateCurrentLocation(location){
 
 function updateRouteToBackend(route){
   eel.updateRoute(route);
+}
+
+function closeSearchBox(){
+  document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.add('mapboxgl-ctrl-geocoder--collapsed');
 }

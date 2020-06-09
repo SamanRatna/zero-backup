@@ -286,7 +286,7 @@ flex-direction: column;
     position: absolute;
     display:none;
     width: 900px;
-    height: 165px;
+    height: auto;
     left: 20px;
     top: 10px;
 
@@ -465,9 +465,13 @@ flex-direction: column;
     }
 
     .mapboxgl-ctrl-geocoder--suggestion-title{
+        height: 30px;
         margin-bottom: 10px;
     }
-
+    .mapboxgl-ctrl-geocoder--suggestion-address{
+        height: 30px;
+        margin-bottom: 10px;
+    }
     /* .geocoder {
         position: absolute;
         z-index: 1;

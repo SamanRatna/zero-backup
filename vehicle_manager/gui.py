@@ -112,6 +112,9 @@ def publishCurrentLocation(lat, lon):
     data = [lon, lat]
     eel.updateCurrentLocation(data)
 
+def publishHeading(heading):
+    eel.updateBearing(heading)
+
 @eel.expose
 def rebootBoard():
     print('Rebooting the computer...')
@@ -192,3 +195,4 @@ vehicleReadings.packVoltage += publishPackVoltage
 vehicleEvents.onStandSwitch += publishStandState
 vehicleReadings.carbonOffset += publishCarbonOffset
 vehicleReadings.gpsLocation += publishCurrentLocation
+vehicleReadings.heading += publishHeading
