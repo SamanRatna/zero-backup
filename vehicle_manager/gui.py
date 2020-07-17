@@ -184,6 +184,10 @@ def getGUIData():
 def updateUserActivityStatus(status):
     vehicleEvents.onUserInteraction(status)
 
+@eel.expose
+def getNetworkInfo():
+    info = Quectel.getInstance().getSimInfo()
+
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances

@@ -4,10 +4,11 @@ from gpio_manager import *
 from state_manager import StateManager
 from tail_light_controller import TailLightController
 from vmgr_compute import *
+from quectel import *
 import vehicle_states
 # import threading
-# import time
-# from gui import *
+import time
+from gui import *
 # from can_handler import *
 # from ble_advertisement import *
 # from gatt_server import *
@@ -32,7 +33,8 @@ def threadServer():
 
 def threadVehicleManager():
     startGUIThread()
-    gpsMgr = GPS()
+    quectel = Quectel.getInstance()
+    gpsMgr = GPS(quectel)
     stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
     # tlContoller = TailLightController(GPIOWriter.getInstance())
     powerManager = PowerManager()
@@ -40,14 +42,6 @@ def threadVehicleManager():
     vmgrComputer = VehicleInfoCalculator()
     # cany = CANHandler(GPIOWriter.getInstance())
     cany = CANHandler()
-# startGUIThread()
-# startAdvertisement()
-# startServer()
-# stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
-# tlContoller = TailLightController(GPIOWriter.getInstance())
-# gpioReader = GPIOReader.getInstance()
-# cany = CANHandler(GPIOWriter.getInstance())
-# vmgrComputer = VehicleInfoCalculator()
 
 if __name__ == '__main__':
     try:

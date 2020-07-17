@@ -1,36 +1,27 @@
-# from time import sleep
 import serial
 from event_handler import *
 import threading
 import time
 import math
-
-portwrite = "/dev/ttyUSB2"
-port = "/dev/ttyUSB1"
- 
-# print("Connecting port")
-# serw = serial.Serial(portwrite, baudrate = 115200, timeout = 1)
-# serw.write(str.encode('AT+QGPS=1\r'))
-# serw.close()
-# time.sleep(0.5)
- 
-# print("Receiving GPS data")
-# ser = serial.Serial(port, baudrate = 115200, timeout = 0.5)
+from quectel import *
+GPS_DATA_PORT = "/dev/ttyUSB1"
 
 
 class GPS():
-    def __init__(self):
+    def __init__(self, _gpsHandle):
+        self.gpsHandle = _gpsHandle
         self.gpsHistory = []
-        print("Connecting port")
-        self.serw = serial.Serial(portwrite, baudrate = 115200, timeout = 1)
-        self.serw.write(str.encode('AT+QGPS=1\r'))
-        self.serw.close()
-        time.sleep(0.5)
-
+        self.gpsHandle.enableGPS()
         print("Receiving GPS data")
-        self.ser = serial.Serial(port, baudrate = 115200, timeout = 0.5)
+        self.gpsPort = serial.Serial(GPS_DATA_PORT, baudrate = 115200, timeout = 0.5)
         self.tGPS = threading.Thread(target = self.startGPS)
         self.tGPS.start()
+    
+    def __del__(self):
+        self.gpsHandle.disableGPS()
+        self.gpsPort.close()
+                print("Destroyed GPS Object.")
+
     def parseGPS(self, data):
         decodedData = data.decode()
         # print(decodedData)
@@ -80,7 +71,7 @@ class GPS():
 
     def startGPS(self):
         while True:
-           data = self.ser.readline()
+           data = self.gpsPort.readline()
            self.parseGPS(data)
 
     def calculateHeading(self, location_a, location_b):
@@ -97,3 +88,8 @@ class GPS():
         y = math.cos(lat_a) * math.sin(lat_b) - math.sin(lat_a)*math.cos(lat_b)*math.cos(delta_lon)
         heading = math.atan2(x,y)
         print('Heading: ', heading)
+
+if __name__ == "__main__":
+    quectel = Quectel.getInstance()
+    gpsMgr = GPS(quectel)
+    
