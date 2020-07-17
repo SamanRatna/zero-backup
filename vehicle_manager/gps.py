@@ -20,7 +20,7 @@ class GPS():
     def __del__(self):
         self.gpsHandle.disableGPS()
         self.gpsPort.close()
-                print("Destroyed GPS Object.")
+        print("Destroyed GPS Object.")
 
     def parseGPS(self, data):
         decodedData = data.decode()

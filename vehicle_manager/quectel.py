@@ -6,13 +6,17 @@ GPS_DATA_PORT = "/dev/ttyUSB1"
 
 class Quectel():
     __instance__ = None
+    atCommandPort = None
 
     def __init__(self):
         """ Constructor.
         """
         if Quectel.__instance__ is None:
-            Quectel.__instance__ = self
-            self.atCommandPort = serial.Serial(AT_COMMAND_PORT, baudrate = 115200, timeout = 1)
+            self.initializeConnection()
+            if Quectel.atCommandPort:
+                Quectel.__instance__ = self
+            else:
+                return None
         else:
             raise Exception("You cannot create another Quectel object")
 
@@ -22,26 +26,40 @@ class Quectel():
         """
         if not Quectel.__instance__:
             Quectel()
+        elif not Quectel.atCommandPort:
+            self.initializeConnection()
         return Quectel.__instance__
+    
+    def initializeConnection(self):
+        if not Quectel.atCommandPort:
+            try:
+                Quectel.atCommandPort = serial.Serial(AT_COMMAND_PORT, baudrate = 115200, timeout = 1)
+            except (FileNotFoundError, serial.serialutil.SerialException) as error:
+                print(error)
+                return
 
     def __del__(self):
-        self.atCommandPort.close()
+        if Quectel.atCommandPort != None:
+            Quectel.atCommandPort.close()
         print("Destroyed Quectel Object.")
 
     def send(self, cmd):
-        self.atCommandPort.write(str.encode(cmd + '\r'))
+        try:
+            Quectel.atCommandPort.write(str.encode(cmd + '\r'))
+        except (OSError) as error:
+            print(error)
 
     def getWriteResponse(self):
-        self.atCommandPort.readline()
-        self.atCommandPort.flush()
-        responseEncoded = self.atCommandPort.readline()
+        Quectel.atCommandPort.readline()
+        Quectel.atCommandPort.flush()
+        responseEncoded = Quectel.atCommandPort.readline()
         return responseEncoded.decode()
 
     def getInfo(self, name):
         count = 0
         match = name + ':'
         while(count < MAX_COUNT):
-            responseEncoded = self.atCommandPort.readline()
+            responseEncoded = Quectel.atCommandPort.readline()
             response = responseEncoded.decode()
             # print(response)
             if(match in response):
@@ -71,7 +89,7 @@ class Quectel():
         cmd = "AT+QSIMSTAT?"
         name = "QSIMSTAT"
         self.send(cmd)
-        self.atCommandPort.readline()
+        Quectel.atCommandPort.readline()
         response = self.getInfo(name)
         print(response)
         insertionStatusReport = response[11]
