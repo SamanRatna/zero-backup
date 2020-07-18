@@ -148,6 +148,40 @@ class TestAdvertisement(Advertisement):
         self.include_tx_power = True
         self.add_data(0x26, [0x01, 0x01, 0x00])
 
+def deviceCb(*args, **kwargs):
+    for i, arg in enumerate(args):
+        # print("arg:%d        %s" % (i, str(arg)))
+        if(i==1):
+            try:
+                deviceName = arg['Name']
+                print("Device Name: ", deviceName)
+            except:
+                print("Device Name not found.")
+            
+            try:
+                isConnected = arg['Connected']
+                print("Device Connection: ", isConnected)
+            except:
+                print("Connected Property not found.")
+    # print('kwargs:')
+    # print(kwargs)
+    print('---end----')
+
+def connectionCb(*args, **kwargs):
+    for i, arg in enumerate(args):
+        # print("arg:%d        %s" % (i, str(arg)))
+        if(i==1):
+            try:
+                isConnected = arg["org.bluez.Device1"]["Connected"]
+                isPaired = arg["org.bluez.Device1"]["Paired"]
+                isTrusted = arg["org.bluez.Device1"]["Trusted"]
+                print(isConnected, isPaired, isTrusted)
+            except KeyError as error:
+                print("Key ", error, "not found")
+
+    # print('kwargs:')
+    # print(kwargs)
+    print('---end----')
 
 def register_ad_cb():
     print('Advertisement registered')
@@ -176,6 +210,21 @@ def main():
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
     bus = dbus.SystemBus()
+
+    #register your signal callback
+    bus.add_signal_receiver(deviceCb,
+            dbus_interface = "org.freedesktop.DBus.Properties",
+            signal_name = "PropertiesChanged",
+            arg0 = "org.bluez.Device1",
+            path_keyword = "path")
+    
+    bus.add_signal_receiver(connectionCb,
+            dbus_interface = "org.freedesktop.DBus.ObjectManager",
+            signal_name = "InterfacesAdded")
+    
+    # bus.add_signal_receiver(disconnectionCb,
+    #     dbus_interface = "org.freedesktop.DBus.ObjectManager",
+    #     signal_name = "InterfacesRemoved")
 
     adapter = find_adapter(bus)
     if not adapter:
