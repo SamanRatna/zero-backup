@@ -15,6 +15,7 @@ except ImportError:
   import gobject as GObject  # python2
 
 from random import randint
+from event_handler import *
 
 mainloop = None
 
