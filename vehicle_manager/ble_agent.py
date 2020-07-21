@@ -13,7 +13,7 @@ except ImportError:
   import gobject as GObject
 # import bluezutils
 from event_handler import *
-
+import threading
 BUS_NAME = 'org.bluez'
 AGENT_INTERFACE = 'org.bluez.Agent1'
 AGENT_PATH = "/test/agent"
@@ -43,7 +43,10 @@ class Rejected(dbus.DBusException):
 
 class Agent(dbus.service.Object):
 	exit_on_release = True
-
+	def __init__(self, bus, path):
+		super().__init__(bus, path)
+		vehicleEvents.onBluetoothPairingConfirmation += self.onBluetoothConfirmation
+		self.e = threading.Event()
 	def set_exit_on_release(self, exit_on_release):
 		self.exit_on_release = exit_on_release
 
@@ -91,14 +94,29 @@ class Agent(dbus.service.Object):
 
 	@dbus.service.method(AGENT_INTERFACE,
 					in_signature="ou", out_signature="")
+	# def RequestConfirmation(self, device, passkey):
+	# 	print("RequestConfirmation (%s, %06d)" % (device, passkey))
+	# 	confirm = ask("Confirm passkey (yes/no): ")
+	# 	if (confirm == "yes"):
+	# 		set_trusted(device)
+	# 		return
+	# 	raise Rejected("Passkey doesn't match")
+
 	def RequestConfirmation(self, device, passkey):
 		print("RequestConfirmation (%s, %06d)" % (device, passkey))
-		confirm = ask("Confirm passkey (yes/no): ")
-		print("Confirm = ", confirm)
-		if (confirm == "yes"):
+		vehicleEvents.confirmBluetoothPairing(passkey)
+		event_set = self.e.wait(8)
+		if(event_set):
 			set_trusted(device)
+			self.e.clear()
 			return
 		raise Rejected("Passkey doesn't match")
+
+
+	def onBluetoothConfirmation(self, confirmation):
+		print(confirmation)
+		if (confirmation == "yes"):
+			self.e.set()
 
 	@dbus.service.method(AGENT_INTERFACE,
 					in_signature="o", out_signature="")
@@ -136,7 +154,8 @@ def startAgent():
 
 	bus = dbus.SystemBus()
 
-	capability = "KeyboardDisplay"
+	# capability = "KeyboardDisplay"
+	capability = "NoInputNoOutput"
 
 	parser = OptionParser()
 	parser.add_option("-i", "--adapter", action="store",

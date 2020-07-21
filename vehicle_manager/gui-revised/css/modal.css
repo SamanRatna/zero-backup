@@ -333,6 +333,12 @@
 #ble-button-no{
   position: absolute;
   left: 55%;
-  
-  /* top: 22%; */
+}
+
+#modal-bluetooth-passkey{
+  position: absolute;
+  font-family: Barlow;
+  font-size: 70px;
+  top: 55%;
+  left: 50%;
 }

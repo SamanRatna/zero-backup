@@ -115,6 +115,13 @@ def publishCurrentLocation(lat, lon):
 def publishHeading(heading):
     eel.updateBearing(heading)
 
+def requestForBluetoothPairingConfirmation(passkey):
+    eel.requestBluetoothPairingConfirmation(passkey)
+
+@eel.expose
+def bluetoothPairingConfirmation(response):
+    vehicleEvents.onBluetoothPairingConfirmation(response)
+
 @eel.expose
 def rebootBoard():
     print('Rebooting the computer...')
@@ -200,3 +207,8 @@ vehicleEvents.onStandSwitch += publishStandState
 vehicleReadings.carbonOffset += publishCarbonOffset
 vehicleReadings.gpsLocation += publishCurrentLocation
 vehicleReadings.heading += publishHeading
+vehicleEvents.confirmBluetoothPairing += requestForBluetoothPairingConfirmation
+vehicleEvents.onBluetoothConnection += publishBluetoothStatus
+
+if __name__ == "__main__":
+    startGUIThread()

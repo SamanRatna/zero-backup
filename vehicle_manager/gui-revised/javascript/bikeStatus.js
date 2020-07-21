@@ -5,6 +5,7 @@ var highBeamStatus = 0;
 var speed = 0;
 var tripDistanceA = 0;
 var tripDistanceB = 0;
+var bluetoothPairingConfirmation = "no";
 
 function sliderButtonVisibility(visibility){
     if(visibility == "on"){
@@ -98,6 +99,22 @@ function updateControllerTemperature(temp){
     changeControllerTemperature(temp);
 }
 
+eel.expose(requestBluetoothPairingConfirmation);
+function requestBluetoothPairingConfirmation(passkey){
+    document.getElementById("modal-bluetooth-passkey").innerHTML = passkey;
+    openBluetoothModal();
+}
+
+// eel.expose(updateBluetoothStatus);
+// function updateBluetoothStatus(status){
+//     bluetooth = document.getElementById('notification-bluetooth');
+//     if(status){
+
+//     }
+//     else{
+//         bluetooth.style.display = 'none';
+//     }
+// }
 function initiateTripReset(){
     eel.resetTripData()
 }

@@ -129,8 +129,21 @@ let blePairNo = document.getElementById("ble-button-no");
 
 blePairNo.onclick = function(){
     closeModal();
+    eel.bluetoothPairingConfirmation("no")
 }
 
 blePairYes.onclick = function() {
     closeModal();
+    eel.bluetoothPairingConfirmation("yes")
+}
+
+function openBluetoothModal(){
+    modal=bluetoothModal;
+    bluetoothModal.className = "Modal is-visuallyHidden";
+    setTimeout(function() {
+    //   container.className = "MainContainer is-blurred";
+    // container.classList.add("is-blurred");
+    bluetoothModal.className = "Modal";
+    }, 100);
+    container.parentElement.className = "ModalOpen";
 }

@@ -1,12 +1,11 @@
 #!/usr/bin/python
 
 from __future__ import print_function
-
 import dbus
 import dbus.exceptions
 import dbus.mainloop.glib
 import dbus.service
-
+from event_handler import *
 import array
 
 try:
@@ -15,7 +14,7 @@ except ImportError:
   import gobject as GObject  # python2
 
 from random import randint
-from event_handler import *
+
 
 mainloop = None
 
@@ -151,38 +150,25 @@ class TestAdvertisement(Advertisement):
 
 def deviceCb(*args, **kwargs):
     for i, arg in enumerate(args):
-        # print("arg:%d        %s" % (i, str(arg)))
         if(i==1):
-            try:
+            if 'Name' in arg:
                 deviceName = arg['Name']
                 print("Device Name: ", deviceName)
-            except:
-                print("Device Name not found.")
-            
-            try:
+
+            if 'Connected' in arg:
                 isConnected = arg['Connected']
-                print("Device Connection: ", isConnected)
-            except:
-                print("Connected Property not found.")
-    # print('kwargs:')
-    # print(kwargs)
-    print('---end----')
+                vehicleEvents.onBluetoothConnection(isConnected)
 
 def connectionCb(*args, **kwargs):
     for i, arg in enumerate(args):
-        # print("arg:%d        %s" % (i, str(arg)))
         if(i==1):
-            try:
+            if 'Connected' in arg['org.bluez.Device1']:
                 isConnected = arg["org.bluez.Device1"]["Connected"]
+            if 'Paired' in arg['org.bluez.Device1']:
                 isPaired = arg["org.bluez.Device1"]["Paired"]
+            if 'Trusted' in arg['org.bluez.Device1']:
                 isTrusted = arg["org.bluez.Device1"]["Trusted"]
-                print(isConnected, isPaired, isTrusted)
-            except KeyError as error:
-                print("Key ", error, "not found")
-
-    # print('kwargs:')
-    # print(kwargs)
-    print('---end----')
+            vehicleEvents.onBluetoothConnection(isConnected)
 
 def register_ad_cb():
     print('Advertisement registered')
@@ -197,15 +183,14 @@ def find_adapter(bus):
     remote_om = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, '/'),
                                DBUS_OM_IFACE)
     objects = remote_om.GetManagedObjects()
-
+    
     for o, props in objects.items():
         if LE_ADVERTISING_MANAGER_IFACE in props:
             return o
 
     return None
 
-
-def main():
+def startAdvertisement():
     global mainloop
 
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
@@ -222,40 +207,6 @@ def main():
     bus.add_signal_receiver(connectionCb,
             dbus_interface = "org.freedesktop.DBus.ObjectManager",
             signal_name = "InterfacesAdded")
-    
-    # bus.add_signal_receiver(disconnectionCb,
-    #     dbus_interface = "org.freedesktop.DBus.ObjectManager",
-    #     signal_name = "InterfacesRemoved")
-
-    adapter = find_adapter(bus)
-    if not adapter:
-        print('LEAdvertisingManager1 interface not found')
-        return
-
-    adapter_props = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter),
-                                   "org.freedesktop.DBus.Properties");
-
-    adapter_props.Set("org.bluez.Adapter1", "Powered", dbus.Boolean(1))
-
-    ad_manager = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter),
-                                LE_ADVERTISING_MANAGER_IFACE)
-
-    test_advertisement = TestAdvertisement(bus, 0)
-
-    mainloop = GObject.MainLoop()
-
-    ad_manager.RegisterAdvertisement(test_advertisement.get_path(), {},
-                                     reply_handler=register_ad_cb,
-                                     error_handler=register_ad_error_cb)
-
-    mainloop.run()
-
-def startAdvertisement():
-    global mainloop
-
-    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-
-    bus = dbus.SystemBus()
 
     adapter = find_adapter(bus)
     if not adapter:
@@ -281,4 +232,4 @@ def startAdvertisement():
     mainloop.run()
 
 if __name__ == '__main__':
-    main()
+    startAdvertisement()

@@ -83,6 +83,7 @@ function updateSideLight(status){
 
 eel.expose(updateBluetoothStatus);
 function updateBluetoothStatus(status){
+    console.log("Bluetooth Status: " + status)
     if(status =='1'){
         bluetooth.style.display = 'block';
     }
