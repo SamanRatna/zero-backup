@@ -3,12 +3,15 @@ var modal;
 var socModal = document.getElementById('range2-modal');
 // var tripResetModal = document.getElementById("tripResetModal");
 var naviModal = document.getElementById("navigation-modal");
+var bluetoothModal = document.getElementById("bluetooth-modal");
+
 // Get the main container and the body
 var body = document.getElementsByTagName('body');
 var container = document.getElementById('page-zero');
 
 // Open button for SOC/Range
 var socOpen = document.getElementById("soc-status");
+var bluetoothOpen = document.getElementById("speed-status-value");
 
 // Open button for trip reset
 // var tripResetOpen = document.getElementById("infocard-trips");
@@ -33,6 +36,21 @@ socOpen.onclick = function() {
         console.log('Closing the SOC modal.')
         closeModal();
     }, 10000);
+}
+
+bluetoothOpen.onclick = function() {
+    modal=bluetoothModal;
+    bluetoothModal.className = "Modal is-visuallyHidden";
+    setTimeout(function() {
+    //   container.className = "MainContainer is-blurred";
+    // container.classList.add("is-blurred");
+    bluetoothModal.className = "Modal";
+    }, 100);
+    container.parentElement.className = "ModalOpen";
+    // setTimeout(function(){
+    //     console.log('Closing the SOC modal.')
+    //     closeModal();
+    // }, 10000);
 }
 
 // Open the reset trip modal
@@ -102,3 +120,17 @@ function closeModal() {
 //         closeModal();
 //     }, 2000);
 // }
+
+
+// Bluetooth
+let blePairYes = document.getElementById("ble-button-yes");
+let blePairNo = document.getElementById("ble-button-no");
+
+
+blePairNo.onclick = function(){
+    closeModal();
+}
+
+blePairYes.onclick = function() {
+    closeModal();
+}
