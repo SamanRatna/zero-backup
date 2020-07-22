@@ -75,10 +75,13 @@ def publishAverageSpeeds(odoAverage, tripAverage):
 def publishDistances(odometer, tripDistance):
     eel.updateDistances(round(odometer), round(tripDistance))
 
-def publishBluetoothStatus(status):
-    eel.updateBluetoothStatus(status)
+def publishAdvertisementStatus(status):
+    eel.updateAdvertisementStatus(status)
     global bluetooth
     bluetooth = status
+
+def publishBluetoothStatus(name, status):
+    eel.updateBluetoothStatus(name, status)
 
 def publishBatteryTemperature(temp):
     eel.updateBatteryTemperature(temp)
@@ -198,7 +201,7 @@ def getNetworkInfo():
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances
-vehicleEvents.onBLEReady += publishBluetoothStatus
+vehicleEvents.onBLEReady += publishAdvertisementStatus
 vehicleReadings.batteryTemperature += publishBatteryTemperature
 vehicleReadings.motorTemperature += publishMotorTemperature
 vehicleReadings.controllerTemperature += publishControllerTemperature

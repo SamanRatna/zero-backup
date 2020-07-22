@@ -81,9 +81,20 @@ function updateSideLight(status){
     }
 }
 
+eel.expose(updateAdvertisementStatus);
+function updateAdvertisementStatus(status){
+    console.log("Bluetooth Advertisement Status: " + status)
+    if(status =='1'){
+        bluetooth.style.display = 'block';
+    }
+    else if(status == '0'){
+        bluetooth.style.display = 'none';
+    }
+}
+
 eel.expose(updateBluetoothStatus);
-function updateBluetoothStatus(status){
-    console.log("Bluetooth Status: " + status)
+function updateBluetoothStatus(name, status){
+    console.log("Bluetooth Status: " + name + " : " +status)
     if(status =='1'){
         bluetooth.style.display = 'block';
     }

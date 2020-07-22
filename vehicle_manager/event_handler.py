@@ -74,8 +74,8 @@ def confirmBluetoothPairing(data):
     print(data)
 def respondBluetoothPairing(data):
     print(data)
-def bluetoothConnection(data):
-    print("Bluetooth Connection: ", data)
+def bluetoothConnection(name, data):
+    print("Bluetooth Connection: ",name, data)
 
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress

@@ -17,7 +17,7 @@ from random import randint
 
 
 mainloop = None
-
+devices = {}
 BLUEZ_SERVICE_NAME = 'org.bluez'
 LE_ADVERTISING_MANAGER_IFACE = 'org.bluez.LEAdvertisingManager1'
 DBUS_OM_IFACE = 'org.freedesktop.DBus.ObjectManager'
@@ -45,6 +45,33 @@ class InvalidValueLengthException(dbus.exceptions.DBusException):
 class FailedException(dbus.exceptions.DBusException):
     _dbus_error_name = 'org.bluez.Error.Failed'
 
+class Devices:
+    def __init__(self):
+        self.devices = {}
+    def updateConnection(self, deviceHandle, connection):
+        self.devices[deviceHandle]["Connected"] = connection
+        vehicleEvents.onBluetoothConnection(self.devices[deviceHandle]["Alias"], self.devices[deviceHandle]["Connected"])
+        print(self.devices)
+    def updateName(self, deviceHandle, name):
+        self.devices[deviceHandle]["Name"] = name
+        print(self.devices)
+    def updateAlias(self, deviceHandle, alias):
+        self.devices[deviceHandle]["Alias"] = alias
+        print(self.devices)
+    def updateTrust(self, deviceHandle, trust):
+        self.devices[deviceHandle]["Trusted"] = trust
+        print(self.devices)
+    def updatePairing(self, deviceHandle, pairing):
+        self.devices[deviceHandle]["Pairing"] = pairing
+        print(self.devices)
+    def updateAddress(self, deviceHandle, address):
+        self.devices[deviceHandle]["Address"] = address
+        print(self.devices)
+    def updateAddressType(self, deviceHandle, addressType):
+        self.devices[deviceHandle]["AddressType"] = addressType
+        print(self.devices)
+
+bluetoothDevices = Devices()
 
 class Advertisement(dbus.service.Object):
     PATH_BASE = '/org/bluez/example/advertisement'
@@ -148,27 +175,34 @@ class TestAdvertisement(Advertisement):
         self.include_tx_power = True
         self.add_data(0x26, [0x01, 0x01, 0x00])
 
-def deviceCb(*args, **kwargs):
+def propertiesChangedCb(*args, **kwargs):
+    global devices
+    global bluetoothDevices
     for i, arg in enumerate(args):
         if(i==1):
             if 'Name' in arg:
-                deviceName = arg['Name']
+                deviceName = str(arg['Name'])
                 print("Device Name: ", deviceName)
+                bluetoothDevices.updateName("org.bluez.Device1", deviceName)            
 
             if 'Connected' in arg:
-                isConnected = arg['Connected']
-                vehicleEvents.onBluetoothConnection(isConnected)
+                isConnected = bool(arg['Connected'])
+                bluetoothDevices.updateConnection("org.bluez.Device1", isConnected)
 
-def connectionCb(*args, **kwargs):
+def interfacesAddedCb(*args, **kwargs):
     for i, arg in enumerate(args):
         if(i==1):
             if 'Connected' in arg['org.bluez.Device1']:
-                isConnected = arg["org.bluez.Device1"]["Connected"]
+                isConnected = bool(arg["org.bluez.Device1"]["Connected"])
+                bluetoothDevices.updateConnection("org.bluez.Device1", isConnected)
+
             if 'Paired' in arg['org.bluez.Device1']:
-                isPaired = arg["org.bluez.Device1"]["Paired"]
+                isPaired = bool(arg["org.bluez.Device1"]["Paired"])
+                bluetoothDevices.updatePairing("org.bluez.Device1", isPaired)
+
             if 'Trusted' in arg['org.bluez.Device1']:
-                isTrusted = arg["org.bluez.Device1"]["Trusted"]
-            vehicleEvents.onBluetoothConnection(isConnected)
+                isTrusted = bool(arg["org.bluez.Device1"]["Trusted"])
+                bluetoothDevices.updateTrusted("org.bluez.Device1", isTrusted)
 
 def register_ad_cb():
     print('Advertisement registered')
@@ -183,12 +217,37 @@ def find_adapter(bus):
     remote_om = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, '/'),
                                DBUS_OM_IFACE)
     objects = remote_om.GetManagedObjects()
-    
+
     for o, props in objects.items():
         if LE_ADVERTISING_MANAGER_IFACE in props:
             return o
 
     return None
+
+def find_devices(bus):
+    global bluetoothDevices
+    remote_om = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, '/'),
+                               DBUS_OM_IFACE)
+    objects = remote_om.GetManagedObjects()
+
+    for o, props in objects.items():
+        if "org.bluez.Device1" in props:
+            device = {}
+            if "Name" in props["org.bluez.Device1"]:
+                device["Name"] = str(props["org.bluez.Device1"]["Name"])
+            if "Alias" in props["org.bluez.Device1"]:
+                device["Alias"] = str(props["org.bluez.Device1"]["Alias"])
+            if "Address" in props["org.bluez.Device1"]:
+                device["Address"] = str(props["org.bluez.Device1"]["Address"])
+            if "Trusted" in props["org.bluez.Device1"]:
+                device["Trusted"] = bool(props["org.bluez.Device1"]["Trusted"])
+            if "Paired" in props["org.bluez.Device1"]:
+                device["Trusted"] = bool(props["org.bluez.Device1"]["Paired"])
+            if "Connected" in props["org.bluez.Device1"]:
+                device["Trusted"] = bool(props["org.bluez.Device1"]["Connected"])
+            bluetoothDevices.devices["org.bluez.Device1"] = device
+    print(bluetoothDevices.devices)
+    return
 
 def startAdvertisement():
     global mainloop
@@ -198,13 +257,13 @@ def startAdvertisement():
     bus = dbus.SystemBus()
 
     #register your signal callback
-    bus.add_signal_receiver(deviceCb,
+    bus.add_signal_receiver(propertiesChangedCb,
             dbus_interface = "org.freedesktop.DBus.Properties",
             signal_name = "PropertiesChanged",
             arg0 = "org.bluez.Device1",
             path_keyword = "path")
     
-    bus.add_signal_receiver(connectionCb,
+    bus.add_signal_receiver(interfacesAddedCb,
             dbus_interface = "org.freedesktop.DBus.ObjectManager",
             signal_name = "InterfacesAdded")
 
@@ -212,7 +271,7 @@ def startAdvertisement():
     if not adapter:
         print('LEAdvertisingManager1 interface not found')
         return
-
+    find_devices(bus)
     adapter_props = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter),
                                    "org.freedesktop.DBus.Properties");
 
