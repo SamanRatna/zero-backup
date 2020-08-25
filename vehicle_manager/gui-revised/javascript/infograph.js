@@ -1,18 +1,11 @@
-$(document).ready(function () {
-    //speed button	
-    $('#infograph-btn-speed').click(function () {
-        $('#temperature-infograph').css('display','block');
-        $('#speed-infograph').css('display','none');
+document.getElementById('js-speed-unit-toggle').addEventListener('click', function(){
+    document.getElementById('js-speed-label-km').classList.toggle('active');
+    document.getElementById('js-speed-label-mile').classList.toggle('active');
+    document.getElementById('js-speed-unit-button').classList.toggle('toggled');
+});
 
-    });
-    $('#infograph-btn-temperature').click(function () {
-        $('#carbon-infograph').css('display','block');
-        $('#temperature-infograph').css('display','none');
-
-    });
-    $('#infograph-btn-carbon').click(function () {
-        $('#speed-infograph').css('display','block');
-        $('#carbon-infograph').css('display','none');
-
-    });
-});//DOCUMENT READY
+document.getElementById('js-temperature-unit-toggle').addEventListener('click', function(){
+    document.getElementById('js-temperature-label-c').classList.toggle('active');
+    document.getElementById('js-temperature-label-f').classList.toggle('active');
+    document.getElementById('js-temperature-unit-button').classList.toggle('toggled');
+});

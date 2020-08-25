@@ -1,134 +1,171 @@
-var leftTurnStatus = 0;
-var rightTurnStatus = 0;
-var modeValue = 3;
-var highBeamStatus = 0;
-var speed = 0;
-var tripDistanceA = 0;
-var tripDistanceB = 0;
-var bluetoothPairingConfirmation = "no";
+// Function to update the speed and power in the dashboard
+function updateSpeedPower(speed, power){
+    document.getElementById('js-speed-value').innerHTML = speed;
 
-function sliderButtonVisibility(visibility){
-    if(visibility == "on"){
-        document.getElementById('slider-wrap').classList.add("active");
-    }
-    else if (visibility == "off") {
-        document.getElementById('slider-wrap').classList.remove("active");
-    }
-}
-
-function updateSpeed(speed){
-    if(speed > 15){
-        sliderButtonVisibility("off")
+    if(speed > 1){
+        document.getElementById('js-trip-reset').classList.add('trip-reset-deactivated');
     }
     else{
-        sliderButtonVisibility("on")
+        document.getElementById('js-trip-reset').classList.remove('trip-reset-deactivated');
     }
 }
 
-
-eel.expose(updateBikeMode);
-function updateBikeMode(arg) {
-    console.log(arg + ' from main');
-    setMode(arg);
+// Function to update the bike mode in the dashboard
+let currentBikeMode = 'MODE_STANDBY'
+let bikeModeStandby = document.getElementById('js-bikemode-standby');
+let bikeModeSuste = document.getElementById('js-bikemode-suste');
+let bikeModeThikka = document.getElementById('js-bikemode-thikka');
+let bikeModeBabbal = document.getElementById('js-bikemode-babbal');
+let bikeModeReverse = document.getElementById('js-bikemode-reverse');
+let modeScroller = document.getElementById('js-mode-scroller');
+function updateBikeMode(mode){
+    switch(currentBikeMode){
+        case 'MODE_STANDBY':
+            bikeModeStandby.classList.toggle('mode-indicator-active');
+            break;
+        case 'MODE_SUSTE':
+            bikeModeSuste.classList.toggle('mode-indicator-active');
+            break;        
+        case 'MODE_THIKKA':
+            bikeModeThikka.classList.toggle('mode-indicator-active');
+            break;
+        case 'MODE_BABBAL':
+            bikeModeBabbal.classList.toggle('mode-indicator-active');
+            break;
+        case 'MODE_REVERSE':
+            bikeModeReverse.classList.toggle('mode-indicator-active');
+            break;
+    }
+    switch(mode){
+        case 'MODE_STANDBY':
+            bikeModeStandby.classList.toggle('mode-indicator-active');
+            modeScroller.style.marginTop = '-45px';
+            break;
+        case 'MODE_SUSTE':
+            bikeModeSuste.classList.toggle('mode-indicator-active');
+            modeScroller.style.marginTop = '-92px';
+            break;        
+        case 'MODE_THIKKA':
+            bikeModeThikka.classList.toggle('mode-indicator-active');
+            modeScroller.style.marginTop = '-138px';
+            break;
+        case 'MODE_BABBAL':
+            bikeModeBabbal.classList.toggle('mode-indicator-active');
+            modeScroller.style.marginTop = '-184px';
+            break;
+        case 'MODE_REVERSE':
+            bikeModeReverse.classList.toggle('mode-indicator-active');
+            modeScroller.style.marginTop = '0px';
+            break;
+    }
+    currentBikeMode = mode;
 }
 
-let statusSpeed2 = document.getElementById('speed-status-value');
-eel.expose(updateSpeedPower);
-function updateSpeedPower(speed, power) {
-    statusSpeed2.innerHTML = speed;
-    setSpeed(speed);
-    document.getElementById('power-status-value').innerHTML = power;
-    // console.log('CAN: Speed= '+speed+ ' Power= '+ power)
-}
-eel.expose(updateSOC);
-function updateSOC(soc, rangeSuste,rangeThikka, rangeBabbal) {
-    document.getElementById('soc-status-value').innerHTML = soc;
-    // document.getElementById('engg-battery-status').innerHTML = soc;
-    document.getElementById('range-suste').innerHTML = rangeSuste;
-    document.getElementById('range-thikka').innerHTML = rangeThikka;
-    document.getElementById('range-babbal').innerHTML = rangeBabbal;
-    // console.log('CAN: SOC= '+ soc)
+
+// Function to update the battery level in the dashboard
+let soc = document.getElementById('js-battery-value');
+let batteryLevel = document.getElementById('js-battery-level');
+let batteryCap = document.getElementById('js-battery-cap');
+let range = document.getElementById('js-range');
+function updateSOC(socData, suste, thikka, babbal){
+    soc.innerHTML = socData + '%';
+    batteryLevel.style.height = socData + '%';
+
+    if(socData == 100){
+        batteryCap.style.background = '#30D5C8';
+    }
+    else{
+        batteryCap.style.background = 'rgba(48, 213, 200, 0.4)';
+    }
+
+    range.innerHTML = thikka;
 }
 
-eel.expose(updateOdometer)
-function updateOdometer(odometer, tripOdo) {
-    document.getElementById('odo-info-value').innerHTML = odometer;
-    document.getElementById('trip-info-value').innerHTML = tripOdo;
-}
-eel.expose(updateChargingStatus);
-function updateChargingStatus(status, current, timeToCharge) {
-    // document.getElementById('engg-charging-status').innerHTML = status;
-    // document.getElementById('engg-charging-current').innerHTML = current;
-    // document.getElementById('engg-charge-time').innerHTML = timeToCharge;
+
+// Function to update the odometer and trip distances
+let odoDistance = document.getElementById('js-odo-distance');
+let tripDistance = document.getElementById('js-trip-distance');
+function updateDistances(odo, trip){
+    odoDistance.innerHTML = odo;
+    tripDistance.innerHTML = trip;
 }
 
-eel.expose(updateSpeedInfograph);
-function updateSpeedInfograph(maxSpeed, odoAverage, tripAverage) {
-    console.log('updatingSpeedInfograph');
-    setAverageSpeed(maxSpeed, odoAverage, tripAverage);
+// Function to update the turn signals
+// turnSignal format (leftTurnSignalStatus, rightTurnSignalStatus)
+let rightTurnSignal = document.getElementById('js-right-turn');
+let leftTurnSignal = document.getElementById('js-left-turn');
+let highBeamSignal = document.getElementById('js-high-beam');
+let lowBeamSignal = document.getElementById('js-low-beam');
+function updateTurnSignals(turnSignal){
+    switch(turnSignal){
+        case 0:
+            rightTurnSignal.classList.remove('turn-signal-active');
+            leftTurnSignal.classList.remove('turn-signal-active');
+            break;
+        case 1:
+            rightTurnSignal.classList.add('turn-signal-active');
+            leftTurnSignal.classList.remove('turn-signal-active');
+            break;
+        case 2:
+            rightTurnSignal.classList.remove('turn-signal-active');
+            leftTurnSignal.classList.add('turn-signal-active');
+            break;
+        case 3:
+            rightTurnSignal.classList.add('turn-signal-active');
+            leftTurnSignal.classList.add('turn-signal-active');
+            break;
+    }
+}
+// Function to update the turn signals
+// headlight signal format (lowBeamStatus, highBeamStatus)
+function updateHeadlightSignals(headlightSignal){
+    switch(headlightSignal){
+        case 0:
+            lowBeamSignal.classList.remove('low-beam-active');
+            highBeamSignal.classList.remove('high-beam-active');
+            break;
+        case 1:
+            lowBeamSignal.classList.remove('low-beam-active');
+            highBeamSignal.classList.add('high-beam-active');
+            break;
+        case 2:
+            lowBeamSignal.classList.add('low-beam-active');
+            highBeamSignal.classList.remove('high-beam-active');
+            break;
+        case 3:
+            lowBeamSignal.classList.add('low-beam-active');
+            highBeamSignal.classList.add('high-beam-active');
+            break;
+    }
 }
 
-eel.expose(updateMaxSpeed);
-function updateMaxSpeed(value){
-    setMaxSpeed(value);
+// Function to update the kick stand state
+function updateStandState(standState){
+    if(standState){
+        setKickstandSignalVisibility(true);
+    }
+    else{
+        setKickstandSignalVisibility(false);
+    }
 }
-
-eel.expose(updateAverageSpeeds);
-function updateAverageSpeeds(odo, trip){
-    setAverageSpeeds(odo, trip);
-}
-
-eel.expose(updateDistances)
-function updateDistances(odometer, tripOdo) {
-    document.getElementById('odo-info-value').innerHTML = odometer;
-    document.getElementById('trip-info-value').innerHTML = tripOdo;
-}
-
-eel.expose(updateBatteryTemperature);
-function updateBatteryTemperature(temp){
-    changeBatteryTemperature(temp);
-}
-
-eel.expose(updateMotorTemperature);
-function updateMotorTemperature(temp){
-    changeMotorTemperature(temp);
-}
-
-eel.expose(updateControllerTemperature);
-function updateControllerTemperature(temp){
-    changeControllerTemperature(temp);
-}
-
-eel.expose(requestBluetoothPairingConfirmation);
+// Bluetooth
 function requestBluetoothPairingConfirmation(passkey){
-    document.getElementById("modal-bluetooth-passkey").innerHTML = passkey;
-    openBluetoothModal();
+    document.getElementById('js-bluetooth-passkey').innerHTML = passkey;
+    setBluetoothNotificationVisibility(true);
 }
+document.getElementById('js-ble-button-yes').addEventListener('click',function(){
+    setBluetoothNotificationVisibility(true);
+    respondBluetoothPairing('yes');  
+});
+document.getElementById('js-ble-button-no').addEventListener('click',function(){
+    setBluetoothNotificationVisibility(false);
+    respondBluetoothPairing('no');  
+});
 
-// eel.expose(updateBluetoothStatus);
-// function updateBluetoothStatus(status){
-//     bluetooth = document.getElementById('notification-bluetooth');
-//     if(status){
 
-//     }
-//     else{
-//         bluetooth.style.display = 'none';
-//     }
-// }
-function initiateTripReset(){
-    eel.resetTripData()
-}
-
-function initializeGUI(){
-    eel.getGUIData()
-}
-
-// eel.expose(updateGUIData)
-// function updateGUIData(maxSpeed){
-//     setMaxSpeed(maxSpeed);
-// }
-document.addEventListener("click", function(){
-    console.log('Page Active.')
-    eel.updateUserActivityStatus(1);
-  });
-initializeGUI();
+// Connectivity Settings
+document.getElementById('js-settings-connectivity').addEventListener('click', function(){
+    document.getElementById('js-settings-connectivity').classList.toggle('settings-connectivity-selected');
+    document.getElementById('js-connectivity-pane').classList.toggle('right-pane-visible');
+    document.getElementById('js-infographics-pane').classList.toggle('right-pane-visible');
+})

@@ -1,7 +1,5 @@
 let el;
-
 let Keyboard = window.SimpleKeyboard.default;
-
 let myKeyboard = new Keyboard({
   onChange: input => onChange(input),
   onKeyPress: button => onKeyPress(button),
@@ -25,14 +23,15 @@ let myKeyboard = new Keyboard({
   },
   display: {
     "{numbers}": "123",
-    "{ent}": "return",
+    // "{ent}": "↵",
+    "{ent}": "↵",
     "{escape}": "esc ⎋",
     "{tab}": "tab ⇥",
-    // "{backspace}": "⌫",
-    "{backspace}": "del",
+    "{backspace}": "⌫",
+    // "{backspace}": "del",
     "{capslock}": "caps lock ⇪",
-    // "{shift}": "⇧",
-    "{shift}": "shift",
+    "{shift}": "⇧",
+    // "{shift}": "shift",
     "{controlleft}": "ctrl ⌃",
     "{controlright}": "ctrl ⌃",
     "{altleft}": "alt ⌥",
@@ -65,53 +64,38 @@ function onChange(input) {
   document.querySelector(".mapboxgl-ctrl-geocoder--input").value = input;
   console.log("Input changed", input);
   triggerEvent('keydown');
-
-  // autoCompleteListenerX(input)
 }
 
 function onKeyPress(button) {
+  triggerEvent('keydown');
   if (button === "{shift}" || button === "{lock}") handleShift();
   if (button === "{numbers}" || button === "{abc}") handleNumbers();
 
   if(button == "{ent}"){
     console.log("Enter Pressed.");
-    closeKeyboard();
+    // closeKeyboard();
   }
 }
 
 let keyboardStatus = 'closed';
+let keyboardHandle = document.getElementById('js-keyboard');
 function openKeyboard() {
   if(keyboardStatus != 'closed'){
     return;
-}
-myKeyboard.clearInput();
-sKeyboard.style.display = 'block';
-keyboardStatus = 'open';
-}
-function closeKeyboard() {
-    if(keyboardStatus != 'open'){
-        return;
-    }
-    myKeyboard.clearInput();
-    sKeyboard.style.display = 'none';
-    keyboardStatus = 'closed';
-    // closeSearchBox();
-    // clearOldSuggestions();
+  }
+  myKeyboard.clearInput();
+  keyboardHandle.style.display = 'block';
+  keyboardStatus = 'open';
 }
 
-// let searchBar = 'closed';
-function initKeyboardListener(){
-  el = document.querySelector('input[type="text"]');
-  document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('transitionstart', function(){
-    let status=true;
-    status = document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.contains('mapboxgl-ctrl-geocoder--collapsed');
-    if(status == true){
-      closeKeyboard();
-    }
-    else {
-      openKeyboard();
-    }
-  });
+function closeKeyboard() {
+  console.log('closeKeyboard function called.')
+  if(keyboardStatus != 'open'){
+      return;
+  }
+  myKeyboard.clearInput();
+  keyboardHandle.style.display = 'none';
+  keyboardStatus = 'closed';
 }
 
 function triggerEvent(type){

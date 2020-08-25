@@ -1,0 +1,350 @@
+.settings-page {
+    position: absolute;
+    width: 1200px;
+    height: 1920px;
+
+    background: rgb(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    z-index: 5;
+    display: flex;
+}
+
+.settings-page-body {
+    width: 1100px;
+    height: 1700px;
+
+    background: #FFFFFF;
+    border-radius: 20px;
+    z-index: 5;
+    margin: auto;
+    display: flex;
+}
+
+.settings-pane-left {
+    height: 90%;
+    width: 30%;
+    margin: auto;
+}
+.settings-pane-divider{
+    height: 90%;
+    width: 0.3%;
+    margin: auto;
+    display: flex;
+    background: #E2E2E2;
+}
+.settings-pane-right {
+    height: 90%;
+    width: 69%;
+    margin: auto;
+    /* display: flex;
+    flex-direction: column; */
+    position: relative;
+}
+
+
+.settings-connectivity {
+    height: 380px;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10%;
+    border-radius: 30px;
+    margin-bottom: 10%;
+}
+.settings-connectivity-selected {
+    background: #EAEAEA;
+}
+.connectivity-option {
+    height: 50%;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.connectivity-icon {
+    margin: auto;
+    height: 85%;
+    width: 100%;
+    display: flex;
+}
+.connectivity-label{
+    margin: auto;
+    height: 15%;
+    width: 100%;
+    display: flex;
+}
+.connectivity-label > p {
+    margin: auto;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    color: #5A5A5A;
+}
+.settings-performance {
+    height: 88px;
+    width: 186px;
+    margin:  31px auto;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    display: flex;
+    text-align: center;
+}
+.settings-performance > p {
+    margin: auto;
+    font-weight: 800;
+    font-size: 25px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+    color: #898989;
+    
+}
+.settings-brightness{
+    width: 90%;
+    height: 600px;
+    margin: auto;
+}
+.settings-account{
+    width: 90%;
+    height: 300px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.settings-divider-horizontal{
+    width: 75%;
+    height: 2px;
+    background: #E2E2E2;
+    margin: auto;
+}
+
+.icon-bluetooth {
+    background-image: url('../icons/bluetooth-icon.svg');
+    background-repeat: no-repeat;
+    height: 90%;
+    min-width: 90%;
+    margin: auto;
+}
+.connectivity-icon > img {
+    margin: auto auto;
+}
+
+.account-icon {
+    width: 80%;
+    height: 65%;
+    margin: auto;
+    display: flex;
+}
+.account-icon > img {
+    margin: auto;
+}
+.account-text {
+    width: 80%;
+    height: 35%;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.account-person{
+    margin: auto;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 48px;
+    
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+    color: #5A5A5A;
+}
+.account-vehicle{
+    margin: auto;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 36px;    
+    display: flex;
+    align-items: center;
+    
+    color: #898989;
+}
+.infograph {
+    margin: auto;
+    width: 85%;
+    height: 30%;
+}
+.infograph-header {
+    height: 15%;
+    width: 100%;
+    display: flex;
+}
+.infograph-title {
+    height: 100%;
+    width: 65%;
+    display: flex;
+}
+.infograph-title > p {
+    margin: auto 0;
+    font-weight: 800;
+    font-size: 50px;
+    line-height: 60px;
+    display: flex;
+    align-items: center;
+    
+    color: #C4C4C4;
+}
+.infograph-content {
+    height: 75%;
+    width: 90%;
+    display: flex;
+    padding: 5%;
+    flex-direction: column;
+}
+#temperature-canvas{
+    margin: auto;
+    width: 580px !important;
+    height: 350px !important;
+}
+.carbon-savings{
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 30px;
+    display: flex;
+    text-align: center;
+    position: absolute;
+    left: 35%;
+    bottom: 2%;
+    color: #9B9B9B;
+}
+.carbon-fuel{
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+    display: flex;
+    
+    color: #737373;
+    margin:auto;
+}
+.carbon-start-date{
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 30px;
+    display: flex;
+    text-align: center;
+    
+    color: #9B9B9B;
+    position: absolute;
+    left: 10%;
+    bottom: 4%;
+}
+.carbon-today{
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 30px;
+    display: flex;
+    /* align-items: center; */
+    text-align: center;
+    
+    color: #9B9B9B;
+    position: absolute;
+    left: 80%;
+    bottom: 4%;
+    
+}
+.infograph-switch{
+    height: 100%;
+    width: 35%;
+    position: relative;
+    display: flex;
+}
+.switch-field {
+    position: relative;
+    display: inline-block;
+    width: 91px;
+    height: 50px;
+    margin: auto;
+    border: 2px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 25px;
+
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 36px;
+    color: #C4C4C4;
+    
+}
+.switch-button {
+    position: absolute;
+    width: 44px;
+    height: 41px;
+    left: 3px;
+    top: 2px;
+    border-radius: 50%;
+    background: #30D5C8;
+}
+
+.switch-field-label{
+    display: inline;
+    margin: auto;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 36px;
+    
+    color: #C4C4C4;
+}
+/* settings pane unit */
+.active{
+    color: black;
+}
+/*settings pane toggle  */
+.toggled{
+    left: 40px;
+}
+
+.right-pane {
+    height: 100%;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+}
+.right-pane-visible {
+    display: flex;
+}
+
+.bluetooth {
+    margin: 3% auto;
+    width: 85%;
+    height: 30%;
+}
+
+.bluetooth-text{
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    color: #484848;
+    height: 60px;
+}
+.bluetooth-content {
+    height: 75%;
+    width: 100%;
+    display: flex;
+    padding-top: 5%;
+    flex-direction: column;
+}
+
+.bluetooth-section-header {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 36px;
+    /* identical to box height */
+    
+    color: #898989;
+    margin-top: 10%;
+    margin-bottom: 5%;
+}

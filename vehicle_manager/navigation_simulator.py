@@ -21,22 +21,33 @@ def startNavigation():
 
 def simulateRoute():
     route = []
-    heading = [0]
     pastData = None
-    currentData = [0,0]
+    currentData = [0,0,0] #latitude, longitude, bearing
     try:
         with open('route.json', 'r') as f:
             route = json.load(f)
 
-        for data in route:
-            time.sleep(0.5)
-            currentData = [data[1], data[0]]
-            vehicleReadings.gpsLocation(data[1], data[0])
-            # input('Waiting for user input.')
-            if(pastData != None):
-                calculateHeading(pastData, currentData)
-            pastData = currentData
-
+        # # for data in route:
+        # for data in route['legs'][0]['steps'][0]['geometry']['coordinates']:
+        #     time.sleep(1)
+        #     currentData = [data[1], data[0], 0]
+        #     # vehicleReadings.gpsLocation(data[1], data[0])
+        #     # input('Waiting for user input.')
+        #     if(pastData != None):
+        #         currentData[2] = calculateHeading(pastData, currentData)
+        #     pastData = currentData
+        #     vehicleReadings.heading(currentData)
+                # for data in route:
+        for data in route['legs'][0]['steps']:
+            for items in data['geometry']['coordinates']:
+                time.sleep(1)
+                currentData = [items[1], items[0], 0]
+                # vehicleReadings.gpsLocation(data[1], data[0])
+                # input('Waiting for user input.')
+                if(pastData != None):
+                    currentData[2] = calculateHeading(pastData, currentData)
+                pastData = currentData
+                vehicleReadings.heading(currentData)
 
     except () as error:
         print(error)
@@ -54,5 +65,5 @@ def calculateHeading(location_a, location_b):
     heading = math.atan2(x,y)
     heading = math.degrees(heading)
     print('Heading: ', heading)
-    vehicleReadings.heading(heading)
+    # vehicleReadings.heading(heading)
     return(heading)

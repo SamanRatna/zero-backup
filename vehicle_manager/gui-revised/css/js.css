@@ -1,0 +1,43 @@
+#js-trip-card {
+    display: none;
+}
+
+#js-logo-frame {
+    display: flex;
+}
+
+#js-dash-card {
+    display: block;
+}
+
+#js-keyboard {
+    display: none;
+}
+
+#js-route-card {
+    display: none;
+}
+
+#js-settings-page {
+    display: none;
+}
+
+#js-notification-card {
+    display: block;
+}
+
+#js-swupdate-card {
+    display: none;
+}
+
+#js-signal-bar {
+    display: none;
+}
+
+#js-bluetooth-card {
+    display: none;
+}
+
+#js-kickstand-signal {
+    display: none;
+}

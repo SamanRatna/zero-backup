@@ -17,7 +17,7 @@ html {
 
 .simple-keyboard {
     /* font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif; */
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
     font-size: 45px;
     width: 100%;
     -webkit-user-select: none;
@@ -124,3 +124,14 @@ html {
     max-width: 60px
 }
  /*# sourceMappingURL=index.css.map */
+ .hg-button.hg-functionBtn.hg-button-space {
+    width: 500px;
+  }
+  .hg-button.hg-functionBtn.hg-button-ent {
+    background: #dadada;
+    /* background: 	rgb(64,224,208, 0.8); */
+  }
+
+  .simple-keyboard.hg-theme-default{
+      background-color: rgb(220, 220, 220);
+  }

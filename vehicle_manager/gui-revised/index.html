@@ -3,8 +3,8 @@
 <!-- -->
 
 <head>
-    <title>Yatri Project 0.2</title>
-    <link rel="stylesheet" type="text/css" href="css/frame.css">
+    <title>Yatri Dash</title>
+    <!-- <link rel="stylesheet" type="text/css" href="css/frame.css">
     <link rel="stylesheet" type="text/css" href="css/frame-status.css">
     <link rel="stylesheet" type="text/css" href="css/frame-mode-logo.css">
     <link rel="stylesheet" type="text/css" href="css/frame-notification.css">
@@ -15,463 +15,390 @@
     <link rel="stylesheet" type="text/css" href="css/infographics.css">
     <link rel="stylesheet" type="text/css" href='css/font.css'>
     <link rel="stylesheet" type="text/css" href='css/simple-keyboard.css'>
-    <!-- <link rel="stylesheet" type="text/css" href="css/inherit.css"> -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="main.css"> -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Barlow:400,700&display=swap" rel="stylesheet"> -->
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css"> -->
     <!-- it is always important to load all other dependencies then only call main.css and main.js -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<!-- Mapbox JS -->
-<!-- <script src='https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.js'></script>
-<link href='https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.css' rel='stylesheet' />
-<script src='https://api.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.4.0/mapbox.directions.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.4.0/mapbox.directions.css' type='text/css' /> -->
 
-<!-- Mapbox GL JS -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
-<!-- Geocoder -->
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
-<!-- Directions -->
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.css' type='text/css' />
-<link rel="stylesheet" type="text/css" href="css/frame-slider.css">
+    <!-- Mapbox GL JS -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
+    <!-- Geocoder -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    <!-- Directions -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.css' type='text/css' />
+
+    <link rel="stylesheet" type="text/css" href="css/mapbox.css">
+    <link rel="stylesheet" type="text/css" href='css/simple-keyboard.css'>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/js.css">
+    <link rel="stylesheet" type="text/css" href="css/settings-page.css">
+
 </head>
 
-<body style="background: turquoise;">
-    <!------------------------------------------ Splash Slide --------------------------------------------------------------->
-    <!-- <div class="mySlides">
-        <div class="page" id="page-splash" style="padding:0px; margin:0px;background-color:white;">
-            <svg id='logo' width="686" height="176" viewBox="0 0 686 176" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M173.201 108.728L169.457 121.688H79.6006C79.0246 121.688 78.3526 121.688 77.5846 121.688C77.0086 121.688 76.4326 121.784 75.8566 121.976C75.2806 121.976 74.6086 122.072 73.8406 122.264C73.2646 122.264 72.6886 122.264 72.1126 122.264C71.3446 124.76 70.4806 128.12 69.5206 132.344C68.7526 136.568 67.6966 140.888 66.3526 145.304C64.4326 152.024 61.6486 158.264 58.0006 164.024C54.5446 169.784 49.6486 172.664 43.3126 172.664L6.44864 172.952C10.4806 158.744 17.1046 146.264 26.3206 135.512C35.5366 124.76 47.4406 116.984 62.0326 112.184L72.4007 75.896C67.4087 82.424 62.0326 88.568 56.2726 94.328C50.7046 99.896 44.7526 105.272 38.4166 110.456C33.6166 114.68 29.3926 117.464 25.7446 118.808C22.0966 120.152 19.0246 120.824 16.5286 120.824C15.1846 120.824 14.0326 120.728 13.0726 120.536C12.1126 120.152 11.2486 119.864 10.4806 119.672C8.17664 118.712 6.35264 117.08 5.00864 114.776C3.85664 112.472 3.28064 109.88 3.28064 107C3.28064 106.04 3.37664 105.08 3.56864 104.12C3.76064 102.968 3.95264 101.816 4.14464 100.664L20.2726 43.928H33.2326L17.1046 100.664C17.1046 100.856 17.0086 101.144 16.8166 101.528C16.8166 101.72 16.8166 102.008 16.8166 102.392C16.8166 102.584 16.8166 102.776 16.8166 102.968C16.8166 102.968 16.8166 103.064 16.8166 103.256C16.8166 104.024 16.9126 104.888 17.1046 105.848C17.4886 106.616 18.0646 107.192 18.8326 107.576C19.9846 107.96 21.6166 107.672 23.7286 106.712C26.0326 105.752 28.6246 104.024 31.5046 101.528C36.6886 97.304 41.2966 93.176 45.3286 89.144C49.5526 85.112 53.2966 81.08 56.5606 77.048C60.9766 71.864 64.9126 66.68 68.3686 61.496C72.0166 56.312 75.5686 50.936 79.0246 45.368C79.2166 45.176 79.3126 44.984 79.3126 44.792C79.5046 44.408 79.6966 44.12 79.8886 43.928H94.5766L75.8566 109.016C76.4326 109.016 77.0086 109.016 77.5846 109.016C78.3526 108.824 79.0246 108.728 79.6006 108.728C80.1766 108.728 80.7526 108.728 81.3286 108.728C82.0966 108.728 82.7686 108.728 83.3447 108.728H173.201ZM57.7126 126.584C50.4166 129.656 43.6966 134.168 37.5526 140.12C31.6006 145.88 26.9926 152.408 23.7286 159.704L47.0566 159.992C47.6326 159.8 48.3046 158.648 49.0726 156.536C50.0326 154.424 50.8966 151.928 51.6646 149.048C52.0486 148.088 52.3366 147.032 52.5286 145.88C52.9126 144.92 53.2966 143.96 53.6806 143C54.6406 139.352 55.5046 135.992 56.2726 132.92C57.0406 129.656 57.5206 127.544 57.7126 126.584Z" stroke="black" stroke-width="3"/>
-                <path d="M334.283 108.728L330.539 121.688H245.003C239.051 121.688 235.019 120.344 232.907 117.656C230.795 114.776 229.739 111.224 229.739 107C229.739 105.464 229.835 103.928 230.027 102.392C230.219 100.856 230.507 99.224 230.891 97.496C231.275 96.152 231.659 94.808 232.043 93.464C232.427 91.928 232.907 90.488 233.483 89.144C234.059 87.224 234.539 85.496 234.923 83.96C235.499 82.232 235.979 80.792 236.363 79.64C235.211 80.792 234.059 81.944 232.907 83.096C231.755 84.248 230.507 85.496 229.163 86.84C223.403 92.6 218.027 97.976 213.035 102.968C208.235 107.768 205.835 110.168 205.835 110.168C201.035 114.968 196.619 118.136 192.587 119.672C188.747 121.016 185.483 121.688 182.795 121.688C181.451 121.688 180.299 121.592 179.339 121.4C178.571 121.208 177.899 121.016 177.323 120.824C174.251 119.864 171.755 118.04 169.835 115.352C168.107 112.472 167.243 109.4 167.243 106.136C167.243 105.752 167.243 105.368 167.243 104.984C167.243 104.408 167.339 103.832 167.531 103.256C167.531 102.872 167.531 102.488 167.531 102.104C167.723 101.528 167.915 101.048 168.107 100.664C168.299 99.896 168.491 99.224 168.683 98.648C168.875 97.88 169.067 97.016 169.259 96.056C170.027 93.368 170.699 90.392 171.275 87.128C172.043 83.672 172.907 80.312 173.867 77.048C176.171 68.792 179.531 61.208 183.947 54.296C188.363 47.384 195.083 43.928 204.107 43.928H259.691L243.275 100.952C243.275 101.144 243.179 101.336 242.987 101.528C242.987 101.72 242.987 101.912 242.987 102.104C242.987 102.296 242.987 102.488 242.987 102.68C242.987 102.872 242.987 103.064 242.987 103.256C242.987 104.6 243.467 105.848 244.427 107C245.579 108.152 247.019 108.728 248.747 108.728H334.283ZM242.987 56.888L200.363 57.176C198.443 57.176 196.715 57.56 195.179 58.328C193.643 59.096 192.587 60.536 192.011 62.648L181.067 100.664C180.875 100.856 180.779 101.144 180.779 101.528C180.779 101.72 180.779 102.008 180.779 102.392C180.779 103.736 181.163 104.984 181.931 106.136C182.699 107.288 183.659 108.056 184.811 108.44C185.195 108.632 185.483 108.728 185.675 108.728C186.059 108.728 186.443 108.728 186.827 108.728C187.403 108.728 187.979 108.632 188.555 108.44C189.131 108.248 189.707 108.056 190.283 107.864C191.243 107.288 192.203 106.616 193.163 105.848C194.123 105.08 194.987 104.312 195.755 103.544C196.139 103.352 196.427 103.16 196.619 102.968C196.811 102.776 197.003 102.584 197.195 102.392L242.987 56.888Z" stroke="black" stroke-width="3"/>
-                <path d="M437.726 108.728L433.982 121.688H353.342C345.086 121.688 339.422 119.672 336.35 115.1164C333.278 111.416 331.742 106.328 331.742 100.376C331.742 98.264 331.934 96.056 332.318 93.752C332.702 91.448 333.086 89.144 333.47 86.84C334.046 84.344 334.622 81.944 335.198 79.64C335.966 77.144 336.734 74.744 337.502 72.44C338.462 69.56 339.326 66.776 340.094 64.088C341.054 61.4 341.822 59.096 342.398 57.176H318.782L322.526 43.928H346.142L357.95 2.74399H371.198L359.39 43.928H383.294L379.55 57.176H355.646L345.566 92.312C345.374 93.08 345.182 93.848 344.99 94.616C344.99 95.384 344.99 96.152 344.99 96.92C344.99 100.184 346.046 102.968 348.158 105.272C350.462 107.576 353.438 108.728 357.086 108.728H437.726Z" stroke="black" stroke-width="3"/>
-                <path d="M593.541 108.728L589.797 121.688H508.005C499.749 121.688 494.085 119.576 491.013 115.352C487.941 111.128 486.405 106.04 486.405 100.088C486.405 97.976 486.501 95.768 486.693 93.464C487.077 91.16 487.557 88.856 488.133 86.552C488.709 84.056 489.285 81.56 489.861 79.064C490.629 76.568 491.397 74.264 492.165 72.152C493.125 69.08 493.989 66.296 494.757 63.8C495.717 61.112 496.485 58.904 497.061 57.176H462.789L448.677 106.136C447.333 110.36 444.741 114.008 440.901 117.08C437.253 120.152 433.221 121.688 428.805 121.688L432.549 108.728C432.741 108.728 432.837 108.728 432.837 108.728C433.029 108.728 433.125 108.728 433.125 108.728C433.701 108.536 434.181 108.248 434.565 107.864C434.949 107.288 435.237 106.712 435.429 106.136L457.605 29.24H470.565L466.533 43.928H529.893L526.149 57.176H510.021L499.941 92.312C499.749 93.08 499.557 93.848 499.365 94.616C499.365 95.192 499.365 95.864 499.365 96.632C499.365 99.896 500.517 102.776 502.821 105.272C505.125 107.576 508.101 108.728 511.749 108.728H593.541Z" stroke="black" stroke-width="3"/>
-                <path d="M682.45 108.728L678.706 121.688H599.794C595.186 121.688 591.538 120.344 588.85 117.656C586.162 114.776 584.818 111.224 584.818 107C584.818 106.424 584.818 105.848 584.818 105.272C585.01 104.696 585.106 104.12 585.106 103.544C585.298 103.352 585.394 103.064 585.394 102.68C585.586 102.296 585.682 102.008 585.682 101.816L603.25 39.896H616.498L598.642 101.816C598.642 102.008 598.546 102.2 598.354 102.392C598.354 102.584 598.354 102.68 598.354 102.68C598.354 102.872 598.354 103.064 598.354 103.256C598.354 103.448 598.354 103.64 598.354 103.832C598.354 105.176 598.834 106.328 599.794 107.288C600.754 108.248 602.002 108.728 603.538 108.728H682.45ZM626.29 19.736C626.29 23.192 625.042 26.168 622.546 28.664C620.05 31.16 616.978 32.408 613.33 32.408C609.682 32.408 606.61 31.16 604.114 28.664C601.618 26.168 600.37 23.192 600.37 19.736C600.37 16.088 601.618 13.016 604.114 10.52C606.61 8.02399 609.682 6.77599 613.33 6.77599C616.978 6.77599 620.05 8.02399 622.546 10.52C625.042 13.016 626.29 16.088 626.29 19.736Z" stroke="black" stroke-width="3"/>
-            </svg>
-            
-            <img id='logo-lower' src='images/motorcycles-logo.svg'/>
-            <div class='splash-frame-logo'>
-                <img id='splash-yatri-logo' src='images/logo.png'/>
-            </div>
-        </div>
-    </div> -->
-
-    <!------------------------------------------------User Slide------------------------------------------------------------------------>
-
-    <div class="mySlides">
-        <div class='startup' id='startup-page'>
+<body>
+    <!-- <div class="mySlides"> -->
+        <!------------------------------------ Startup Page --------------------------------------------------->
+        <div class='page startup-page' id='js-startup-page'></div>
         
-        </div>
-    <div class="page" id="page-zero" style="padding:0px; margin:0px;background-color:white;">
-    <!------------ Notification Frame ------------>
-    <div class='frame-notification'>
-        <div class='notification-signal' id='notification-leftsidelight'><img src='icons/arrow-left.svg' /></div>
-        <div class='notification-signal' id='notification-rightsidelight'><img src='icons/arrow-right.svg' /></div>
-        <div class='notification-signal' id='notification-lowbeam'><img src='icons/low-beam.svg' /></div>
-        <div class='notification-signal' id='notification-hibeam'><img src='icons/high-beam.svg' /></div>
-        <div class='notification-signal' id='notification-stand'><img src='icons/stand.png' /></div>
-        <div id='notification-time'>--:--</div>
-        <div class='notification-signal' id='notification-bluetooth'><img src='icons/bluetooth.svg' /></div>
-    </div>
-    
-    <!----------- Status Frame ------------>
-    <div class='frame-status'>
-        <div id="power-status">
-            <div class='status-value-left' id='power-status-value'>0</div>
-            <div class='status-unit-left' id='power-status-unit'>hp</div>
-        </div>
-        <div id='speed-status'>
-            <div class='status-value-middle' id='speed-status-value'  onclick='plusSlides(1)'>0</div>
-            <div class='status-unit-middle' id='speed-status-unit'>km/h</div>
-        </div>
-        <div id='soc-status'>
-            <div class='status-value-right' id='soc-status-value'>-</div>
-            <div class='status-unit-right' id='soc-status-unit'>%</div>
-        </div>    
-    </div>
-    
-    <!------------ Mode Frame ------------>
-    <div class='frame-mode'>
-        <div id="mode-line"></div>
-        <div id="mode-line-speed-forward"></div>
-        <div id="mode-line-speed-reverse"></div>
-        <div id="mode-text-left">SUSTE</div>
-        <div id="mode-text-middle">STANDBY</div>
-        <div id="mode-text-right">BABBAL</div>
-        <div id="mode-wave-container">
-            <img src='icons/jumping-dots.gif' id='mode-wave'>
-        </div>
-    </div>
+        <!------------------------------------ Dashboard Page --------------------------------------------------->
+        <div class="page dash-page" id="js-dash-page">
 
-    <!-- Slider Old Style -->
-    <div class='frame-slider' id="wrapper">
-        <div id="slider-wrap">
-            <ul id="slider">
-                <!-- Bike Image -->
-                <li style="padding-top: 50px;" data-color="#ffffff">
-                    <img src="images/bike.png" width='1200px' id='slide-image-bike' alt="Project Zero Bike">
-                    <div id='directions-panel' width='1200px' height='1000px'></div>
-                </li>
-                <!------------------------------- Navigation ----------------------------------->
-                <li class='slide-content' id='slide-map-container' data-color="#3498db">
-                    <div class='slide-content'>
-                        <img src='images/no-internet-5.gif' class='slide-content' id='project-zero'>
-                    </div>
+            <!---------------------------- Map Card Start---------------------------------->
+            <div class='map-card' id='js-map-card'></div>
+            <!---------------------------- Map Card End---------------------------------->
 
-                    <div id='slide-map'></div>
-                    <!-- <div id='slide-gradient-top'></div>
-                    <div id='slide-gradient-bottom'></div> -->
-                    <!-- <div id='navigation-button'><img src='icons/navigate.svg'></div> -->
-                    <!-- <div id="locationField">
-                        <input id="autocomplete"
-                               placeholder="Enter your address"
-                               onFocus="geolocate()"
-                               type="text"/>
-                      </div> -->
-                      <div id='navigation-north'><img src='icons/map-north.svg'></div>
-                      <div id='maneuver-box'></div>
-                      <!-- <div id='end-navigation-button'>X</div> -->
-                      <img id='start-navigation-button' />
-                      <img id='end-navigation-button' src='icons/end-navigation.svg'/>
-                      <!-- <div id="locationField">
-                        <input id="autocomplete"
-                        onkeyup="return autoCompleteListener(this, event);"
-                               placeholder="Search"
-                               type="text"/>
-                      </div> -->
-                      <!-- <div id="search-suggestions"></div> -->
-                      <div id='summary-box'>
-                          <div id='summary-label'></div>
-                          <div id='summary-distance'></div>
-                      </div>
-                </li>
-                
-                <!---------------------------------- Infographics ------------------------------->
-                <li id='slide-infographics' data-color="#9b59b6">
-                    <div id='odo-trip-info'>
-                        <div id='odo-info'>
-                            <div id='odo-info-title'>ODO</div>
-                            <div id='odo-info-value'>-</div>
-                            <div id='odo-info-unit'>KM</div>
-                        </div>
-                        <div id='trip-info'>
-                            <div id='trip-info-title'>TRIP</div>
-                            <div id='trip-info-value'>-</div>
-                            <div id='trip-info-unit'>KM</div>
-                        </div>
-                    </div>
-                    <img id='trip-reset' src='icons/reset.svg' onclick="initiateTripReset()" />
-                    <!-------------------------Speed Infographics  --------------------->
-                    <div  class='slide-info' id='speed-infograph'>
-                        <img class='infograph-btn' id='infograph-btn-speed' src='icons/infograph-speed.svg' />
-                        <div id="speed-chart">
-                            <svg id="meter" style="height: 140%; width: 70%;"  transform="rotate(270)">
-                                <circle id="odo-speed-meter" r="88" cx="55%" cy="68%"
-                                stroke="#B0FFF9" stroke-width="60" stroke-dasharray="0, 550" fill="none" stroke-linecap='round'>
-                                </circle>
-                                <circle id="trip-speed-meter" r="156" cx="55%" cy="68%"
-                                stroke="#30D5C8" stroke-width="60" stroke-dasharray="0, 980" fill="none" stroke-linecap='round'>
-                                </circle>
-                                <circle id="max-speed-meter" r="225" cx="55%" cy="68%"
-                                stroke="#09aaaa" stroke-width="61" stroke-dasharray="0, 1413" fill="none" stroke-linecap='round'>
-                                </circle>
-                                <circle cx="65%" cy="15%" r="32.5" fill="#09aaaa"/>
-                                <circle cx="55%" cy="15%" r="32.5" fill="#30D5C8"/>
-                                <circle cx="45%" cy="15%" r="32.5" fill="#B0FFF9"/>
-                                <!-- <text x="25%" y="-47.5%" fill="#454545" font-family='Barlow' font-size='2em' transform="rotate(90)">MAX SPEED</text>
-                                <text x="25%" y="-40%" fill="#454545" font-family='Barlow' font-size='2em' transform="rotate(90)">TRIP AVERAGE</text>
-                                <text x="25%" y="-32.5%" fill="#454545" font-family='Barlow' font-size='2em' transform="rotate(90)">ODO AVERAGE</text>                           -->
-                            </svg>
-                        </div>
-                        <div class='speed-label' id='label-max-speed'>MAX SPEED</div>
-                        <div class='speed-label' id='label-trip-average'>TRIP AVERAGE</div>
-                        <div class='speed-label' id='label-odo-average'>ODO AVERAGE</div>
-                        <div class='speed-value' id='value-max-speed'>0</div>
-                        <div class='speed-value' id='value-trip-average'>0</div>
-                        <div class='speed-value' id='value-odo-average'>0</div>
-                        <div class='speed-unit'>km/h</div>
-                    </div>
-                    <!-------------------------Temperature Infographics  --------------------->
-                    <div  class='slide-info' id='temperature-infograph'>
-                        <img class='infograph-btn' id='infograph-btn-temperature' src='icons/infograph-temperature.svg' />
-                        <div id="temperature-chart">
-                            <canvas id="temperature-canvas"></canvas>
-                        </div>
-                    </div>
-                    <!-------------------------Carbon Infographics  --------------------->
-                    <div  class='slide-info' id='carbon-infograph'>
-                        <img class='infograph-btn' id='infograph-btn-carbon' src='icons/infograph-carbon.svg' />
-                        <div id="carbon-chart">
-                            <canvas id="carbon-canvas"></canvas>
-                            <div id='carbon-savings'>
-                                <div id='carbon-savings-label'>Fuel Savings: NPR</div>
-                                <div id='carbon-savings-value'>1500</div>
+            <!---------------------------- Dash Card Start---------------------------------->
+            <div class='dash-card' id='js-dash-card'>
+                <div class='dash-card__primary'>
+                    <div class='dash__primary__top'>
+                        <div class='mode-indicator'>
+                            <div class='mode-indicator-scroller' id='js-mode-scroller'>
+                                <div class='mode-indicator__mode' id='js-bikemode-up'><p>-</p></div>
+                                <div class='mode-indicator__mode' id='js-bikemode-reverse'><p>REVERSE</p></div>
+                                <div class='mode-indicator__mode mode-indicator-active' id='js-bikemode-standby'><p>STANDBY</p></div>
+                                <div class='mode-indicator__mode' id='js-bikemode-suste'><p>SUSTE</p></div>
+                                <div class='mode-indicator__mode' id='js-bikemode-thikka'><p>THIKKA</p></div>
+                                <div class='mode-indicator__mode' id='js-bikemode-babbal'><p>BABBAL</p></div>
+                                <div class='mode-indicator__mode' id='js-bikemode-down'><p>-</p></div>
                             </div>
-                            <div id='carbon-fuel'>
-                                <div id='carbon-fuel-value'>10g</div>
-                                <div id='carbon-fuel-label'>&nbsp;CO2</div>
+                        </div>
+                        <div class='mode-divider-vertical'></div>
+                        <!-- <div class='divider-vertical-buffer'></div> -->
+                        <div class='speed-indicator'>
+                            <div class='speed-indicator__value' id='js-speed-value'>35</div>
+                            <div class='speed-indicator__unit'>km/h</div>
+                        </div>
+                        <div class='battery-indicator'>
+                            <div class='battery-indicator__body'>
+                                <div class='battery-body__cap' id='js-battery-cap'></div>
+                                <div class='battery-body__main'>
+                                    <div class='battery-charge' id='js-battery-level'></div>
+                                </div>
                             </div>
-                            <div id='carbon-start-date'> 1 Jan 2020</div>
-                            <div id='carbon-today'>Today</div>
+                            <div class='battery-indicator__value' id='js-battery-value'>100%</div>
                         </div>
                     </div>
-
-                </li>
-            </ul>
-
-            <div id='left-slider' href="#slider-one">
-                    <img src='icons/slider-home-left.svg' class='slider-left' id='left-slider-content'>
-                </div>
-                <div id='right-slider' href="#slider-one">
-                    <img src="icons/slider-map-right.svg" class='slider-right' id='right-slider-content'>
-                </div>        
-        </div>
-
-    </div>
-
-    <!------------ Logo Frame ------------>
-    <div id='s-keyboard'><div class="simple-keyboard"></div></div>
-    <div class='frame-logo' id='yatri-logo-id'>
-        <img id='yatri-logo' src='images/logo.png'/>
-    </div>
-</div>
-</div>
-<!------------------------------------------------Engineering Slide------------------------------------------------------------------------>
-<!-- 
-    <div class="mySlides">
-        <div class="page" id="page-one" style="padding:0px; margin:0px;background-color:white;">
-            <div class='frame-notification' id='engg-notification'>Engineering Menu</div>
-            <div class='frame-engg-options'>
-                <div class='engg-option-left' id='fast-charge'>
-                    <img class='engg-option-icon' src='icons/energy-station.svg'>
-                </div>
-                <div class='engg-option-left'>
-                    <img class='engg-option-icon' src='icons/cable.svg' style="opacity: 0.2">
-                </div>
-                <div class='engg-option-left' id='reboot-computer'>
-                    <img class='engg-option-icon' src='icons/stand-by.svg' style="opacity: 0.2">
-                </div>
-                <div class='engg-option-left'>
-                    <img class='engg-option-icon' src='icons/wifi.svg' style="opacity: 0.2">
-                </div>
-                <div class='engg-option-left' id='refresh'>
-                    <img class='engg-option-icon' src='icons/refresh.svg'>
-                </div>
-                <div class='engg-option-left'>
-                </div>
-                <div class='engg-option-left'>
-                </div>
-                <div class='engg-option-left'>
-                </div>
-            </div>
-
-            <div class='frame-slider' id='engg-info-frame'>
-                <div class='engg-info-card'></div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Charging Status</div>
-                    <div class='engg-infocard-value' id='engg-charging-status'></div>
-                    <div class='engg-infocard-unit'></div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Charging Current</div>
-                    <div class='engg-infocard-value' id='engg-charging-current'></div>
-                    <div class='engg-infocard-unit'>A</div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Pack Voltage</div>
-                    <div class='engg-infocard-value' id='engg-battery-status'></div>
-                    <div class='engg-infocard-unit'>V</div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Connectivity Status</div>
-                    <div class='engg-infocard-value' id='engg-connectivity-status'></div>
-                    <div class='engg-infocard-unit'></div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>IP Address</div>
-                    <div class='engg-infocard-value' id='engg-ip-address'></div>
-                    <div class='engg-infocard-unit'></div>
-                </div>
-                <div class='engg-info-card'>
-                    <div class='engg-infocard-title'>Time To Charge</div>
-                    <div class='engg-infocard-value' id='engg-charge-time'></div>
-                    <div class='engg-infocard-unit'>min</div>
-                </div>
-            </div>
-            <div class='splash-frame-logo'>
-                <img id='engg-yatri-logo' src='images/logo.png' onclick='plusSlides(-1)'/>
-            </div>
-        </div>
-    </div>
--->
-<!---------------------------- SOC and Range Popup/Modal --------------------------------------->
-<!-- <div id="socModal" class="Modal is-hidden is-visuallyHidden">
-        <div class="Modal-content">
-            <span id="closeModal" class="Close"></span>
-            <div id="modal-range">
-                <div id="modal-battery">
-                        <div class="modal-range-icon">
-                                <img src="icons/battery.svg" style="max-height: 120px;"/>
+                    <div class='dash__primary__bottom'>
+                        <div class='time-indicator'>10:26 &nbsp; AM</div>
+                        <div class='temperature-indicator'>
+                            <div class='temperature-indicator__coldend'>C</div>
+                            <div class='temperature-indicator__body'>
+                                <div class='temperature-indicator__level'></div>
+                            </div>
+                            <div class='temperature-indicator__hotend'>H</div>
                         </div>
-                        <div class="modal-range-title">Battery</div>
-                        <div class="modal-range-value" id='modal-soc'>-</div>
-                        <div class="modal-range-unit">%</div>
-                </div>
-                <div id="modal-mode">
-                    <div class="modal-range" id="modal-suste">
-                        <div class="modal-range-icon">
-                            <img src="icons/roller.svg" style="max-height: 120px;"/>
+                        <div class='range-indicator'>
+                            <span class='range-indicator__label'>est.range  &nbsp; </span>
+                            <span class='range-indicator__value' id='js-range'>92</span>
+                            <span class='range-indicator__label'> &nbsp; km</span>
                         </div>
-                        <div class="modal-range-title">Suste</div>
-                        <div class="modal-range-value" >-</div>
-                        <div class="modal-range-unit">km</div>
-                    </div>
-                    <div class="modal-range" id="modal-thikka">
-                        <div class="modal-range-icon">
-                            <img src="icons/motorcycle.svg" style="max-height: 120px;"/>
-                        </div>
-                        <div class="modal-range-title">Thikka</div>
-                        <div class="modal-range-value">-</div>
-                        <div class="modal-range-unit">km</div>
-                    </div>
-                    <div class="modal-range" id="modal-babbal">
-                        <div class="modal-range-icon">
-                            <img src="icons/speed.svg" style="max-height: 110px;"/>
-                        </div>
-                        <div class="modal-range-title">Babbal</div>
-                        <div class="modal-range-value">-</div>
-                        <div class="modal-range-unit">km</div>
                     </div>
                 </div>
-            </div>
-        </div>
-      </div> -->
-<!-------------------------------------- Fast Charge Popup/Modal ---------------------------------------->
-<div id="fastChargeModal" class="Modal is-hidden is-visuallyHidden">
-    <!-- Modal content -->
-    <div class="Modal-content">
-        <span id="closeModal" class="Close"></span>
-        <div id="modal-range">
-            <div id="modal-battery">
-                    <div class="modal-range-icon">
-                            <img src="icons/clock-circular-outline.svg" style="max-height: 130px;"/>
+                <div class='dash-card__auxiliary'>
+                    <div class="travel-indicator">
+                        <div class="travel__label">ODO</div>
+                        <div class="travel__value" id='js-odo-distance'>10,000</div>
+                        <div class="travel__unit">km</div>
                     </div>
-                    <div class="charge-modal-title">Charging Options</div>
-                    <!-- <div class="modal-range-value">60</div>
-                    <div class="modal-range-unit">%</div> -->
+                    <div class="travel-indicator">
+                        <div class="travel__label">TRIP</div>
+                        <div class="travel__value" id='js-trip-distance'>10,000</div>
+                        <div class="travel__unit">km</div>
+                    </div>
+                    <div class="trip-reset" id='js-trip-reset'><p>reset</p></div>
+                </div>
             </div>
-            <div class="charge-modal-options">
-                <div class='time-option' id='ten-min'> 10 min</div>
-                <div class='time-option' id='sixty-min'>60 min</div>
-                <div class='time-option' id='thirty-min'>30 min</div>
-                <div class='time-option' id='seventyfive-min'>75 min</div>
-                <!-- <div class='time-option' id='thirty-min'>30 min</div>
-                <div class='time-option' id='ninety-min'>90 min</div> -->
-                <div class='time-option' id='stop-charging'>Stop Charging</div>
-            </div>
-        </div>
-    </div>
-</div>
+            <!---------------------------- Dash Card End---------------------------------->
 
-<!-------------------------------------- Feature Disabled Popup/Modal ---------------------------------------->
-<div id="navigation-modal" class="Modal is-hidden is-visuallyHidden">
-    <!-- Modal content -->
-    <div id="navigation-modal-content">
-        <span id="closeModal" class="Close"></span>
-        <div id="modal-navigation">
-            Feature Coming Soon
-        </div>
-    </div>
-</div>
+            <!---------------------------- Trip Card Start---------------------------------->
+            <div class='trip-card' id='js-trip-card'>
+                <div class='trip__info'>
+                    <div class='trip__distance'><p><span id='js-trip-distance'>-</span><span class='trip__distance__unit'> km</span></p></div>
+                    <div class='trip__soc'>
+                        <div class='trip__soc__details'>
+                            <p class='trip__soc__label'>Current SoC: &nbsp;</p>
+                            <p class='trip__soc__value'>22%</p>
+                        </div>
+                        <div class='trip__soc__details'>
+                            <p class='trip__soc__label'>Est. SoC after trip: &nbsp;</p>
+                            <p class='trip__soc__value'>22%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class='trip__start-button' id='js-start-navigation'><p>Start Navigation</p></div>
+                <div class='trip__cancel-button' id='js-trip-cancel'><p>Cancel</p></div>
+            </div>
+            <!---------------------------- Trip Card End---------------------------------->
 
-<!-------------------------------------- Bluetooth Modal ---------------------------------------->
-<div id="bluetooth-modal" class="Modal is-hidden is-visuallyHidden">
-    <!-- Modal content -->
-    <div id="bluetooth-modal-content">
-        <span id="closeModal" class="Close"></span>
-        <div id="modal-bluetooth">Bluetooth Pairing</div>
-        <div id="modal-bluetooth-passkey"> - </div>
-        <div class="ble-button" id="ble-button-yes">Yes</div>
-        <div class="ble-button" id="ble-button-no">No</div>
-    </div>
-</div>
-<!-------------------------------------- Range v2 Popup/Modal ---------------------------------------->
-<div id="range2-modal" class="Modal is-hidden is-visuallyHidden">
-    <!-- Modal content -->
-    <div id="range2-modal-content">
-        <span id="closeModal" class="Close"></span>
-        <div id="modal-range2">
-            <div class='modal-ranges'>
-                <div class='modal-range-label'>SUSTE</div>
-                <div class='modal-range-value' id='range-suste'>-</div>
-                <div class='modal-range-unit'>km</div>
+            <!---------------------------- Route Card Start---------------------------------->
+            <div class='route-card' id='js-route-card'>
+                <div class='route__info'>
+                    <div class='route__info__current'>
+                        <div class='route__info__icon' id='js-current-maneuver-icon'></div>
+                        <div class='route__info__text'><p id='js-current-maneuver'></p></div>
+                    </div>
+                    <div class='route__info__divider' id='js-maneuver-divider'></div>
+                    <div class='route__info__next' id='js-next-maneuver-box'>
+                        <div class='route__info__icon' id='js-next-maneuver-icon'></div>
+                        <div class='route__info__text'><p id='js-next-maneuver'></p></div>
+                    </div>
+                </div>
+                <div class='route__summary'>
+                    <div class = 'route__destination'><p id='js-route-destination'>To: Himalayan Solutions</p></div>
+                    <div class = 'route__distance'><p id='js-route-distance'>2.3km</p></div>
+                </div>
+                <div class='cancel-button-red' id='js-end-navigation'><p>Cancel</p></div>
             </div>
-            <div class='modal-ranges'>
-                    <div class='modal-range-label'>THIKKA</div>
-                    <div class='modal-range-value' id='range-thikka'>-</div>
-                    <div class='modal-range-unit'>km</div>
-            </div>
-            <div class='modal-ranges'>
-                    <div class='modal-range-label'>BABBAL</div>
-                    <div class='modal-range-value' id='range-babbal'>-</div>
-                    <div class='modal-range-unit'>km</div>
-            </div>
-        </div>
-    </div>
-</div>
+            <!---------------------------- Route Card End---------------------------------->
+            
+            <!------------------ Software Update Card Start ------------------------------>
+            <!-- <div class='swupdate-card' id='js-swupdate-card'>
+                <div class='swupdate-description'>
+                    <p>
+                    Software Update Ready. Slide right to download. <br>
+                    10MB
+                    </p>
+                </div>
+                <div class='swupdate-selection'>
+                    <div class='swupdate-selection__option swupdate-option__positive'>
+                        <p>Install</p>
+                    </div>
+                    <div class='swupdate-selection__option swupdate-option__negative'>
+                        <p>Snooze</p>
+                    </div>
+                </div>
+            </div> -->
+            <!------------------ Software Update Card End ------------------------------->
 
-</div>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.6.5/lottie.min.js"></script> -->
+            <div id='js-keyboard'><div class="simple-keyboard"></div></div>
+            <!-- <div class='signal-bar'></div> -->
+
+            <!------------------ Notification Card Start ------------------------------->
+            <div class='notification-card' id='js-notification-card'>
+                <div class='signal-bar'>
+                    <div class='signal-box left-turn-signal' id='js-left-turn'></div>
+                    <div class='signal-box right-turn-signal' id='js-right-turn'></div>
+                    <div class='signal-box low-beam-signal' id='js-low-beam'></div>
+                    <div class='signal-box high-beam-signal' id='js-high-beam'></div>
+                </div>
+                <div class='signal-bar signal-bar-warning' id='js-kickstand-signal'>
+                    <p>Kick Stand Engaged</p>
+                </div>
+                <div class='swupdate-card' id='js-swupdate-card'>
+                    <div class='swupdate-description'>
+                        <p>
+                        Software Update Ready. Slide right to download. <br>
+                        10MB
+                        </p>
+                    </div>
+                    <div class='swupdate-selection'>
+                        <div class='swupdate-selection__option swupdate-option__positive'>
+                            <p>Install</p>
+                        </div>
+                        <div class='swupdate-selection__option swupdate-option__negative'>
+                            <p>Snooze</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='swupdate-card' id='js-bluetooth-card'>
+                    <div class='bluetooth-passkey'>
+                        <p id='js-blutooth-passkey'>- - - - -</p>
+                    </div>
+                    <div class='swupdate-selection'>
+                        <div class='swupdate-selection__option swupdate-option__positive' id='js-ble-button-yes'>
+                            <p>Yes</p>
+                        </div>
+                        <div class='swupdate-selection__option swupdate-option__negative' id='js-ble-button-no'>
+                            <p>No</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!------------------ Notification Card Start ------------------------------->
+            <!---------------------- Logo Frame Start ------------------------------------>
+            <div class='logo-frame' id='js-logo-frame'>
+                <img class='logo-frame__image' src='icons/logo.png'/>
+            </div>
+            <!---------------------- Logo Frame End ------------------------------------>
+        </div>
+        <!--------------------------------------- Dash Page End  ------------------------------->
+
+        <!---------------------- Settings Page Start ------------------------------------>
+        <div class='settings-page' id='js-settings-page'>
+            <div class='settings-page-body'>
+                <div class='settings-pane-left'>
+                    <div class='settings-connectivity' id='js-settings-connectivity'>
+                        <div class='connectivity-option'>
+                            <div class='connectivity-icon'>
+                                <img src='icons/bluetooth-icon.svg'/>
+                            </div>
+                            <div class='connectivity-label'>
+                                <p>SpockTooth</p>
+                            </div>
+                        </div>
+                        <div class='connectivity-option'>
+                            <div class='connectivity-icon'>
+                                <img src='icons/network-icon.svg'/>
+                            </div>
+                            <div class='connectivity-label'>
+                                <p>Ncell</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = 'settings-divider-horizontal'></div>
+                    <div class='settings-performance'>
+                        <p>performance <br> mode</p>
+                    </div>
+                    <div class = 'settings-divider-horizontal'></div>
+                    <div class='settings-brightness'></div>
+                    <div class = 'settings-divider-horizontal'></div>
+                    <div class='settings-account'>
+                        <div class='account-icon'>
+                            <img src='icons/account-icon.svg'/>
+                        </div>
+                        <div class='account-text'>
+                            <p class='account-person'>Kanye West</p>
+                            <p class='account-vehicle'>Lic.# 123456789</p>
+                            <p class='account-vehicle'>BA 01 KHA, 2020 </p>
+                        </div>
+                    </div>
+                </div>
+                <div class = 'settings-pane-divider'></div>
+                <!----------------- Infographics Settings Pane ----------------------------->
+                <div class='settings-pane-right'>
+                    <div class='right-pane right-pane-visible' id='js-infographics-pane'>
+                        <div class='infograph'>
+                            <div class='infograph-header'>
+                                <div class='infograph-title'><p>SPEED</p></div>
+                                <div class='infograph-switch'>
+                                    <p class='switch-field-label active' id='js-speed-label-km'>km</p>
+                                    <div class='switch-field' id='js-speed-unit-toggle'>
+                                        <div class='switch-button' id='js-speed-unit-button'></div>
+                                    </div>
+                                    <p class='switch-field-label' id='js-speed-label-mile'>mile</p>
+                                </div>
+                            </div>
+                            <div class='infograph-content'>
+                                <canvas class='infograph-canvas' id="speed-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div class='infograph'>
+                            <div class='infograph-header'>
+                                <div class='infograph-title'><p>TEMPERATURE</p></div>
+                                <div class='infograph-switch'>
+                                    <p class='switch-field-label active' id='js-temperature-label-c'>C</p>
+                                    <div class='switch-field' id='js-temperature-unit-toggle'>
+                                        <div class='switch-button' id='js-temperature-unit-button'></div>
+                                    </div>
+                                    <p class='switch-field-label' id='js-temperature-label-f'>F</p>
+                                </div>
+                            </div>
+                            <div class='infograph-content'>
+                                <canvas class='infograph-canvas' id="temperature-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div class='infograph'>
+                            <div class='infograph-header'>
+                                <div class='infograph-title'><p>CARBON OFFSET</p></div>
+                                <div class='carbon-fuel'>
+                                    <div class='carbon-fuel-value'>10g</div>
+                                    <div class='carbon-fuel-label'>&nbsp;CO2</div>
+                                </div>
+                            </div>
+                            <div class='infograph-content'>
+                                <canvas class='infograph-canvas' id="carbon-canvas"></canvas>
+                                <div class='carbon-savings'>
+                                    <div class='carbon-savings-label'>Fuel Savings: NPR &nbsp;</div>
+                                    <div class='carbon-savings-value'>1500</div>
+                                </div>
+                                <div class='carbon-start-date'> 1 Jan 2020</div>
+                                <div class='carbon-today'>Today</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!----------------- Infographics Settings End ----------------------------->
+                    <div class='right-pane' id='js-connectivity-pane'>
+                        <div class='bluetooth'>
+                            <div class='infograph-header'>
+                                <div class='infograph-title'><p>BLUETOOTH</p></div>
+                                <div class='infograph-switch'>
+                                    <p class='switch-field-label active' id='js-bluetooth-label-off'>off</p>
+                                    <div class='switch-field' id='js-bluetooth-toggle'>
+                                        <div class='switch-button' id='js-bluetooth-toggle-button'></div>
+                                    </div>
+                                    <p class='switch-field-label' id='js-bluetooth-label-on'>on</p>
+                                </div>
+                            </div>
+                            <div class='bluetooth-content'>
+                                <div class='bluetooth-text'>Discoverable as "<span id='js-bluetooth-name'>Yatri-Apollo</span>"</div>
+                                <div class='bluetooth-section-header'>MY DEVICES</div>
+                                <div class='bluetooth-text'>Ashesh's iPhone</div>
+                                <div class='bluetooth-text'>Kanishka's iPhone</div>
+                                <!-- <div class='bluetooth-section-header'>OTHER DEVICES</div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            
+        </div>
+        <!---------------------- Settings Page End ------------------------------------>
+<!-- JavaScripts v4 start -->
 <script src="dependencies/lottie-5.6.5.min.js"></script>
+<script src="dependencies/simple-keyboard.js"></script>
+<script src='dependencies/chart.js'></script>
+
+<script src='javascript/bikeStatus.js'></script>
+<script src='javascript/states.js'></script>
+<script src='javascript/keyboard.js'></script>
+<script src='javascript/mapbox.js'></script>
+
+<script src='javascript/infograph-speed.js'></script>
+<script src='javascript/infograph-temp.js'></script>
+<script src='javascript/infograph-carbon.js'></script>
+<script src='javascript/infograph.js'></script>
+<script type="text/javascript" src="/eel.js"></script>
+<script src='javascript/backend.js'></script>
+<!-- JavaScripts v4 end -->
+
+<!-- <script src="dependencies/lottie-5.6.5.min.js"></script>
 <script src="animation/startup.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="/eel.js"></script>
 
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
 <script src='dependencies/bootstrap.js'></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.js"></script> -->
 <script src='dependencies/chart.js'></script>
-<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.5.0/lottie.js'></script> -->
 <script src='javascript/speedometer.js'></script>
 <script src='javascript/temperature-chart.js'></script>
 <script src='javascript/carbon-chart.js'></script>
 <script src='javascript/slider.js'></script>
 <script src='javascript/splash.js'></script>
 <script src='javascript/infograph.js'></script>
-<!-- <script type="text/javascript" src="/eel.js"></script> -->
 <script src='javascript/notification.js'></script>
 <script src='javascript/modal.js'></script>
-<script src='javascript/animations.js'></script>
+<script src='javascript/animations.js'></script> -->
 
 <!-- EEL based software -->
-<script src='javascript/notification-animation.js'></script>
+<!-- <script src='javascript/notification-animation.js'></script>
 <script src='javascript/bikeStatus.js'></script>
-<script src='javascript/enggMenu.js'></script>
+<script src='javascript/enggMenu.js'></script> -->
 
-<!-- <script src='javascript/chargeModal.js'></script> -->
-
-<!-- Google Maps -->
-<!-- <script src='javascript/map.js'></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaohklnZiHr2YywkAJbwV9o3EAF5JVcs&libraries=places&callback=initAutocomplete" async defer>
-</script>
-<script src='javascript/map-driver.js' async defer></script> -->
-
-<!-- Here Maps -->
-<!-- <script src='javascript/maps-here.js'></script>
-<script src='javascript/search-box.js'></script> -->
 <!-- Mapbox -->
-<!-- <script src='javascript/map-mapbox.js'></script> -->
-<script src='javascript/mapbox.js'></script>
+<!-- <script src='javascript/mapbox.js'></script> -->
 <!-- Keyboard -->
-<script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.min.js"></script>
 <script src='javascript/keyboard.js'></script>
-<!-- <script src='javascript/speedDemo.js'></script> -->
 <script src='dependencies/hammer.js'></script>
-<script src='javascript/brightness.js'></script>
+<script src='javascript/brightness.js'></script> -->
+<script src='javascript/development.js'></script>
 </body>
 
 </html>

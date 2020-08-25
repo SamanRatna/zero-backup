@@ -115,8 +115,8 @@ def publishCurrentLocation(lat, lon):
     data = [lon, lat]
     eel.updateCurrentLocation(data)
 
-def publishHeading(heading):
-    eel.updateBearing(heading)
+def publishHeading(data):
+    eel.updateBearing(data)
 
 def requestForBluetoothPairingConfirmation(passkey):
     eel.requestBluetoothPairingConfirmation(passkey)
