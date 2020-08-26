@@ -20,6 +20,9 @@ var options = {
         //     fontColor: '#C4C4C4',
         // }
     },
+    tooltips: {
+        enabled: false
+    },
     scales: {
         yAxes: [{
             ticks: {
@@ -55,17 +58,24 @@ var speedChart = new Chart('speed-canvas', {
 });
 
 
-function changeMaxSpeed(value) {
+function updateMaxSpeed(value) {
     speedChart.data.datasets[0].data[0] = value;
     speedChart.update();
 }
 
-function changeOdoAverage(value){
-    speedChart.data.datasets[0].data[1] = value;
-    speedChart.update();
-}
+// function changeOdoAverage(value){
+//     speedChart.data.datasets[0].data[1] = value;
+//     speedChart.update();
+// }
 
-function changeTripAverage(value){
-    speedChart.data.datasets[0].data[2] = value;
+// function changeTripAverage(value){
+//     speedChart.data.datasets[0].data[2] = value;
+//     speedChart.update();
+// }
+
+function updateAverageSpeeds(odo, trip){
+    speedChart.data.datasets[0].data[1] = odo;
+    speedChart.update();  
+    speedChart.data.datasets[0].data[2] = trip;
     speedChart.update();
 }

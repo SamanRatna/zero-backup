@@ -341,9 +341,7 @@
 .bluetooth-section-header {
     font-weight: bold;
     font-size: 30px;
-    line-height: 36px;
-    /* identical to box height */
-    
+    line-height: 36px;    
     color: #898989;
     margin-top: 10%;
     margin-bottom: 5%;

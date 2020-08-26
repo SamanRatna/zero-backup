@@ -84,7 +84,7 @@
                         </div>
                     </div>
                     <div class='dash__primary__bottom'>
-                        <div class='time-indicator'>10:26 &nbsp; AM</div>
+                        <div class='time-indicator' id='js-time'>- - : - - &nbsp; - -</div>
                         <div class='temperature-indicator'>
                             <div class='temperature-indicator__coldend'>C</div>
                             <div class='temperature-indicator__body'>
@@ -336,7 +336,9 @@
                                 </div>
                             </div>
                             <div class='bluetooth-content'>
-                                <div class='bluetooth-text'>Discoverable as "<span id='js-bluetooth-name'>Yatri-Apollo</span>"</div>
+                                <div class='bluetooth-text'>Name: </span><span id='js-bluetooth-name'>"Yatri-Apollo"</span></div>
+                                <div class='bluetooth-text'>Status: <span id='js-bluetooth-status'>Discoverable</div>
+                                    <div class='bluetooth-text'>Connected To: <span id='js-bluetooth-device'></div>
                                 <div class='bluetooth-section-header'>MY DEVICES</div>
                                 <div class='bluetooth-text'>Ashesh's iPhone</div>
                                 <div class='bluetooth-text'>Kanishka's iPhone</div>

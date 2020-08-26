@@ -131,7 +131,6 @@ function removeCarbonData() {
   chart.update();
 }
 
-eel.expose(updateCarbonOffset);
 function updateCarbonOffset(data){
   var codata = data;
   codata.forEach(item => {
@@ -139,8 +138,5 @@ function updateCarbonOffset(data){
     console.log(item);
   });
 }
-
-eel.initCarbonOffset();
-
 
 

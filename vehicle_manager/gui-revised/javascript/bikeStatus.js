@@ -96,7 +96,7 @@ let rightTurnSignal = document.getElementById('js-right-turn');
 let leftTurnSignal = document.getElementById('js-left-turn');
 let highBeamSignal = document.getElementById('js-high-beam');
 let lowBeamSignal = document.getElementById('js-low-beam');
-function updateTurnSignals(turnSignal){
+function updateTurnSignal(turnSignal){
     switch(turnSignal){
         case 0:
             rightTurnSignal.classList.remove('turn-signal-active');
@@ -118,7 +118,7 @@ function updateTurnSignals(turnSignal){
 }
 // Function to update the turn signals
 // headlight signal format (lowBeamStatus, highBeamStatus)
-function updateHeadlightSignals(headlightSignal){
+function updateHeadlightSignal(headlightSignal){
     switch(headlightSignal){
         case 0:
             lowBeamSignal.classList.remove('low-beam-active');
@@ -153,19 +153,70 @@ function requestBluetoothPairingConfirmation(passkey){
     document.getElementById('js-bluetooth-passkey').innerHTML = passkey;
     setBluetoothNotificationVisibility(true);
 }
+
+// accept bluetooth pairing
 document.getElementById('js-ble-button-yes').addEventListener('click',function(){
     setBluetoothNotificationVisibility(true);
     respondBluetoothPairing('yes');  
 });
+
+// reject bluetooth pairing
 document.getElementById('js-ble-button-no').addEventListener('click',function(){
     setBluetoothNotificationVisibility(false);
     respondBluetoothPairing('no');  
 });
 
+// bluetooth on-off toggle
+document.getElementById('js-bluetooth-toggle').addEventListener('click', function(){
+    document.getElementById('js-bluetooth-label-on').classList.toggle('active');
+    document.getElementById('js-bluetooth-label-off').classList.toggle('active');
+    document.getElementById('js-bluetooth-toggle-button').classList.toggle('toggled');
+    
+    if(document.getElementById('js-bluetooth-label-on').classList.contains('active')){
+        eel.changeBluetoothState(true);
+    }
+    else{
+        eel.changeBluetoothState(false);
+    }
+});
 
+// update the name and status of th device connected to bluetooth
+function updateBluetoothStatus(name, status){
+    console.log("Bluetooth Status: " + name + " : " +status)
+    if(status == '1'){
+        document.getElementById('js-bluetooth-device').innerHTML = name;
+    }
+    else if(status == '0'){
+        document.getElementById('js-bluetooth-device').innerHTML = ' ';
+    }
+}
+
+function updateAdvertisementStatus(status){
+    console.log("Bluetooth Advertisement Status: " + status)
+    if(status =='1'){
+        document.getElementById('js-bluetooth-label-on').classList.add('active');
+        document.getElementById('js-bluetooth-label-off').classList.remove('active');
+        document.getElementById('js-bluetooth-toggle-button').classList.add('toggled');
+        document.getElementById('js-bluetooth-status').innerHTML = 'Discoverable';
+    }
+    else if(status == '0'){
+        document.getElementById('js-bluetooth-label-on').classList.remove('active');
+        document.getElementById('js-bluetooth-label-off').classList.add('active');
+        document.getElementById('js-bluetooth-toggle-button').classList.remove('toggled');
+        document.getElementById('js-bluetooth-status').innerHTML = 'Hidden';
+    }
+}
 // Connectivity Settings
 document.getElementById('js-settings-connectivity').addEventListener('click', function(){
     document.getElementById('js-settings-connectivity').classList.toggle('settings-connectivity-selected');
     document.getElementById('js-connectivity-pane').classList.toggle('right-pane-visible');
     document.getElementById('js-infographics-pane').classList.toggle('right-pane-visible');
-})
+});
+
+function updateTime(){
+    this.now = new Date().toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
+    // console.log(this.now);
+    document.getElementById('js-time').innerHTML = this.now;
+    setTimeout(updateTime, 60000);
+}
+updateTime();

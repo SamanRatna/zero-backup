@@ -16,9 +16,9 @@ var options = {
     legend: {
         display: false
     },
-    // tooltips: {
-    //     enabled: true
-    // },
+    tooltips: {
+        enabled: false
+    },
     scale: {
         reverse: false,
         gridLines: {
@@ -53,7 +53,8 @@ var options = {
     },
     elements: {
         point: {
-              radius: 0
+              radius: 1,
+              hitRadius: 20
         }
     }
 };

@@ -102,6 +102,7 @@ def publishStandState(state):
     eel.updateStandState(state)
 
 def publishCarbonOffset(data):
+    print('Publishing Carbon Offset Data')
     eel.updateCarbonOffset(data)
 
 def startGUIThread():
@@ -188,7 +189,10 @@ def getGUIData():
     global bluetooth
     eel.updateBikeMode(bikeMode)
     publishMaxSpeed(maxSpeed)
-    publishBluetoothStatus(bluetooth)
+    publishAdvertisementStatus(bluetooth)
+@eel.expose
+def changeBluetoothState(toState):
+    pass
 
 @eel.expose
 def updateUserActivityStatus(status):
