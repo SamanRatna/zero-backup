@@ -329,6 +329,21 @@
     line-height: 36px;
     color: #484848;
     height: 60px;
+    display: flex;
+}
+/* .bluetooth-text > p {
+    margin: auto;
+} */
+.bluetooth-text .bluetooth-text-title{
+    height: 70%;
+    width: 40%;
+    display: flex;
+}
+.bluetooth-text .bluetooth-text-value{
+    height: 100%;
+    width: 60%;
+    margin-left: 20px;
+    display: flex;
 }
 .bluetooth-content {
     height: 75%;
@@ -346,3 +361,12 @@
     margin-top: 10%;
     margin-bottom: 5%;
 }
+
+/* .bluetooth-name-edit {
+    height: 100%;
+    width: 30px;
+    margin-left: 65px;
+    display: inline-block;
+    background-image: url('../icons/edit.svg');
+    background-repeat: no-repeat;
+} */
