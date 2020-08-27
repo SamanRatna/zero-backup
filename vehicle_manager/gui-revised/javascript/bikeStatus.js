@@ -83,8 +83,8 @@ function updateSOC(socData, suste, thikka, babbal){
 
 
 // Function to update the odometer and trip distances
-let odoDistance = document.getElementById('js-odo-distance');
-let tripDistance = document.getElementById('js-trip-distance');
+let odoDistance = document.getElementById('js-odo-travel');
+let tripDistance = document.getElementById('js-trip-travel');
 function updateDistances(odo, trip){
     odoDistance.innerHTML = odo;
     tripDistance.innerHTML = trip;

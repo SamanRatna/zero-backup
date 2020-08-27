@@ -820,6 +820,7 @@ body {
     height: auto;
     left: 3.2vw;
     top: 8.5vh;
+    transition: 750ms;
     /* padding: 5px;
     border-radius: 5%; */
     /* background: rgba(167, 167, 167, 0.2); */

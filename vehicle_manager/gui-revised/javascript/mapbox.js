@@ -178,7 +178,7 @@ function getRoute(end) {
     var data = json.routes[0];
     console.log(json);
     addSummaryToPanel(data);
-    // findManeuverPoint(maneuvers);
+    findManeuverPoint(maneuvers);
     // addMarkersToRoute(maneuvers);
     // elPsyCongroo
     currentMarker.on('dragend', function(){
@@ -238,6 +238,7 @@ function addSummaryToPanel(route){
   let distance = content / 1000;
   distanceToDestination = content;
   document.getElementById('js-trip-distance').innerHTML = distance.toFixed(1);
+  console.log(distance);
   document.getElementById('js-route-distance').innerHTML = distance.toFixed(1)+' km';
   document.getElementById('js-route-destination').innerHTML = 'To: '+ destinationName;
 
@@ -271,26 +272,44 @@ function findManeuverPoint(maneuver){
   if(closestManeuverIndex != currentManeuverIndex){
     currentManeuverIndex = closestManeuverIndex;
     // console.log(closestManeuverPoint);
-    // console.log('closest maneuver (%s m) is at: {lat: %s, lng: %s}: \n %s', Math.round(minDistance), closestManeuverPoint.lat, closestManeuverPoint.lng, closestManeuver.maneuver.instruction);
+    console.log('closest maneuver (%s m) is at: {lat: %s, lng: %s}: \n %s', Math.round(minDistance), closestManeuverPoint.lat, closestManeuverPoint.lng, closestManeuver.maneuver.instruction);
     document.getElementById('js-current-maneuver').innerHTML = closestManeuver.maneuver.instruction;
+    let icon = findManeuverType('primary', closestManeuver.maneuver.type, closestManeuver.maneuver.modifier);
+    document.getElementById('js-current-maneuver-icon').style.backgroundImage = icon;
 
     if(closestManeuverIndex + 1 < maneuver.length){
       setNextManeuverVisibility(true);
       document.getElementById('js-next-maneuver').innerHTML = maneuver[closestManeuverIndex+1].maneuver.instruction;
+      let icon = findManeuverType('secondary', maneuver[closestManeuverIndex+1].maneuver.type, maneuver[closestManeuverIndex+1].maneuver.modifier);
+      document.getElementById('js-next-maneuver-icon').style.backgroundImage = icon;
     }
     else{
       document.getElementById('js-next-maneuver').innerHTML = ' ';
       setNextManeuverVisibility(false);
     }
-    document.getElementById('js-current-maneuver-icon').style.backgroundImage = 'url(images/straight-ahead.svg)';
-    document.getElementById('js-next-maneuver-icon').style.backgroundImage = 'url(images/turn-right.svg)';
+    // document.getElementById('js-current-maneuver-icon').style.backgroundImage = 'url(images/straight-ahead.svg)';
+    // document.getElementById('js-next-maneuver-icon').style.backgroundImage = 'url(images/turn-right.svg)';
 
     if(currentManeuverIndex > 0){
       distanceToDestination = Math.abs(distanceToDestination - maneuver[currentManeuverIndex-1].distance);
       document.getElementById('js-route-distance').innerHTML = distanceToDestination.toFixed(1)+' km';
     }
   }
+}
 
+
+const preIcon = "url('../icons/";
+const postIcon = ".svg')";
+const demarcator = '-';
+function findManeuverType(step, type, modifier){
+  let icon;
+  if(type == 'depart' || type == 'arrive'){
+    icon = preIcon + type + demarcator + step + postIcon;
+  }
+  else{
+    icon = preIcon + 'turn' + demarcator + modifier + demarcator + step + postIcon;
+  }
+  return icon;
 }
 // let currentManeuverIndex = -1;
 // function findManeuverPoint(maneuver){

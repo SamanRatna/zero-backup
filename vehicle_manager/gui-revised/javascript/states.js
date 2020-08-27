@@ -15,18 +15,22 @@ function initKeyboardListener(){
     });
   }
 
+//  click handler for cancelling the navigation from nav-info-mode
 document.getElementById('js-trip-cancel').addEventListener('click', function(){
     setMode('normal-mode');
 });
 
+//  click handler for starting the navigation from nav-info-mode
 document.getElementById('js-start-navigation').addEventListener('click', function(){
     setMode('navigation-mode');
 });
 
+//  click handler for ending the navigation from navigation-mode
 document.getElementById('js-end-navigation').addEventListener('click', function(){
     setMode('normal-mode');
 });
 
+// function to view or hide the trip info card
 function setTripCardVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-trip-card').style.display = 'block';
@@ -36,6 +40,7 @@ function setTripCardVisibility(visibility){
     }
 }
 
+// function to view or hide the dash card
 function setDashCardVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-dash-card').style.display = 'block';
@@ -45,6 +50,7 @@ function setDashCardVisibility(visibility){
     }
 }
 
+// function to view or hide the logo frame
 function setLogoFrameVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-logo-frame').style.display = 'flex';
@@ -54,6 +60,7 @@ function setLogoFrameVisibility(visibility){
     }
 }
 
+// function to view or hide the banner-instructions card
 function setRouteCardVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-route-card').style.display = 'block';
@@ -63,6 +70,7 @@ function setRouteCardVisibility(visibility){
     }
 }
 
+// function to view or hide the geocoder
 function setGeocoderVisibility(visibility){
     if(visibility == true){
         document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].style.display = 'block';
@@ -72,6 +80,7 @@ function setGeocoderVisibility(visibility){
     }
 }
 
+// function to open or close the settings page
 function setSettingsCardVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-settings-page').style.display = 'flex';
@@ -81,6 +90,7 @@ function setSettingsCardVisibility(visibility){
     }
 }
 
+// function to open or close the settings page
 function setNotificationCardVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-notification-card').style.display = 'block';
@@ -90,6 +100,7 @@ function setNotificationCardVisibility(visibility){
     } 
 }
 
+// function to view or hide the software update notification
 function setSWUpdateNotificationVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-swupdate-card').style.display = 'flex';
@@ -115,6 +126,14 @@ function setKickstandSignalVisibility(visibility){
         document.getElementById('js-kickstand-signal').style.display = 'none';
     } 
 }
+function moveNotificationCard(to){
+    if(to == 'navigation-mode'){
+        document.getElementById('js-notification-card').style.top = '2.7vh';
+    }
+    else{
+        document.getElementById('js-notification-card').style.top = '8.5vh';
+    }
+}
 let previousMode = 'normal-mode';
 let currentMode = 'normal-mode';
 function setMode(mode){
@@ -128,6 +147,7 @@ function setMode(mode){
             setTripCardVisibility(false);
             setLogoFrameVisibility(true);
             setDashCardVisibility(true);
+            moveNotificationCard(mode);
             closeKeyboard();
             previousMode = currentMode;
             currentMode = 'normal-mode';
@@ -152,6 +172,7 @@ function setMode(mode){
             setTripCardVisibility(false);
             setRouteCardVisibility(true);
             setGeocoderVisibility(false);
+            moveNotificationCard(mode);
             previousMode = currentMode;
             currentMode = 'navigation-mode';
             startNavigation();
@@ -161,3 +182,23 @@ function setMode(mode){
     }
     console.log(previousMode + ' -> ' + currentMode);
 }
+
+// click handler for opening settings page
+document.getElementById('js-dash-card').addEventListener('click', function(){
+    setSettingsCardVisibility(true);
+});
+
+// click handler for closing the settings page
+// click handler for informing user activity to backend
+let settingsActiveArea = document.getElementById('js-settings-area');
+let settingsPage = document.getElementById('js-settings-page');
+document.addEventListener('click', function(event) {
+    let isInsideActiveArea = settingsActiveArea.contains(event.target);
+    let isInsidePage = settingsPage.contains(event.target);
+    if (!isInsideActiveArea && isInsidePage) {
+        setSettingsCardVisibility(false);
+    }
+
+    console.log('Page Active.')
+    eel.updateUserActivityStatus(1);
+});

@@ -30,8 +30,5 @@ function initializeGUI(){
 function respondBluetoothPairing(response){
   eel.bluetoothPairingConfirmation(response);
 }
-document.addEventListener("click", function(){
-  console.log('Page Active.')
-  eel.updateUserActivityStatus(1);
-});
+
 initializeGUI();
