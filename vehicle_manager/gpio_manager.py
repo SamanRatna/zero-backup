@@ -183,7 +183,7 @@ class GPIOWriter():
     def initializeGPIO(self):
         GPIO.setmode(GPIO.BCM)
         # outputChannel = [14, 15, 18, 23, 24, 25, 8, 7, 16, 12]
-        outputChannel = [pin.OUT_SUSTE, pin.OUT_THIKKA, pin.OUT_BABBAL, pin.OUT_REVERSE, pin.OUT_POWER]
+        outputChannel = [pin.OUT_SUSTE, pin.OUT_THIKKA, pin.OUT_BABBAL, pin.OUT_REVERSE, pin.OUT_POWER, pin.OUT_BRIGHT_PLUS, pin.OUT_BRIGHT_MINUS]
         # ledChannel = [5, 6, 13, 19, 26]
         GPIO.setup(outputChannel, GPIO.OUT, initial=GPIO.HIGH)
         vehicleEvents.onUserInactivity += self.setPower
@@ -217,7 +217,15 @@ class GPIOWriter():
             GPIO.output(pin.OUT_POWER, True)
 
     def setBrightness(self, brightness):
-        print('Changing brightness to: ', brightness)
+        if(brightness == 1):
+            GPIO.output(pin.OUT_BRIGHT_PLUS, False)
+            sleep(0.15)
+            GPIO.output(pin.OUT_BRIGHT_PLUS, True)
+        elif(brightness == -1):
+            GPIO.output(pin.OUT_BRIGHT_MINUS, False)
+            sleep(0.15)
+            GPIO.output(pin.OUT_BRIGHT_MINUS, True)
+        print('Brightness Delta: ', brightness)
 
     def setMode(self, mode):
         if mode == eBikeMode.MODE_THIKKA:
