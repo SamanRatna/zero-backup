@@ -184,7 +184,7 @@ class VehicleInfoCalculator:
             json.dump(tripReset, f)
         
         vehicleReadings.distances(self.odoReading, self.tripDistance) 
-        publishOdometer(self.odometer, self.tripOdo)
+        publishDistances(self.odometer, self.tripOdo)
 
     def onBLEReady(self, value):
         print('BLE is ready.')

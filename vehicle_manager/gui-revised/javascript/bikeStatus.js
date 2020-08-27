@@ -3,10 +3,10 @@ function updateSpeedPower(speed, power){
     document.getElementById('js-speed-value').innerHTML = speed;
 
     if(speed > 1){
-        document.getElementById('js-trip-reset').classList.add('trip-reset-deactivated');
+        activateTripResetButton(false);
     }
     else{
-        document.getElementById('js-trip-reset').classList.remove('trip-reset-deactivated');
+        activateTripResetButton(true);
     }
 }
 
@@ -156,3 +156,22 @@ function updateTime(){
     setTimeout(updateTime, 60000);
 }
 updateTime();
+
+// function to activate or deactivate the trip reset button 
+let tripResetState = true; // true means activated
+function activateTripResetButton(activation){
+    if(activation == true && tripResetState == false){
+        document.getElementById('js-trip-reset').classList.remove('trip-reset-deactivated');
+        document.addEventListener('click', requestTripReset);
+        tripResetState = true;
+    }
+    else if(activation == false && tripResetState == true){
+        document.getElementById('js-trip-reset').classList.add('trip-reset-deactivated');
+        document.removeEventListener('click', requestTripReset);
+        tripResetState = false;
+    }
+}
+
+function requestTripReset(){
+    eel.resetTrip();
+}

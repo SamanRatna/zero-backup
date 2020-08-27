@@ -184,7 +184,7 @@ function setMode(mode){
 }
 
 // click handler for opening settings page
-document.getElementById('js-dash-card').addEventListener('click', function(){
+document.getElementById('js-dash-card-primary').addEventListener('click', function(){
     setSettingsCardVisibility(true);
 });
 
