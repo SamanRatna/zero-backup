@@ -12,14 +12,24 @@ document.getElementById('js-temperature-unit-toggle').addEventListener('click', 
     document.getElementById('js-temperature-unit-button').classList.toggle('toggled');
 });
 
-// brightness control
-let slider = document.getElementById('js-brightness-slider');
-slider.oninput = function() {
-    let x = slider.value * 10 - 5;
-    let color = 'linear-gradient(90deg, #30D5C8 ' + x + '%, #EAEAEA ' + x + '%)';
-    slider.style.background = color;
-    eel.changeBrightness(slider.value);
-}
+// brightness control slider
+// let slider = document.getElementById('js-brightness-slider');
+// slider.oninput = function() {
+//     let x = slider.value * 10 - 5;
+//     let color = 'linear-gradient(90deg, #30D5C8 ' + x + '%, #EAEAEA ' + x + '%)';
+//     slider.style.background = color;
+//     eel.changeBrightness(slider.value);
+// }
+
+// brightness control plus
+document.getElementById('js-brightness-plus').addEventListener('click', function(){
+    eel.changeBrightness(1);
+});
+
+//brightness control minus
+document.getElementById('js-brightness-minus').addEventListener('click', function(){
+    eel.changeBrightness(-1);
+});
 
 // Connectivity Settings
 document.getElementById('js-settings-connectivity').addEventListener('click', function(){

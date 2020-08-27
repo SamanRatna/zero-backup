@@ -366,17 +366,28 @@
     background-repeat: no-repeat;
 } */
 
-/******************* Brightness Control *******************************8*/
-.slider {
-    -webkit-appearance: none;  /* Override default CSS styles */
+/******************* Brightness Control ********************************/
+.settings-brightness-title{
+    height: 20%;
+    width: 100%;
+    font-weight: bold;
+    font-size: 35px;
+    font-family: 'Barlow';
+    color: #C4C4C4;
+    display: flex;
+}
+.settings-brightness-title > p{
+    margin: auto;
+}
+/* .slider {
     appearance: none;
-    width: 344px; /* Full-width */
-    height: 60px; /* Specified height */
+    width: 344px;
+    height: 60px;
     border-radius: 50px;
     background: linear-gradient(90deg, #30D5C8 60%, #30D5C8 60%);
-    outline: none; /* Remove outline */
-    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
     transform: rotate(-90deg);
     transition: opacity .2s;
     position: relative;
@@ -394,19 +405,6 @@
     border-radius: 50px;
     box-shadow: -8px 0px 4px rgba(0, 0, 0, 0.25);
 }
-
-.settings-brightness-title{
-    height: 100px;
-    width: 100%;
-    font-weight: bold;
-    font-size: 35px;
-    font-family: 'Barlow';
-    color: #C4C4C4;
-    display: flex;
-}
-.settings-brightness-title > p{
-    margin: auto;
-}
 .settings-brightness-slider {
     width: 100%;
     height: 70%;   
@@ -422,4 +420,27 @@
     top: 49.5%;
     left: 16.5%;
     z-index: 6
+} */
+
+.settings-brightness-controls{
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-brightness-button {
+    height: 40%;
+    width: 50%;
+    margin: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.settings-brightness-button.plus{
+    background-image: url('../icons/plus.svg');
+}
+.settings-brightness-button.minus{
+    background-image: url('../icons/minus.svg');
 }
