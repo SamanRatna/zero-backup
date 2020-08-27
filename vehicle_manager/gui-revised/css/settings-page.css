@@ -411,3 +411,15 @@
     width: 100%;
     height: 70%;   
 }
+
+.settings-brightness-icon {
+    position: absolute;
+    background-image: url('../icons/brightness.svg');
+    height: 60px;
+    width: 60px;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 49.5%;
+    left: 16.5%;
+    z-index: 6
+}
