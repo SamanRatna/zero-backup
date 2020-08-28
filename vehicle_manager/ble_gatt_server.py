@@ -674,7 +674,7 @@ class CharacteristicUserDescriptionDescriptor(Descriptor):
 
 def register_app_cb():
     print('GATT application registered')
-    vehicleEvents.onBLEReady(1)
+    vehicleEvents.onBLEReady([1])
 
 
 def register_app_error_cb(error):

@@ -15,7 +15,7 @@ except ImportError:
 
 from random import randint
 
-
+bluetoothName = 'Yatri Appollo'
 mainloop = None
 devices = {}
 BLUEZ_SERVICE_NAME = 'org.bluez'
@@ -49,14 +49,23 @@ class Devices:
     def __init__(self):
         self.devices = {}
     def updateConnection(self, deviceHandle, connection):
+        if not deviceHandle in self.devices:
+            self.devices[deviceHandle] = { }
+        
         self.devices[deviceHandle]["Connected"] = connection
-        vehicleEvents.onBluetoothConnection(self.devices[deviceHandle]["Alias"], self.devices[deviceHandle]["Connected"])
+        print('BLE_ADVERTISEMENT: updateConnection')
         print(self.devices)
+        if 'Name' in self.devices[deviceHandle]:
+            vehicleEvents.onBluetoothConnection(self.devices[deviceHandle]["Name"], self.devices[deviceHandle]["Connected"])
     def updateName(self, deviceHandle, name):
         self.devices[deviceHandle]["Name"] = name
+        print('BLE_ADVERTISEMENT: updateName')
         print(self.devices)
+        if 'Connected' in self.devices[deviceHandle]:
+            vehicleEvents.onBluetoothConnection(self.devices[deviceHandle]["Name"], self.devices[deviceHandle]["Connected"])
     def updateAlias(self, deviceHandle, alias):
         self.devices[deviceHandle]["Alias"] = alias
+        print('BLE_ADVERTISEMENT: updateAlias')
         print(self.devices)
     def updateTrust(self, deviceHandle, trust):
         self.devices[deviceHandle]["Trusted"] = trust
@@ -166,12 +175,13 @@ class Advertisement(dbus.service.Object):
 class TestAdvertisement(Advertisement):
 
     def __init__(self, bus, index):
+        global bluetoothName
         Advertisement.__init__(self, bus, index, 'peripheral')
         self.add_service_uuid('180D')
         self.add_service_uuid('180F')
         self.add_manufacturer_data(0xffff, [0x00, 0x01, 0x02, 0x03, 0x04])
         self.add_service_data('9999', [0x00, 0x01, 0x02, 0x03, 0x04])
-        self.add_local_name('YM-P0')
+        self.add_local_name(bluetoothName)
         self.include_tx_power = True
         self.add_data(0x26, [0x01, 0x01, 0x00])
 
@@ -192,6 +202,10 @@ def propertiesChangedCb(*args, **kwargs):
 def interfacesAddedCb(*args, **kwargs):
     for i, arg in enumerate(args):
         if(i==1):
+            if not 'org.bluez.Device1' in arg:
+                print('org.bluez.Device1 key not found')
+                return
+
             if 'Connected' in arg['org.bluez.Device1']:
                 isConnected = bool(arg["org.bluez.Device1"]["Connected"])
                 bluetoothDevices.updateConnection("org.bluez.Device1", isConnected)
@@ -202,9 +216,11 @@ def interfacesAddedCb(*args, **kwargs):
 
             if 'Trusted' in arg['org.bluez.Device1']:
                 isTrusted = bool(arg["org.bluez.Device1"]["Trusted"])
-                bluetoothDevices.updateTrusted("org.bluez.Device1", isTrusted)
+                bluetoothDevices.updateTrust("org.bluez.Device1", isTrusted)
 
 def register_ad_cb():
+    global bluetoothName
+    vehicleEvents.onBLEReady([2, bluetoothName])
     print('Advertisement registered')
 
 

@@ -103,7 +103,7 @@ class Agent(dbus.service.Object):
 	# 	raise Rejected("Passkey doesn't match")
 
 	def RequestConfirmation(self, device, passkey):
-		print("RequestConfirmation (%s, %06d)" % (device, passkey))
+		# print("RequestConfirmation (%s, %06d)" % (device, passkey))
 		vehicleEvents.confirmBluetoothPairing(passkey)
 		event_set = self.e.wait(8)
 		if(event_set):
@@ -154,8 +154,8 @@ def startAgent():
 
 	bus = dbus.SystemBus()
 
-	# capability = "KeyboardDisplay"
-	capability = "NoInputNoOutput"
+	capability = "KeyboardDisplay"
+	# capability = "NoInputNoOutput"
 
 	parser = OptionParser()
 	parser.add_option("-i", "--adapter", action="store",

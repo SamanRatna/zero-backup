@@ -46,7 +46,7 @@ function requestBluetoothPairingConfirmation(passkey){
 
 // accept bluetooth pairing
 document.getElementById('js-ble-button-yes').addEventListener('click',function(){
-    setBluetoothNotificationVisibility(true);
+    setBluetoothNotificationVisibility(false);
     respondBluetoothPairing('yes');  
 });
 
@@ -83,16 +83,20 @@ function updateBluetoothStatus(name, status){
 
 function updateAdvertisementStatus(status){
     console.log("Bluetooth Advertisement Status: " + status)
-    if(status =='1'){
+    if(status[0] =='1'){
         document.getElementById('js-bluetooth-label-on').classList.add('active');
         document.getElementById('js-bluetooth-label-off').classList.remove('active');
         document.getElementById('js-bluetooth-toggle-button').classList.add('toggled');
         document.getElementById('js-bluetooth-status').innerHTML = 'Discoverable';
     }
-    else if(status == '0'){
+    else if(status[0] == '0'){
         document.getElementById('js-bluetooth-label-on').classList.remove('active');
         document.getElementById('js-bluetooth-label-off').classList.add('active');
         document.getElementById('js-bluetooth-toggle-button').classList.remove('toggled');
         document.getElementById('js-bluetooth-status').innerHTML = 'Hidden';
+    }
+
+    if(status.length > 1 ){
+        document.getElementById('js-bluetooth-name').innerHTML = status[1];
     }
 }

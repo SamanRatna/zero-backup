@@ -17,7 +17,7 @@ eel.init('gui-revised')
 maxSpeed = 0
 bikeMode = "MODE_STANDBY"
 bluetooth = 0
-
+bluetoothName = ' '
 # my_options = {
 #     'mode': "chrome", #or "chrome-app",
 #     'host': 'localhost',
@@ -78,7 +78,11 @@ def publishDistances(odometer, tripDistance):
 def publishAdvertisementStatus(status):
     eel.updateAdvertisementStatus(status)
     global bluetooth
-    bluetooth = status
+    global bluetoothName
+    bluetooth = status[0]
+    if(len(status) > 1):
+        bluetoothName = status[1]
+        print(status[1])
 
 def publishBluetoothStatus(name, status):
     eel.updateBluetoothStatus(name, status)
@@ -120,10 +124,12 @@ def publishHeading(data):
     eel.updateBearing(data)
 
 def requestForBluetoothPairingConfirmation(passkey):
+    # print('Requesting for Bluetooth: ', passkey)
     eel.requestBluetoothPairingConfirmation(passkey)
 
 @eel.expose
 def bluetoothPairingConfirmation(response):
+    # print('Response for Bluetooth: ', response)
     vehicleEvents.onBluetoothPairingConfirmation(response)
 
 @eel.expose
@@ -187,9 +193,10 @@ def getGUIData():
     global maxSpeed
     global bikeMode
     global bluetooth
+    global bluetoothName
     eel.updateBikeMode(bikeMode)
     publishMaxSpeed(maxSpeed)
-    publishAdvertisementStatus(bluetooth)
+    publishAdvertisementStatus([bluetooth, bluetoothName])
 @eel.expose
 def changeBluetoothState(toState):
     pass
