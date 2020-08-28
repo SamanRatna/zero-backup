@@ -148,6 +148,7 @@ function setMode(mode){
             setLogoFrameVisibility(true);
             setDashCardVisibility(true);
             moveNotificationCard(mode);
+            setDashCardOpacity(mode);
             closeKeyboard();
             previousMode = currentMode;
             currentMode = 'normal-mode';
@@ -173,6 +174,7 @@ function setMode(mode){
             setRouteCardVisibility(true);
             setGeocoderVisibility(false);
             moveNotificationCard(mode);
+            setDashCardOpacity(mode);
             previousMode = currentMode;
             currentMode = 'navigation-mode';
             startNavigation();
@@ -202,3 +204,14 @@ document.addEventListener('click', function(event) {
     console.log('Page Active.')
     eel.updateUserActivityStatus(1);
 });
+
+// function to change the opacity of the dash card based on the mode
+function setDashCardOpacity(mode){
+    if(mode == 'navigation-mode'){
+        document.getElementById('js-dash-card').style.opacity = '0.5';
+    }
+    else{
+        document.getElementById('js-dash-card').style.opacity = '1.0';
+    }
+    
+}

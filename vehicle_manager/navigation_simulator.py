@@ -15,11 +15,12 @@ def updateRoute(data):
         print('Update Route Exception')
         print(error)
 
-@eel.expose
-def startNavigation():
-    simulateRoute()
-
-def simulateRoute():
+# @eel.expose
+# def startNavigation():
+#     simulateRoute()
+def simulateRoute(event):
+    if(event != 1):
+        return
     route = []
     pastData = None
     currentData = [0,0,0] #latitude, longitude, bearing
@@ -67,3 +68,5 @@ def calculateHeading(location_a, location_b):
     print('Heading: ', heading)
     # vehicleReadings.heading(heading)
     return(heading)
+
+vehicleEvents.onNavigation += simulateRoute

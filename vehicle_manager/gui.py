@@ -202,6 +202,10 @@ def updateUserActivityStatus(status):
 def getNetworkInfo():
     info = Quectel.getInstance().getSimInfo()
 
+@eel.expose
+def startNavigation():
+    vehicleEvents.onNavigation(1)
+
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances

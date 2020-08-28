@@ -352,7 +352,7 @@ function onRotate() {
 
 function startNavigation(){
   let cLngLat = currentMarker.getLngLat();
-  let markerCoord = [cLngLat.lng, cLngLat.lat];
+  // let markerCoord = [cLngLat.lng, cLngLat.lat];
   map.easeTo({
     center: [ cLngLat.lng, cLngLat.lat ],
     pitch: navigationPitch,
