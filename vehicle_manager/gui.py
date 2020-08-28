@@ -175,6 +175,8 @@ def fastCharge(option):
         os.system('cansend can0 300#01E8034C04AA00')
         time.sleep(0.05)
         count = count - 1
+def publishBluetoothDevices(devices):
+    eel.updateBluetoothDevices(devices)
 
 @eel.expose
 def getConnectivityStatus():
@@ -227,6 +229,7 @@ vehicleReadings.gpsLocation += publishCurrentLocation
 vehicleReadings.heading += publishHeading
 vehicleEvents.confirmBluetoothPairing += requestForBluetoothPairingConfirmation
 vehicleEvents.onBluetoothConnection += publishBluetoothStatus
+vehicleReadings.bleDevices += publishBluetoothDevices
 
 if __name__ == "__main__":
     startGUIThread()

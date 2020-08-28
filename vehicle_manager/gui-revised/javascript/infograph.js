@@ -106,3 +106,14 @@ function updateAdvertisementStatus(status){
         document.getElementById('js-bluetooth-name').innerHTML = status[1];
     }
 }
+
+function updateBluetoothDevices(devices){
+    // document.getElementById('js-bluetooth-passkey').innerHTML = devices[0];
+    // setBluetoothNotificationVisibility(true);
+    // setTimeout(function(){
+    //     if(isBluetoothNotificationVisible()){
+    //         setBluetoothNotificationVisibility(false);
+    //     }
+    // }, 7000);
+    // logic to handle device lists
+}

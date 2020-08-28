@@ -263,6 +263,11 @@ def find_devices(bus):
                 device["Trusted"] = bool(props["org.bluez.Device1"]["Connected"])
             bluetoothDevices.devices["org.bluez.Device1"] = device
     print(bluetoothDevices.devices)
+    if 'org.bluez.Device1' in bluetoothDevices.devices:
+        if('Name' in bluetoothDevices.devices['org.bluez.Device1']):
+            print('Sending device list to UI: ', bluetoothDevices.devices['org.bluez.Device1']['Name'])
+            vehicleReadings.bleDevices([bluetoothDevices.devices['org.bluez.Device1']['Name']])
+    
     return
 
 def startAdvertisement():

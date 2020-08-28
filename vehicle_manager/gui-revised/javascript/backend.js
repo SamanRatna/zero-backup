@@ -6,6 +6,7 @@ eel.expose(updateDistances);
 eel.expose(updateAverageSpeeds);
 eel.expose(updateBluetoothStatus);
 eel.expose(updateAdvertisementStatus);
+eel.expose(updateBluetoothDevices);
 eel.expose(updateStandState);
 eel.expose(updateCarbonOffset);
 eel.expose(requestBluetoothPairingConfirmation);
