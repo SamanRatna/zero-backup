@@ -110,6 +110,7 @@ function setSWUpdateNotificationVisibility(visibility){
     } 
 }
 
+// function to view or hide the bluetooth pairing notification
 function setBluetoothNotificationVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-bluetooth-card').style.display = 'flex';
@@ -117,6 +118,16 @@ function setBluetoothNotificationVisibility(visibility){
     else {
         document.getElementById('js-bluetooth-card').style.display = 'none';
     } 
+}
+
+// function to check the visibility of bluetooth pairing notification
+function isBluetoothNotificationVisible(){
+    if('none' == document.getElementById('js-bluetooth-card').style.display){
+        return false;
+    }
+    else{
+        return true;
+    }
 }
 function setKickstandSignalVisibility(visibility){
     if(visibility == true){

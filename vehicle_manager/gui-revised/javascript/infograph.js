@@ -42,6 +42,12 @@ document.getElementById('js-settings-connectivity').addEventListener('click', fu
 function requestBluetoothPairingConfirmation(passkey){
     document.getElementById('js-bluetooth-passkey').innerHTML = passkey;
     setBluetoothNotificationVisibility(true);
+    setTimeout(function(){
+        if(isBluetoothNotificationVisible()){
+            setBluetoothNotificationVisibility(false);
+            respondBluetoothPairing('no');
+        }
+    }, 7000);
 }
 
 // accept bluetooth pairing
