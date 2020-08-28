@@ -118,7 +118,7 @@
             <!---------------------------- Trip Card Start---------------------------------->
             <div class='trip-card' id='js-trip-card'>
                 <div class='trip__info'>
-                    <div class='trip__distance'><p><span id='js-trip-distance'>-</span><span class='trip__distance__unit'> km</span></p></div>
+                    <div class='trip__distance'><p><span id='js-trip-distance'>-</span><span class='trip__distance__unit' id='js-trip-distance-unit'> km</span></p></div>
                     <div class='trip__soc'>
                         <div class='trip__soc__details'>
                             <p class='trip__soc__label'>Current SoC: &nbsp;</p>
@@ -140,7 +140,10 @@
                 <div class='route__info'>
                     <div class='route__info__current'>
                         <div class='route__info__icon' id='js-current-maneuver-icon'></div>
-                        <div class='route__info__text'><p id='js-current-maneuver'></p></div>
+                        <div class='route__info__text'><p>
+                            <span id='js-current-maneuver'></span>
+                            <span class='distance-to-maneuver' id='js-distance-to-maneuver'></span>
+                        </p></div>
                     </div>
                     <div class='route__info__divider' id='js-maneuver-divider'></div>
                     <div class='route__info__next' id='js-next-maneuver-box'>

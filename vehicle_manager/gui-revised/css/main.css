@@ -843,3 +843,6 @@ body {
 .bluetooth-passkey > p {
     margin: auto;
 }
+.distance-to-maneuver{
+    white-space: nowrap;
+}

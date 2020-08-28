@@ -3,8 +3,8 @@ let map;
 let geocoder;
 let destinationMarker, currentMarker;
 const initialZoomLevel = 18;
-const navigationZoomLevel = 24;
-const navigationPitch = 60;
+const navigationZoomLevel = 20;
+const navigationPitch = 0;
 let maneuvers;
 let destinationName;
 let distanceToDestination = Infinity;
@@ -178,14 +178,16 @@ function getRoute(end) {
     var data = json.routes[0];
     console.log(json);
     addSummaryToPanel(data);
+    // addStepMarkers(maneuvers); //this will add markers to the steps (debug functionality)
     findManeuverPoint(maneuvers);
-    // addMarkersToRoute(maneuvers);
+
     // elPsyCongroo
     currentMarker.on('dragend', function(){
       currentLocation = currentMarker.getLngLat();
       findManeuverPoint(maneuvers);
     });
     // elPsyCongroo
+
     var route = data.geometry.coordinates;
     var geojson = {
       type: 'Feature',
@@ -219,13 +221,12 @@ function getRoute(end) {
         },
         paint: {
           'line-color': '#40e0d0',
-          'line-width': 40,
+          'line-width': 30,
           'line-opacity': 0.75
         }
       });
       map.getSource('route').setData(geojson);
     }
-    // add turn instructions here at the end
 
     // updateRouteToBackend(json.routes[0].geometry.coordinates)
     updateRouteToBackend(json.routes[0]);
@@ -235,19 +236,27 @@ function getRoute(end) {
 
 function addSummaryToPanel(route){
   let content = route.distance;
-  let distance = content / 1000;
-  distanceToDestination = content;
-  document.getElementById('js-trip-distance').innerHTML = distance.toFixed(1);
-  console.log(distance);
-  document.getElementById('js-route-distance').innerHTML = distance.toFixed(1)+' km';
+  let distance = Infinity;
+  if(content > 999){
+    distance = content / 1000;
+    document.getElementById('js-trip-distance').innerHTML = distance.toFixed(1);
+    document.getElementById('js-trip-distance-unit').innerHTML = 'km';
+    document.getElementById('js-route-distance').innerHTML = distance.toFixed(1)+' km';
+  }
+  else{
+    distance = content;
+    document.getElementById('js-trip-distance').innerHTML = distance.toFixed(0);
+    document.getElementById('js-trip-distance-unit').innerHTML = 'm';
+    document.getElementById('js-route-distance').innerHTML = distance.toFixed(1)+' m';
+  }
   document.getElementById('js-route-destination').innerHTML = 'To: '+ destinationName;
 
   setMode('nav-info-mode');
 }
 
+// function to find the closest maneuver point
 let currentManeuverIndex = -1;
 function findManeuverPoint(maneuver){
-
   var closestManeuver,
   closestManeuverPoint,
   closestManeuverIndex,
@@ -268,13 +277,33 @@ function findManeuverPoint(maneuver){
       closestManeuverIndex = manIndex;
     }
   });
+  currentLeg = findClosestPoint(maneuver, closestManeuverIndex);
+  closestManeuverIndex = currentLeg + 1;
 
+  distanceToManeuver = calculateDistanceToManeuver(maneuvers[closestManeuverIndex]);
+  distanceToDestination = calculateDistanceToDestination(distanceToManeuver, closestManeuverIndex, maneuver);
+  let distanceToDestinationText = ' ';
+  let distanceToManeuverText = ' ';
+  if(distanceToDestination > 999){
+    distanceToDestinationText = (distanceToDestination / 1000).toFixed(1)+' km';
+  }
+  else{
+    distanceToDestinationText = (distanceToDestination).toFixed(0)+' m';
+  }
+
+  if(distanceToManeuver > 999){
+    distanceToManeuverText = (distanceToManeuver / 1000).toFixed(1)+' km';
+  }
+  else{
+    distanceToManeuverText = (distanceToManeuver).toFixed(0)+' m';
+  }
+  document.getElementById('js-route-distance').innerHTML = distanceToDestinationText;
+  document.getElementById('js-distance-to-maneuver').innerHTML = ' ( ' + distanceToManeuverText + ' )';
   if(closestManeuverIndex != currentManeuverIndex){
     currentManeuverIndex = closestManeuverIndex;
     // console.log(closestManeuverPoint);
-    console.log('closest maneuver (%s m) is at: {lat: %s, lng: %s}: \n %s', Math.round(minDistance), closestManeuverPoint.lat, closestManeuverPoint.lng, closestManeuver.maneuver.instruction);
-    document.getElementById('js-current-maneuver').innerHTML = closestManeuver.maneuver.instruction;
-    let icon = findManeuverType('primary', closestManeuver.maneuver.type, closestManeuver.maneuver.modifier);
+    document.getElementById('js-current-maneuver').innerHTML = maneuver[closestManeuverIndex].maneuver.instruction;
+    let icon = findManeuverType('primary', maneuver[closestManeuverIndex].maneuver.type, maneuver[closestManeuverIndex].maneuver.modifier);
     document.getElementById('js-current-maneuver-icon').style.backgroundImage = icon;
 
     if(closestManeuverIndex + 1 < maneuver.length){
@@ -287,14 +316,10 @@ function findManeuverPoint(maneuver){
       document.getElementById('js-next-maneuver').innerHTML = ' ';
       setNextManeuverVisibility(false);
     }
-    // document.getElementById('js-current-maneuver-icon').style.backgroundImage = 'url(images/straight-ahead.svg)';
-    // document.getElementById('js-next-maneuver-icon').style.backgroundImage = 'url(images/turn-right.svg)';
 
-    if(currentManeuverIndex > 0){
-      distanceToDestination = Math.abs(distanceToDestination - maneuver[currentManeuverIndex-1].distance);
-      document.getElementById('js-route-distance').innerHTML = distanceToDestination.toFixed(1)+' km';
-    }
+    // addRouteLeg(maneuver[currentLeg]); // this will show the current step on the map (debug functionality)
   }
+  
 }
 
 
@@ -311,74 +336,6 @@ function findManeuverType(step, type, modifier){
   }
   return icon;
 }
-// let currentManeuverIndex = -1;
-// function findManeuverPoint(maneuver){
-
-//   var closestManeuver,
-//   closestManeuverPoint,
-//   closestManeuverIndex,
-//   minDistance = Infinity;
-
-//   let currentLngLat = mapboxgl.LngLat.convert(currentLocation);
-//   // console.log("Current Location: " + currentLocation);
-//   // calculate the closest maneuver
-//   let currDistance = Infinity;
-//   maneuver.forEach(function(man, manIndex) {
-//     let currManeuverPoint = mapboxgl.LngLat.convert(man.maneuver.location);
-//     // console.log("Current Maneuver Point: " + currManeuverPoint);
-//     currDistance = currManeuverPoint.distanceTo(currentLngLat);
-//     console.log(manIndex + " Current Distance is: " + currDistance + ' : Leg Distance : ' + man.distance);
-//     if (currDistance < minDistance) {
-//       minDistance = currDistance;
-//       closestManeuver = man;
-//       closestManeuverPoint = currManeuverPoint;
-//       closestManeuverIndex = manIndex;
-//     }
-//   });
-
-//   //distance from
-//   if(closestManeuverIndex < maneuver.length - 1){
-//     nextManeuverPoint = mapboxgl.LngLat.convert(maneuver[closestManeuverIndex + 1].maneuver.location);
-//     nextManeuverDistance = nextManeuverPoint.distanceTo(currentLngLat);
-//     console.log('Current Leg Index: ' + closestManeuverIndex);
-//     console.log('Current Leg Distance: ' + maneuver[closestManeuverIndex].distance);
-//     console.log('Next Leg Distance: ' + maneuver[closestManeuverIndex + 1].distance );
-//     console.log('Next Maneuver Distance: ' + nextManeuverDistance);
-//     console.log('Current Maneuver Distance: ' + minDistance);
-//     console.log('Instruction: ' + closestManeuver.maneuver.instruction);
-//     console.log(' ');
-//     if(nextManeuverDistance < 0.8 * maneuver[closestManeuverIndex].distance){
-//       closestManeuver = maneuver[closestManeuverIndex + 1];
-//       closestManeuverPoint = nextManeuverPoint;
-//       closestManeuverIndex = closestManeuverIndex + 1;
-//     }
-//   }
-
-//   if(closestManeuverIndex != currentManeuverIndex){
-//     currentManeuverIndex = closestManeuverIndex;
-//     // console.log(closestManeuverPoint);
-//     // console.log('closest maneuver (%s m) is at: {lat: %s, lng: %s}: \n %s', Math.round(minDistance), closestManeuverPoint.lat, closestManeuverPoint.lng, closestManeuver.maneuver.instruction);
-//     document.getElementById('js-current-maneuver').innerHTML = closestManeuver.maneuver.instruction;
-
-//     if(closestManeuverIndex + 1 < maneuver.length){
-//       setNextManeuverVisibility(true);
-//       document.getElementById('js-next-maneuver').innerHTML = maneuver[closestManeuverIndex+1].maneuver.instruction;
-//     }
-//     else{
-//       document.getElementById('js-next-maneuver').innerHTML = ' ';
-//       setNextManeuverVisibility(false);
-//     }
-//     document.getElementById('js-current-maneuver-icon').style.backgroundImage = 'url(images/straight-ahead.svg)';
-//     document.getElementById('js-next-maneuver-icon').style.backgroundImage = 'url(images/turn-right.svg)';
-
-//     if(currentManeuverIndex > 0){
-//       distanceToDestination = Math.abs(distanceToDestination - maneuver[currentManeuverIndex-1].distance);
-//       document.getElementById('js-route-distance').innerHTML = distanceToDestination.toFixed(1)+' km';
-//     }
-//   }
-
-// }
-
 
 function onDragEnd() {
   var lngLat = destinationMarker.getLngLat();
@@ -404,7 +361,7 @@ function startNavigation(){
     });
 
   // function to get the latitude and longitude of the vehicle and update it
-  // eel.startNavigation();
+  eel.startNavigation();
 }
 
 function endNavigation(){
@@ -452,4 +409,136 @@ function updateBearing(data){
       essential: true
   });
   findManeuverPoint(maneuvers);
+}
+
+
+
+function findClosestPoint(steps, closestStepIndex){
+  let closestPointOne,
+      closestPointTwo,
+      closestPointIndexOne,
+      closestPointIndexTwo,
+      minDistanceOne = Infinity,
+      minDistanceTwo = Infinity;
+  let currentLeg;
+  let closestIndex;
+
+  let currentLngLat = mapboxgl.LngLat.convert(currentLocation);
+  // calculate the closest maneuver
+  steps[closestStepIndex].geometry.coordinates.forEach(function(point, pointIndex) {
+    let currentPoint = mapboxgl.LngLat.convert(point);
+    let currDistance = currentPoint.distanceTo(currentLngLat);
+    if (currDistance < minDistanceOne) {
+      minDistanceOne = currDistance;
+      closestPointOne = point;
+      closestPointIndexOne = pointIndex;
+    }
+  });
+
+  if(closestStepIndex == 0){
+    currentLeg = closestStepIndex;
+    if(closestPointIndexOne == 0){
+      currentLeg = currentLeg - 1;
+    }
+    return currentLeg;
+  }
+  steps[closestStepIndex-1].geometry.coordinates.forEach(function(point, pointIndex) {
+    let currentPoint = mapboxgl.LngLat.convert(point);
+    let currDistance = currentPoint.distanceTo(currentLngLat);
+    if (currDistance < minDistanceTwo) {
+      minDistanceTwo = currDistance;
+      closestPointTwo = point;
+      closestPointIndexTwo = pointIndex;
+    }
+  });
+
+
+  if(minDistanceOne < minDistanceTwo){
+    currentLeg =  closestStepIndex;
+    closestIndex =closestPointIndexOne;
+  }else{
+    currentLeg =  (closestStepIndex - 1);
+    closestIndex =closestPointIndexTwo;
+  }
+
+  if(closestIndex == 0){
+    currentLeg = currentLeg - 1;
+  }
+  // console.log(closestStepIndex + ' : Leg Distance : ' + minDistanceOne);
+  // console.log((closestStepIndex-1) + ' : Leg Distance : ' + minDistanceTwo);
+  // console.log('Current Leg: ' + currentLeg);
+  return currentLeg;
+}
+
+// function to calculate the distance to upcoming maneuver from the current location
+function calculateDistanceToManeuver(upcomingStep){
+  let currentLngLat = mapboxgl.LngLat.convert(currentLocation);
+  let stepLngLat = mapboxgl.LngLat.convert(upcomingStep.maneuver.location);
+  let distanceToManeuver = stepLngLat.distanceTo(currentLngLat);
+  return distanceToManeuver;
+}
+
+// function to calculate the distance to destination from the current location
+function calculateDistanceToDestination(distanceToManeuver, closestManeuverIndex, steps){
+  let distanceToDestination = distanceToManeuver;
+  for(index = closestManeuverIndex; index < steps.length; index++ ){
+    distanceToDestination = distanceToDestination + steps[index].distance;
+  }
+  // console.log('Distance to Destination: ' + distanceToDestination)
+  return distanceToDestination;
+}
+
+// Debug functionality
+function addStepMarkers(steps){
+  steps.forEach(function(step, stepIndex) {
+    let marker = new mapboxgl.Marker()
+    .setLngLat(step.maneuver.location)
+    .addTo(map);
+  });
+}
+
+function addRouteLeg(step){
+  if(currentLeg < 0){
+    return;
+  }
+  // console.log(step);
+  let leg = step.geometry.coordinates;
+    let geojson = {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: leg
+      }
+    };
+    // if the route already exists on the map, reset it using setData
+    if (map.getSource('leg')) {
+      map.getSource('leg').setData(geojson);
+    } else { // otherwise, make a new request
+      map.addLayer({
+        id: 'leg',
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'LineString',
+              coordinates: geojson
+            }
+          }
+        },
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#C4C4C4',
+          'line-width': 20,
+          'line-opacity': 1
+        }
+      });
+      map.getSource('leg').setData(geojson);
+    }
 }
