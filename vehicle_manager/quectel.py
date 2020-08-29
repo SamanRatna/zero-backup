@@ -112,7 +112,7 @@ class Quectel():
         networkName =""
         if(simStat[1] == '1'):
             networkName = self.getNetworkInfo()
-        return (simState[1], networkName)
+        return (simStat[1], networkName)
 
 if __name__ == "__main__":
     quectel = Quectel()

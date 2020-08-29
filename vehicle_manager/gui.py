@@ -18,6 +18,7 @@ maxSpeed = 0
 bikeMode = "MODE_STANDBY"
 bluetooth = 0
 bluetoothName = ' '
+
 # my_options = {
 #     'mode': "chrome", #or "chrome-app",
 #     'host': 'localhost',
@@ -127,6 +128,9 @@ def requestForBluetoothPairingConfirmation(passkey):
     # print('Requesting for Bluetooth: ', passkey)
     eel.requestBluetoothPairingConfirmation(passkey)
 
+def publishNetworkInfo(info):
+    print(info)
+    eel.updateNetworkInfo(info)
 @eel.expose
 def bluetoothPairingConfirmation(response):
     # print('Response for Bluetooth: ', response)
@@ -230,6 +234,6 @@ vehicleReadings.heading += publishHeading
 vehicleEvents.confirmBluetoothPairing += requestForBluetoothPairingConfirmation
 vehicleEvents.onBluetoothConnection += publishBluetoothStatus
 vehicleReadings.bleDevices += publishBluetoothDevices
-
+vehicleReadings.network += publishNetworkInfo
 if __name__ == "__main__":
     startGUIThread()

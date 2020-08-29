@@ -40,11 +40,13 @@ def threadVehicleManager():
     gpsMgr = GPS(quectel)
     stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
     # tlContoller = TailLightController(GPIOWriter.getInstance())
-    powerManager = PowerManager()
+    # powerManager = PowerManager()
     gpioReader = GPIOReader.getInstance()
     vmgrComputer = VehicleInfoCalculator()
     # cany = CANHandler(GPIOWriter.getInstance())
-    cany = CANHandler()
+    # cany = CANHandler()
+    [simStatus, networkName] = quectel.getSimInfo()
+    vehicleReadings.network([simStatus, networkName])
 
 if __name__ == '__main__':
     try:
@@ -53,7 +55,7 @@ if __name__ == '__main__':
         tServer = threading.Thread(target = threadServer)
         tVmgr = threading.Thread(target = threadVehicleManager)
 
-        # tVmgr.start()
+        tVmgr.start()
         tAgent.start()
         tAdvertisement.start()
         tServer.start()

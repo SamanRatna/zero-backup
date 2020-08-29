@@ -117,3 +117,12 @@ function updateBluetoothDevices(devices){
     // }, 7000);
     // logic to handle device lists
 }
+
+// function to update the network info
+function updateNetworkInfo(info){
+    console.log(info);
+    if(info[0] == '1'){
+        // change the network icon
+        document.getElementById('js-network-name').innerHTML = info[1];
+    }
+}
