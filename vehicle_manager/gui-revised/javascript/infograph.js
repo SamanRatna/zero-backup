@@ -122,7 +122,7 @@ function updateBluetoothDevices(devices){
 function updateNetworkInfo(info){
     console.log(info);
     if(info[0] == '1'){
-        // change the network icon
+        document.getElementById('js-network-icon').style.backgroundImage = "url('icons/network-icon-on-normal.svg')";
         document.getElementById('js-network-name').innerHTML = info[1];
     }
 }

@@ -132,6 +132,15 @@
     margin: auto auto;
 }
 
+.network-icon{
+    background-image: url('../icons/network-icon-off.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 80%;
+    margin: auto;
+    margin-top: 25%;
+    margin-bottom: 10%;
+}
 .account-icon {
     width: 80%;
     height: 65%;
