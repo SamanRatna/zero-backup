@@ -248,7 +248,7 @@
                         <div class='connectivity-option'>
                             <div class='connectivity-icon network-icon' id='js-network-icon'></div>
                             <div class='connectivity-label network label'>
-                                <p id='js-network-name'></p>
+                                <p id='js-network-icon-name'></p>
                             </div>
                         </div>
                     </div>
@@ -337,6 +337,7 @@
 
                     <!----------------- Connectivity Settings Pane Start ----------------------------->
                     <div class='right-pane' id='js-connectivity-pane'>
+                        <!-- Bluetooth -->
                         <div class='bluetooth'>
                             <div class='infograph-header'>
                                 <div class='infograph-title'><p>BLUETOOTH</p></div>
@@ -367,6 +368,41 @@
                                 <div class='bluetooth-text'>Ashesh's iPhone</div>
                                 <div class='bluetooth-text'>Kanishka's iPhone</div>
                                 <!-- <div class='bluetooth-section-header'>OTHER DEVICES</div> -->
+                            </div>
+                        </div>
+                        
+                        <div style='height: 100px; width: 100%'></div>
+
+                        <!-- Network and SIM Card -->
+                        <div class='bluetooth'>
+                            <div class='infograph-header'>
+                                <div class='infograph-title'><p>CONNECTIVITY</p></div>
+                                <div class='infograph-switch'>
+                                    <p class='switch-field-label active' id='js-network-label-off'>off</p>
+                                    <div class='switch-field' id='js-network-toggle'>
+                                        <div class='switch-button' id='js-network-toggle-button'></div>
+                                    </div>
+                                    <p class='switch-field-label' id='js-network-label-on'>on</p>
+                                </div>
+                            </div>
+                            <div class='bluetooth-content'>
+                                <div class='bluetooth-text'>
+                                    <div class='bluetooth-text-title'>Network</div>
+                                    <div class='bluetooth-text-value'>: &nbsp; &nbsp;<span id='js-network-status'>Disabled</span></div>
+                                </div>
+                                <div class='bluetooth-text'>
+                                    <div class='bluetooth-text-title'>GPS</div>
+                                    <div class='bluetooth-text-value'>: &nbsp; &nbsp;<span id='js-gps-status'>Disabled</span></div>
+                                </div>
+                                <div class='bluetooth-text'>
+                                    <div class ='bluetooth-text-title'>Name</div>
+                                    <div class ='bluetooth-text-value'>: &nbsp; &nbsp;<span id='js-network-name'></span>
+                                    </div>
+                                </div>
+                                <div class='bluetooth-text'>
+                                    <div class='bluetooth-text-title'>Balance</div>
+                                    <div class='bluetooth-text-value'>: &nbsp; &nbsp; <span id='js-network-balance'></span></div>
+                                </div>
                             </div>
                         </div>
                     </div>

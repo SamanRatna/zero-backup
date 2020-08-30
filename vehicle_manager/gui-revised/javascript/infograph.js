@@ -124,8 +124,35 @@ function updateBluetoothDevices(devices){
 // function to update the network info
 function updateNetworkInfo(info){
     console.log(info);
-    if(info[0] == '1'){
+    if(info['simStatus'] == '1'){
         document.getElementById('js-network-icon').style.backgroundImage = "url('icons/network-icon-on-normal.svg')";
-        document.getElementById('js-network-name').innerHTML = info[1];
+        document.getElementById('js-network-status').innerHTML = 'Enabled'
+    }
+    else if(info['simStatus'] == '0'){
+        document.getElementById('js-network-icon').style.backgroundImage = "url('icons/network-icon-off.svg')";
+        document.getElementById('js-network-status').innerHTML = 'Disabled';
+        document.getElementById('js-network-icon-name').innerHTML = ' ';
+        document.getElementById('js-network-name').innerHTML = ' ';
+    }
+    if(info['networkName']){
+        document.getElementById('js-network-icon-name').innerHTML = info['networkName'];
+        document.getElementById('js-network-name').innerHTML = info['networkName'];
+    }
+    if(info['balance']){
+        document.getElementById('js-network-balance').innerHTML = info['balance'];
     }
 }
+
+// network on-off toggle
+document.getElementById('js-network-toggle').addEventListener('click', function(){
+    document.getElementById('js-network-label-on').classList.toggle('active');
+    document.getElementById('js-network-label-off').classList.toggle('active');
+    document.getElementById('js-network-toggle-button').classList.toggle('toggled');
+    
+    // if(document.getElementById('js-network-label-on').classList.contains('active')){
+    //     eel.changeNetworkState(true);
+    // }
+    // else{
+    //     eel.changeNetworkState(false);
+    // }
+});

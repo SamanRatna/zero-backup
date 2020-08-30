@@ -46,7 +46,10 @@ def threadVehicleManager():
     # cany = CANHandler(GPIOWriter.getInstance())
     # cany = CANHandler()
     [simStatus, networkName] = quectel.getSimInfo()
-    vehicleReadings.network([simStatus, networkName])
+    # vehicleReadings.network([simStatus, networkName])
+    vehicleReadings.network({'simStatus': simStatus, 'networkName': networkName})
+    balance = quectel.getBalance()
+    vehicleReadings.network({'balance': balance})
 
 if __name__ == '__main__':
     try:
