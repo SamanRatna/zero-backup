@@ -12,7 +12,7 @@ from gui import *
 from ble_agent import *
 from ble_advertisement import *
 from ble_gatt_server import *
-# from gps import *
+from gps import *
 # import signal
 
 # def keyboardInterruptHandler(signal, frame):

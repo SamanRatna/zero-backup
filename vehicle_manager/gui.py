@@ -8,7 +8,7 @@ import logging
 from event_handler import *
 # from power_manager import *
 from api_handler import *
-from navigation_simulator import *
+
 #Configure logger
 # logging.basicConfig(filemode='a')
 chargeLogger=logging.getLogger('event-logger')
@@ -27,7 +27,7 @@ bluetoothName = ' '
 # }
 def startGUI():
     try:
-        eel.start('index.html', mode=False)
+        eel.start('index.html', mode=False, host='0.0.0.0')
     except (SystemExit, MemoryError, KeyboardInterrupt):
         pass
     print ('This is printed when the window is closed!')
@@ -118,8 +118,8 @@ def startGUIThread():
         print("Error: Unable to start the GUI thread.")
 
 def publishCurrentLocation(lat, lon):
-    data = [lon, lat]
-    eel.updateCurrentLocation(data)
+    data = [lon, lat, None]
+    eel.updateBearing(data)
 
 def publishHeading(data):
     eel.updateBearing(data)
@@ -216,8 +216,12 @@ def getNetworkInfo():
     info = Quectel.getInstance().getSimInfo()
 
 @eel.expose
-def startNavigation():
+def requestLocationHeading(request):
     vehicleEvents.onNavigation(1)
+    if(request == True):
+        vehicleReadings.gpsLocation += publishCurrentLocation
+    elif(request == False):
+        vehicleReadings.gpsLocation -= publishCurrentLocation
 
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
@@ -229,7 +233,7 @@ vehicleReadings.controllerTemperature += publishControllerTemperature
 vehicleReadings.packVoltage += publishPackVoltage
 vehicleEvents.onStandSwitch += publishStandState
 vehicleReadings.carbonOffset += publishCarbonOffset
-vehicleReadings.gpsLocation += publishCurrentLocation
+# vehicleReadings.gpsLocation += publishCurrentLocation
 vehicleReadings.heading += publishHeading
 vehicleEvents.confirmBluetoothPairing += requestForBluetoothPairingConfirmation
 vehicleEvents.onBluetoothConnection += publishBluetoothStatus

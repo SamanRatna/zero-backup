@@ -141,16 +141,7 @@ function addListeners(){
     .addTo(map);
 
     getRoute(coordsObj);
-  });
-
-  // document.getElementById('start-navigation-button').addEventListener('click', function(){
-  //   startNavigation();
-  // });
-
-  // document.getElementById('end-navigation-button').addEventListener('click', function(){
-  //   endNavigation();
-  // });
-  
+  }); 
 
   map.on('rotate', onRotate);
   
@@ -229,7 +220,7 @@ function getRoute(end) {
     }
 
     // updateRouteToBackend(json.routes[0].geometry.coordinates)
-    updateRouteToBackend(json.routes[0]);
+    // updateRouteToBackend(json.routes[0]);
   };
   req.send();
 }
@@ -350,25 +341,30 @@ function onRotate() {
   // document.getElementById("navigation-north").style.transform = "rotate("+bearing+"deg)";
 }
 
-function startNavigation(){
-  let cLngLat = currentMarker.getLngLat();
-  // let markerCoord = [cLngLat.lng, cLngLat.lat];
-  map.easeTo({
-    center: [ cLngLat.lng, cLngLat.lat ],
-    pitch: navigationPitch,
-    zoom: navigationZoomLevel,
-    // essential: true // this animation is considered essential with respect to prefers-reduced-motion
-    });
-
-  // function to get the latitude and longitude of the vehicle and update it
-  eel.startNavigation();
-}
-
-function endNavigation(){
-  document.getElementById('start-navigation-button').style.display = 'block';
-  document.getElementById('end-navigation-button').style.display = 'none';
-  document.getElementById('maneuver-box').style.display = 'none';
-  document.getElementById('summary-box').style.display = 'none';
+let navigationSession = false;
+function startNavigation(request){
+  if(request == navigationSession){
+    console.log('Navigation Session already in requested state.')
+    return;
+  }
+  if(request == true){
+    let cLngLat = currentMarker.getLngLat();
+    // let markerCoord = [cLngLat.lng, cLngLat.lat];
+    map.easeTo({
+      center: [ cLngLat.lng, cLngLat.lat ],
+      pitch: navigationPitch,
+      zoom: navigationZoomLevel,
+      // essential: true // this animation is considered essential with respect to prefers-reduced-motion
+      });
+  
+    // function to get the latitude and longitude of the vehicle and update it
+    eel.requestLocationHeading(true);
+    navigationSession = true;
+  }
+  else{
+    eel.requestLocationHeading(false);
+    navigationSession = false;
+  }
 }
 
 function closeSearchBox(){
@@ -399,19 +395,29 @@ function addMarkersToRoute(data){
 
 function updateBearing(data){
   currentLocation = [data[1], data[0]];
-  bearing = -data[2];
-  currentMarker.setLngLat(currentLocation);
-  map.easeTo({
-      center: currentLocation,
-      bearing: bearing,
-      speed: 0.01,
-      maxDuration: 1900,
-      essential: true
-  });
-  findManeuverPoint(maneuvers);
+  if(null != data[2]){
+    bearing = -data[2];
+    currentMarker.setLngLat(currentLocation);
+    map.easeTo({
+        center: currentLocation,
+        bearing: bearing,
+        speed: 0.01,
+        maxDuration: 1900,
+        essential: true
+    });
+    findManeuverPoint(maneuvers);
+  }
+  else{
+    currentMarker.setLngLat(currentLocation);
+    map.easeTo({
+        center: currentLocation,
+        speed: 0.01,
+        maxDuration: 1900,
+        essential: true
+    });
+    findManeuverPoint(maneuvers);
+  }
 }
-
-
 
 function findClosestPoint(steps, closestStepIndex){
   let closestPointOne,

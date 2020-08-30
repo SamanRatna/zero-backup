@@ -56,7 +56,7 @@ class GPS():
             # print("Longitude: ", lon)
             self.gpsHistory.append([lat,lon])
             vehicleReadings.gpsLocation(lat, lon)
-            time.sleep(5.0)
+            time.sleep(2.0)
         # else:
         #     print("Printed data is ",data[0:6])
 

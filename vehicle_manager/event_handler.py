@@ -76,6 +76,8 @@ def respondBluetoothPairing(data):
     print(data)
 def bluetoothConnection(name, data):
     print("Bluetooth Connection: ",name, data)
+def navigationRequest(request):
+    print('Navigation Request: ', request)
 
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
@@ -100,3 +102,4 @@ vehicleReadings.carbonOffset += readingCarbonOffset
 vehicleEvents.confirmBluetoothPairing += confirmBluetoothPairing
 vehicleEvents.onBluetoothPairingConfirmation += respondBluetoothPairing
 vehicleEvents.onBluetoothConnection += bluetoothConnection
+vehicleEvents.onNavigation += navigationRequest

@@ -161,6 +161,7 @@ function setMode(mode){
             moveNotificationCard(mode);
             setDashCardOpacity(mode);
             closeKeyboard();
+            startNavigation(false);
             previousMode = currentMode;
             currentMode = 'normal-mode';
             break;
@@ -188,7 +189,7 @@ function setMode(mode){
             setDashCardOpacity(mode);
             previousMode = currentMode;
             currentMode = 'navigation-mode';
-            startNavigation();
+            startNavigation(true);
             break;
         default:
             break;
