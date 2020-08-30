@@ -48,6 +48,7 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 10%;
+    padding-top: 10%;
     border-radius: 30px;
     margin-bottom: 10%;
 }
@@ -104,7 +105,7 @@
 }
 .settings-brightness{
     width: 90%;
-    height: 600px;
+    height: 550px;
     margin: auto;
 }
 .settings-account{
@@ -121,17 +122,33 @@
     margin: auto;
 }
 
-.icon-bluetooth {
-    background-image: url('../icons/bluetooth-icon.svg');
+/* .icon-bluetooth {
+    background-image: url('../icons/bluetooth-icon-connected.svg');
     background-repeat: no-repeat;
     height: 90%;
     min-width: 90%;
     margin: auto;
-}
+} */
 .connectivity-icon > img {
     margin: auto auto;
 }
 
+.network-icon{
+    background-image: url('../icons/network-icon-off.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 80%;
+    margin: auto;
+    margin-top: 25%;
+    margin-bottom: 10%;
+}
+.bluetooth-icon{
+    background-image: url('../icons/bluetooth-icon-off.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 80%;
+    margin: auto;
+}
 .account-icon {
     width: 80%;
     height: 65%;

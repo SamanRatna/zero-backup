@@ -94,15 +94,18 @@ function updateAdvertisementStatus(status){
         document.getElementById('js-bluetooth-label-off').classList.remove('active');
         document.getElementById('js-bluetooth-toggle-button').classList.add('toggled');
         document.getElementById('js-bluetooth-status').innerHTML = 'Discoverable';
+        document.getElementById('js-bluetooth-icon').style.backgroundImage = "url('icons/bluetooth-icon-discoverable.svg')";
     }
     else if(status[0] == '0'){
         document.getElementById('js-bluetooth-label-on').classList.remove('active');
         document.getElementById('js-bluetooth-label-off').classList.add('active');
         document.getElementById('js-bluetooth-toggle-button').classList.remove('toggled');
         document.getElementById('js-bluetooth-status').innerHTML = 'Hidden';
+        document.getElementById('js-bluetooth-icon').style.backgroundImage = "url('icons/bluetooth-icon-off.svg')";
     }
 
     if(status.length > 1 ){
+        document.getElementById('js-bluetooth-named-icon').innerHTML = status[1];
         document.getElementById('js-bluetooth-name').innerHTML = status[1];
     }
 }
@@ -122,7 +125,7 @@ function updateBluetoothDevices(devices){
 function updateNetworkInfo(info){
     console.log(info);
     if(info[0] == '1'){
-        // change the network icon
+        document.getElementById('js-network-icon').style.backgroundImage = "url('icons/network-icon-on-normal.svg')";
         document.getElementById('js-network-name').innerHTML = info[1];
     }
 }
