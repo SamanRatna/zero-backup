@@ -1,6 +1,7 @@
 import serial
+import time
 
-MAX_COUNT = 4
+MAX_COUNT = 8
 AT_COMMAND_PORT = "/dev/ttyUSB2"
 GPS_DATA_PORT = "/dev/ttyUSB1"
 
@@ -45,6 +46,11 @@ class Quectel():
 
     def send(self, cmd):
         try:
+            while(Quectel.atCommandPort.in_waiting > 0):
+                # Read data out of the buffer until a carraige return / new line is found
+                serialString = Quectel.atCommandPort.readline()
+                # Print the contents of the serial data
+                print(serialString.decode('Ascii'))
             Quectel.atCommandPort.write(str.encode(cmd + '\r'))
         except (OSError) as error:
             print(error)
@@ -71,7 +77,7 @@ class Quectel():
         cmd = "AT"
         self.send(cmd)
         response  = self.getWriteResponse()
-        print(response)
+        print("AT response: ",response)
 
     def enableGPS(self):
         cmd = "AT+QGPS=1"
@@ -114,12 +120,41 @@ class Quectel():
             networkName = self.getNetworkInfo()
         return (simStat[1], networkName)
 
+    def getBalance(self):
+        name = 'CUSD'
+        # cmd = 'AT+CSCS="GSM"'
+        # self.send(cmd)
+        # response = self.getWriteResponse()
+        # print(response)
+        # time.sleep(1)
+        # cmd = 'AT+QURCCFG="urcport","usbat"'
+        # self.send(cmd)
+        # response = self.getWriteResponse()
+        # print('QURCCFQ write: ', response)
+        # time.sleep(1)
+        cmd = 'AT+CUSD=1,"*101#",15'
+        self.send(cmd)
+        response = self.getWriteResponse()
+        print('CUSD write: ', response)
+
+        Quectel.atCommandPort.readline()
+        response = self.getInfo(name)
+        balance = None
+        print('CUSD response: ', response)
+        if(response != None):
+            nameSplit = response.split(':')
+            balance = nameSplit[2].strip().strip('.')
+            print(balance)
+        return balance
+
 if __name__ == "__main__":
     quectel = Quectel()
     quectel.test()
-    quectel.disableGPS()
+    # quectel.disableGPS()
     simStat = quectel.getSimStat()
     print(simStat)
     if(simStat[1] == '1'):
         networkName = quectel.getNetworkInfo()
         print(networkName)
+    time.sleep(2)
+    quectel.getBalance()
