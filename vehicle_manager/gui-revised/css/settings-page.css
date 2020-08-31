@@ -319,7 +319,12 @@
 .toggled{
     left: 40px;
 }
-
+.switch-field.processing{
+    pointer-events: none;
+}
+.switch-button.processing{
+    background: #C4C4C4;
+}
 .right-pane {
     height: 100%;
     width: 100%;
