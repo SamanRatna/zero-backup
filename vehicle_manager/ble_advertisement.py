@@ -7,7 +7,7 @@ import dbus.mainloop.glib
 import dbus.service
 from event_handler import *
 import array
-
+import threading
 try:
   from gi.repository import GObject  # python3
 except ImportError:
@@ -313,6 +313,7 @@ def startAdvertisement():
     ad_manager.UnregisterAdvertisement(test_advertisement)
     print('Advertisement unregistered')
     dbus.service.Object.remove_from_connection(test_advertisement)
+    vehicleEvents.onBLEReady([0, bluetoothName])
 
 def quitAdvertisement():
     global mainloop
@@ -320,9 +321,14 @@ def quitAdvertisement():
 
 def enableBluetooth(toState):
     if (toState == True):
-        startAdvertisement()
+        startAdvertisementThread()
     else:
         quitAdvertisement()
+
+def startAdvertisementThread():
+    tAdvertisement = threading.Thread(target = startAdvertisement)
+    tAdvertisement.start()
+    # print('Started Advertisement Thread. Thread Count: ', threading.active_count())
 
 vehicleEvents.onBluetooth += enableBluetooth
 if __name__ == '__main__':

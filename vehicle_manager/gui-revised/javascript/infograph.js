@@ -70,10 +70,10 @@ document.getElementById('js-bluetooth-toggle').addEventListener('click', functio
     // document.getElementById('js-bluetooth-toggle-button').classList.toggle('toggled');
     
     if(document.getElementById('js-bluetooth-label-on').classList.contains('active')){
-        eel.changeBluetoothState(true);
+        eel.changeBluetoothState(false);
     }
     else{
-        eel.changeBluetoothState(false);
+        eel.changeBluetoothState(true);
     }
 });
 
@@ -90,7 +90,8 @@ function updateBluetoothStatus(name, status){
 
 function updateAdvertisementStatus(status){
     console.log("Bluetooth Advertisement Status: " + status)
-    if(status[0] =='1'){
+
+    if(status[0] =='2'){
         document.getElementById('js-bluetooth-label-on').classList.add('active');
         document.getElementById('js-bluetooth-label-off').classList.remove('active');
         document.getElementById('js-bluetooth-toggle-button').classList.add('toggled');
@@ -109,7 +110,7 @@ function updateAdvertisementStatus(status){
         document.getElementById('js-bluetooth-named-icon').innerHTML = status[1];
         document.getElementById('js-bluetooth-name').innerHTML = status[1];
     }
-    toProcessing(false);
+    toProcessing('js-bluetooth-toggle', false);
 }
 
 function updateBluetoothDevices(devices){

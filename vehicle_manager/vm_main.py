@@ -26,7 +26,7 @@ def threadAgent():
 
 def threadAdvertisement():
     time.sleep(12)
-    startAdvertisement()
+    startAdvertisementThread()
 
 def threadServer():
     time.sleep(15)
@@ -45,8 +45,8 @@ def threadVehicleManager():
     vmgrComputer = VehicleInfoCalculator()
     # cany = CANHandler(GPIOWriter.getInstance())
     # cany = CANHandler()
+
     [simStatus, networkName] = quectel.getSimInfo()
-    # vehicleReadings.network([simStatus, networkName])
     vehicleReadings.network({'simStatus': simStatus, 'networkName': networkName})
     balance = quectel.getBalance()
     vehicleReadings.network({'balance': balance})
@@ -59,8 +59,12 @@ if __name__ == '__main__':
         tVmgr = threading.Thread(target = threadVehicleManager)
 
         tVmgr.start()
+        # print('After VMGR: number of current threads is ', threading.active_count())
         tAgent.start()
+        # print('After Agent: number of current threads is ', threading.active_count())
         tAdvertisement.start()
+        # print('After Advertisement: number of current threads is ', threading.active_count())
         tServer.start()
+        # print('After Server: number of current threads is ', threading.active_count())
     except KeyboardInterrupt:
         print('Starting Program Cleanup')
