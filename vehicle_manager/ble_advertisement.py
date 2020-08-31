@@ -310,6 +310,20 @@ def startAdvertisement():
                                      error_handler=register_ad_error_cb)
 
     mainloop.run()
+    ad_manager.UnregisterAdvertisement(test_advertisement)
+    print('Advertisement unregistered')
+    dbus.service.Object.remove_from_connection(test_advertisement)
 
+def quitAdvertisement():
+    global mainloop
+    mainloop.quit()
+
+def enableBluetooth(toState):
+    if (toState == True):
+        startAdvertisement()
+    else:
+        quitAdvertisement()
+
+vehicleEvents.onBluetooth += enableBluetooth
 if __name__ == '__main__':
     startAdvertisement()

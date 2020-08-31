@@ -1,7 +1,7 @@
 from events import Events
 
 class VehicleEvents(Events):
-    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation')
+    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation', 'onBluetooth')
 
 class VehicleReadings(Events):
     __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset', 'heading', 'bleDevices', 'network')
@@ -78,7 +78,8 @@ def bluetoothConnection(name, data):
     print("Bluetooth Connection: ",name, data)
 def navigationRequest(request):
     print('Navigation Request: ', request)
-
+def bluetoothRequest(request):
+    print('Bluetooth Request: ', request)
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
 vehicleEvents.onRDPress += eventRDPress
@@ -103,3 +104,4 @@ vehicleEvents.confirmBluetoothPairing += confirmBluetoothPairing
 vehicleEvents.onBluetoothPairingConfirmation += respondBluetoothPairing
 vehicleEvents.onBluetoothConnection += bluetoothConnection
 vehicleEvents.onNavigation += navigationRequest
+vehicleEvents.onBluetooth += bluetoothRequest

@@ -205,7 +205,7 @@ def getGUIData():
     publishAdvertisementStatus([bluetooth, bluetoothName])
 @eel.expose
 def changeBluetoothState(toState):
-    pass
+    vehicleEvents.onBluetooth(toState)
 
 @eel.expose
 def updateUserActivityStatus(status):
