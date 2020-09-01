@@ -55,6 +55,7 @@ class VehicleInfoCalculator:
     # Subscribe to vehicleReading events which will be provided by the CAN module
     # 
     def subscribeToEvents(self):
+        vehicleEvents.guiReady += self.onGUIReady
         vehicleReadings.odoReading += self.initializeRideTime
         vehicleReadings.speedReading += self.updateSpeedReading
         vehicleEvents.onTripReset += self.resetTrip
@@ -192,3 +193,8 @@ class VehicleInfoCalculator:
             vehicleReadings.maxSpeed(self.maxSpeed)
             vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
             vehicleReadings.distances(self.odoReading, self.tripDistance)
+
+    def onGUIReady(self):
+        vehicleReadings.maxSpeed(self.maxSpeed)
+        vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
+        vehicleReadings.distances(self.odoReading, self.tripDistance)

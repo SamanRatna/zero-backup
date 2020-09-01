@@ -14,11 +14,11 @@ from api_handler import *
 chargeLogger=logging.getLogger('event-logger')
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
-maxSpeed = 0
-bikeMode = "MODE_STANDBY"
-bluetooth = 0
-bluetoothName = ' '
-
+# maxSpeed = 0
+# bikeMode = "MODE_STANDBY"
+# bluetooth = 0
+# bluetoothName = ' '
+networkInfo = None
 # my_options = {
 #     'mode': "chrome", #or "chrome-app",
 #     'host': 'localhost',
@@ -28,15 +28,16 @@ bluetoothName = ' '
 def startGUI():
     try:
         eel.start('index.html', mode=False, host='0.0.0.0')
+        # eel.start('index.html', mode=False)
     except (SystemExit, MemoryError, KeyboardInterrupt):
         pass
     print ('This is printed when the window is closed!')
     startGUI()
 
 def publishBikeMode(mode):
-    global bikeMode
+    # global bikeMode
     eel.updateBikeMode(mode.name)
-    bikeMode = mode.name
+    # bikeMode = mode.name
 
 # def publishLeftTurnStatus(status):
 #     if status==True:
@@ -129,7 +130,9 @@ def requestForBluetoothPairingConfirmation(passkey):
     eel.requestBluetoothPairingConfirmation(passkey)
 
 def publishNetworkInfo(info):
+    global networkInfo
     print(info)
+    networkInfo = info
     eel.updateNetworkInfo(info)
 @eel.expose
 def bluetoothPairingConfirmation(response):
@@ -196,15 +199,20 @@ def resetTripData():
 
 @eel.expose
 def getGUIData():
-    global maxSpeed
-    global bikeMode
-    global bluetooth
-    global bluetoothName
-    eel.updateBikeMode(bikeMode)
-    publishMaxSpeed(maxSpeed)
-    publishAdvertisementStatus([bluetooth, bluetoothName])
+    vehicleEvents.guiReady()
+    # global maxSpeed
+    # global bikeMode
+    # global bluetooth
+    # global bluetoothName
+    global networkInfo
+    # eel.updateBikeMode(bikeMode)
+    # publishMaxSpeed(maxSpeed)
+    # publishAdvertisementStatus([bluetooth, bluetoothName])
+    publishNetworkInfo(networkInfo)
+
 @eel.expose
 def changeBluetoothState(toState):
+    print('GUI: Received request to change bluetooth state to: ', toState)
     vehicleEvents.onBluetooth(toState)
 
 @eel.expose
@@ -223,6 +231,7 @@ def requestLocationHeading(request):
     elif(request == False):
         vehicleReadings.gpsLocation -= publishCurrentLocation
 
+vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances

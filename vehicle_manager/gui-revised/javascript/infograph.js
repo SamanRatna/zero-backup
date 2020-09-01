@@ -91,7 +91,7 @@ function updateBluetoothStatus(name, status){
 function updateAdvertisementStatus(status){
     console.log("Bluetooth Advertisement Status: " + status)
 
-    if(status[0] =='2'){
+    if(status[0] =='2' || status[0] == '1'){
         document.getElementById('js-bluetooth-label-on').classList.add('active');
         document.getElementById('js-bluetooth-label-off').classList.remove('active');
         document.getElementById('js-bluetooth-toggle-button').classList.add('toggled');

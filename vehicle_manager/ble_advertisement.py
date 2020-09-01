@@ -330,6 +330,11 @@ def startAdvertisementThread():
     tAdvertisement.start()
     # print('Started Advertisement Thread. Thread Count: ', threading.active_count())
 
+def onGUIReady():
+    vehicleEvents.onBLEReady([1, bluetoothName])
+
+vehicleEvents.guiReady += onGUIReady
 vehicleEvents.onBluetooth += enableBluetooth
+
 if __name__ == '__main__':
     startAdvertisement()

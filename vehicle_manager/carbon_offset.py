@@ -35,6 +35,7 @@ class CarbonOffsetCalculator:
         
         self.sendToUI(0)
         vehicleEvents.onCarbonOffsetRequest += self.onRequest
+        vehicleEvents.guiReady += self.onRequest
 
     def onChange(self, distance):
         # compute carbon offset from the distance travelled

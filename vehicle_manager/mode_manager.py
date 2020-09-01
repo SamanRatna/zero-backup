@@ -1,14 +1,16 @@
 from vehicle_states import *
 from gpio_manager import GPIOWriter
-from gui import *
-
+# from gui import *
+from event_handler import *
 class BikeModeManager:
     def __init__(self, gpioWriter):
         self.mode = ModeStandby(self)
+        self.modeName = eBikeMode.MODE_STANDBY
         self.gpioMgr = gpioWriter
         self.mode.onStateChange()
         print(self.mode)
-    
+        vehicleEvents.guiReady += self.onGUIReady
+
     def onCharging(self, status):
         self.mode.onCharge(status)
 
@@ -24,8 +26,13 @@ class BikeModeManager:
         print(self.mode)
     
     def setMode(self, mode):
+        self.modeName = mode
         self.gpioMgr.setMode(mode)
-        publishBikeMode(mode)
+        # publishBikeMode(mode)
+        vehicleReadings.bikeMode(mode)
+    
+    def onGUIReady(self):
+        vehicleReadings.bikeMode(self.modeName)
 
 class BikeMode:
 
