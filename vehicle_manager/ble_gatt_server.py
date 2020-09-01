@@ -393,6 +393,8 @@ class MaxSpeedDescriptor(Descriptor):
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed822'
 
     def __init__(self, bus, index, characteristic):
+        self.value = array.array('B', b'Maximum Speed of the vehicle in km/hr.')
+        self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
                 self.TEST_DESC_UUID,
@@ -400,10 +402,7 @@ class MaxSpeedDescriptor(Descriptor):
                 characteristic)
 
     def ReadValue(self, options):
-        # return [
-        #         dbus.Byte('T'), dbus.Byte('e'), dbus.Byte('s'), dbus.Byte('t')
-        # ]
-        return [dbus.byte('M')]
+        return self.value
 
 # class OdoSpeedCharacteristic(Characteristic):
 #     """
@@ -502,6 +501,8 @@ class AverageSpeedsDescriptor(Descriptor):
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed826'
 
     def __init__(self, bus, index, characteristic):
+        self.value = array.array('B', b'Trip Average Speed and Overall Average Speed of the vehicle in km/hr.')
+        self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
                 self.TEST_DESC_UUID,
@@ -509,14 +510,7 @@ class AverageSpeedsDescriptor(Descriptor):
                 characteristic)
 
     def ReadValue(self, options):
-        return [
-                dbus.Byte('T'), dbus.Byte('e'), dbus.Byte('s'), dbus.Byte('t')
-        ]
-        #return 'Max Speed of bike.'
-        # return [
-        #     dbus.Byte('M'), dbus.Byte('a'), dbus.Byte('x'),dbus.Byte('S'),dbus.Byte('p'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('d')
-        # ]
-
+        return self.value
 
 class TravelledDistancesCharacteristic(Characteristic):
     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed827'
@@ -558,6 +552,8 @@ class TravelledDistancesDescriptor(Descriptor):
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed828'
 
     def __init__(self, bus, index, characteristic):
+        self.value = array.array('B', b'Trip distance and Total distance travelled in km.')
+        self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
                 self.TEST_DESC_UUID,
@@ -565,13 +561,7 @@ class TravelledDistancesDescriptor(Descriptor):
                 characteristic)
 
     def ReadValue(self, options):
-        return [
-                dbus.Byte('T'), dbus.Byte('e'), dbus.Byte('s'), dbus.Byte('t')
-        ]
-        #return 'Max Speed of bike.'
-        # return [
-        #     dbus.Byte('M'), dbus.Byte('a'), dbus.Byte('x'),dbus.Byte('S'),dbus.Byte('p'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('d')
-        # ]
+        return self.value
 
 # class TotalDistanceCharacteristic(Characteristic):
 #     """
