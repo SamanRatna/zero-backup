@@ -361,6 +361,7 @@ class MaxSpeedCharacteristic(Characteristic):
     def SetMaxSpeed(self, speed):
         self.maxSpeed = speed
         print('BLE_GATT: Received Max Speed: ' + repr(self.maxSpeed))
+        self.NotifyValue()
     
     def ReadValue(self, options):
         print('Max Speed Read: ' + repr(self.maxSpeed))
@@ -426,16 +427,17 @@ class AverageSpeedsCharacteristic(Characteristic):
         self.notifying = False
         self.tripAverageSpeed = 0
         self.totalAverageSpeed = 0
-        vehicleReadings.averageSpeeds += self.SetTripAverageSpeed
+        vehicleReadings.averageSpeeds += self.SetAverageSpeeds
         self.add_descriptor(AverageSpeedsDescriptor(bus, 0, self))
         # self.add_descriptor(
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
         # GObject.timeout_add(5000, self.changeSpeeds)
-    def SetTripAverageSpeed(self, odoAverage, tripAverage):
+    def SetAverageSpeeds(self, odoAverage, tripAverage):
         self.tripAverageSpeed = int(tripAverage)
         self.totalAverageSpeed = int(odoAverage)
         print('BLE_GATT: Received Average Speeds: ' + repr(self.tripAverageSpeed), repr(self.totalAverageSpeed))
-    
+        self.NotifyValue()
+
     def ReadValue(self, options):
         print('Trip Average Speed Read: ' + repr(self.tripAverageSpeed))
         return [dbus.Byte(self.tripAverageSpeed), dbus.Byte(self.totalAverageSpeed)]
@@ -504,16 +506,17 @@ class TravelledDistancesCharacteristic(Characteristic):
         self.notifying = False
         self.tripDistance = 0
         self.totalDistance = 0
-        vehicleReadings.distances += self.SetTripDistance
+        vehicleReadings.distances += self.SetDistances
         self.add_descriptor(TravelledDistancesDescriptor(bus, 1, self))
         # self.add_descriptor(
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
         # GObject.timeout_add(5000, self.changeDistances)
-    def SetTripDistance(self, odoDistance, tripDistance):
+    def SetDistances(self, odoDistance, tripDistance):
         # tripDistance and odoDistance are floats so convert to integers
         self.tripDistance = int(tripDistance) 
         self.totalDistance = int(odoDistance)
         print('BLE_GATT: Travelled Distances: ' + repr(self.tripDistance), repr(self.totalDistance))
+        self.NotifyValue()
 
     def ReadValue(self, options):
         print('Trip Distance Read: ' + repr(self.tripDistance))
