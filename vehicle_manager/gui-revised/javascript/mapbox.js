@@ -55,6 +55,7 @@ function onLocationResponse(location){
 }
 
 function initMap(){
+  moveNotificationCard('normal-mode');
   var elCurrentMarker = document.createElement('div');
   elCurrentMarker.className = 'current-marker';
 
