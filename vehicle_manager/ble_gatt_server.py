@@ -51,7 +51,6 @@ class Application(dbus.service.Object):
         self.path = '/'
         self.services = []
         dbus.service.Object.__init__(self, bus, self.path)
-        #self.add_service(HeartRateService(bus, 0))
         self.add_service(BatteryService(bus, 0))
         self.add_service(VehicleManagerService(bus, 1))
 
@@ -333,44 +332,31 @@ class BatteryLevelCharacteristic(Characteristic):
 
 
 class VehicleManagerService(Service):
-    """
-    Dummy test service that provides characteristics and descriptors that
-    exercise various API functionality.
-
-    """
     TEST_SVC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed820'
 
     def __init__(self, bus, index):
         Service.__init__(self, bus, index, self.TEST_SVC_UUID, True)
         self.add_characteristic(MaxSpeedCharacteristic(bus, 0, self))
-        # self.add_characteristic(OdoSpeedCharacteristic(bus, 1, self))
         self.add_characteristic(AverageSpeedsCharacteristic(bus, 1, self))
         self.add_characteristic(TravelledDistancesCharacteristic(bus, 2, self))
-        # self.add_characteristic(TotalDistanceCharacteristic(bus, 3, self))TestEncryptCharacteristic
-        # self.add_characteristic(TestSecureCharacteristic(bus, 3, self))
-        # self.add_characteristic(TestEncryptCharacteristic(bus, 4, self))
+
 
 class MaxSpeedCharacteristic(Characteristic):
-    """
-    Dummy test characteristic. Allows writing arbitrary bytes to its value, and
-    contains "extended properties", as well as a test descriptor.
-
-    """
     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed821'
 
     def __init__(self, bus, index, service):
         Characteristic.__init__(
                 self, bus, index,
                 self.TEST_CHRC_UUID,
-                # ['read', 'write', 'writable-auxiliaries'],
                 ['encrypt-read', 'notify'],
                 service)
-        self.value = []
+        self.notifying = False
         self.maxSpeed = 0
         vehicleReadings.maxSpeed += self.SetMaxSpeed
         self.add_descriptor(MaxSpeedDescriptor(bus, 0, self))
         # self.add_descriptor(
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
+        # GObject.timeout_add(5000, self.changeMaxSpeed)
 
     def SetMaxSpeed(self, speed):
         self.maxSpeed = speed
@@ -380,16 +366,40 @@ class MaxSpeedCharacteristic(Characteristic):
         print('Max Speed Read: ' + repr(self.maxSpeed))
         return [dbus.Byte(self.maxSpeed)]
 
-    # def WriteValue(self, value, options):
-    #     print('TestCharacteristic Write: ' + repr(value))
-    #     self.value = value
+    def NotifyValue(self):
+        if not self.notifying:
+            return
+        self.PropertiesChanged(
+                GATT_CHRC_IFACE,
+                { 'Value': [dbus.Byte(self.maxSpeed)] }, [])
+    
+    def StartNotify(self):
+        if self.notifying:
+            print('Already notifying, nothing to do')
+            return
 
+        self.notifying = True
+        self.NotifyValue()
+
+    def StopNotify(self):
+        if not self.notifying:
+            print('Not notifying, nothing to do')
+            return
+
+        self.notifying = False
+    
+    def changeMaxSpeed(self):
+        if not self.notifying:
+            return True
+        if self.maxSpeed > 0:
+            self.maxSpeed -= 2
+            if self.maxSpeed < 0:
+                self.maxSpeed = 0
+        print('Max Speed Changed: ' + repr(self.maxSpeed))
+        self.NotifyValue()
+        return True
 
 class MaxSpeedDescriptor(Descriptor):
-    """
-    Dummy test descriptor. Returns a static value.
-
-    """
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed822'
 
     def __init__(self, bus, index, characteristic):
@@ -404,64 +414,6 @@ class MaxSpeedDescriptor(Descriptor):
     def ReadValue(self, options):
         return self.value
 
-# class OdoSpeedCharacteristic(Characteristic):
-#     """
-#     Dummy test characteristic. Allows writing arbitrary bytes to its value, and
-#     contains "extended properties", as well as a test descriptor.
-
-#     """
-#     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed823'
-
-#     def __init__(self, bus, index, service):
-#         Characteristic.__init__(
-#                 self, bus, index,
-#                 self.TEST_CHRC_UUID,
-#                 # ['read', 'write', 'writable-auxiliaries'],
-#                 ['read', 'notify'],
-#                 service)
-#         self.value = []
-#         self.odoAverageSpeed = 0
-#         vehicleReadings.averageSpeeds += self.SetOdoAverageSpeed
-#         self.add_descriptor(OdoSpeedDescriptor(bus, 0, self))
-#         # self.add_descriptor(
-#         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
-
-#     def SetOdoAverageSpeed(self, odoAverage, tripAverage):
-#         self.odoAverageSpeed = odoAverage
-#         print('Received Odo Average Speed: ' + repr(self.odoAverageSpeed))
-    
-#     def ReadValue(self, options):
-#         print('Odo Average Speed Read: ' + repr(self.odoAverageSpeed))
-#         return [dbus.Byte(self.odoAverageSpeed)]
-
-#     # def WriteValue(self, value, options):
-#     #     print('TestCharacteristic Write: ' + repr(value))
-#     #     self.value = value
-
-
-# class OdoSpeedDescriptor(Descriptor):
-#     """
-#     Dummy test descriptor. Returns a static value.
-
-#     """
-#     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed824'
-
-#     def __init__(self, bus, index, characteristic):
-#         Descriptor.__init__(
-#                 self, bus, index,
-#                 self.TEST_DESC_UUID,
-#                 ['read', 'write'],
-#                 characteristic)
-
-#     def ReadValue(self, options):
-#         return [
-#                 dbus.Byte('T'), dbus.Byte('e'), dbus.Byte('s'), dbus.Byte('t')
-#         ]
-        #return 'Max Speed of bike.'
-        # return [
-        #     dbus.Byte('M'), dbus.Byte('a'), dbus.Byte('x'),dbus.Byte('S'),dbus.Byte('p'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('d')
-        # ]
-
 # Average Speeds: Overall average speed and Trip average speed
 class AverageSpeedsCharacteristic(Characteristic):
     AVSPEED_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed825'
@@ -469,17 +421,16 @@ class AverageSpeedsCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.AVSPEED_CHRC_UUID,
-                # ['read', 'write', 'writable-auxiliaries'],
                 ['encrypt-read', 'notify'],
                 service)
-        self.value = []
+        self.notifying = False
         self.tripAverageSpeed = 0
         self.totalAverageSpeed = 0
         vehicleReadings.averageSpeeds += self.SetTripAverageSpeed
         self.add_descriptor(AverageSpeedsDescriptor(bus, 0, self))
         # self.add_descriptor(
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
-
+        # GObject.timeout_add(5000, self.changeSpeeds)
     def SetTripAverageSpeed(self, odoAverage, tripAverage):
         self.tripAverageSpeed = int(tripAverage)
         self.totalAverageSpeed = int(odoAverage)
@@ -487,15 +438,44 @@ class AverageSpeedsCharacteristic(Characteristic):
     
     def ReadValue(self, options):
         print('Trip Average Speed Read: ' + repr(self.tripAverageSpeed))
-        # tripSpeedBytes = bytearray(self.tripAverageSpeed.to_bytes(4, byteorder='little'))
-        # totalSpeedBytes = bytearray(self.totalAverageSpeed.to_bytes(4, byteorder='little'))
-        # return [dbus.Byte(tripSpeedBytes[0]), dbus.Byte(tripSpeedBytes[1]), dbus.Byte(tripSpeedBytes[2]), dbus.Byte(tripSpeedBytes[3]), dbus.Byte(totalSpeedBytes[0]), dbus.Byte(totalSpeedBytes[1]), dbus.Byte(totalSpeedBytes[2]), dbus.Byte(totalSpeedBytes[3])]
         return [dbus.Byte(self.tripAverageSpeed), dbus.Byte(self.totalAverageSpeed)]
 
-    # def WriteValue(self, value, options):
-    #     print('TestCharacteristic Write: ' + repr(value))
-    #     self.value = value
+    def NotifyValue(self):
+        if not self.notifying:
+            return
+        self.PropertiesChanged(
+                GATT_CHRC_IFACE,
+                { 'Value': [dbus.Byte(self.tripAverageSpeed), dbus.Byte(self.totalAverageSpeed)] }, [])
+    
+    def StartNotify(self):
+        if self.notifying:
+            print('Already notifying, nothing to do')
+            return
 
+        self.notifying = True
+        self.NotifyValue()
+
+    def StopNotify(self):
+        if not self.notifying:
+            print('Not notifying, nothing to do')
+            return
+
+        self.notifying = False
+    
+    def changeSpeeds(self):
+        if not self.notifying:
+            return True
+        if self.tripAverageSpeed > 0:
+            self.tripAverageSpeed -= 2
+            if self.tripAverageSpeed < 0:
+                self.tripAverageSpeed += 4
+        if self.totalAverageSpeed > 0:
+            self.totalAverageSpeed -= 2
+            if self.totalAverageSpeed < 0:
+                self.totalAverageSpeed += 4
+        print('Average Speeds Changed: ' + repr(self.tripAverageSpeed), repr(self.totalAverageSpeed))
+        self.NotifyValue()
+        return True
 
 class AverageSpeedsDescriptor(Descriptor):
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed826'
@@ -519,17 +499,16 @@ class TravelledDistancesCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.TEST_CHRC_UUID,
-                # ['read', 'write', 'writable-auxiliaries'],
                 ['encrypt-read', 'notify'],
                 service)
-        self.value = []
+        self.notifying = False
         self.tripDistance = 0
         self.totalDistance = 0
         vehicleReadings.distances += self.SetTripDistance
         self.add_descriptor(TravelledDistancesDescriptor(bus, 1, self))
         # self.add_descriptor(
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
-
+        # GObject.timeout_add(5000, self.changeDistances)
     def SetTripDistance(self, odoDistance, tripDistance):
         # tripDistance and odoDistance are floats so convert to integers
         self.tripDistance = int(tripDistance) 
@@ -543,10 +522,44 @@ class TravelledDistancesCharacteristic(Characteristic):
         totalDistanceBytes = bytearray(self.totalDistance.to_bytes(4, byteorder='little'))
         return [dbus.Byte(tripDistanceBytes[0]), dbus.Byte(tripDistanceBytes[1]), dbus.Byte(tripDistanceBytes[2]), dbus.Byte(tripDistanceBytes[3]), dbus.Byte(totalDistanceBytes[0]), dbus.Byte(totalDistanceBytes[1]), dbus.Byte(totalDistanceBytes[2]), dbus.Byte(totalDistanceBytes[3])]
 
-    # def WriteValue(self, value, options):
-    #     print('TestCharacteristic Write: ' + repr(value))
-    #     self.value = value
+    def NotifyValue(self):
+        if not self.notifying:
+            return
+        tripDistanceBytes = bytearray(self.tripDistance.to_bytes(4, byteorder='little'))
+        totalDistanceBytes = bytearray(self.totalDistance.to_bytes(4, byteorder='little'))
+        self.PropertiesChanged(
+                GATT_CHRC_IFACE,
+                { 'Value': [dbus.Byte(tripDistanceBytes[0]), dbus.Byte(tripDistanceBytes[1]), dbus.Byte(tripDistanceBytes[2]), dbus.Byte(tripDistanceBytes[3]), dbus.Byte(totalDistanceBytes[0]), dbus.Byte(totalDistanceBytes[1]), dbus.Byte(totalDistanceBytes[2]), dbus.Byte(totalDistanceBytes[3])] }, [])
+    
+    def StartNotify(self):
+        if self.notifying:
+            print('Already notifying, nothing to do')
+            return
 
+        self.notifying = True
+        self.NotifyValue()
+
+    def StopNotify(self):
+        if not self.notifying:
+            print('Not notifying, nothing to do')
+            return
+
+        self.notifying = False
+    
+    def changeDistances(self):
+        if not self.notifying:
+            return True
+        if self.tripDistance > 0:
+            self.tripDistance -= 2
+            if self.tripDistance < 0:
+                self.tripDistance += 4
+        if self.totalDistance > 0:
+            self.totalDistance -= 2
+            if self.totalDistance < 0:
+                self.totalDistance += 4
+        print('Distances Changed: ' + repr(self.tripDistance), repr(self.totalDistance))
+        self.NotifyValue()
+        return True
 
 class TravelledDistancesDescriptor(Descriptor):
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed828'
@@ -563,63 +576,6 @@ class TravelledDistancesDescriptor(Descriptor):
     def ReadValue(self, options):
         return self.value
 
-# class TotalDistanceCharacteristic(Characteristic):
-#     """
-#     Dummy test characteristic. Allows writing arbitrary bytes to its value, and
-#     contains "extended properties", as well as a test descriptor.
-
-#     """
-#     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed82a'
-
-#     def __init__(self, bus, index, service):
-#         Characteristic.__init__(
-#                 self, bus, index,
-#                 self.TEST_CHRC_UUID,
-#                 # ['read', 'write', 'writable-auxiliaries'],
-#                 ['read', 'notify'],
-#                 service)
-#         self.value = []
-#         self.totalDistance = 0
-#         vehicleReadings.distances += self.SetTotalDistance
-#         self.add_descriptor(TotalDistanceDescriptor(bus, 0, self))
-#         # self.add_descriptor(
-#         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
-
-#     def SetTotalDistance(self, odoDistance, tripDistance):
-#         self.totalDistance = odoDistance
-#         print('Received Total Distance: ' + repr(self.totalDistance))
-    
-#     def ReadValue(self, options):
-#         print('Total Distance Read: ' + repr(self.totalDistance))
-#         return [dbus.Byte(self.totalDistance)]
-
-#     # def WriteValue(self, value, options):
-#     #     print('TestCharacteristic Write: ' + repr(value))
-#     #     self.value = value
-
-
-# class TotalDistanceDescriptor(Descriptor):
-#     """
-#     Dummy test descriptor. Returns a static value.
-
-#     """
-#     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed829'
-
-#     def __init__(self, bus, index, characteristic):
-#         Descriptor.__init__(
-#                 self, bus, index,
-#                 self.TEST_DESC_UUID,
-#                 ['read', 'write'],
-#                 characteristic)
-
-#     def ReadValue(self, options):
-#         return [
-#                 dbus.Byte('T'), dbus.Byte('e'), dbus.Byte('s'), dbus.Byte('t')
-#         ]
-        #return 'Max Speed of bike.'
-        # return [
-        #     dbus.Byte('M'), dbus.Byte('a'), dbus.Byte('x'),dbus.Byte('S'),dbus.Byte('p'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('d')
-        # ]
 class CharacteristicUserDescriptionDescriptor(Descriptor):
     """
     Writable CUD descriptor.
