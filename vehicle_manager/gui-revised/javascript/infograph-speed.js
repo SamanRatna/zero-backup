@@ -5,7 +5,7 @@ var data = {
         backgroundColor: ['rgba(7,147,136,1)',
                             'rgba(48,213,200,1)',
                             'rgba(176,255,249,1)'],
-        data: [80, 60, 50]
+        data: [0, 0, 0]
     }]
 };
 

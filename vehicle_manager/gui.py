@@ -18,7 +18,7 @@ eel.init('gui-revised')
 # bikeMode = "MODE_STANDBY"
 # bluetooth = 0
 # bluetoothName = ' '
-networkInfo = None
+# networkInfo = None
 # my_options = {
 #     'mode': "chrome", #or "chrome-app",
 #     'host': 'localhost',
@@ -204,11 +204,11 @@ def getGUIData():
     # global bikeMode
     # global bluetooth
     # global bluetoothName
-    global networkInfo
+    # global networkInfo
     # eel.updateBikeMode(bikeMode)
     # publishMaxSpeed(maxSpeed)
     # publishAdvertisementStatus([bluetooth, bluetoothName])
-    publishNetworkInfo(networkInfo)
+    # publishNetworkInfo(networkInfo)
 
 @eel.expose
 def changeBluetoothState(toState):

@@ -16,7 +16,7 @@ eel.expose(updateHeadlightSignal);
 eel.expose(updateStandState);
 eel.expose(updateCarbonOffset);
 eel.expose(updateNetworkInfo);
-eel.initCarbonOffset();
+// eel.initCarbonOffset();
 
 function updateRouteToBackend(route){
   eel.updateRoute(route);

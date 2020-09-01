@@ -1,5 +1,6 @@
 import serial
 import time
+from event_handler import *
 
 MAX_COUNT = 8
 AT_COMMAND_PORT = "/dev/ttyUSB2"
@@ -16,6 +17,7 @@ class Quectel():
             self.initializeConnection()
             if Quectel.atCommandPort:
                 Quectel.__instance__ = self
+                self.subscribeToEvents()
             else:
                 return None
         else:
@@ -38,10 +40,16 @@ class Quectel():
             except (FileNotFoundError, serial.serialutil.SerialException) as error:
                 print(error)
                 return
+    def subscribeToEvents(self):
+        vehicleEvents.guiReady += self.onGUIReady
+
+    def unsubscribeToEvents(self):
+        vehicleEvents.guiReady -= self.onGUIReady
 
     def __del__(self):
         if Quectel.atCommandPort != None:
             Quectel.atCommandPort.close()
+        self.unsubscribeToEvents()
         print("Destroyed Quectel Object.")
 
     def send(self, cmd):
@@ -147,6 +155,12 @@ class Quectel():
             print(balance)
         return balance
 
+    def onGUIReady(self):
+        [simStatus, networkName] = self.getSimInfo()
+        vehicleReadings.network({'simStatus': simStatus, 'networkName': networkName})
+        balance = self.getBalance()
+        if balance != None:
+            vehicleReadings.network({'balance': balance})
 if __name__ == "__main__":
     quectel = Quectel()
     quectel.test()

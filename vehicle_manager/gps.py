@@ -10,7 +10,11 @@ GPS_DATA_PORT = "/dev/ttyUSB1"
 class GPS():
     def __init__(self, _gpsHandle):
         self.gpsHandle = _gpsHandle
+        self.gpsPort = None
         self.gpsHistory = []
+        if(self.gpsHandle == None):
+            return
+
         self.gpsHandle.enableGPS()
         print("Receiving GPS data")
         self.gpsPort = serial.Serial(GPS_DATA_PORT, baudrate = 115200, timeout = 0.5)
@@ -18,8 +22,10 @@ class GPS():
         self.tGPS.start()
     
     def __del__(self):
-        self.gpsHandle.disableGPS()
-        self.gpsPort.close()
+        if(self.gpsHandle):
+            self.gpsHandle.disableGPS()
+        if(self.gpsPort):
+            self.gpsPort.close()
         print("Destroyed GPS Object.")
 
     def parseGPS(self, data):

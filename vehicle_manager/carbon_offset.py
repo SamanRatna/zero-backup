@@ -33,8 +33,8 @@ class CarbonOffsetCalculator:
             self.latestData = [self.getDate(), 0]
             self.append(self.latestData)
         
-        self.sendToUI(0)
-        vehicleEvents.onCarbonOffsetRequest += self.onRequest
+        # self.sendToUI(0)
+        # vehicleEvents.onCarbonOffsetRequest += self.onRequest
         vehicleEvents.guiReady += self.onRequest
 
     def onChange(self, distance):

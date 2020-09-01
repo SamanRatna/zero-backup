@@ -4,6 +4,7 @@ from gpio_manager import *
 from state_manager import StateManager
 from tail_light_controller import TailLightController
 from vmgr_compute import *
+from carbon_offset import CarbonOffsetCalculator
 from quectel import *
 import vehicle_states
 import time
@@ -37,19 +38,16 @@ def threadServer():
 def threadVehicleManager():
     startGUIThread()
     quectel = Quectel.getInstance()
-    gpsMgr = GPS(quectel)
+    if(quectel != None):
+        gpsMgr = GPS(quectel)
     stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
     # tlContoller = TailLightController(GPIOWriter.getInstance())
     # powerManager = PowerManager()
     gpioReader = GPIOReader.getInstance()
     vmgrComputer = VehicleInfoCalculator()
+    carbonOffsetCalculator = CarbonOffsetCalculator()
     # cany = CANHandler(GPIOWriter.getInstance())
     # cany = CANHandler()
-
-    [simStatus, networkName] = quectel.getSimInfo()
-    vehicleReadings.network({'simStatus': simStatus, 'networkName': networkName})
-    balance = quectel.getBalance()
-    vehicleReadings.network({'balance': balance})
 
 if __name__ == '__main__':
     try:
