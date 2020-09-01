@@ -462,23 +462,20 @@ class MaxSpeedDescriptor(Descriptor):
         # return [
         #     dbus.Byte('M'), dbus.Byte('a'), dbus.Byte('x'),dbus.Byte('S'),dbus.Byte('p'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('e'),dbus.Byte('d')
         # ]
+
+# Average Speeds: Overall average speed and Trip average speed
 class TripSpeedCharacteristic(Characteristic):
-    """
-    Dummy test characteristic. Allows writing arbitrary bytes to its value, and
-    contains "extended properties", as well as a test descriptor.
-
-    """
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed825'
-
+    AVSPEED_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed825'
     def __init__(self, bus, index, service):
         Characteristic.__init__(
                 self, bus, index,
-                self.TEST_CHRC_UUID,
+                self.AVSPEED_CHRC_UUID,
                 # ['read', 'write', 'writable-auxiliaries'],
                 ['encrypt-read', 'notify'],
                 service)
         self.value = []
         self.tripAverageSpeed = 0
+        self.totalAverageSpeed = 0
         vehicleReadings.averageSpeeds += self.SetTripAverageSpeed
         self.add_descriptor(TripSpeedDescriptor(bus, 0, self))
         # self.add_descriptor(
@@ -502,10 +499,6 @@ class TripSpeedCharacteristic(Characteristic):
 
 
 class TripSpeedDescriptor(Descriptor):
-    """
-    Dummy test descriptor. Returns a static value.
-
-    """
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed826'
 
     def __init__(self, bus, index, characteristic):
