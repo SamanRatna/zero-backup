@@ -344,8 +344,8 @@ class VehicleManagerService(Service):
         Service.__init__(self, bus, index, self.TEST_SVC_UUID, True)
         self.add_characteristic(MaxSpeedCharacteristic(bus, 0, self))
         # self.add_characteristic(OdoSpeedCharacteristic(bus, 1, self))
-        self.add_characteristic(TripSpeedCharacteristic(bus, 1, self))
-        self.add_characteristic(TripDistanceCharacteristic(bus, 2, self))
+        self.add_characteristic(AverageSpeedsCharacteristic(bus, 1, self))
+        self.add_characteristic(TravelledDistancesCharacteristic(bus, 2, self))
         # self.add_characteristic(TotalDistanceCharacteristic(bus, 3, self))TestEncryptCharacteristic
         # self.add_characteristic(TestSecureCharacteristic(bus, 3, self))
         # self.add_characteristic(TestEncryptCharacteristic(bus, 4, self))
@@ -374,7 +374,7 @@ class MaxSpeedCharacteristic(Characteristic):
 
     def SetMaxSpeed(self, speed):
         self.maxSpeed = speed
-        print('Received Max Speed: ' + repr(self.maxSpeed))
+        print('BLE_GATT: Received Max Speed: ' + repr(self.maxSpeed))
     
     def ReadValue(self, options):
         print('Max Speed Read: ' + repr(self.maxSpeed))
@@ -464,7 +464,7 @@ class MaxSpeedDescriptor(Descriptor):
         # ]
 
 # Average Speeds: Overall average speed and Trip average speed
-class TripSpeedCharacteristic(Characteristic):
+class AverageSpeedsCharacteristic(Characteristic):
     AVSPEED_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed825'
     def __init__(self, bus, index, service):
         Characteristic.__init__(
@@ -477,14 +477,14 @@ class TripSpeedCharacteristic(Characteristic):
         self.tripAverageSpeed = 0
         self.totalAverageSpeed = 0
         vehicleReadings.averageSpeeds += self.SetTripAverageSpeed
-        self.add_descriptor(TripSpeedDescriptor(bus, 0, self))
+        self.add_descriptor(AverageSpeedsDescriptor(bus, 0, self))
         # self.add_descriptor(
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
     def SetTripAverageSpeed(self, odoAverage, tripAverage):
         self.tripAverageSpeed = int(tripAverage)
         self.totalAverageSpeed = int(odoAverage)
-        print('Received Trip Average Speed: ' + repr(self.tripAverageSpeed))
+        print('BLE_GATT: Received Average Speeds: ' + repr(self.tripAverageSpeed), repr(self.totalAverageSpeed))
     
     def ReadValue(self, options):
         print('Trip Average Speed Read: ' + repr(self.tripAverageSpeed))
@@ -498,7 +498,7 @@ class TripSpeedCharacteristic(Characteristic):
     #     self.value = value
 
 
-class TripSpeedDescriptor(Descriptor):
+class AverageSpeedsDescriptor(Descriptor):
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed826'
 
     def __init__(self, bus, index, characteristic):
@@ -518,12 +518,7 @@ class TripSpeedDescriptor(Descriptor):
         # ]
 
 
-class TripDistanceCharacteristic(Characteristic):
-    """
-    Dummy test characteristic. Allows writing arbitrary bytes to its value, and
-    contains "extended properties", as well as a test descriptor.
-
-    """
+class TravelledDistancesCharacteristic(Characteristic):
     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed827'
 
     def __init__(self, bus, index, service):
@@ -537,7 +532,7 @@ class TripDistanceCharacteristic(Characteristic):
         self.tripDistance = 0
         self.totalDistance = 0
         vehicleReadings.distances += self.SetTripDistance
-        self.add_descriptor(TripDistanceDescriptor(bus, 1, self))
+        self.add_descriptor(TravelledDistancesDescriptor(bus, 1, self))
         # self.add_descriptor(
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
@@ -545,8 +540,8 @@ class TripDistanceCharacteristic(Characteristic):
         # tripDistance and odoDistance are floats so convert to integers
         self.tripDistance = int(tripDistance) 
         self.totalDistance = int(odoDistance)
-        print('Received Trip Distance: ' + repr(self.tripDistance))
-        print('Received Total Distance: ' + repr(self.totalDistance))
+        print('BLE_GATT: Travelled Distances: ' + repr(self.tripDistance), repr(self.totalDistance))
+
     def ReadValue(self, options):
         print('Trip Distance Read: ' + repr(self.tripDistance))
         print('Total Distance Read: ' + repr(self.totalDistance))
@@ -559,11 +554,7 @@ class TripDistanceCharacteristic(Characteristic):
     #     self.value = value
 
 
-class TripDistanceDescriptor(Descriptor):
-    """
-    Dummy test descriptor. Returns a static value.
-
-    """
+class TravelledDistancesDescriptor(Descriptor):
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed828'
 
     def __init__(self, bus, index, characteristic):

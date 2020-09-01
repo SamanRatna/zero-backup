@@ -189,7 +189,7 @@ class VehicleInfoCalculator:
 
     def onBLEReady(self, value):
         print('BLE is ready.')
-        if(value == 1):
+        if(value[0] == 1):
             vehicleReadings.maxSpeed(self.maxSpeed)
             vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
             vehicleReadings.distances(self.odoReading, self.tripDistance)
