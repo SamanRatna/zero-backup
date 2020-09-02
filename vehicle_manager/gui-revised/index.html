@@ -352,7 +352,7 @@
                             <div class='bluetooth-content'>
                                 <div class='bluetooth-text'>
                                     <div class ='bluetooth-text-title'>Name</div>
-                                    <div class ='bluetooth-text-value'>: &nbsp; &nbsp;<span id='js-bluetooth-name'>Yatri-Appollo</span>
+                                    <div class ='bluetooth-text-value' id='js-bluetooth-name-edit'>: &nbsp; &nbsp;<span id='js-bluetooth-name'>Yatri-Appollo</span>
                                         <!-- <div class='bluetooth-name-edit'></div>  -->
                                     </div>
                                 </div>
@@ -409,8 +409,10 @@
                     <!----------------- Connectivity Settings Pane End ----------------------------->
                 </div>
             </div>
-            
-            
+            <div class='input-field' id='js-bluetooth-input'>
+                <input type='text' class='bluetooth-input-field' placeholder="Type a name for Bluetooth">
+                <div class='cancel-button-red' id='js-bluetooth-name-edit-cancel'><p>Cancel</p></div>
+            </div>
         </div>
         <!---------------------- Settings Page End ------------------------------------>
 <!-- JavaScripts v4 start -->

@@ -61,7 +61,8 @@ function handleNumbers() {
 }
 
 function onChange(input) {
-  document.querySelector(".mapboxgl-ctrl-geocoder--input").value = input;
+  // document.querySelector(".mapboxgl-ctrl-geocoder--input").value = input;
+  el.value = input;
   console.log("Input changed", input);
   triggerEvent('keydown');
 }
@@ -72,13 +73,24 @@ function onKeyPress(button) {
 
   if(button == "{ent}"){
     console.log("Enter Pressed.");
-    // closeKeyboard();
+    if(keyboardContext == 'bluetooth'){
+      setBluetoothName(el.value);
+    }
+    closeKeyboard();
   }
 }
 
 let keyboardStatus = 'closed';
 let keyboardHandle = document.getElementById('js-keyboard');
-function openKeyboard() {
+let keyboardContext = undefined;
+function openKeyboard(context = undefined) {
+  keyboardContext = context;
+  if(keyboardContext == 'bluetooth'){
+    el = document.querySelector('.bluetooth-input-field');
+  }
+  else{
+    el = document.querySelector('input[type="text"]');
+  }
   if(keyboardStatus != 'closed'){
     return;
   }
@@ -92,7 +104,11 @@ function closeKeyboard() {
   if(keyboardStatus != 'open'){
       return;
   }
+  if(keyboardContext == 'bluetooth'){
+    setBluetoothInputVisibility(false);
+  }
   myKeyboard.clearInput();
+  el.value = '';
   keyboardHandle.style.display = 'none';
   keyboardStatus = 'closed';
 }

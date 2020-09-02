@@ -87,9 +87,11 @@ function setGeocoderVisibility(visibility){
 function setSettingsCardVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-settings-page').style.display = 'flex';
+        document.addEventListener('click', clickHandlerForSettingsPage);
     }
     else {
         document.getElementById('js-settings-page').style.display = 'none';
+        document.removeEventListener('click', clickHandlerForSettingsPage);
     }
 }
 
@@ -209,16 +211,28 @@ document.getElementById('js-dash-card-primary').addEventListener('click', functi
 // click handler for informing user activity to backend
 let settingsActiveArea = document.getElementById('js-settings-area');
 let settingsPage = document.getElementById('js-settings-page');
-document.addEventListener('click', function(event) {
+
+
+document.addEventListener('click', relayUserActivity)
+function relayUserActivity(){
+    console.log('Page Active.')
+    eel.updateUserActivityStatus(1);
+    return;
+}
+function clickHandlerForSettingsPage(event){
+    // console.log('bluetoothInputActive: '+bluetoothInputActive)
+    if(bluetoothInputActive){
+        // console.log('bluetooth input is active.')
+        return; 
+    }
     let isInsideActiveArea = settingsActiveArea.contains(event.target);
     let isInsidePage = settingsPage.contains(event.target);
+    // console.log('isInsideActiveArea: ' + isInsideActiveArea);
+    // console.log('isInsidePage: ' + isInsidePage);
     if (!isInsideActiveArea && isInsidePage) {
         setSettingsCardVisibility(false);
     }
-
-    console.log('Page Active.')
-    eel.updateUserActivityStatus(1);
-});
+}
 
 // function to change the opacity of the dash card based on the mode
 function setDashCardOpacity(mode){
@@ -227,6 +241,22 @@ function setDashCardOpacity(mode){
     }
     else{
         document.getElementById('js-dash-card').style.opacity = '1.0';
+    }   
+}
+
+let bluetoothInputActive = false;
+function setBluetoothInputVisibility(visibility){
+    if(visibility == true){
+        document.getElementById('js-bluetooth-input').style.display = 'block';
+        bluetoothInputActive = true;
+        document.removeEventListener('click', clickHandlerForSettingsPage);
     }
-    
+    else{
+        document.getElementById('js-bluetooth-input').style.display = 'none';
+        bluetoothInputActive = false;
+        setTimeout(function(){
+            document.addEventListener('click', clickHandlerForSettingsPage);
+        }, 1000);
+        
+    }  
 }

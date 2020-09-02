@@ -77,7 +77,7 @@ document.getElementById('js-bluetooth-toggle').addEventListener('click', functio
     }
 });
 
-// update the name and status of th device connected to bluetooth
+// update the name and status of the device connected to bluetooth
 function updateBluetoothStatus(name, status){
     console.log("Bluetooth Status: " + name + " : " +status)
     if(status == '1'){
@@ -124,6 +124,21 @@ function updateBluetoothDevices(devices){
     // logic to handle device lists
 }
 
+document.getElementById('js-bluetooth-name-edit').addEventListener('click', function(){
+    console.log('Edit Bluetooth Name');
+    openKeyboard('bluetooth');
+    setBluetoothInputVisibility(true);
+});
+
+function setBluetoothName(name){
+    console.log('Setting Bluetooth Name to: ' + name)
+    document.getElementById('js-bluetooth-name').innerHTML = name;
+    // ask backend to change the bluetooth name
+}
+
+document.getElementById('js-bluetooth-name-edit-cancel').addEventListener('click', function(){
+    closeKeyboard();
+});
 // function to update the network info
 function updateNetworkInfo(info){
     console.log(info);
