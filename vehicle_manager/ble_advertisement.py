@@ -14,7 +14,7 @@ except ImportError:
   import gobject as GObject  # python2
 
 from random import randint
-
+import json
 bluetoothName = 'Yatri Appollo'
 mainloop = None
 devices = {}
@@ -271,6 +271,7 @@ def find_devices(bus):
     return
 
 def startAdvertisement():
+    getBluetoothNameFromPersistency()
     global mainloop
 
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
@@ -336,6 +337,23 @@ def onGUIReady():
 def onChangeBluetoothName(name):
     global bluetoothName
     bluetoothName = name
+    saveBluetoothNameToPersistency()
+
+def saveBluetoothNameToPersistency():
+    global bluetoothName
+    data = {'bluetooth-name' : bluetoothName}
+    with open('bluetooth.json', 'w') as f:
+        json.dump(data, f)
+
+def getBluetoothNameFromPersistency():
+    global bluetoothName
+    try:
+        with open('bluetooth.json', 'r') as f:
+            data = json.load(f)
+            if 'bluetooth-name' in data:
+                bluetoothName = data['bluetooth-name']
+    except ( ) as error:
+        print(error)
 
 vehicleEvents.guiReady += onGUIReady
 vehicleEvents.onBluetooth += enableBluetooth
