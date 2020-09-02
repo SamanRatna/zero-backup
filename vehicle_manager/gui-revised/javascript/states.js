@@ -1,10 +1,13 @@
 function initKeyboardListener(){
     el = document.querySelector('input[type="text"]');
     document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('transitionstart', function(){
-      let status=true;
-      status = document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.contains('mapboxgl-ctrl-geocoder--collapsed');
+      if(event.propertyName != 'width'){
+          return;
+      }
+      let isCollapsed=true;
+      isCollapsed = document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.contains('mapboxgl-ctrl-geocoder--collapsed');
       
-      if(status == true){
+      if(isCollapsed == true){
         if(previousMode != 'search-mode'){
             setMode(previousMode);
         }

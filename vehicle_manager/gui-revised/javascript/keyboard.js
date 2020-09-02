@@ -67,9 +67,8 @@ function onChange(input) {
 }
 
 function onKeyPress(button) {
-  triggerEvent('keydown');
-  if (button === "{shift}" || button === "{lock}") handleShift();
-  if (button === "{numbers}" || button === "{abc}") handleNumbers();
+  if (button === "{shift}" || button === "{lock}"){ handleShift(); triggerEvent('keydown'); }
+  if (button === "{numbers}" || button === "{abc}"){ handleNumbers(); triggerEvent('keydown'); }
 
   if(button == "{ent}"){
     console.log("Enter Pressed.");
