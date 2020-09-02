@@ -131,9 +131,15 @@ document.getElementById('js-bluetooth-name-edit').addEventListener('click', func
 });
 
 function setBluetoothName(name){
+    name = name.trim()
+    if(name === ''){
+        console.log('Cannot change name to an empty string.');
+        return;
+    }
     console.log('Setting Bluetooth Name to: ' + name)
     document.getElementById('js-bluetooth-name').innerHTML = name;
     // ask backend to change the bluetooth name
+    eel.changeBluetoothName(name);
 }
 
 document.getElementById('js-bluetooth-name-edit-cancel').addEventListener('click', function(){

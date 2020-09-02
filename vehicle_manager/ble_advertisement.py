@@ -333,8 +333,13 @@ def startAdvertisementThread():
 def onGUIReady():
     vehicleEvents.onBLEReady([1, bluetoothName])
 
+def onChangeBluetoothName(name):
+    global bluetoothName
+    bluetoothName = name
+
 vehicleEvents.guiReady += onGUIReady
 vehicleEvents.onBluetooth += enableBluetooth
+vehicleEvents.onBluetoothNameChange += onChangeBluetoothName
 
 if __name__ == '__main__':
     startAdvertisement()

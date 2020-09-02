@@ -231,6 +231,10 @@ def requestLocationHeading(request):
     elif(request == False):
         vehicleReadings.gpsLocation -= publishCurrentLocation
 
+@eel.expose
+def changeBluetoothName(name):
+    vehicleEvents.onBluetoothNameChange(name)
+
 vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
