@@ -8,7 +8,7 @@ import logging
 from event_handler import *
 # from power_manager import *
 from api_handler import *
-
+from quectel import *
 #Configure logger
 # logging.basicConfig(filemode='a')
 chargeLogger=logging.getLogger('event-logger')
@@ -130,9 +130,9 @@ def requestForBluetoothPairingConfirmation(passkey):
     eel.requestBluetoothPairingConfirmation(passkey)
 
 def publishNetworkInfo(info):
-    global networkInfo
-    print(info)
-    networkInfo = info
+    # global networkInfo
+    # print(info)
+    # networkInfo = info
     eel.updateNetworkInfo(info)
 @eel.expose
 def bluetoothPairingConfirmation(response):
@@ -222,6 +222,13 @@ def updateUserActivityStatus(status):
 @eel.expose
 def getNetworkInfo():
     info = Quectel.getInstance().getSimInfo()
+
+@eel.expose
+def setGPS(state):
+    if(state == True):
+        Quectel.getInstance().enableGPS()
+    else:
+        Quectel.getInstance().disableGPS()
 
 @eel.expose
 def requestLocationHeading(request):

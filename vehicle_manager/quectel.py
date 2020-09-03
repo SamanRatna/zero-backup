@@ -1,6 +1,7 @@
 import serial
 import time
 from event_handler import *
+from gps import *
 
 MAX_COUNT = 8
 AT_COMMAND_PORT = "/dev/ttyUSB2"
@@ -13,11 +14,13 @@ class Quectel():
     def __init__(self):
         """ Constructor.
         """
+        self.gpsMgr = None
         if Quectel.__instance__ is None:
             self.initializeConnection()
             if Quectel.atCommandPort:
                 Quectel.__instance__ = self
                 self.subscribeToEvents()
+                # self.enableGPS()
             else:
                 return None
         else:
@@ -91,13 +94,19 @@ class Quectel():
         cmd = "AT+QGPS=1"
         self.send(cmd)
         response  = self.getWriteResponse()
-        print(response)
+        print('Enable GPS Response: ', response)
+        self.gpsMgr = GPS(self)
+        vehicleReadings.network({'gpsStatus': True})
     
     def disableGPS(self):
         cmd = "AT+QGPSEND"
         self.send(cmd)
         response  = self.getWriteResponse()
-        print(response)
+        print('Disable GPS Response: ', response)
+        self.gpsMgr.stopGPS()
+        del self.gpsMgr
+        self.gpsMgr = None
+        vehicleReadings.network({'gpsStatus': False})
     
     def getSimStat(self):
         cmd = "AT+QSIMSTAT?"
@@ -161,6 +170,10 @@ class Quectel():
         balance = self.getBalance()
         if balance != None:
             vehicleReadings.network({'balance': balance})
+        if self.gpsMgr != None:
+            vehicleReadings.network({'gpsStatus': True})
+        else:
+            vehicleReadings.network({'gpsStatus': False})
 if __name__ == "__main__":
     quectel = Quectel()
     quectel.test()

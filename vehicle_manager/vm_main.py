@@ -38,8 +38,8 @@ def threadServer():
 def threadVehicleManager():
     startGUIThread()
     quectel = Quectel.getInstance()
-    if(quectel != None):
-        gpsMgr = GPS(quectel)
+    # if(quectel != None):
+    #     gpsMgr = GPS(quectel)
     stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
     # tlContoller = TailLightController(GPIOWriter.getInstance())
     # powerManager = PowerManager()

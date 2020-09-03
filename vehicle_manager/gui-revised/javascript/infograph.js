@@ -165,6 +165,16 @@ function updateNetworkInfo(info){
     if(info['balance']){
         document.getElementById('js-network-balance').innerHTML = info['balance'];
     }
+    if('gpsStatus' in info){
+        if(info['gpsStatus'] == true){
+            document.getElementById('js-gps-status').innerHTML = 'Enabled';
+            isGPSActive = true;
+        }
+        else{
+            document.getElementById('js-gps-status').innerHTML = 'Disabled';
+            isGPSActive = false;
+        }
+    }
 }
 
 // network on-off toggle
@@ -191,3 +201,14 @@ function toProcessing(id, state){
         document.getElementById(id+'-button').classList.remove('processing');
     }
 }
+
+let isGPSActive = false;
+document.getElementById('js-gps-status').addEventListener('click', function(){
+    console.log('isGPSActive: '+isGPSActive);
+    if(isGPSActive){
+        eel.setGPS(false);
+    }
+    else{
+        eel.setGPS(true);
+    }
+});

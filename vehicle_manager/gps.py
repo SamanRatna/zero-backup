@@ -8,22 +8,25 @@ GPS_DATA_PORT = "/dev/ttyUSB1"
 
 
 class GPS():
+    # _counter = 0
     def __init__(self, _gpsHandle):
+        # GPS._counter = GPS._counter + 1
+        # print('GPS Counter: ', GPS._counter)
+        # print('GPS Constructor: GPS Object Id: ', self)
         self.gpsHandle = _gpsHandle
         self.gpsPort = None
         self.gpsHistory = []
         if(self.gpsHandle == None):
             return
 
-        self.gpsHandle.enableGPS()
         print("Receiving GPS data")
         self.gpsPort = serial.Serial(GPS_DATA_PORT, baudrate = 115200, timeout = 0.5)
+        self.stopGPSThread = False
         self.tGPS = threading.Thread(target = self.startGPS)
         self.tGPS.start()
     
     def __del__(self):
-        if(self.gpsHandle):
-            self.gpsHandle.disableGPS()
+        GPS._counter = GPS._counter - 1
         if(self.gpsPort):
             self.gpsPort.close()
         print("Destroyed GPS Object.")
@@ -76,10 +79,13 @@ class GPS():
         return deg + " deg " + min + "." + tail + " min"
 
     def startGPS(self):
-        while True:
+        self.stopGPSThread = False
+        while not self.stopGPSThread:
            data = self.gpsPort.readline()
            self.parseGPS(data)
 
+    def stopGPS(self):
+        self.stopGPSThread = True
     def calculateHeading(self, location_a, location_b):
         if (len(self.gpsHistory) < 3):
             return
