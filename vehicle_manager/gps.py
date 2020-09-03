@@ -21,12 +21,14 @@ class GPS():
 
         print("Receiving GPS data")
         self.gpsPort = serial.Serial(GPS_DATA_PORT, baudrate = 115200, timeout = 0.5)
+        vehicleEvents.onNavigation += self.onNavigation
         self.stopGPSThread = False
         self.tGPS = threading.Thread(target = self.startGPS)
         self.tGPS.start()
     
     def __del__(self):
         # GPS._counter = GPS._counter - 1
+        vehicleEvents.onNavigation -= self.onNavigation
         if(self.gpsPort):
             self.gpsPort.close()
         print("Destroyed GPS Object.")
@@ -42,7 +44,7 @@ class GPS():
                 print("no satellite data available")
                 return
             # print("-----Parsing GPRMC-----")
-            # print(sdata)
+            print(sdata)
             gmttime = sdata[1][0:2] + ":" + sdata[1][2:4] + ":" + sdata[1][4:6]
             # lat = decode(sdata[3]) #latitude
             lat = round(float(sdata[3])/100, 4)
@@ -80,12 +82,15 @@ class GPS():
 
     def startGPS(self):
         self.stopGPSThread = False
+        print('GPS Read Thread Started.')
         while not self.stopGPSThread:
            data = self.gpsPort.readline()
            self.parseGPS(data)
+        print('GPS Read Thread Stopped.')
 
     def stopGPS(self):
         self.stopGPSThread = True
+
     def calculateHeading(self, location_a, location_b):
         if (len(self.gpsHistory) < 3):
             return
@@ -100,6 +105,15 @@ class GPS():
         y = math.cos(lat_a) * math.sin(lat_b) - math.sin(lat_a)*math.cos(lat_b)*math.cos(delta_lon)
         heading = math.atan2(x,y)
         print('Heading: ', heading)
+
+    def onNavigation(self, request):
+        if(request):
+            self.stopGPSThread = False
+            if(self.tGPS.is_alive()):
+                return
+            self.tGPS.start()
+        else:
+            self.stopGPS()
 
 if __name__ == "__main__":
     quectel = Quectel.getInstance()

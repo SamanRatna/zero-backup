@@ -119,7 +119,7 @@ def startGUIThread():
         print("Error: Unable to start the GUI thread.")
 
 def publishCurrentLocation(lat, lon):
-    data = [lon, lat, None]
+    data = [lat, lon, 'None']
     eel.updateBearing(data)
 
 def publishHeading(data):
@@ -232,7 +232,7 @@ def setGPS(state):
 
 @eel.expose
 def requestLocationHeading(request):
-    vehicleEvents.onNavigation(1)
+    vehicleEvents.onNavigation(request)
     if(request == True):
         vehicleReadings.gpsLocation += publishCurrentLocation
     elif(request == False):

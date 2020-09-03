@@ -396,7 +396,8 @@ function addMarkersToRoute(data){
 
 function updateBearing(data){
   currentLocation = [data[1], data[0]];
-  if(null != data[2]){
+  console.log(currentLocation);
+  if('None' != data[2]){
     bearing = -data[2];
     currentMarker.setLngLat(currentLocation);
     map.easeTo({

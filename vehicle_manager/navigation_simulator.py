@@ -19,7 +19,7 @@ def updateRoute(data):
 # def startNavigation():
 #     simulateRoute()
 def simulateRoute(event):
-    if(event != 1):
+    if(event != True):
         return
     route = []
     pastData = None
