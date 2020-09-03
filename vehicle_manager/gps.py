@@ -44,14 +44,24 @@ class GPS():
                 print("no satellite data available")
                 return
             # print("-----Parsing GPRMC-----")
-            print(sdata)
+            # print(sdata)
             gmttime = sdata[1][0:2] + ":" + sdata[1][2:4] + ":" + sdata[1][4:6]
             # lat = decode(sdata[3]) #latitude
-            lat = round(float(sdata[3])/100, 4)
+            dd = int(float(sdata[3])/100)
+            mm = float(sdata[3]) - dd * 100
+            lat = round(dd + mm/60, 5)
             dirLat = sdata[4]      #latitude direction N/S
+            if(dirLat == 'S'):
+                lat = -lat
+
             # lon = decode(sdata[5]) #longitute
-            lon = round(float(sdata[5])/100, 4)
+            dd = int(float(sdata[5])/100)
+            mm = float(sdata[5]) - dd * 100
+            lon = round(dd + mm/60, 5)
             dirLon = sdata[6]      #longitude direction E/W
+            if(dirLon == 'W'):
+                lon = -lon
+
             speed = sdata[7]       #Speed in knots
             trCourse = sdata[8]    #True course
             date = sdata[9][0:2] + "/" + sdata[9][2:4] + "/" + sdata[9][4:6]
