@@ -67,9 +67,9 @@ def publishChargingStatus(status, current, timeToCharge):
     eel.updateChargingStatus(status, current, timeToCharge)
 
 def publishMaxSpeed(value):
-    global maxSpeed
+    # global maxSpeed
     eel.updateMaxSpeed(round(value))
-    maxSpeed = value
+    # maxSpeed = value
 
 def publishAverageSpeeds(odoAverage, tripAverage):
     eel.updateAverageSpeeds(round(odoAverage), round(tripAverage))
@@ -79,11 +79,11 @@ def publishDistances(odometer, tripDistance):
 
 def publishAdvertisementStatus(status):
     eel.updateAdvertisementStatus(status)
-    global bluetooth
-    global bluetoothName
-    bluetooth = status[0]
+    # global bluetooth
+    # global bluetoothName
+    # bluetooth = status[0]
     if(len(status) > 1):
-        bluetoothName = status[1]
+        # bluetoothName = status[1]
         print(status[1])
 
 def publishBluetoothStatus(name, status):

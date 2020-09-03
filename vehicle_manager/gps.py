@@ -26,7 +26,7 @@ class GPS():
         self.tGPS.start()
     
     def __del__(self):
-        GPS._counter = GPS._counter - 1
+        # GPS._counter = GPS._counter - 1
         if(self.gpsPort):
             self.gpsPort.close()
         print("Destroyed GPS Object.")

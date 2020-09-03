@@ -169,11 +169,18 @@ function updateNetworkInfo(info){
         if(info['gpsStatus'] == true){
             document.getElementById('js-gps-status').innerHTML = 'Enabled';
             isGPSActive = true;
+            document.getElementById('js-gps-label-on').classList.add('active');
+            document.getElementById('js-gps-label-off').classList.remove('active');
+            document.getElementById('js-gps-toggle-button').classList.add('toggled');
         }
         else{
             document.getElementById('js-gps-status').innerHTML = 'Disabled';
             isGPSActive = false;
+            document.getElementById('js-gps-label-on').classList.remove('active');
+            document.getElementById('js-gps-label-off').classList.add('active');
+            document.getElementById('js-gps-toggle-button').classList.remove('toggled');
         }
+        toProcessing('js-gps-toggle', false);
     }
 }
 
@@ -203,7 +210,8 @@ function toProcessing(id, state){
 }
 
 let isGPSActive = false;
-document.getElementById('js-gps-status').addEventListener('click', function(){
+document.getElementById('js-gps-toggle').addEventListener('click', function(){
+    toProcessing(this.id, true);
     console.log('isGPSActive: '+isGPSActive);
     if(isGPSActive){
         eel.setGPS(false);

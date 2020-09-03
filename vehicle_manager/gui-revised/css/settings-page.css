@@ -194,7 +194,8 @@
     height: 30%;
 }
 .infograph-header {
-    height: 15%;
+    /* height: 15%; */
+    height: 69px;
     width: 100%;
     display: flex;
 }
@@ -339,7 +340,8 @@
 .bluetooth {
     margin: 3% auto;
     width: 85%;
-    height: 30%;
+    /* height: 30%; */
+    height: auto;
 }
 
 .bluetooth-text{
@@ -363,7 +365,7 @@
     display: flex;
 }
 .bluetooth-content {
-    height: 75%;
+    height: auto;
     width: 100%;
     display: flex;
     padding-top: 5%;
