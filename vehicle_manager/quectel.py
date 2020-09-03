@@ -20,7 +20,7 @@ class Quectel():
             if Quectel.atCommandPort:
                 Quectel.__instance__ = self
                 self.subscribeToEvents()
-                # self.enableGPS()
+                self.enableGPS()
             else:
                 return None
         else:
