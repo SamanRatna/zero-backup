@@ -145,9 +145,8 @@ function addListeners(){
     .addTo(map);
 
     //getCurrentLocation
-    getRoute(coordsObj);
-    
     startNavigation(true);
+    getRoute(coordsObj);
   }); 
 
   map.on('rotate', onRotate);
