@@ -1,4 +1,3 @@
-eel.expose(updateBearing);
 eel.expose(updateSpeedPower);
 eel.expose(updateBikeMode);
 eel.expose(updateMaxSpeed);

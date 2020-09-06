@@ -13,17 +13,17 @@ startMap();
 /*
 Request for API Key from the backend
 */
-// function startMap() {
-//   console.log('Executing getKeyFunction');
-//   eel.getAPIKey()(onAPIKeyResponse);
-// }
-
-// dummy startMap function for UI development
 function startMap() {
   console.log('Executing getKeyFunction');
-  let key = "pk.eyJ1IjoieWF0cmkiLCJhIjoiY2swZzY1MDNqMDQ2ZzNubXo2emc4NHZwYiJ9.FtepvvGORqK03qJxFNvlEQ";
-  onAPIKeyResponse(key)
+  eel.getAPIKey()(onAPIKeyResponse);
 }
+
+// dummy startMap function for UI development
+// function startMap() {
+//   console.log('Executing getKeyFunction');
+//   let key = "pk.eyJ1IjoieWF0cmkiLCJhIjoiY2swZzY1MDNqMDQ2ZzNubXo2emc4NHZwYiJ9.FtepvvGORqK03qJxFNvlEQ";
+//   onAPIKeyResponse(key)
+// }
 
 /*
 On receiving API Key from the backend
@@ -37,19 +37,22 @@ function onAPIKeyResponse(key){
   mapboxgl.accessToken = key;
   console.log('Received Mapbox API Key');
 
-  // eel.getCurrentLocation()(onLocationResponse) //uncomment this after removing dummy
-  onLocationResponse([85.324, 27.717]) //dummy for UI development
+  eel.getCurrentLocation(true) //uncomment this after removing dummy
+  // onLocationResponse([85.324, 27.717]) //dummy for UI development
 }
 
 /*
 On receiving location from the backend
 */
+eel.expose(onLocationResponse);
+
 function onLocationResponse(location){
   if(location == null){
     console.log('Unable to retreive current location.')
     return;
   }
-  currentLocation = location;
+  eel.getCurrentLocation(false);
+  currentLocation = [location[1], location[0]];
   console.log("Current Location Received: " + currentLocation);
   initMap();
 }
@@ -393,6 +396,7 @@ function addMarkersToRoute(data){
     .addTo(map);
   });
 }
+eel.expose(updateBearing);
 
 function updateBearing(data){
   currentLocation = [data[1], data[0]];

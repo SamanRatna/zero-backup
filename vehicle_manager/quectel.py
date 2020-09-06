@@ -95,8 +95,10 @@ class Quectel():
         self.send(cmd)
         response  = self.getWriteResponse()
         print('Enable GPS Response: ', response)
-        self.gpsMgr = GPS(self)
-        vehicleReadings.network({'gpsStatus': True})
+        self.gpsMgr = GPS.getInstance(self)
+        print('GPS : ', self.gpsMgr)
+        if(self.gpsMgr != None):
+            vehicleReadings.network({'gpsStatus': True})
     
     def disableGPS(self):
         cmd = "AT+QGPSEND"

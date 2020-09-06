@@ -9,18 +9,37 @@ GPS_DATA_PORT = "/dev/ttyUSB1"
 
 class GPS():
     # _counter = 0
+    __instance__ = None
+    gpsPort = None
+    @staticmethod
+    def getInstance(_gpsHandle):
+        """ Static method to fetch the current instance.
+        """
+        if not GPS.__instance__:
+            GPS.__instance__ = GPS(_gpsHandle)
+        elif not GPS.gpsPort:
+            self.initializeConnection()
+        print('Returning GPS instance: ', GPS.__instance__)
+        return GPS.__instance__
+
+    def initializeConnection(self):
+        if not GPS.gpsPort:
+            try:
+                GPS.gpsPort = serial.Serial(GPS_DATA_PORT, baudrate = 115200, timeout = 0.5)
+            except (FileNotFoundError, serial.serialutil.SerialException) as error:
+                print(error)
+                return
     def __init__(self, _gpsHandle):
         # GPS._counter = GPS._counter + 1
         # print('GPS Counter: ', GPS._counter)
         # print('GPS Constructor: GPS Object Id: ', self)
         self.gpsHandle = _gpsHandle
-        self.gpsPort = None
         self.gpsHistory = []
         if(self.gpsHandle == None):
             return
 
         print("Receiving GPS data")
-        self.gpsPort = serial.Serial(GPS_DATA_PORT, baudrate = 115200, timeout = 0.5)
+        self.initializeConnection()
         vehicleEvents.onNavigation += self.onNavigation
         self.stopGPSThread = False
         self.tGPS = threading.Thread(target = self.startGPS)
@@ -29,8 +48,8 @@ class GPS():
     def __del__(self):
         # GPS._counter = GPS._counter - 1
         vehicleEvents.onNavigation -= self.onNavigation
-        if(self.gpsPort):
-            self.gpsPort.close()
+        if(GPS.gpsPort):
+            GPS.gpsPort.close()
         print("Destroyed GPS Object.")
 
     def parseGPS(self, data):
@@ -92,11 +111,11 @@ class GPS():
 
     def startGPS(self):
         self.stopGPSThread = False
-        print('GPS Read Thread Started.')
+        print(self, ': GPS Read Thread Started.')
         while not self.stopGPSThread:
-           data = self.gpsPort.readline()
+           data = GPS.gpsPort.readline()
            self.parseGPS(data)
-        print('GPS Read Thread Stopped.')
+        print(self, ': GPS Read Thread Stopped.')
 
     def stopGPS(self):
         self.stopGPSThread = True
@@ -120,9 +139,13 @@ class GPS():
         if(request):
             self.stopGPSThread = False
             if(self.tGPS.is_alive()):
+                print(self, ': GPS Thread already active.')
                 return
+            print(self, ': About to start GPS Thread')
+            self.tGPS = threading.Thread(target = self.startGPS)
             self.tGPS.start()
         else:
+            print(self, ': About to stop GPS Thread')
             self.stopGPS()
 
 if __name__ == "__main__":

@@ -134,6 +134,11 @@ def publishNetworkInfo(info):
     # print(info)
     # networkInfo = info
     eel.updateNetworkInfo(info)
+
+def initializeLocation(lat, lon):
+    data = [lat, lon, 'None']
+    eel.onLocationResponse(data)
+
 @eel.expose
 def bluetoothPairingConfirmation(response):
     # print('Response for Bluetooth: ', response)
@@ -161,9 +166,12 @@ def getAPIKey():
     return(api)
 
 @eel.expose
-def getCurrentLocation():
-    location = [85.324, 27.717]
-    return location
+def getCurrentLocation(status):
+    if(status == True):
+        vehicleReadings.gpsLocation += initializeLocation
+    else:
+        vehicleReadings.gpsLocation -= initializeLocation
+    vehicleEvents.onNavigation(status)
 
 @eel.expose
 def startFastCharge(option):
