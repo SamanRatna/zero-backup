@@ -144,7 +144,10 @@ function addListeners(){
     destinationMarker.setLngLat(coordsObj)
     .addTo(map);
 
+    //getCurrentLocation
     getRoute(coordsObj);
+    
+    startNavigation(true);
   }); 
 
   map.on('rotate', onRotate);
@@ -251,7 +254,17 @@ function addSummaryToPanel(route){
 
 // function to find the closest maneuver point
 let currentManeuverIndex = -1;
-function findManeuverPoint(maneuver){
+function findManeuverPoint(_maneuver = undefined){
+  let maneuver = undefined;
+  if(_maneuver === undefined){
+    if(maneuver === undefined){
+      return;
+    }
+  }
+  else{
+    maneuver = _maneuver;
+  }
+  
   var closestManeuver,
   closestManeuverPoint,
   closestManeuverIndex,
@@ -351,6 +364,7 @@ function startNavigation(request){
     console.log('Navigation Session already in requested state.')
     return;
   }
+  console.log('Requesting for navigation session: '+ request);
   if(request == true){
     let cLngLat = currentMarker.getLngLat();
     // let markerCoord = [cLngLat.lng, cLngLat.lat];
@@ -401,9 +415,13 @@ eel.expose(updateBearing);
 function updateBearing(data){
   currentLocation = [data[1], data[0]];
   console.log(currentLocation);
+  if(map === undefined || currentMarker === undefined){
+    return;
+  }
   if('None' != data[2]){
     bearing = -data[2];
     currentMarker.setLngLat(currentLocation);
+
     map.easeTo({
         center: currentLocation,
         bearing: bearing,
@@ -411,7 +429,7 @@ function updateBearing(data){
         maxDuration: 1900,
         essential: true
     });
-    findManeuverPoint(maneuvers);
+    findManeuverPoint();
   }
   else{
     currentMarker.setLngLat(currentLocation);
@@ -421,7 +439,7 @@ function updateBearing(data){
         maxDuration: 1900,
         essential: true
     });
-    findManeuverPoint(maneuvers);
+    findManeuverPoint();
   }
 }
 

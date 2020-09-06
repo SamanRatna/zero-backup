@@ -20,6 +20,7 @@ function initKeyboardListener(){
 
 //  click handler for cancelling the navigation from nav-info-mode
 document.getElementById('js-trip-cancel').addEventListener('click', function(){
+    startNavigation(false);
     setMode('normal-mode');
 });
 
@@ -30,6 +31,7 @@ document.getElementById('js-start-navigation').addEventListener('click', functio
 
 //  click handler for ending the navigation from navigation-mode
 document.getElementById('js-end-navigation').addEventListener('click', function(){
+    startNavigation(false);
     setMode('normal-mode');
 });
 
@@ -166,7 +168,7 @@ function setMode(mode){
             moveNotificationCard(mode);
             setDashCardOpacity(mode);
             closeKeyboard();
-            startNavigation(false);
+            // startNavigation(false);
             previousMode = currentMode;
             currentMode = 'normal-mode';
             break;

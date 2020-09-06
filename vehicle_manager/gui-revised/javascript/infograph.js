@@ -151,6 +151,10 @@ function updateNetworkInfo(info){
     if(info['simStatus'] == '1'){
         document.getElementById('js-network-icon').style.backgroundImage = "url('icons/network-icon-on-normal.svg')";
         document.getElementById('js-network-status').innerHTML = 'Enabled'
+
+        document.getElementById('js-network-label-on').classList.add('active');
+        document.getElementById('js-network-label-off').classList.remove('active');
+        document.getElementById('js-network-toggle-button').classList.add('toggled');
     }
     else if(info['simStatus'] == '0'){
         document.getElementById('js-network-icon').style.backgroundImage = "url('icons/network-icon-off.svg')";
@@ -185,18 +189,18 @@ function updateNetworkInfo(info){
 }
 
 // network on-off toggle
-document.getElementById('js-network-toggle').addEventListener('click', function(){
-    document.getElementById('js-network-label-on').classList.toggle('active');
-    document.getElementById('js-network-label-off').classList.toggle('active');
-    document.getElementById('js-network-toggle-button').classList.toggle('toggled');
+// document.getElementById('js-network-toggle').addEventListener('click', function(){
+//     document.getElementById('js-network-label-on').classList.toggle('active');
+//     document.getElementById('js-network-label-off').classList.toggle('active');
+//     document.getElementById('js-network-toggle-button').classList.toggle('toggled');
     
-    // if(document.getElementById('js-network-label-on').classList.contains('active')){
-    //     eel.changeNetworkState(true);
-    // }
-    // else{
-    //     eel.changeNetworkState(false);
-    // }
-});
+//     // if(document.getElementById('js-network-label-on').classList.contains('active')){
+//     //     eel.changeNetworkState(true);
+//     // }
+//     // else{
+//     //     eel.changeNetworkState(false);
+//     // }
+// });
 
 function toProcessing(id, state){
     if(state == true){
