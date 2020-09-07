@@ -175,6 +175,7 @@ function getRoute(end) {
     var data = json.routes[0];
     console.log(json);
     addSummaryToPanel(data);
+    traverseAllSteps(maneuvers);
     // addStepMarkers(maneuvers); //this will add markers to the steps (debug functionality)
     findManeuverPoint(maneuvers);
 
@@ -330,17 +331,19 @@ function findManeuverPoint(_maneuver = undefined){
 }
 
 
-const preIcon = "url('../icons/";
+const preIcon = "url('../nav-icons/";
 const postIcon = ".svg')";
 const demarcator = '-';
 function findManeuverType(step, type, modifier){
   let icon;
-  if(type == 'depart' || type == 'arrive'){
-    icon = preIcon + type + demarcator + step + postIcon;
+  type = type.replace(/\s/g, '');
+
+  icon = preIcon + type
+  if(modifier !== undefined && (type != 'arrive' || type !='depart')){
+    modifier = modifier.replace(/\s/g, '');
+    icon = icon + demarcator + modifier
   }
-  else{
-    icon = preIcon + 'turn' + demarcator + modifier + demarcator + step + postIcon;
-  }
+  icon = icon + demarcator + step + postIcon
   return icon;
 }
 
@@ -570,4 +573,17 @@ function addRouteLeg(step){
       });
       map.getSource('leg').setData(geojson);
     }
+}
+
+//debug
+function traverseAllSteps(maneuver){
+  maneuver.forEach(function(man, manIndex) {
+      type = man.maneuver.type
+      modifier = man.maneuver.modifier
+
+      // console.log('type: '+type);
+      // console.log('modifier: '+ modifier);
+      icon = findManeuverType('primary', type, modifier);
+      console.log(icon)
+  });
 }
