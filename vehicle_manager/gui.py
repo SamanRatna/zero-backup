@@ -193,6 +193,9 @@ def fastCharge(option):
 def publishBluetoothDevices(devices):
     eel.updateBluetoothDevices(devices)
 
+def publishFinder(command):
+    eel.updateFinderRequest(command)
+
 @eel.expose
 def getConnectivityStatus():
     print('Getting Connectivity Status')
@@ -267,5 +270,6 @@ vehicleEvents.confirmBluetoothPairing += requestForBluetoothPairingConfirmation
 vehicleEvents.onBluetoothConnection += publishBluetoothStatus
 vehicleReadings.bleDevices += publishBluetoothDevices
 vehicleReadings.network += publishNetworkInfo
+vehicleEvents.finder += publishFinder
 if __name__ == "__main__":
     startGUIThread()

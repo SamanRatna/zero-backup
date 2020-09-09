@@ -42,7 +42,6 @@ class InvalidValueLengthException(dbus.exceptions.DBusException):
 class FailedException(dbus.exceptions.DBusException):
     _dbus_error_name = 'org.bluez.Error.Failed'
 
-
 class Application(dbus.service.Object):
     """
     org.bluez.GattApplication1 interface implementation
@@ -339,6 +338,7 @@ class VehicleManagerService(Service):
         self.add_characteristic(MaxSpeedCharacteristic(bus, 0, self))
         self.add_characteristic(AverageSpeedsCharacteristic(bus, 1, self))
         self.add_characteristic(TravelledDistancesCharacteristic(bus, 2, self))
+        self.add_characteristic(VehicleFinderCharacteristic(bus, 3, self))
 
 
 class MaxSpeedCharacteristic(Characteristic):
@@ -604,6 +604,37 @@ class CharacteristicUserDescriptionDescriptor(Descriptor):
             raise NotPermittedException()
         self.value = value
 
+class VehicleFinderCharacteristic(Characteristic):
+    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed829'
+
+    def __init__(self, bus, index, service):
+        Characteristic.__init__(
+                self, bus, index,
+                self.TEST_CHRC_UUID,
+                ['encrypt-write'],
+                service)
+
+        self.add_descriptor(VehicleFinderDescriptor(bus, 0, self))
+
+    def WriteValue(self, value, options):
+        print('TestCharacteristic Write: ' + repr(value))
+        command = ''.join([str(v) for v in value])
+        vehicleEvents.finder(command)
+
+class VehicleFinderDescriptor(Descriptor):
+    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed830'
+
+    def __init__(self, bus, index, characteristic):
+        self.value = array.array('B', b'Vehicle Finder Characteristics.')
+        self.value = self.value.tolist()
+        Descriptor.__init__(
+                self, bus, index,
+                self.TEST_DESC_UUID,
+                ['read', 'write'],
+                characteristic)
+
+    def ReadValue(self, options):
+        return self.value
 
 def register_app_cb():
     print('GATT application registered')
