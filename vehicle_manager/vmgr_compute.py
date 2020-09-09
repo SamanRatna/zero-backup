@@ -34,15 +34,21 @@ class VehicleInfoCalculator:
     def loadData(self):
         tripData = {}
         speed = {}
-        with open('trip.json', 'r') as f:
-            tripData = json.load(f)
-        self.tripOdoOffset = tripData['tripDistanceOffsetOnBoot']
-        self.tripAverageSpeed = tripData['averageTripSpeedOnBoot']
+        try:
+            with open('trip.json', 'r') as f:
+                tripData = json.load(f)
+            self.tripOdoOffset = tripData['tripDistanceOffsetOnBoot']
+            self.tripAverageSpeed = tripData['averageTripSpeedOnBoot']
+        except Exception as error:
+            print(error)
 
-        with open('speed.json', 'r') as f:
-            speed = json.load(f)
-            self.averageSpeed = speed['odoAverageSpeedOnBoot']
-            self.maxSpeed = speed['maxSpeedOnBoot']
+        try:
+            with open('speed.json', 'r') as f:
+                speed = json.load(f)
+                self.averageSpeed = speed['odoAverageSpeedOnBoot']
+                self.maxSpeed = speed['maxSpeedOnBoot']
+        except Exception as error:
+            print(error)
         
         vehicleReadings.maxSpeed(self.maxSpeed)
         vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
