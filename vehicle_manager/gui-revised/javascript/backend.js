@@ -1,3 +1,5 @@
+
+eel.expose(requestSWUpdateConfirmation);
 eel.expose(updateSpeedPower);
 eel.expose(updateBikeMode);
 eel.expose(updateMaxSpeed);
@@ -15,6 +17,7 @@ eel.expose(updateHeadlightSignal);
 eel.expose(updateStandState);
 eel.expose(updateCarbonOffset);
 eel.expose(updateNetworkInfo);
+
 // eel.initCarbonOffset();
 
 function updateRouteToBackend(route){

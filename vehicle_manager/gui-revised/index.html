@@ -70,7 +70,7 @@
                         <div class='mode-divider-vertical'></div>
                         <!-- <div class='divider-vertical-buffer'></div> -->
                         <div class='speed-indicator'>
-                            <div class='speed-indicator__value' id='js-speed-value'>35</div>
+                            <div class='speed-indicator__value' id='js-speed-value'>100</div>
                             <div class='speed-indicator__unit'>km/h</div>
                         </div>
                         <div class='battery-indicator'>
@@ -197,16 +197,17 @@
                 </div>
                 <div class='swupdate-card' id='js-swupdate-card'>
                     <div class='swupdate-description'>
-                        <p>
-                        Software Update Ready. Slide right to download. <br>
-                        10MB
+                        <p id='js-swupdate-description'>
+                        Software Update Ready. Slide right to download. 
+                        <!-- <br> -->
+                        <!-- 10MB -->
                         </p>
                     </div>
                     <div class='swupdate-selection'>
-                        <div class='swupdate-selection__option swupdate-option__positive'>
+                        <div id='js-swupdate-install' class='swupdate-selection__option swupdate-option__positive'>
                             <p>Install</p>
                         </div>
-                        <div class='swupdate-selection__option swupdate-option__negative'>
+                        <div id='js-swupdate-snooze' class='swupdate-selection__option swupdate-option__negative'>
                             <p>Snooze</p>
                         </div>
                     </div>

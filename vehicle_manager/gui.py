@@ -196,6 +196,13 @@ def publishBluetoothDevices(devices):
 def publishFinder(command):
     eel.updateFinderRequest(command)
 
+def publishSWUpdate(message):
+    eel.requestSWUpdateConfirmation(message)
+
+@eel.expose
+def swupdateResponse(response):
+    vehicleEvents.swupdateResponse(response)
+
 @eel.expose
 def getConnectivityStatus():
     print('Getting Connectivity Status')
@@ -271,5 +278,7 @@ vehicleEvents.onBluetoothConnection += publishBluetoothStatus
 vehicleReadings.bleDevices += publishBluetoothDevices
 vehicleReadings.network += publishNetworkInfo
 vehicleEvents.finder += publishFinder
+vehicleEvents.swupdate += publishSWUpdate
+
 if __name__ == "__main__":
     startGUIThread()

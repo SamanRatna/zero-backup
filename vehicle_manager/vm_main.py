@@ -14,6 +14,7 @@ from ble_agent import *
 from ble_advertisement import *
 from ble_gatt_server import *
 from gps import *
+from sw_update import *
 # import signal
 
 # def keyboardInterruptHandler(signal, frame):
@@ -49,12 +50,16 @@ def threadVehicleManager():
     # cany = CANHandler(GPIOWriter.getInstance())
     # cany = CANHandler()
 
+def threadSWUpdate():
+    swupdate()
+
 if __name__ == '__main__':
     try:
         tAgent = threading.Thread(target = threadAgent)
         tAdvertisement = threading.Thread(target = threadAdvertisement)
         tServer = threading.Thread(target = threadServer)
         tVmgr = threading.Thread(target = threadVehicleManager)
+        tSWUpdate = threading.Thread(target=threadSWUpdate)
 
         tVmgr.start()
         # print('After VMGR: number of current threads is ', threading.active_count())
@@ -64,5 +69,7 @@ if __name__ == '__main__':
         # print('After Advertisement: number of current threads is ', threading.active_count())
         tServer.start()
         # print('After Server: number of current threads is ', threading.active_count())
+        tSWUpdate.start()
+
     except KeyboardInterrupt:
         print('Starting Program Cleanup')

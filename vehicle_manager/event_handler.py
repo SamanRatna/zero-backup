@@ -2,7 +2,7 @@ from events import Events
 import threading
 
 class VehicleEvents(Events):
-    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation', 'onBluetooth', 'guiReady', 'onBluetoothNameChange', 'finder')
+    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation', 'onBluetooth', 'guiReady', 'onBluetoothNameChange', 'finder','swupdate','swupdateResponse')
 
 class VehicleReadings(Events):
     __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset', 'heading', 'bleDevices', 'network', 'bikeMode')
@@ -83,6 +83,8 @@ def bluetoothRequest(request):
     print('Bluetooth Request: ', request)
 def onFinder(value):
     print('Find Request: ', value)
+def onswupdate(message):
+    print('Software Update: ', message)
 
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
@@ -110,3 +112,4 @@ vehicleEvents.onBluetoothConnection += bluetoothConnection
 vehicleEvents.onNavigation += navigationRequest
 vehicleEvents.onBluetooth += bluetoothRequest
 vehicleEvents.finder += onFinder
+vehicleEvents.swupdate += onswupdate

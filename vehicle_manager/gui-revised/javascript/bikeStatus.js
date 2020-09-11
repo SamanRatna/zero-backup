@@ -175,3 +175,21 @@ function activateTripResetButton(activation){
 function requestTripReset(){
     eel.resetTrip();
 }
+
+
+function requestSWUpdateConfirmation(message){
+    document.getElementById('js-swupdate-description').innerHTML = message;
+    setSWUpdateNotificationVisibility(true);
+
+}
+
+document.getElementById('js-swupdate-install').addEventListener('click', function(){
+    setSWUpdateNotificationVisibility(false);
+    eel.swupdateResponse(true);
+})
+
+document.getElementById('js-swupdate-snooze').addEventListener('click', function(){
+    setSWUpdateNotificationVisibility(false);
+    eel.swupdateResponse(false);
+})
+
