@@ -381,14 +381,14 @@
     margin-bottom: 5%;
 }
 
-/* .bluetooth-name-edit {
+.bluetooth-name-edit {
     height: 100%;
-    width: 30px;
-    margin-left: 65px;
+    width: 50px;
+    margin-left: 100px;
     display: inline-block;
     background-image: url('../icons/edit.svg');
     background-repeat: no-repeat;
-} */
+}
 
 /******************* Brightness Control ********************************/
 .settings-brightness-title{
