@@ -1,7 +1,7 @@
 body {
     background: turquoise;
     margin: 0;
-    font-family: 'Barlow', sans-serif;
+    font-family: 'Barlow';
     height: 1920px;
     width: 1200px;
     -webkit-user-select: none;
