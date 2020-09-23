@@ -2,7 +2,7 @@ from events import Events
 import threading
 
 class VehicleEvents(Events):
-    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation', 'onBluetooth', 'guiReady', 'onBluetoothNameChange', 'finder','swupdate','swupdateResponse')
+    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation', 'onBluetooth', 'guiReady', 'onBluetoothNameChange', 'finder','swupdate','swupdateResponse', 'bikeOn', 'bikeOff')
 
 class VehicleReadings(Events):
     __events__ = ('odoReading','speedReading', 'maxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset', 'heading', 'bleDevices', 'network', 'bikeMode')
@@ -85,7 +85,10 @@ def onFinder(value):
     print('Find Request: ', value)
 def onswupdate(message):
     print('Software Update: ', message)
-
+def onBikeOff():
+    print('Bike is Off.')
+def onBikeOn():
+    print('Bike is On.')
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
 vehicleEvents.onRDPress += eventRDPress
@@ -113,3 +116,5 @@ vehicleEvents.onNavigation += navigationRequest
 vehicleEvents.onBluetooth += bluetoothRequest
 vehicleEvents.finder += onFinder
 vehicleEvents.swupdate += onswupdate
+vehicleEvents.bikeOff += onBikeOff
+vehicleEvents.bikeOn += onBikeOn
