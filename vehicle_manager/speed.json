@@ -1,2 +1,5 @@
-{"odoAverageSpeedOnBoot" : 65,
-"maxSpeedOnBoot" : 87}
+{
+"odoAverageSpeedOnBoot" : 65,
+"maxSpeedOnBoot" : 87,
+"tripMaxSpeedOnBoot": 74
+}

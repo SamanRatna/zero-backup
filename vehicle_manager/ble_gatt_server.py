@@ -248,6 +248,9 @@ class Descriptor(dbus.service.Object):
         print('Default WriteValue called, returning error')
         raise NotSupportedException()
 
+''' -------------------------------------------------------------------------- '''
+''' ----------------------- Battery Service ---------------------------------- '''
+''' -------------------------------------------------------------------------- '''
 
 class BatteryService(Service):
     BATTERY_UUID = '180f'
@@ -321,6 +324,10 @@ class BatteryLevelCharacteristic(Characteristic):
         self.notifying = False
 
 
+''' -------------------------------------------------------------------------- '''
+''' ----------------------- Vehicle Manager service -------------------------- '''
+''' -------------------------------------------------------------------------- '''
+
 class VehicleManagerService(Service):
     TEST_SVC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed820'
 
@@ -330,7 +337,11 @@ class VehicleManagerService(Service):
         self.add_characteristic(AverageSpeedsCharacteristic(bus, 1, self))
         self.add_characteristic(TravelledDistancesCharacteristic(bus, 2, self))
         self.add_characteristic(VehicleFinderCharacteristic(bus, 3, self))
+        self.add_characteristic(CarbonOffsetCharacteristic(bus, 4, self))
 
+''' -------------------------------------------------------------------------- '''
+''' ----------------------- Max Speed Characteristic ------------------------- '''
+''' -------------------------------------------------------------------------- '''
 
 class MaxSpeedCharacteristic(Characteristic):
     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed821'
@@ -412,6 +423,9 @@ class MaxSpeedDescriptor(Descriptor):
 
     def ReadValue(self, options):
         return self.value
+''' -------------------------------------------------------------------------- '''
+''' ------------------- Average Speed Characteristic ------------------------- '''
+''' -------------------------------------------------------------------------- '''
 
 # Average Speeds: Overall average speed and Trip average speed
 class AverageSpeedsCharacteristic(Characteristic):
@@ -491,6 +505,10 @@ class AverageSpeedsDescriptor(Descriptor):
 
     def ReadValue(self, options):
         return self.value
+
+''' -------------------------------------------------------------------------- '''
+''' ------------------- Travelled Distances Characteristic ------------------- '''
+''' -------------------------------------------------------------------------- '''
 
 class TravelledDistancesCharacteristic(Characteristic):
     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed827'
@@ -602,6 +620,10 @@ class CharacteristicUserDescriptionDescriptor(Descriptor):
             raise NotPermittedException()
         self.value = value
 
+''' -------------------------------------------------------------------------- '''
+''' ------------------- Vehicle Finder Characteristic ------------------------ '''
+''' -------------------------------------------------------------------------- '''
+
 class VehicleFinderCharacteristic(Characteristic):
     TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed829'
 
@@ -624,6 +646,74 @@ class VehicleFinderDescriptor(Descriptor):
 
     def __init__(self, bus, index, characteristic):
         self.value = array.array('B', b'Vehicle Finder Characteristics.')
+        self.value = self.value.tolist()
+        Descriptor.__init__(
+                self, bus, index,
+                self.TEST_DESC_UUID,
+                ['read', 'write'],
+                characteristic)
+
+    def ReadValue(self, options):
+        return self.value
+
+''' -------------------------------------------------------------------------- '''
+''' ------------------- Carbon Offset Characteristic ------------------------- '''
+''' -------------------------------------------------------------------------- '''
+
+class CarbonOffsetCharacteristic(Characteristic):
+    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed831'
+
+    def __init__(self, bus, index, service):
+        Characteristic.__init__(
+                self, bus, index,
+                self.TEST_CHRC_UUID,
+                ['encrypt-read', 'encrypt-write', 'notify'],
+                service)
+        self.notifying = False
+        self.date = ''
+        self.add_descriptor(CarbonOffsetDescriptor(bus, 0, self))
+        # self.add_descriptor(
+        #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
+
+    def WriteValue(self, value, options):
+        # print('TestCharacteristic Write: ' + repr(value))
+        date = []
+        for v in value:
+            date.append(str(v))
+        self.date = date
+        print(date)
+
+    def ReadValue(self, options):
+        pass
+
+    def NotifyValue(self):
+        pass
+        # if not self.notifying:
+        #     return
+        # self.PropertiesChanged(
+        #         GATT_CHRC_IFACE,
+        #         { 'Value': [dbus.Byte(self.maxSpeed), dbus.Byte(self.tripMaxSpeed)] }, [])
+
+    def StartNotify(self):
+        if self.notifying:
+            print('Already notifying, nothing to do')
+            return
+
+        self.notifying = True
+        self.NotifyValue()
+
+    def StopNotify(self):
+        if not self.notifying:
+            print('Not notifying, nothing to do')
+            return
+
+        self.notifying = False
+
+class CarbonOffsetDescriptor(Descriptor):
+    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed832'
+
+    def __init__(self, bus, index, characteristic):
+        self.value = array.array('B', b'Carbon Offset Data')
         self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
