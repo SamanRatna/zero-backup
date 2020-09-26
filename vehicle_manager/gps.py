@@ -60,7 +60,7 @@ class GPS():
             sdata = decodedData.split(",")
             # print(sdata)
             if sdata[2] == 'V':
-                print("no satellite data available")
+                # print("no satellite data available")
                 return
             # print("-----Parsing GPRMC-----")
             # print(sdata)

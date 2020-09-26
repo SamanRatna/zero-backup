@@ -34,7 +34,7 @@ class CarbonOffsetCalculator:
             self.append(self.latestData)
         
         # self.sendToUI(0)
-        # vehicleEvents.onCarbonOffsetRequest += self.onRequest
+        vehicleEvents.onCarbonOffsetRequest += self.sendToBluetooth
         vehicleEvents.guiReady += self.onRequest
 
     def onChange(self, distance):
@@ -88,3 +88,29 @@ class CarbonOffsetCalculator:
             vehicleReadings.carbonOffset(self.carbonOffset[self.runningCarbonOffsetIndex:])
         elif mode == 1:
             vehicleReadings.carbonOffset([self.latestData])
+
+    def sendToBluetooth(self, date):
+        print('CarbonOffsetCalculator: Date Received from Bluetooth: ', date)
+        index = self.searchForDate(date)
+        print('Nearest Date: ', self.carbonOffset[index][0])
+        vehicleReadings.carbonOffsetForBluetooth(self.carbonOffset[index:])
+
+    def searchForDate(self, date):
+        receivedDate = datetime.strptime(date, "%Y-%m-%d")
+        initialDate = datetime.strptime(self.carbonOffset[0][0], "%Y-%m-%d")
+        difference = (receivedDate - initialDate).days
+
+        print('Difference between receivedDate and initialDate: ', difference)
+        if(difference < 0):
+            return 0
+        elif(difference > len(self.carbonOffset)):
+            difference = len(self.carbonOffset) - 1
+
+        nearestDate = self.carbonOffset[difference][0]
+
+        while( datetime.strptime(self.carbonOffset[difference][0], "%Y-%m-%d") > receivedDate ):
+            difference = difference - 1
+            if(difference < 0):
+                return 0
+
+        return difference

@@ -667,32 +667,43 @@ class CarbonOffsetCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.TEST_CHRC_UUID,
-                ['encrypt-read', 'encrypt-write', 'notify'],
+                ['encrypt-write', 'notify'],
                 service)
         self.notifying = False
         self.date = ''
+        self.carbonOffsetData = []
+        vehicleReadings.carbonOffsetForBluetooth += self.onCarbonOffsetData
         self.add_descriptor(CarbonOffsetDescriptor(bus, 0, self))
         # self.add_descriptor(
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
     def WriteValue(self, value, options):
         # print('TestCharacteristic Write: ' + repr(value))
-        date = []
+        date = ''
         for v in value:
-            date.append(str(v))
+            date += str(v)
         self.date = date
-        print(date)
-
-    def ReadValue(self, options):
-        pass
+        print('BLEGATT: Carbon Offset Date: ', date)
+        vehicleEvents.onCarbonOffsetRequest(date)
 
     def NotifyValue(self):
-        pass
-        # if not self.notifying:
-        #     return
-        # self.PropertiesChanged(
-        #         GATT_CHRC_IFACE,
-        #         { 'Value': [dbus.Byte(self.maxSpeed), dbus.Byte(self.tripMaxSpeed)] }, [])
+        if not self.notifying:
+            return
+
+        for data in self.carbonOffsetData:
+            dateBytes = bytearray(data[0], 'utf-8')
+            dataBytes = bytearray(str(data[1]), 'utf-8')
+            dbusBytes = []
+            for v in list(dateBytes):
+                dbusBytes.append(dbus.Byte(v))
+            dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
+            for v in list(dataBytes):
+                dbusBytes.append(dbus.Byte(v))
+            print(data)
+            # print(dbusBytes)
+            self.PropertiesChanged(
+                    GATT_CHRC_IFACE,
+                    { 'Value': dbus.Array(dbusBytes) }, [])
 
     def StartNotify(self):
         if self.notifying:
@@ -708,6 +719,12 @@ class CarbonOffsetCharacteristic(Characteristic):
             return
 
         self.notifying = False
+
+    def onCarbonOffsetData(self, data):
+        self.carbonOffsetData = data
+        print('Received Carbon Offset Data')
+        print(self.carbonOffsetData)
+        self.NotifyValue()
 
 class CarbonOffsetDescriptor(Descriptor):
     TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed832'
