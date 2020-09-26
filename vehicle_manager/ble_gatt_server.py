@@ -352,7 +352,9 @@ class MaxSpeedCharacteristic(Characteristic):
                 service)
         self.notifying = False
         self.maxSpeed = 0
+        self.tripMaxSpeed = 0
         vehicleReadings.maxSpeed += self.SetMaxSpeed
+        vehicleReadings.tripMaxSpeed += self.SetTripMaxSpeed
         self.add_descriptor(MaxSpeedDescriptor(bus, 0, self))
         # self.add_descriptor(
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
@@ -363,16 +365,21 @@ class MaxSpeedCharacteristic(Characteristic):
         print('BLE_GATT: Received Max Speed: ' + repr(self.maxSpeed))
         self.NotifyValue()
     
+    def SetTripMaxSpeed(self, speed):
+        self.tripMaxSpeed = speed
+        print('BLE_GATT: Received Trip Max Speed: ' + repr(self.tripMaxSpeed))
+        self.NotifyValue()
+
     def ReadValue(self, options):
         print('Max Speed Read: ' + repr(self.maxSpeed))
-        return [dbus.Byte(self.maxSpeed)]
+        return [dbus.Byte(self.maxSpeed), dbus.Byte(self.tripMaxSpeed)]
 
     def NotifyValue(self):
         if not self.notifying:
             return
         self.PropertiesChanged(
                 GATT_CHRC_IFACE,
-                { 'Value': [dbus.Byte(self.maxSpeed)] }, [])
+                { 'Value': [dbus.Byte(self.maxSpeed), dbus.Byte(self.tripMaxSpeed)] }, [])
     
     def StartNotify(self):
         if self.notifying:

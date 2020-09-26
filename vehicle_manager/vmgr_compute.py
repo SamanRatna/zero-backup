@@ -12,7 +12,8 @@ class VehicleInfoCalculator:
         # outputs
         self.tripDistance           = 0
         self.maxSpeed               = 0
-        self.odoAverageSpeed        = 0
+        self.tripMaxSpeed           = 0
+        self.averageSpeed           = 0
         self.tripAverageSpeed       = 0
 
         #intermediates
@@ -47,10 +48,12 @@ class VehicleInfoCalculator:
                 speed = json.load(f)
                 self.averageSpeed = speed['odoAverageSpeedOnBoot']
                 self.maxSpeed = speed['maxSpeedOnBoot']
+                self.tripMaxSpeed = speed['tripMaxSpeedOnBoot']
         except Exception as error:
             print(error)
         
         vehicleReadings.maxSpeed(self.maxSpeed)
+        vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
         vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
         # print('tripOdoOffset: ', str(self.tripOdoOffset))
         # print('tripSpeedInitial: ', str(self.tripAverageSpeed))
@@ -104,6 +107,10 @@ class VehicleInfoCalculator:
         if self.speedReading > self.maxSpeed:
             self.maxSpeed = self.speedReading
             vehicleReadings.maxSpeed(self.maxSpeed)
+
+        if self.speedReading > self.tripMaxSpeed:
+            self.tripMaxSpeed = self.speedReading
+            vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
 
     # 
     # [ Description ]
@@ -197,10 +204,12 @@ class VehicleInfoCalculator:
         print('BLE is ready.')
         if(value[0] == 1):
             vehicleReadings.maxSpeed(self.maxSpeed)
+            vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
             vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
             vehicleReadings.distances(self.odoReading, self.tripDistance)
 
     def onGUIReady(self):
         vehicleReadings.maxSpeed(self.maxSpeed)
+        vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
         vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
         vehicleReadings.distances(self.odoReading, self.tripDistance)
