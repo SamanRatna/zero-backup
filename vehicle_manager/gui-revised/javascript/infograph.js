@@ -82,9 +82,15 @@ function updateBluetoothStatus(name, status){
     console.log("Bluetooth Status: " + name + " : " +status)
     if(status == '1'){
         document.getElementById('js-bluetooth-device').innerHTML = name;
+        document.getElementById('js-bluetooth-status').innerHTML = 'Connected';
+        document.getElementById('js-ble-connected-device').innerHTML = 'Connected to '+ name;
+        setBluetoothConnectionVisibililty(true);
     }
     else if(status == '0'){
         document.getElementById('js-bluetooth-device').innerHTML = ' ';
+        document.getElementById('js-bluetooth-status').innerHTML = 'Discoverable';
+        document.getElementById('js-ble-connected-device').innerHTML = 'Disconnected';
+        setBluetoothConnectionVisibililty(true);
     }
 }
 

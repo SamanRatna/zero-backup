@@ -127,6 +127,18 @@ function setBluetoothNotificationVisibility(visibility){
     } 
 }
 
+function setBluetoothConnectionVisibililty(visibility){
+    if(visibility == true){
+        document.getElementById('js-ble-connection-notification').style.display = 'flex';
+        setTimeout(function(){
+            setBluetoothConnectionVisibililty(false);
+        }, 5000);
+    }
+    else {
+        document.getElementById('js-ble-connection-notification').style.display = 'none';
+    }
+}
+
 // function to check the visibility of bluetooth pairing notification
 function isBluetoothNotificationVisible(){
     if('none' == document.getElementById('js-bluetooth-card').style.display){

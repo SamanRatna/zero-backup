@@ -45,3 +45,7 @@
 #js-bluetooth-input {
     display: none;
 }
+
+#js-ble-connection-notification {
+    display: none;
+}

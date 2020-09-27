@@ -768,7 +768,8 @@ img{
 .signal-bar-warning{
     background: #FF7878;
 }
-.signal-bar-warning > p{
+
+.signal-bar > p{
     margin: auto;
     font-weight: bold;
     font-size: 35px;
@@ -777,6 +778,9 @@ img{
     align-items: center;
     text-align: center;
     
+    color: #4D4D4D;
+}
+.signal-bar-warning > p{
     color: #FFFFFF;
 }
 .signal-box {
@@ -846,6 +850,34 @@ img{
     color: #484848;
 }
 .bluetooth-passkey > p {
+    margin: auto;
+}
+.ble-connection-icon {
+    margin: auto;
+    height: 50px;
+    width: 15%;
+    background-image: url('../icons/bluetooth-icon-discoverable.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.ble-connection-text{
+    margin: auto;
+    height: 40%;
+    width: 85%;
+    display:flex;
+
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 42px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #4D4D4D;
+}
+.ble-connection-text > p {
     margin: auto;
 }
 .distance-to-maneuver{
