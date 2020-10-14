@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="css/mapbox.css">
     <link rel="stylesheet" type="text/css" href='css/simple-keyboard.css'>
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/no-map.css">
     <link rel="stylesheet" type="text/css" href="css/js.css">
     <link rel="stylesheet" type="text/css" href="css/settings-page.css">
     <link rel="stylesheet" type="text/css" href="css/development.css">
@@ -52,6 +53,43 @@
             <div class='map-card' id='js-map-card'></div>
             <!---------------------------- Map Card End---------------------------------->
 
+            <!---------------------------- No Map Card Start---------------------------------->
+            <div class='no-map-card' id='js-no-map-card'>
+                <div class='time' id='js-time-no-map'></div>
+                <div class='no-map-dash'>
+                    <div class='mode-indicator'>
+                        <div class='mode-indicator-scroller' id='js-mode-scroller-no-map'>
+                            <div class='mode-indicator__mode' id='js-bikemode-up-no-map'><p>-</p></div>
+                            <div class='mode-indicator__mode' id='js-bikemode-reverse-no-map'><p>REVERSE</p></div>
+                            <div class='mode-indicator__mode mode-indicator-active' id='js-bikemode-standby-no-map'><p>STANDBY</p></div>
+                            <div class='mode-indicator__mode' id='js-bikemode-suste-no-map'><p>SUSTE</p></div>
+                            <div class='mode-indicator__mode' id='js-bikemode-thikka-no-map'><p>THIKKA</p></div>
+                            <div class='mode-indicator__mode' id='js-bikemode-babbal-no-map'><p>BABBAL</p></div>
+                            <div class='mode-indicator__mode' id='js-bikemode-down-no-map'><p>-</p></div>
+                        </div>
+                    </div>
+                    <div class='mode-divider-vertical'></div>
+                    <!-- <div class='divider-vertical-buffer'></div> -->
+                    <div class='speed-indicator'>
+                        <div class='speed-indicator__value' id='js-speed-value'>0</div>
+                        <div class='speed-indicator__unit'>km/h</div>
+                    </div>
+                    <div class='battery-indicator'>
+                        <div class='battery-indicator__body'>
+                            <div class='battery-body__cap' id='js-battery-cap-no-map'></div>
+                            <div class='battery-body__main'>
+                                <div class='battery-charge' id='js-battery-level-no-map'></div>
+                            </div>
+                        </div>
+                        <div class='battery-indicator__value' id='js-battery-value-no-map'><p>0%</p></div>
+                    </div>
+                </div>
+                <div class='p0-text'></div>
+                <div class='p0-image'></div>
+                <div class='greeting'><p id='js-rider-greeting'>Good Morning</p></div>
+            </div>
+            <!---------------------------- No Map Card End---------------------------------->
+                        
             <!---------------------------- Dash Card Start---------------------------------->
             <div class='dash-card' id='js-dash-card'>
                 <div class='dash-card__primary' id='js-dash-card-primary'>
@@ -70,7 +108,7 @@
                         <div class='mode-divider-vertical'></div>
                         <!-- <div class='divider-vertical-buffer'></div> -->
                         <div class='speed-indicator'>
-                            <div class='speed-indicator__value' id='js-speed-value'>100</div>
+                            <div class='speed-indicator__value' id='js-speed-value'>0</div>
                             <div class='speed-indicator__unit'>km/h</div>
                         </div>
                         <div class='battery-indicator'>
@@ -80,7 +118,7 @@
                                     <div class='battery-charge' id='js-battery-level'></div>
                                 </div>
                             </div>
-                            <div class='battery-indicator__value' id='js-battery-value'>100%</div>
+                            <div class='battery-indicator__value' id='js-battery-value'>0%</div>
                         </div>
                     </div>
                     <div class='dash__primary__bottom'>

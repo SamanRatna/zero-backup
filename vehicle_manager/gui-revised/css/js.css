@@ -49,3 +49,7 @@
 #js-ble-connection-notification {
     display: none;
 }
+
+#js-dash-card {
+    display: none;
+}

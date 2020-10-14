@@ -1,6 +1,68 @@
+// function to update the variables based on map is activated or not
+let soc = document.getElementById('js-battery-value-no-map');
+let batteryLevel = document.getElementById('js-battery-level-no-map');
+let batteryCap = document.getElementById('js-battery-cap-no-map');
+let range = document.getElementById('js-range-no-map');
+let speed = document.getElementById('js-speed-value-no-map');
+
+let currentBikeMode = 'MODE_STANDBY'
+let bikeModeStandby = document.getElementById('js-bikemode-standby-no-map');
+let bikeModeSuste = document.getElementById('js-bikemode-suste-no-map');
+let bikeModeThikka = document.getElementById('js-bikemode-thikka-no-map');
+let bikeModeBabbal = document.getElementById('js-bikemode-babbal-no-map');
+let bikeModeReverse = document.getElementById('js-bikemode-reverse-no-map');
+let modeScroller = document.getElementById('js-mode-scroller-no-map');
+
+let time = document.getElementById('js-time-no-map');
+
+let noMapPage = document.getElementById('js-no-map-card');
+let dashCard = document.getElementById('js-dash-card');
+function updateMapState(isMapLoaded){
+    updateVariables(isMapLoaded);
+    if(isMapLoaded){
+        noMapPage.style.display = 'none';
+        dashCard.style.display = 'flex';
+    }
+    else{
+        noMapPage.style.display = 'flex';
+        dashCard.style.display = 'none';
+    }
+}
+
+function updateVariables(isMapLoaded){
+    if(isMapLoaded){
+        soc = document.getElementById('js-battery-value');
+        batteryLevel = document.getElementById('js-battery-level');
+        batteryCap = document.getElementById('js-battery-cap');
+        range = document.getElementById('js-range');
+        speed = document.getElementById('js-speed-value');
+        time = document.getElementById('js-time');
+        bikeModeSuste = document.getElementById('js-bikemode-suste');
+        bikeModeThikka = document.getElementById('js-bikemode-thikka');
+        bikeModeBabbal = document.getElementById('js-bikemode-babbal');
+        bikeModeReverse = document.getElementById('js-bikemode-reverse');
+        modeScroller = document.getElementById('js-mode-scroller');
+        bikeModeStandby = document.getElementById('js-bikemode-standby');
+    }
+    else{
+        soc = document.getElementById('js-battery-value-no-map');
+        batteryLevel = document.getElementById('js-battery-level-no-map');
+        batteryCap = document.getElementById('js-battery-cap-no-map');
+        range = document.getElementById('js-range-no-map');
+        speed = document.getElementById('js-speed-value-no-map');
+        time = document.getElementById('js-time-no-map');
+        bikeModeSuste = document.getElementById('js-bikemode-suste-no-map');
+        bikeModeThikka = document.getElementById('js-bikemode-thikka-no-map');
+        bikeModeBabbal = document.getElementById('js-bikemode-babbal-no-map');
+        bikeModeReverse = document.getElementById('js-bikemode-reverse-no-map');
+        modeScroller = document.getElementById('js-mode-scroller-no-map');
+        bikeModeStandby = document.getElementById('js-bikemode-standby-no-map');
+    }
+}
+
 // Function to update the speed and power in the dashboard
 function updateSpeedPower(speed, power){
-    document.getElementById('js-speed-value').innerHTML = speed;
+    speed.innerHTML = speed;
 
     if(speed > 1){
         activateTripResetButton(false);
@@ -11,13 +73,6 @@ function updateSpeedPower(speed, power){
 }
 
 // Function to update the bike mode in the dashboard
-let currentBikeMode = 'MODE_STANDBY'
-let bikeModeStandby = document.getElementById('js-bikemode-standby');
-let bikeModeSuste = document.getElementById('js-bikemode-suste');
-let bikeModeThikka = document.getElementById('js-bikemode-thikka');
-let bikeModeBabbal = document.getElementById('js-bikemode-babbal');
-let bikeModeReverse = document.getElementById('js-bikemode-reverse');
-let modeScroller = document.getElementById('js-mode-scroller');
 function updateBikeMode(mode){
     switch(currentBikeMode){
         case 'MODE_STANDBY':
@@ -36,26 +91,48 @@ function updateBikeMode(mode){
             bikeModeReverse.classList.toggle('mode-indicator-active');
             break;
     }
+    // switch(mode){
+    //     case 'MODE_STANDBY':
+    //         bikeModeStandby.classList.toggle('mode-indicator-active');
+    //         modeScroller.style.marginTop = '-45px';
+    //         break;
+    //     case 'MODE_SUSTE':
+    //         bikeModeSuste.classList.toggle('mode-indicator-active');
+    //         modeScroller.style.marginTop = '-92px';
+    //         break;        
+    //     case 'MODE_THIKKA':
+    //         bikeModeThikka.classList.toggle('mode-indicator-active');
+    //         modeScroller.style.marginTop = '-138px';
+    //         break;
+    //     case 'MODE_BABBAL':
+    //         bikeModeBabbal.classList.toggle('mode-indicator-active');
+    //         modeScroller.style.marginTop = '-184px';
+    //         break;
+    //     case 'MODE_REVERSE':
+    //         bikeModeReverse.classList.toggle('mode-indicator-active');
+    //         modeScroller.style.marginTop = '0px';
+    //         break;
+    // }
     switch(mode){
         case 'MODE_STANDBY':
             bikeModeStandby.classList.toggle('mode-indicator-active');
-            modeScroller.style.marginTop = '-45px';
+            modeScroller.style.marginTop = '-25%';
             break;
         case 'MODE_SUSTE':
             bikeModeSuste.classList.toggle('mode-indicator-active');
-            modeScroller.style.marginTop = '-92px';
+            modeScroller.style.marginTop = '-50%';
             break;        
         case 'MODE_THIKKA':
             bikeModeThikka.classList.toggle('mode-indicator-active');
-            modeScroller.style.marginTop = '-138px';
+            modeScroller.style.marginTop = '-80%';
             break;
         case 'MODE_BABBAL':
             bikeModeBabbal.classList.toggle('mode-indicator-active');
-            modeScroller.style.marginTop = '-184px';
+            modeScroller.style.marginTop = '-105%';
             break;
         case 'MODE_REVERSE':
             bikeModeReverse.classList.toggle('mode-indicator-active');
-            modeScroller.style.marginTop = '0px';
+            modeScroller.style.marginTop = '0%';
             break;
     }
     currentBikeMode = mode;
@@ -63,11 +140,11 @@ function updateBikeMode(mode){
 
 
 // Function to update the battery level in the dashboard
-let soc = document.getElementById('js-battery-value');
-let batteryLevel = document.getElementById('js-battery-level');
-let batteryCap = document.getElementById('js-battery-cap');
-let range = document.getElementById('js-range');
 function updateSOC(socData, suste, thikka, babbal){
+    if(socData > 100){
+        return;
+    }
+
     soc.innerHTML = socData + '%';
     batteryLevel.style.height = socData + '%';
 
@@ -80,7 +157,6 @@ function updateSOC(socData, suste, thikka, babbal){
 
     range.innerHTML = thikka;
 }
-
 
 // Function to update the odometer and trip distances
 let odoDistance = document.getElementById('js-odo-travel');
@@ -152,7 +228,7 @@ function updateStandState(standState){
 function updateTime(){
     this.now = new Date().toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
     // console.log(this.now);
-    document.getElementById('js-time').innerHTML = this.now;
+    time.innerHTML = this.now;
     setTimeout(updateTime, 60000);
 }
 updateTime();
