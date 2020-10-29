@@ -37,7 +37,16 @@ img{
     background: white;
     background: linear-gradient(0deg, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%);
 }
-
+.dark .logo-frame{
+    position: absolute;
+    display: flex;
+    width: 100vw;
+    height: 10.5vh;
+    left: 0;
+    bottom: 0;
+    padding-top: 5%;
+    background: linear-gradient(0deg, rgb(0 0 0) 50%, rgba(0,0,0,0) 100%);
+}
 .logo-frame__image {
     width: 25%;
     margin: auto auto;
@@ -62,6 +71,11 @@ img{
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
 }
+
+/* .dark .dash-card__primary{
+    background: black;
+    box-shadow: 0px 10px 20px rgba(102, 102, 102, 0.25);
+} */
 .dash__primary__top {
     height: 65%;
     width: 100%;
@@ -91,12 +105,15 @@ img{
     padding-right: 4%;
     padding-top: 0.5%;
 }
-
+/* .dark .dash-card__primary{
+    background: black;
+    box-shadow: 0px 10px 20px rgba(102, 102, 102, 0.25);
+} */
 .mode-indicator {
     width: 30%;
     height: 70%;
     overflow: hidden;
-    background: linear-gradient(180deg, rgba(255,255,255,1) 20%, rgba(0,0,0,0) 100%);
+    /* background: linear-gradient(180deg, rgba(255,255,255,1) 20%, rgba(0,0,0,0) 100%); */
 }
 .mode-indicator-scroller {
     width: 100%;
@@ -141,6 +158,19 @@ img{
     font-size: 40px;
     height: 40%;
 }
+.dark .mode-indicator-active{
+    color: white;
+    font-weight: 600;
+    font-size: 40px;
+    height: 40%;
+}
+.mode-indicator-active-dark{
+    color: white;
+    font-weight: 600;
+    font-size: 40px;
+    height: 40%;
+}
+
 /* .mode-indicator-inactive{
     font-weight: 500;
     font-size: 27px;
@@ -163,7 +193,7 @@ img{
     font-weight: 500;
     font-size: 200px;
     align-items: right;
-    color: #000000;
+    /* color: #000000; */
     text-align: right;
     line-height: 75%;
 }
@@ -207,7 +237,7 @@ img{
     
     text-align: center;
     
-    color: #000000;
+    /* color: #000000; */
 }
 .battery-charge{
     background: #30D5C8;
@@ -227,7 +257,6 @@ img{
     line-height: 38px;
     display: flex;
     align-items: center;
-    color: #4D4D4D;
 }
 
 .temperature-indicator {
@@ -299,7 +328,7 @@ img{
     font-size: 32px;
     line-height: 38px;
     
-    color: #484848;
+    /* color: #484848; */
 }
 .range-indicator__label {
     font-weight: 500;
@@ -357,6 +386,16 @@ img{
     text-align: right;
     color: #4D4D4D;
 }
+
+.dark .travel__value{
+    color: white;
+}
+/* .travel__value-light{
+    color: #4D4D4D;
+}
+.travel__value-dark{
+    color: white;
+} */
 .travel__unit{
     display: inline-block;
     font-weight: 500;
@@ -792,16 +831,16 @@ img{
     border-radius: 15px;
     margin: auto;
 
-    background: #f5f5f5;
+    /* background: #f5f5f5; */
 }
 .turn-signal-active {
-    background: #FFBF00;
+    background-color: #FFBF00;
 }
 .high-beam-active {
-    background: #5C94FF;
+    background-color: #5C94FF;
 }
 .low-beam-active {
-    background: #25CB55;
+    background-color: #25CB55;
 }
 .left-turn-signal{
     background-image: url('../icons/left-turn.svg');

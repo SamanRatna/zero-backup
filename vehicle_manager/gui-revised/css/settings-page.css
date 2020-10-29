@@ -55,6 +55,10 @@
 .settings-connectivity-selected {
     background: #EAEAEA;
 }
+
+.dark .settings-connectivity-selected{
+    background: #595959;
+}
 .connectivity-option {
     height: 50%;
     width: 90%;
@@ -80,6 +84,10 @@
     font-size: 30px;
     line-height: 36px;
     color: #5A5A5A;
+}
+
+.dark .connectivity-label > p {
+    color: white;
 }
 .settings-performance {
     height: 88px;
@@ -166,6 +174,7 @@
     display: flex;
     flex-direction: column;
 }
+
 .account-person{
     margin: auto;
     font-weight: 600;
@@ -178,6 +187,9 @@
     
     color: #5A5A5A;
 }
+.dark .account-person {
+    color: white;
+}
 .account-vehicle{
     margin: auto;
     font-weight: 500;
@@ -187,6 +199,9 @@
     align-items: center;
     
     color: #898989;
+}
+.dark .account-vehicle {
+    color: white;
 }
 .infograph {
     margin: auto;
@@ -214,6 +229,16 @@
     
     color: #C4C4C4;
 }
+
+.dark .infograph-title > p{
+    color: white;
+}
+/* .title-light{
+    color: #C4C4C4;
+}
+.title-dark{
+    color: white;
+} */
 .infograph-content {
     height: 75%;
     width: 90%;
@@ -352,7 +377,9 @@
     height: 60px;
     display: flex;
 }
-
+.dark .bluetooth-text{
+    color: white;
+}
 .bluetooth-text .bluetooth-text-title{
     height: 70%;
     width: 40%;
@@ -399,6 +426,9 @@
     font-family: 'Barlow';
     color: #C4C4C4;
     display: flex;
+}
+.dark .settings-brightness-title{
+    color: white;
 }
 .settings-brightness-title > p{
     margin: auto;

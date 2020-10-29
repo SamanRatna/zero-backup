@@ -1,0 +1,31 @@
+/* input {
+    width: 100%;
+    height: 100px;
+    padding: 20px;
+    font-size: 20px;
+    border: none;
+    box-sizing: border-box;
+  } */
+  
+  /* .simple-keyboard {
+    max-width: 850px;
+  } */
+  
+  .simple-keyboard.hg-theme-default.dark-theme {
+    /* border: 5px solid rgb(255, 0, 0, 0.7);
+    border-radius: 10px;
+    margin: 10px;
+    width: calc(100% - 20px); */
+    background: black;
+  }
+  
+  .simple-keyboard.hg-layout-default.dark-theme .hg-button {
+    background: #303030;
+    color: white;
+  }
+  
+  .simple-keyboard.hg-layout-default .hg-button.hg-highlight {
+    box-shadow: 0px 0px 40px 5px rgba(255, 255, 0, 0.5);
+    z-index: 1;
+  }
+  

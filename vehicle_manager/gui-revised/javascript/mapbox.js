@@ -8,6 +8,7 @@ const navigationPitch = 0;
 let maneuvers;
 let destinationName;
 let distanceToDestination = Infinity;
+let isMapLoaded = false;
 startMap();
 
 /*
@@ -58,7 +59,7 @@ function onLocationResponse(location){
 }
 
 function initMap(){
-  updateMapState(true);
+
   moveNotificationCard('normal-mode');
   var elCurrentMarker = document.createElement('div');
   elCurrentMarker.className = 'current-marker';
@@ -158,6 +159,8 @@ function addListeners(){
   // });
 
   initKeyboardListener();
+  isMapLoaded = true;
+  updateMapState(isMapLoaded);
 }
 
 let navigationRoute = undefined;
@@ -579,4 +582,13 @@ function traverseAllSteps(maneuver){
             .setHTML(text)
             .addTo(map);
   });
+}
+
+function switchMapMode(layer) {
+  if(layer == 'dark'){
+    map.setStyle('mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh');
+  }
+  else{
+    map.setStyle('mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb');
+  }
 }

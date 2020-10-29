@@ -3,6 +3,7 @@ let Keyboard = window.SimpleKeyboard.default;
 let myKeyboard = new Keyboard({
   onChange: input => onChange(input),
   onKeyPress: button => onKeyPress(button),
+  // theme: "hg-theme-default hg-layout-default dark-theme",
   mergeDisplay: true,
   // preventMouseDownDefault: true,
   layoutName: "default",

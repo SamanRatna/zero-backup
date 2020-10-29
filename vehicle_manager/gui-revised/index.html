@@ -34,11 +34,13 @@
 
     <link rel="stylesheet" type="text/css" href="css/mapbox.css">
     <link rel="stylesheet" type="text/css" href='css/simple-keyboard.css'>
+    <link rel="stylesheet" type="text/css" href='css/simple-keyboard-dark.css'>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/no-map.css">
     <link rel="stylesheet" type="text/css" href="css/js.css">
     <link rel="stylesheet" type="text/css" href="css/settings-page.css">
     <link rel="stylesheet" type="text/css" href="css/development.css">
+    <link rel="stylesheet" type="text/css" href="css/dark.css">
 </head>
 
 <body>
@@ -56,7 +58,7 @@
             <!---------------------------- No Map Card Start---------------------------------->
             <div class='no-map-card' id='js-no-map-card'>
                 <div class='time' id='js-time-no-map'></div>
-                <div class='no-map-dash'>
+                <div class='no-map-dash' id='js-no-map-dash'>
                     <div class='mode-indicator'>
                         <div class='mode-indicator-scroller' id='js-mode-scroller-no-map'>
                             <div class='mode-indicator__mode' id='js-bikemode-up-no-map'><p>-</p></div>
@@ -122,7 +124,7 @@
                         </div>
                     </div>
                     <div class='dash__primary__bottom'>
-                        <div class='time-indicator' id='js-time'>- - : - - &nbsp; - -</div>
+                        <div class='time-indicator travel__value-light' id='js-time'>- - : - - &nbsp; - -</div>
                         <div class='temperature-indicator'>
                             <div class='temperature-indicator__coldend'>C</div>
                             <div class='temperature-indicator__body'>
@@ -132,20 +134,20 @@
                         </div>
                         <div class='range-indicator'>
                             <span class='range-indicator__label'>est.range  &nbsp; </span>
-                            <span class='range-indicator__value' id='js-range'>92</span>
+                            <span class='range-indicator__value travel__value-light' id='js-range'>92</span>
                             <span class='range-indicator__label'> &nbsp; km</span>
                         </div>
                     </div>
                 </div>
-                <div class='dash-card__auxiliary'>
+                <div class='dash-card__auxiliary' id='js-dash-card-auxiliary'>
                     <div class="travel-indicator">
                         <div class="travel__label">ODO</div>
-                        <div class="travel__value" id='js-odo-travel'>10,000</div>
+                        <div class="travel__value travel__value-light" id='js-odo-travel'>10,000</div>
                         <div class="travel__unit">km</div>
                     </div>
                     <div class="travel-indicator">
                         <div class="travel__label">TRIP</div>
-                        <div class="travel__value" id='js-trip-travel'>10,000</div>
+                        <div class="travel__value travel__value-light" id='js-trip-travel'>10,000</div>
                         <div class="travel__unit">km</div>
                     </div>
                     <div class="trip-reset" id='js-trip-reset'><p>reset</p></div>
@@ -221,11 +223,11 @@
 
             <!------------------ Notification Card Start ------------------------------->
             <div class='notification-card' id='js-notification-card'>
-                <div class='signal-bar'>
-                    <div class='signal-box left-turn-signal' id='js-left-turn'></div>
-                    <div class='signal-box right-turn-signal' id='js-right-turn'></div>
-                    <div class='signal-box low-beam-signal' id='js-low-beam'></div>
-                    <div class='signal-box high-beam-signal' id='js-high-beam'></div>
+                <div class='signal-bar' id='js-light-signal'>
+                    <div class='signal-box left-turn-signal signal-box-light' id='js-left-turn'></div>
+                    <div class='signal-box right-turn-signal signal-box-light' id='js-right-turn'></div>
+                    <div class='signal-box low-beam-signal signal-box-light' id='js-low-beam'></div>
+                    <div class='signal-box high-beam-signal signal-box-light' id='js-high-beam'></div>
                 </div>
                 <div class='signal-bar signal-bar-warning' id='js-kickstand-signal'>
                     <p>Kick Stand Engaged</p>
@@ -307,7 +309,7 @@
                     </div>
                     <div class = 'settings-divider-horizontal'></div>
                     <div class='settings-brightness'>
-                        <div class='settings-brightness-title'><p>Brightness</p></div>
+                        <div class='settings-brightness-title title-light'><p>Brightness</p></div>
                         <!-- <div class='settings-brightness-slider'>
                             <div class='settings-brightness-icon'></div>
                             <input type="range" min="1" max="10" value="10" class="slider" id="js-brightness-slider">
@@ -335,7 +337,7 @@
                     <div class='right-pane right-pane-visible' id='js-infographics-pane'>
                         <div class='infograph'>
                             <div class='infograph-header'>
-                                <div class='infograph-title'><p>SPEED</p></div>
+                                <div class='infograph-title  title-light'><p>SPEED</p></div>
                                 <div class='infograph-switch'>
                                     <p class='switch-field-label active' id='js-speed-label-km'>km</p>
                                     <div class='switch-field' id='js-speed-unit-toggle'>
@@ -350,7 +352,7 @@
                         </div>
                         <div class='infograph'>
                             <div class='infograph-header'>
-                                <div class='infograph-title'><p>TEMPERATURE</p></div>
+                                <div class='infograph-title title-light'><p>TEMPERATURE</p></div>
                                 <div class='infograph-switch'>
                                     <p class='switch-field-label active' id='js-temperature-label-c'>C</p>
                                     <div class='switch-field' id='js-temperature-unit-toggle'>
@@ -365,7 +367,7 @@
                         </div>
                         <div class='infograph'>
                             <div class='infograph-header'>
-                                <div class='infograph-title'><p>CARBON OFFSET</p></div>
+                                <div class='infograph-title title-light'><p>CARBON OFFSET</p></div>
                                 <div class='carbon-fuel'>
                                     <div class='carbon-fuel-value'>10g</div>
                                     <div class='carbon-fuel-label'>&nbsp;CO2</div>
@@ -389,7 +391,7 @@
                         <!-- Bluetooth -->
                         <div class='bluetooth'>
                             <div class='infograph-header'>
-                                <div class='infograph-title'><p>BLUETOOTH</p></div>
+                                <div class='infograph-title  title-light'><p>BLUETOOTH</p></div>
                                 <div class='infograph-switch'>
                                     <p class='switch-field-label active' id='js-bluetooth-label-off'>off</p>
                                     <div class='switch-field' id='js-bluetooth-toggle'>
@@ -425,7 +427,7 @@
                         <!-- Network and SIM Card -->
                         <div class='bluetooth'>
                             <div class='infograph-header'>
-                                <div class='infograph-title'><p>CONNECTIVITY</p></div>
+                                <div class='infograph-title  title-light'><p>CONNECTIVITY</p></div>
                                 <div class='infograph-switch'>
                                     <p class='switch-field-label active' id='js-network-label-off'>off</p>
                                     <div class='switch-field' id='js-network-toggle'>
@@ -460,7 +462,7 @@
                         <!-- GPS -->
                         <div class='bluetooth'>
                             <div class='infograph-header'>
-                                <div class='infograph-title'><p>GPS</p></div>
+                                <div class='infograph-title  title-light'><p>GPS</p></div>
                                 <div class='infograph-switch'>
                                     <p class='switch-field-label active' id='js-gps-label-off'>off</p>
                                     <div class='switch-field' id='js-gps-toggle'>

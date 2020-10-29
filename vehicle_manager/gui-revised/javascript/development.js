@@ -24,3 +24,5 @@ function updateFinderRequest(command){
         document.getElementById('js-finder-signal').style.display = 'none';
     }, 5000);
 }
+
+document.getElementById('js-dash-card').style.display = 'none';

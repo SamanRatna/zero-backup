@@ -221,6 +221,10 @@ document.getElementById('js-dash-card-primary').addEventListener('click', functi
     setSettingsCardVisibility(true);
 });
 
+document.getElementById('js-no-map-dash').addEventListener('click', function(){
+    setSettingsCardVisibility(true);
+});
+
 // click handler for closing the settings page
 // click handler for informing user activity to backend
 let settingsActiveArea = document.getElementById('js-settings-area');
@@ -273,4 +277,51 @@ function setBluetoothInputVisibility(visibility){
         }, 1000);
         
     }  
+}
+
+let signalBoxes = document.getElementsByClassName('signal-box');
+let inputFields = document.getElementsByTagName('input');
+function switchUIMode(){
+
+    if(uiMode == 'light'){
+        uiMode = 'dark';
+        signalInactive = 'signal-box-dark';
+        myKeyboard.setOptions({
+            theme: "hg-theme-default hg-layout-default dark-theme"
+          });
+    }
+    else{
+        uiMode = 'light';
+        signalInactive = 'signal-box-light';
+        myKeyboard.setOptions({
+            theme: "hg-theme-default hg-layout-default"
+        });
+    }
+
+    document.getElementById('js-dash-page').classList.toggle('dark');
+    updateBikeMode(currentBikeMode);
+    document.getElementById('js-light-signal').classList.toggle('dark-signal');
+    document.getElementById('js-settings-area').classList.toggle('dark');
+
+    document.getElementsByClassName('settings-brightness-title')[0].classList.toggle('title-dark');
+
+    for(let i=0; i<signalBoxes.length; i++){
+        if(!signalBoxes[i].classList.contains('turn-signal-active')){
+            signalBoxes[i].classList.toggle('signal-box-light');
+            signalBoxes[i].classList.toggle('signal-box-dark');
+        }
+    }
+
+    document.getElementById('js-dash-card-primary').classList.toggle('dark');
+    document.getElementById('js-dash-card-auxiliary').classList.toggle('dark');
+
+    if(isMapLoaded){
+        switchMapMode(uiMode);
+        document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.toggle('geocoder-dark');
+        for(let i=0; i<inputFields.length; i++){
+            inputFields[i].classList.toggle('geocoder-dark');
+        }
+        document.getElementsByClassName('suggestions')[0].classList.toggle('geocoder-dark');
+        document.getElementsByClassName('mapboxgl-ctrl-compass')[0].parentElement.classList.toggle('geocoder-dark');
+    }
 }

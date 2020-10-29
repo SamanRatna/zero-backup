@@ -17,6 +17,8 @@ let time = document.getElementById('js-time-no-map');
 
 let noMapPage = document.getElementById('js-no-map-card');
 let dashCard = document.getElementById('js-dash-card');
+
+let uiMode = 'light';
 function updateMapState(isMapLoaded){
     updateVariables(isMapLoaded);
     if(isMapLoaded){
@@ -73,24 +75,51 @@ function updateSpeedPower(speed, power){
 }
 
 // Function to update the bike mode in the dashboard
+let bikeModeActiveIndicator = 'mode-indicator-active';
 function updateBikeMode(mode){
-    switch(currentBikeMode){
-        case 'MODE_STANDBY':
-            bikeModeStandby.classList.toggle('mode-indicator-active');
-            break;
-        case 'MODE_SUSTE':
-            bikeModeSuste.classList.toggle('mode-indicator-active');
-            break;        
-        case 'MODE_THIKKA':
-            bikeModeThikka.classList.toggle('mode-indicator-active');
-            break;
-        case 'MODE_BABBAL':
-            bikeModeBabbal.classList.toggle('mode-indicator-active');
-            break;
-        case 'MODE_REVERSE':
-            bikeModeReverse.classList.toggle('mode-indicator-active');
-            break;
-    }
+    console.log('Updating Bike Mode To: ' + mode)
+    console.log(bikeModeActiveIndicator);
+    // if(uiMode == 'light'){
+    //     console.log('in light mode');
+    //     switch(currentBikeMode){
+    //         case 'MODE_STANDBY':
+    //             bikeModeStandby.classList.toggle('mode-indicator-active');
+    //             break;
+    //         case 'MODE_SUSTE':
+    //             bikeModeSuste.classList.toggle('mode-indicator-active');
+    //             break;        
+    //         case 'MODE_THIKKA':
+    //             bikeModeThikka.classList.toggle('mode-indicator-active');
+    //             break;
+    //         case 'MODE_BABBAL':
+    //             bikeModeBabbal.classList.toggle('mode-indicator-active');
+    //             break;
+    //         case 'MODE_REVERSE':
+    //             bikeModeReverse.classList.toggle('mode-indicator-active');
+    //             break;
+    //     }
+    // }
+    // else{
+    //     console.log('in dark mode');
+    //     switch(currentBikeMode){
+    //         case 'MODE_STANDBY':
+    //             bikeModeStandby.classList.toggle('mode-indicator-active-dark');
+    //             break;
+    //         case 'MODE_SUSTE':
+    //             bikeModeSuste.classList.toggle('mode-indicator-active-dark');
+    //             break;        
+    //         case 'MODE_THIKKA':
+    //             bikeModeThikka.classList.toggle('mode-indicator-active-dark');
+    //             break;
+    //         case 'MODE_BABBAL':
+    //             bikeModeBabbal.classList.toggle('mode-indicator-active-dark');
+    //             break;
+    //         case 'MODE_REVERSE':
+    //             bikeModeReverse.classList.toggle('mode-indicator-active-dark');
+    //             break;
+    //     }
+    // }
+    
     // switch(mode){
     //     case 'MODE_STANDBY':
     //         bikeModeStandby.classList.toggle('mode-indicator-active');
@@ -113,25 +142,42 @@ function updateBikeMode(mode){
     //         modeScroller.style.marginTop = '0px';
     //         break;
     // }
+    switch(currentBikeMode){
+        case 'MODE_STANDBY':
+            bikeModeStandby.classList.toggle(bikeModeActiveIndicator);
+            break;
+        case 'MODE_SUSTE':
+            bikeModeSuste.classList.toggle(bikeModeActiveIndicator);
+            break;        
+        case 'MODE_THIKKA':
+            bikeModeThikka.classList.toggle(bikeModeActiveIndicator);
+            break;
+        case 'MODE_BABBAL':
+            bikeModeBabbal.classList.toggle(bikeModeActiveIndicator);
+            break;
+        case 'MODE_REVERSE':
+            bikeModeReverse.classList.toggle(bikeModeActiveIndicator);
+            break;
+    }
     switch(mode){
         case 'MODE_STANDBY':
-            bikeModeStandby.classList.toggle('mode-indicator-active');
+            bikeModeStandby.classList.toggle(bikeModeActiveIndicator);
             modeScroller.style.marginTop = '-25%';
             break;
         case 'MODE_SUSTE':
-            bikeModeSuste.classList.toggle('mode-indicator-active');
+            bikeModeSuste.classList.toggle(bikeModeActiveIndicator);
             modeScroller.style.marginTop = '-50%';
             break;        
         case 'MODE_THIKKA':
-            bikeModeThikka.classList.toggle('mode-indicator-active');
+            bikeModeThikka.classList.toggle(bikeModeActiveIndicator);
             modeScroller.style.marginTop = '-80%';
             break;
         case 'MODE_BABBAL':
-            bikeModeBabbal.classList.toggle('mode-indicator-active');
+            bikeModeBabbal.classList.toggle(bikeModeActiveIndicator);
             modeScroller.style.marginTop = '-105%';
             break;
         case 'MODE_REVERSE':
-            bikeModeReverse.classList.toggle('mode-indicator-active');
+            bikeModeReverse.classList.toggle(bikeModeActiveIndicator);
             modeScroller.style.marginTop = '0%';
             break;
     }
@@ -172,21 +218,30 @@ let rightTurnSignal = document.getElementById('js-right-turn');
 let leftTurnSignal = document.getElementById('js-left-turn');
 let highBeamSignal = document.getElementById('js-high-beam');
 let lowBeamSignal = document.getElementById('js-low-beam');
+let signalInactive = 'signal-box-light';
 function updateTurnSignal(turnSignal){
     switch(turnSignal){
         case 0:
+            rightTurnSignal.classList.add(signalInactive);
+            leftTurnSignal.classList.add(signalInactive);
             rightTurnSignal.classList.remove('turn-signal-active');
             leftTurnSignal.classList.remove('turn-signal-active');
             break;
         case 1:
+            rightTurnSignal.classList.remove(signalInactive);
+            leftTurnSignal.classList.add(signalInactive);
             rightTurnSignal.classList.add('turn-signal-active');
             leftTurnSignal.classList.remove('turn-signal-active');
             break;
         case 2:
+            rightTurnSignal.classList.add(signalInactive);
+            leftTurnSignal.classList.remove(signalInactive);
             rightTurnSignal.classList.remove('turn-signal-active');
             leftTurnSignal.classList.add('turn-signal-active');
             break;
         case 3:
+            rightTurnSignal.classList.remove(signalInactive);
+            leftTurnSignal.classList.remove(signalInactive);
             rightTurnSignal.classList.add('turn-signal-active');
             leftTurnSignal.classList.add('turn-signal-active');
             break;

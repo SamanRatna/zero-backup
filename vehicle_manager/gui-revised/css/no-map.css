@@ -39,6 +39,9 @@
 .no-map-dash .mode-indicator .mode-indicator-active{
     font-size: 55px;
 }
+.no-map-dash .mode-indicator .mode-indicator-active-dark{
+    font-size: 55px;
+}
 
 .no-map-dash .mode-indicator-scroller {
     /* height: 80%; */
