@@ -421,6 +421,10 @@ img{
     background: white;
 }
 
+.dark .trip__info{
+    backgroudn: rgb(60,60,60);
+}
+
 .trip__start-button {
     position: absolute;
     width: 29vw;
@@ -486,6 +490,9 @@ img{
     
     color: #4D4D4D;
 }
+.dark .trip__distance{
+    color: white;
+}
 .trip__distance > p {
     margin: auto;
 }
@@ -528,6 +535,9 @@ img{
     color: #898989;
 }
 
+.dark .trip__soc__label{
+    color: white;
+}
 .trip__soc_value{
     color: #4D4D4D;
 }
@@ -564,6 +574,12 @@ img{
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     display: flex;
+    color: #000000;
+}
+
+.dark .route__summary {
+    background: rgb(60,60,60);
+    color: white;
 }
 .route__destination {
     height: 100%;
@@ -571,6 +587,7 @@ img{
     position: absolute;
     left: 0;
     display: flex;
+    
 }
 .route__destination > p {
     margin: auto;
@@ -579,7 +596,7 @@ img{
     line-height: 42px;    
     display: flex;
     
-    color: #000000;
+    /* color: #000000; */
 }
 
 .cancel-button-red {

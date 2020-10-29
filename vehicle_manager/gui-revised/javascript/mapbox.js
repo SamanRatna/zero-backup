@@ -118,16 +118,16 @@ function initMap(){
 function addListeners(){
   // After the map style has loaded on the page,
   // add a source layer and default styling for a single point
-  map.on('load', function() {
-    map.addSource('single-point', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: []
-      }
-    });
-  });
-
+  // map.on('load', function() {
+  //   map.addSource('single-point', {
+  //     type: 'geojson',
+  //     data: {
+  //       type: 'FeatureCollection',
+  //       features: []
+  //     }
+  //   });
+  // });
+  
   // Listen for the `result` event from the Geocoder
   // `result` event is triggered when a user makes a selection
   //  Add a marker at the result's coordinates
@@ -139,6 +139,16 @@ function addListeners(){
     // console.log(destinationName);
     // console.log(e.place_name);
     // addPlaceToPanel(e.result.place_name);
+    if(map.getSource('single-point')){
+      map.removeSource('single-point');
+    }
+    map.addSource('single-point', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: []
+      }
+    });
     map.getSource('single-point').setData(e.result.geometry);
     var coordsObj = e.result.geometry.coordinates;
     //   console.log(coordsObj);
@@ -186,7 +196,7 @@ function getRoute(end) {
     var data = json.routes[0];
     addSummaryToPanel(data);
     // traverseAllSteps(maneuvers);
-    addStepMarkers(maneuvers); //this will add markers to the steps (debug functionality)
+    // addStepMarkers(maneuvers); //this will add markers to the steps (debug functionality)
     // findManeuverPoint(maneuvers);
     navigate();
 
