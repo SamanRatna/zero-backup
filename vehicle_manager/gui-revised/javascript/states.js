@@ -325,6 +325,8 @@ function switchUIMode(){
         document.getElementsByClassName('mapboxgl-ctrl-compass')[0].parentElement.classList.toggle('geocoder-dark');
 
         document.getElementsByClassName('trip__info')[0].classList.toggle('dark');
+        document.getElementsByClassName('route__info')[0].classList.toggle('dark');
+        document.getElementsByClassName('route__info__current')[0].classList.toggle('dark');
         document.getElementsByClassName('route__summary')[0].classList.toggle('dark');
     }
 }

@@ -422,7 +422,7 @@ img{
 }
 
 .dark .trip__info{
-    backgroudn: rgb(60,60,60);
+    background: rgb(60,60,60);
 }
 
 .trip__start-button {
@@ -707,7 +707,11 @@ img{
     background-size: 80px 80px;
     background-repeat: no-repeat;
     background-position: 55% 55%;
-    background-color: white;
+    /* background-color: white; */
+}
+
+.dark > .route__info__icon{
+    filter: invert(99%) sepia(0%) saturate(474%) hue-rotate(282deg) brightness(116%) contrast(100%);
 }
 .route__info__text {
     margin: auto 0;
@@ -715,7 +719,9 @@ img{
     height: 80%;
     display: flex;
 }
-
+/* .dark .route__info__text{
+    color: white;
+} */
 .route__info__text > p {
     margin: auto 4%;
     word-wrap: break-word;
