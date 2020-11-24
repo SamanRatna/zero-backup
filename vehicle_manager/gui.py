@@ -173,6 +173,9 @@ def getCurrentLocation(status):
         vehicleReadings.gpsLocation -= initializeLocation
     vehicleEvents.onNavigation(status)
 
+def publishOrientationData(heading, roll, pitch):
+    eel.updateOrientation(heading,roll,pitch)
+
 @eel.expose
 def startFastCharge(option):
     if(option == 0):
@@ -279,6 +282,7 @@ vehicleReadings.bleDevices += publishBluetoothDevices
 vehicleReadings.network += publishNetworkInfo
 vehicleEvents.finder += publishFinder
 vehicleEvents.swupdate += publishSWUpdate
+vehicleReadings.orientation += publishOrientationData
 
 if __name__ == "__main__":
     startGUIThread()

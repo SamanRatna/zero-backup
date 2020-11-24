@@ -1,9 +1,9 @@
 import threading
 from event_handler import *
-from gpio_manager import *
-from state_manager import StateManager
-from tail_light_controller import TailLightController
-from vmgr_compute import *
+# from gpio_manager import *
+# from state_manager import StateManager
+# from tail_light_controller import TailLightController
+# from vmgr_compute import *
 from carbon_offset import CarbonOffsetCalculator
 from quectel import *
 import vehicle_states
@@ -42,11 +42,11 @@ def threadVehicleManager():
     quectel = Quectel.getInstance()
     # if(quectel != None):
     #     gpsMgr = GPS(quectel)
-    stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
+    # stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
     # tlContoller = TailLightController(GPIOWriter.getInstance())
     # powerManager = PowerManager()
-    gpioReader = GPIOReader.getInstance()
-    vmgrComputer = VehicleInfoCalculator()
+    # gpioReader = GPIOReader.getInstance()
+    # vmgrComputer = VehicleInfoCalculator()
     carbonOffsetCalculator = CarbonOffsetCalculator()
     orientation = Orientation.getInstance()
     # cany = CANHandler(GPIOWriter.getInstance())

@@ -324,3 +324,7 @@ document.getElementById('js-swupdate-snooze').addEventListener('click', function
     eel.swupdateResponse(false);
 })
 
+function updateOrientation(heading, roll, pitch){
+    console.log(heading, roll, pitch);
+    updateHeading(heading);
+}

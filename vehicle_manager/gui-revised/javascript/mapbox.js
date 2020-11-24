@@ -38,8 +38,8 @@ function onAPIKeyResponse(key){
   mapboxgl.accessToken = key;
   console.log('Received Mapbox API Key');
 
-  eel.getCurrentLocation(true) //uncomment this after removing dummy
-  // onLocationResponse([27.717, 85.324]) //dummy for UI development
+  // eel.getCurrentLocation(true) //uncomment this after removing dummy
+  onLocationResponse([27.7142, 85.3145]) //dummy for UI development
 }
 
 /*
@@ -57,7 +57,6 @@ function onLocationResponse(location){
   console.log("Current Location Received: " + currentLocation);
   initMap();
 }
-
 function initMap(){
 
   moveNotificationCard('normal-mode');
@@ -76,15 +75,18 @@ function initMap(){
   map = new mapboxgl.Map({
     container: 'js-map-card', // element where map is loaded
     // style: 'mapbox://styles/yatri/ck7n2g8mw0mf41ipgdkwglthq',
-    style:'mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb',
+    style:'mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb?optimize=true',
+    // style: 'mapbox://styles/mapbox/streets-v11?optimize=true', // stylesheet location
     center: currentLocation, // starting position [lng, lat]
     zoom: initialZoomLevel,
     // pitch: navigationPitch,
     attributionControl: false,
-    keyboard: true,
+    touchZoomRotate: false,
+    touchPitch: false
+    // keyboard: true,
     // antialias: true
     });
-
+    // map.touchZoomRotate.disable();
     map.addControl(new mapboxgl.AttributionControl({compact: false}), 'top-right');
     map.addControl(new mapboxgl.NavigationControl({showZoom: false}));
   // Initialize a Geocoder
@@ -108,7 +110,7 @@ function initMap(){
   currentMarker = new mapboxgl.Marker({
     element: elCurrentMarker,
     // pitchAlignment: viewport,
-    draggable: true}) // initialize a new marker //elPsyCongroo
+    draggable: false}) // initialize a new marker //elPsyCongroo
     .setLngLat(currentLocation) // Marker [lng, lat] coordinates
     .addTo(map); // Add the marker to the map
 
@@ -468,35 +470,48 @@ function addMarkersToRoute(data){
 eel.expose(updateBearing);
 
 function updateBearing(data){
-  currentLocation = [data[1], data[0]];
-  // console.log(currentLocation);
-  if(map === undefined || currentMarker === undefined){
-    return;
+  if(data[1] != null && data[0] != null){
+    currentLocation = [data[1], data[0]];
+    // console.log(currentLocation);
+    if(map === undefined || currentMarker === undefined){
+      return;
+    }
   }
-  if('None' != data[2]){
-    bearing = -data[2];
-    currentMarker.setLngLat(currentLocation);
 
-    map.easeTo({
-        center: currentLocation,
-        bearing: bearing,
-        speed: 0.01,
-        maxDuration: 1900,
-        essential: true
-    });
+  if('None' != data[2]){
+    bearing = data[2];
+    currentMarker.setLngLat(currentLocation);
+    currentMarker.setRotation(bearing);
+    // map.easeTo({
+    //     center: currentLocation,
+    //     bearing: bearing,
+    //     speed: 0.01,
+    //     maxDuration: 1900,
+    //     essential: true
+    // });
     // findManeuverPoint();
     navigate();
   }
   else{
     currentMarker.setLngLat(currentLocation);
-    map.easeTo({
-        center: currentLocation,
-        speed: 0.01,
-        maxDuration: 1900,
-        essential: true
-    });
+    // map.easeTo({
+    //     center: currentLocation,
+    //     speed: 0.01,
+    //     maxDuration: 1900,
+    //     essential: true
+    // });
     // findManeuverPoint();
     navigate();
+  }
+}
+
+function updateHeading(heading){
+  if(!isMapLoaded){
+    return;
+  }
+  headingDiff = Math.abs(heading - currentMarker.getRotation());
+  if(headingDiff > 2){
+    currentMarker.setRotation(heading);
   }
 }
 
