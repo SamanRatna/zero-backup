@@ -44,12 +44,14 @@ class GPS():
         self.stopGPSThread = False
         self.tGPS = threading.Thread(target = self.startGPS)
         self.tGPS.start()
+        vehicleReadings.network({'gpsStatus': True})
     
     def __del__(self):
         # GPS._counter = GPS._counter - 1
         vehicleEvents.onNavigation -= self.onNavigation
         if(GPS.gpsPort):
             GPS.gpsPort.close()
+        vehicleReadings.network({'gpsStatus': False})
         print("Destroyed GPS Object.")
 
     def parseGPS(self, data):

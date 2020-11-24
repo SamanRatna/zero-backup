@@ -352,8 +352,9 @@ def getBluetoothNameFromPersistency():
             data = json.load(f)
             if 'bluetooth-name' in data:
                 bluetoothName = data['bluetooth-name']
-    except ( ) as error:
+    except Exception as error:
         print(error)
+        return
 
 vehicleEvents.guiReady += onGUIReady
 vehicleEvents.onBluetooth += enableBluetooth

@@ -14,6 +14,7 @@ from ble_agent import *
 from ble_advertisement import *
 from ble_gatt_server import *
 from gps import *
+from orientation import Orientation
 from sw_update import *
 # import signal
 
@@ -47,6 +48,7 @@ def threadVehicleManager():
     gpioReader = GPIOReader.getInstance()
     vmgrComputer = VehicleInfoCalculator()
     carbonOffsetCalculator = CarbonOffsetCalculator()
+    orientation = Orientation.getInstance()
     # cany = CANHandler(GPIOWriter.getInstance())
     # cany = CANHandler()
 

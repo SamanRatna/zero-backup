@@ -5,7 +5,7 @@ class VehicleEvents(Events):
     __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation', 'onBluetooth', 'guiReady', 'onBluetoothNameChange', 'finder','swupdate','swupdateResponse', 'bikeOn', 'bikeOff')
 
 class VehicleReadings(Events):
-    __events__ = ('odoReading','speedReading', 'maxSpeed', 'tripMaxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset', 'carbonOffsetForBluetooth', 'heading', 'bleDevices', 'network', 'bikeMode')
+    __events__ = ('odoReading','speedReading', 'maxSpeed', 'tripMaxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset', 'carbonOffsetForBluetooth', 'heading', 'bleDevices', 'network', 'bikeMode', 'orientation')
 
 vehicleEvents = VehicleEvents()
 vehicleReadings = VehicleReadings()
@@ -89,6 +89,9 @@ def onBikeOff():
     print('Bike is Off.')
 def onBikeOn():
     print('Bike is On.')
+def onOrientationData(heading, roll, pitch):
+    print('Heading={0} Roll={1} Pitch={2}'.format(heading, roll, pitch))
+
 vehicleEvents.onRUPress += eventRUPress
 vehicleEvents.onRBPress += eventRBPress
 vehicleEvents.onRDPress += eventRDPress
@@ -118,3 +121,4 @@ vehicleEvents.finder += onFinder
 vehicleEvents.swupdate += onswupdate
 vehicleEvents.bikeOff += onBikeOff
 vehicleEvents.bikeOn += onBikeOn
+vehicleReadings.orientation += onOrientationData
