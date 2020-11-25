@@ -69,4 +69,4 @@ def calculateHeading(location_a, location_b):
     # vehicleReadings.heading(heading)
     return(heading)
 
-vehicleEvents.onNavigation += simulateRoute
+# vehicleEvents.onNavigation += simulateRoute

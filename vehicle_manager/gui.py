@@ -14,6 +14,7 @@ from quectel import *
 chargeLogger=logging.getLogger('event-logger')
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
+from navigation_simulator import *
 # maxSpeed = 0
 # bikeMode = "MODE_STANDBY"
 # bluetooth = 0
@@ -167,6 +168,7 @@ def getAPIKey():
 
 @eel.expose
 def getCurrentLocation(status):
+    print('GetCurrentLocation called with status: ', status)
     if(status == True):
         vehicleReadings.gpsLocation += initializeLocation
     else:
@@ -253,9 +255,9 @@ def setGPS(state):
 
 @eel.expose
 def requestLocationHeading(request):
-    vehicleEvents.onNavigation(request)
     if(request == True):
         vehicleReadings.gpsLocation += publishCurrentLocation
+        simulateRoute(request)
     elif(request == False):
         vehicleReadings.gpsLocation -= publishCurrentLocation
 

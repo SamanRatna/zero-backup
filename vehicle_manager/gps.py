@@ -40,8 +40,9 @@ class GPS():
 
         print("Receiving GPS data")
         self.initializeConnection()
-        vehicleEvents.onNavigation += self.onNavigation
         self.stopGPSThread = False
+        vehicleEvents.onNavigation += self.onNavigation
+        # self.tGPS = threading.Thread(target = self.getGPSFix)
         self.tGPS = threading.Thread(target = self.startGPS)
         self.tGPS.start()
         vehicleReadings.network({'gpsStatus': True})
@@ -62,8 +63,8 @@ class GPS():
             sdata = decodedData.split(",")
             # print(sdata)
             if sdata[2] == 'V':
-                # print("no satellite data available")
-                return
+                print("no satellite data available")
+                return None
             # print("-----Parsing GPRMC-----")
             # print(sdata)
             gmttime = sdata[1][0:2] + ":" + sdata[1][2:4] + ":" + sdata[1][4:6]
@@ -96,9 +97,8 @@ class GPS():
             # print("time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s, Magnetic Variation : %s(%s),Checksum : %s "%    (time,lat,dirLat,lon,dirLon,speed,trCourse,date,variation,degree,checksum))
             # print("Latitude : ", lat)
             # print("Longitude: ", lon)
-            self.gpsHistory.append([lat,lon])
-            vehicleReadings.gpsLocation(lat, lon)
-            time.sleep(2.0)
+            return [lat, lon]
+
         # else:
         #     print("Printed data is ",data[0:6])
 
@@ -115,9 +115,28 @@ class GPS():
         self.stopGPSThread = False
         print(self, ': GPS Read Thread Started.')
         while not self.stopGPSThread:
-           data = GPS.gpsPort.readline()
-           self.parseGPS(data)
+            rawData = GPS.gpsPort.readline()
+            data = self.parseGPS(rawData)
+            if(data is None):
+                continue
+            self.gpsHistory.append(data)
+            vehicleReadings.gpsLocation(data[0], data[1])
+            time.sleep(2.0)
         print(self, ': GPS Read Thread Stopped.')
+
+    def getGPSFix(self):
+        self.stopGPSThread = False
+        print(self, ': GPS Fix Thread Started.')
+        while not self.stopGPSThread:
+            rawData = GPS.gpsPort.readline()
+            data = self.parseGPS(rawData)
+            if(data is None):
+                time.sleep(1.0)
+                continue
+            break
+        vehicleReadings.gpsLocation(data[0], data[1])
+        print(self, ': GPS Fix Thread Stopped.')
+        vehicleEvents.onNavigation += self.onNavigation
 
     def stopGPS(self):
         self.stopGPSThread = True
@@ -149,6 +168,7 @@ class GPS():
         else:
             print(self, ': About to stop GPS Thread')
             self.stopGPS()
+
 
 if __name__ == "__main__":
     quectel = Quectel.getInstance()

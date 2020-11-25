@@ -104,6 +104,7 @@ class Orientation():
             time.sleep(1)
 
     def onNavigation(self,request):
+        print('Orientation: Navigation Request: ',request)
         if(request):
             self.navigationMode = True
             # self.onNavigationStart()

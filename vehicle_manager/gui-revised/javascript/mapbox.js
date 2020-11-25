@@ -178,6 +178,7 @@ function addListeners(){
 let navigationRoute = undefined;
 // create a function to make a directions request
 function getRoute(end) {
+  console.log('Executing getRoute()')
   closeKeyboard();
   closeSearchBox();
   // make a directions request using cycling profile
@@ -203,11 +204,11 @@ function getRoute(end) {
     navigate();
 
     // elPsyCongroo
-    currentMarker.on('dragend', function(){
-      currentLocation = currentMarker.getLngLat();
-      // findManeuverPoint(maneuvers);
-      navigate();
-    });
+    // currentMarker.on('dragend', function(){
+    //   currentLocation = currentMarker.getLngLat();
+    //   // findManeuverPoint(maneuvers);
+    //   navigate();
+    // });
     // elPsyCongroo
 
     var route = data.geometry.coordinates;
@@ -249,6 +250,14 @@ function getRoute(end) {
       });
       map.getSource('route').setData(geojson);
     }
+
+    //fit the route in the view : start
+    var bounds = route.reduce(function (bounds, coord) {
+      return bounds.extend(coord);
+      }, new mapboxgl.LngLatBounds(route[0], route[0]));
+       
+    map.fitBounds(bounds, { padding: 100 });
+    // fit the route in the view :  end
 
     // updateRouteToBackend(json.routes[0].geometry.coordinates)
     updateRouteToBackend(json.routes[0]);
@@ -380,7 +389,7 @@ function navigate(){
       setNextManeuverVisibility(false);
     }
 
-    addRouteLeg(steps[_currentStep]); // this will show the current step on the map (debug functionality)
+    // addRouteLeg(steps[_currentStep]); // this will show the current step on the map (debug functionality)
   }
   
 }
@@ -425,12 +434,12 @@ function startNavigation(request){
   if(request == true){
     let cLngLat = currentMarker.getLngLat();
     // let markerCoord = [cLngLat.lng, cLngLat.lat];
-    map.easeTo({
-      center: [ cLngLat.lng, cLngLat.lat ],
-      pitch: navigationPitch,
-      zoom: navigationZoomLevel,
-      // essential: true // this animation is considered essential with respect to prefers-reduced-motion
-      });
+    // map.easeTo({
+    //   center: [ cLngLat.lng, cLngLat.lat ],
+    //   pitch: navigationPitch,
+    //   zoom: navigationZoomLevel,
+    //   // essential: true // this animation is considered essential with respect to prefers-reduced-motion
+    //   });
   
     // function to get the latitude and longitude of the vehicle and update it
     eel.requestLocationHeading(true);
@@ -490,7 +499,7 @@ function updateBearing(data){
     //     essential: true
     // });
     // findManeuverPoint();
-    navigate();
+    // navigate();
   }
   else{
     currentMarker.setLngLat(currentLocation);
@@ -501,7 +510,7 @@ function updateBearing(data){
     //     essential: true
     // });
     // findManeuverPoint();
-    navigate();
+    // navigate();
   }
 }
 
@@ -534,86 +543,86 @@ function calculateDistanceToDestination(distanceToManeuver, closestManeuverIndex
 }
 
 // Debug functionality
-function addStepMarkers(steps){
-  steps.forEach(function(step, stepIndex) {
-    let marker = new mapboxgl.Marker()
-    .setLngLat(step.maneuver.location)
-    .addTo(map);
-  });
-}
+// function addStepMarkers(steps){
+//   steps.forEach(function(step, stepIndex) {
+//     let marker = new mapboxgl.Marker()
+//     .setLngLat(step.maneuver.location)
+//     .addTo(map);
+//   });
+// }
 
-function addRouteLeg(step){
-  if(_currentStep < 0){
-    return;
-  }
-  // console.log(step);
-  let leg = step.geometry.coordinates;
-    let geojson = {
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: leg
-      }
-    };
-    // if the route already exists on the map, reset it using setData
-    if (map.getSource('leg')) {
-      map.getSource('leg').setData(geojson);
-    } else { // otherwise, make a new request
-      map.addLayer({
-        id: 'leg',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'LineString',
-              coordinates: geojson
-            }
-          }
-        },
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-color': '#C4C4C4',
-          'line-width': 20,
-          'line-opacity': 1
-        }
-      });
-      map.getSource('leg').setData(geojson);
-    }
-}
+// function addRouteLeg(step){
+//   if(_currentStep < 0){
+//     return;
+//   }
+//   // console.log(step);
+//   let leg = step.geometry.coordinates;
+//     let geojson = {
+//       type: 'Feature',
+//       properties: {},
+//       geometry: {
+//         type: 'LineString',
+//         coordinates: leg
+//       }
+//     };
+//     // if the route already exists on the map, reset it using setData
+//     if (map.getSource('leg')) {
+//       map.getSource('leg').setData(geojson);
+//     } else { // otherwise, make a new request
+//       map.addLayer({
+//         id: 'leg',
+//         type: 'line',
+//         source: {
+//           type: 'geojson',
+//           data: {
+//             type: 'Feature',
+//             properties: {},
+//             geometry: {
+//               type: 'LineString',
+//               coordinates: geojson
+//             }
+//           }
+//         },
+//         layout: {
+//           'line-join': 'round',
+//           'line-cap': 'round'
+//         },
+//         paint: {
+//           'line-color': '#C4C4C4',
+//           'line-width': 20,
+//           'line-opacity': 1
+//         }
+//       });
+//       map.getSource('leg').setData(geojson);
+//     }
+// }
 
-//debug
-function traverseAllSteps(maneuver){
-  maneuver.forEach(function(man, manIndex) {
-      type = man.maneuver.type
-      modifier = man.maneuver.modifier
+// //debug
+// function traverseAllSteps(maneuver){
+//   maneuver.forEach(function(man, manIndex) {
+//       type = man.maneuver.type
+//       modifier = man.maneuver.modifier
 
-      // console.log('type: '+type);
-      // console.log('modifier: '+ modifier);
-      icon = findManeuverType('primary', type, modifier);
-      console.log(icon);
+//       // console.log('type: '+type);
+//       // console.log('modifier: '+ modifier);
+//       icon = findManeuverType('primary', type, modifier);
+//       console.log(icon);
 
-      text = man.maneuver.instruction
+//       text = man.maneuver.instruction
       
-      // html = "<img src='nav-icons/arrive-primary.svg' width='80px' height='80px'></img>"
-      let popup = new mapboxgl.Popup({ closeOnClick: false })
-            .setLngLat(man.maneuver.location)
-            .setHTML(text)
-            .addTo(map);
-  });
-}
+//       // html = "<img src='nav-icons/arrive-primary.svg' width='80px' height='80px'></img>"
+//       let popup = new mapboxgl.Popup({ closeOnClick: false })
+//             .setLngLat(man.maneuver.location)
+//             .setHTML(text)
+//             .addTo(map);
+//   });
+// }
 
-function switchMapMode(layer) {
-  if(layer == 'dark'){
-    map.setStyle('mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh');
-  }
-  else{
-    map.setStyle('mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb');
-  }
-}
+// function switchMapMode(layer) {
+//   if(layer == 'dark'){
+//     map.setStyle('mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh');
+//   }
+//   else{
+//     map.setStyle('mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb');
+//   }
+// }

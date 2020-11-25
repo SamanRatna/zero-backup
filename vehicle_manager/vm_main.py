@@ -53,7 +53,7 @@ def threadVehicleManager():
     # gpioReader = GPIOReader.getInstance()
     # vmgrComputer = VehicleInfoCalculator()
     carbonOffsetCalculator = CarbonOffsetCalculator()
-    # orientation = Orientation.getInstance()
+    orientation = Orientation.getInstance()
     # cany = CANHandler(GPIOWriter.getInstance())
     # cany = CANHandler()
 
