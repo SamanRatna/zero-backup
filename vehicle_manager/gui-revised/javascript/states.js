@@ -1,6 +1,6 @@
 function initKeyboardListener(){
     el = document.querySelector('input[type="text"]');
-    document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('transitionstart', function(){
+    document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].addEventListener('transitionend', function(){
       if(event.propertyName != 'width'){
           return;
       }
