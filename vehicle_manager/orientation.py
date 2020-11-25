@@ -82,7 +82,7 @@ class Orientation():
         self.tOrientation = None
         self.navigationMode = False
         vehicleEvents.onNavigation += self.onNavigation
-    
+        # self.onNavigationStart()
     def __del__(self):
         # GPS._counter = GPS._counter - 1
         vehicleEvents.onNavigation -= self.onNavigation

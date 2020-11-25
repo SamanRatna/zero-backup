@@ -1,6 +1,7 @@
 
 eel.expose(requestSWUpdateConfirmation);
 eel.expose(updateSpeedPower);
+eel.expose(updateSOC)
 eel.expose(updateBikeMode);
 eel.expose(updateMaxSpeed);
 eel.expose(updateDistances);

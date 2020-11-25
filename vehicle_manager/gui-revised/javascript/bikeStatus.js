@@ -63,10 +63,12 @@ function updateVariables(isMapLoaded){
 }
 
 // Function to update the speed and power in the dashboard
-function updateSpeedPower(speed, power){
-    speed.innerHTML = speed;
+function updateSpeedPower(spd, power){
+    console.log(spd, power);
+    // console.log(spd);
+    speed.innerHTML = spd;
 
-    if(speed > 1){
+    if(spd > 1){
         activateTripResetButton(false);
     }
     else{
@@ -201,7 +203,7 @@ function updateSOC(socData, suste, thikka, babbal){
         batteryCap.style.background = 'rgba(48, 213, 200, 0.4)';
     }
 
-    range.innerHTML = thikka;
+    // range.innerHTML = thikka;
 }
 
 // Function to update the odometer and trip distances

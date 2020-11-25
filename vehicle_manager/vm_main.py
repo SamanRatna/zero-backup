@@ -18,6 +18,11 @@ from orientation import Orientation
 from sw_update import *
 # import signal
 
+try:
+    import dummy_data
+except:
+    pass
+
 # def keyboardInterruptHandler(signal, frame):
 #     # print("KeyboardInterrupt (ID: {}) has been caught. Cleaning up...".format(signal))
 #     sys.exit(0)
@@ -48,7 +53,7 @@ def threadVehicleManager():
     # gpioReader = GPIOReader.getInstance()
     # vmgrComputer = VehicleInfoCalculator()
     carbonOffsetCalculator = CarbonOffsetCalculator()
-    orientation = Orientation.getInstance()
+    # orientation = Orientation.getInstance()
     # cany = CANHandler(GPIOWriter.getInstance())
     # cany = CANHandler()
 
@@ -62,7 +67,6 @@ if __name__ == '__main__':
         tServer = threading.Thread(target = threadServer)
         tVmgr = threading.Thread(target = threadVehicleManager)
         tSWUpdate = threading.Thread(target=threadSWUpdate)
-
         tVmgr.start()
         # print('After VMGR: number of current threads is ', threading.active_count())
         tAgent.start()

@@ -284,5 +284,16 @@ vehicleEvents.finder += publishFinder
 vehicleEvents.swupdate += publishSWUpdate
 vehicleReadings.orientation += publishOrientationData
 
+
+# ########### For development only ########### #
+def publishSpeed(speed):
+    eel.updateSpeedPower(speed, speed)
+
+def publishBattery(soc):
+    eel.updateSOC(round(soc), 0,0,0)
+vehicleReadings.speedReading += publishSpeed
+vehicleReadings.batteryStatus += publishBattery
+#################################################
+
 if __name__ == "__main__":
     startGUIThread()

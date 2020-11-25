@@ -5,7 +5,10 @@
 
 eel.expose(updateFinderRequest);
 function updateFinderRequest(command){
+    command = command.substring(1); //this removes the extra whitespace character in infront of the actual command character
+                                    // for some reason this whitespace character is being received
     console.log('Finder Request: '+command);
+
     switch(command){
         case 'A':
             document.getElementById('js-finder-request').innerHTML = 'Flash Headlights';
@@ -17,6 +20,7 @@ function updateFinderRequest(command){
             document.getElementById('js-finder-request').innerHTML = 'Play and Flash'
             break;
         default:
+            console.log('Finder Request not found.')
             return;
     }
     document.getElementById('js-finder-signal').style.display = 'flex';
