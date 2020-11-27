@@ -7,7 +7,7 @@ import os
 from gui import *
 from gpio_manager import GPIOWriter
 from event_handler import *
-from mqtt_publisher import *
+# from mqtt_publisher import *
 class CANHandler:
     # def __init__(self, _gpioWriter):
     def __init__(self):
@@ -103,6 +103,15 @@ class CANHandler:
             message = self.bus.recv(0.1)
             if message is not None:
                 if message.arbitration_id != 128:
+                    if message.arbitration_id == 512:
+                        data = message.data
+                        command = data[0]
+                        if(command == 17):
+                            #bike-on
+                            vehicleEvents.bikeOn()
+                        elif(command == 34):
+                            #bike-off
+                            vehicleEvents.bikeOff()
                     #Lith-Tech Battery
                     if message.arbitration_id == 284693918:
                         data = message.data
@@ -357,37 +366,38 @@ class CANHandler:
                         # logMessage = str(message.arbitration_id) + ' : '+ 'Frame NA:' + 'Motor Power : ' + str(self.power)
                         # self.canLogger.info(logMessage)
                     # Motor Controller
-                    elif message.arbitration_id == 1024:
+                    elif message.arbitration_id == 627:
                         # Perform data swap in binary
                         data = message.data
-                        new_data = [data[1], data[0], data[3], data[2], data[5], data[4], data[7], data[6]]
-                        speed = round(((new_data[0]<<8) + new_data[1])*0.0625, 2)
+                        new_data = [data[1], data[0], data[3], data[2] ]
+                        speed = round(((new_data[0]<<8) + new_data[1])*0.03, 2)
                         # Fix negative velocity issue
-                        if speed > 4096/2:
+                        if speed > 240:
                             self.bikeSpeed = 0
                         else:
                             self.bikeSpeed = speed
-                        self.maxTorque = round(((new_data[2]<<8) + new_data[3])*0.1, 2)
-                        self.actualTorque = round(((new_data[4]<<8) + new_data[5])*0.0625, 2)
-                        motorTemp = round(((new_data[6]<<8) + new_data[7]), 2)
-                        if(motorTemp != self.motorTemp):
-                            self.motorTemp = motorTemp
-                            vehicleReadings.motorTemperature(self.motorTemp)
+                        print('Speed: ', speed)
+                        # self.maxTorque = round(((new_data[2]<<8) + new_data[3])*0.1, 2)
+                        # self.actualTorque = round(((new_data[4]<<8) + new_data[5])*0.0625, 2)
+                        # motorTemp = round(((new_data[6]<<8) + new_data[7]), 2)
+                        # if(motorTemp != self.motorTemp):
+                        #     self.motorTemp = motorTemp
+                        #     vehicleReadings.motorTemperature(self.motorTemp)
 
                         vehicleReadings.speedReading(self.bikeSpeed)
 
                         # Fix negative torque issue
-                        if self.actualTorque > 4096/2:
-                            self.actualTorque = round(self.actualTorque-4096, 2)
-                        #logMessage = 'Frame:    1024' + ' - ' + 'BikeSpeed:  ' + str(self.bikeSpeed) + ' rpm - ActualTorque:   ' + str(self.actualTorque) + ' Nm '
-                        #print(logMessage)
-                        #self.canLogger.info(logMessage)
-                        logMessage = 'Motor :' + str(message.arbitration_id) + ' : '+ 'BikeSpeed(kmph): ' + str(self.bikeSpeed) + ' : '+ 'MaxTorque(Nm): ' + str(self.maxTorque) + ' : '+'ActualTorque(Nm): ' + str(self.actualTorque)
-                        self.canLogger.info(logMessage)
-                        # logMessage = str(message.arbitration_id) + ' : '+ 'Frame NA:' + 'MaxTorque (Nm): ' + str(self.maxTorque)
-                        # self.canLogger.warning(logMessage)
-                        # logMessage = str(message.arbitration_id) + ' : '+ 'Frame NA:' + 'ActualTorque (Nm): ' + str(self.actualTorque)
-                        # self.canLogger.warning(logMessage)
+                        # if self.actualTorque > 4096/2:
+                        #     self.actualTorque = round(self.actualTorque-4096, 2)
+                        # #logMessage = 'Frame:    1024' + ' - ' + 'BikeSpeed:  ' + str(self.bikeSpeed) + ' rpm - ActualTorque:   ' + str(self.actualTorque) + ' Nm '
+                        # #print(logMessage)
+                        # #self.canLogger.info(logMessage)
+                        # logMessage = 'Motor :' + str(message.arbitration_id) + ' : '+ 'BikeSpeed(kmph): ' + str(self.bikeSpeed) + ' : '+ 'MaxTorque(Nm): ' + str(self.maxTorque) + ' : '+'ActualTorque(Nm): ' + str(self.actualTorque)
+                        # self.canLogger.info(logMessage)
+                        # # logMessage = str(message.arbitration_id) + ' : '+ 'Frame NA:' + 'MaxTorque (Nm): ' + str(self.maxTorque)
+                        # # self.canLogger.warning(logMessage)
+                        # # logMessage = str(message.arbitration_id) + ' : '+ 'Frame NA:' + 'ActualTorque (Nm): ' + str(self.actualTorque)
+                        # # self.canLogger.warning(logMessage)
                     elif message.arbitration_id == 336:
                         # Perform data swap in binary
                         data = message.data

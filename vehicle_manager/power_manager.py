@@ -32,9 +32,11 @@ class PowerManager():
             self.inactivityTimer.start()
 
     def onBikeOff(self):
-        os.system('tvservice -o')
-        os.system('systemctl stop guix.service')
+        pass
+        # os.system('tvservice -o')
+        # os.system('systemctl stop guix.service')
 
     def onBikeOn(self):
-        os.system('tvservice -p')
-        os.system('systemctl start guix.service')
+        pass
+        # os.system('tvservice -p')
+        # os.system('systemctl start guix.service')

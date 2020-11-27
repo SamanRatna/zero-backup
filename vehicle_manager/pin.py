@@ -18,6 +18,7 @@ OUT_REVERSE         = 6
 OUT_POWER           = 2
 OUT_BRIGHT_PLUS     = 26
 OUT_BRIGHT_MINUS    = 13
+OUT_DISPLAY         = 19
 # OUT_CHARGE_MOTOR    = 24
 # OUT_CHARGE          = 25
 # OUT_IGN             = 8

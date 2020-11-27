@@ -39,7 +39,7 @@ class GPIOReader():
             self.btnDown = 0
             self.btnUp = 0
             self.initializeGPIO()
-            self.initializeGPIOThreads()
+            # self.initializeGPIOThreads()
 
     """
     initializeGPIO:
@@ -48,8 +48,7 @@ class GPIOReader():
     def initializeGPIO(self):
         GPIO.setmode(GPIO.BCM)
         # inputChannel = [2,3,4,17,27,22,10,9]
-        inputChannel = [pin.IN_HIBEAM, pin.IN_LOWBEAM, pin.IN_LTURN, pin.IN_RTURN, pin.IN_BTN_RD, pin.IN_BTN_RU, pin.IN_STAND]
-        GPIO.setup(inputChannel, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # inputChannel = [pin.IN_HIBEAM, pin.IN_LOWBEAM, pin.IN_LTURN, pin.IN_RTURN, pin.IN_BTN_RD, pin.IN_BTN_RU, pin.IN_STAND]
         # GPIO.setup(pin.IN_HIBEAM, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # GPIO.setup(pin.IN_LOWBEAM, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # GPIO.setup(pin.IN_LTURN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -183,11 +182,15 @@ class GPIOWriter():
     def initializeGPIO(self):
         GPIO.setmode(GPIO.BCM)
         # outputChannel = [14, 15, 18, 23, 24, 25, 8, 7, 16, 12]
-        outputChannel = [pin.OUT_SUSTE, pin.OUT_THIKKA, pin.OUT_BABBAL, pin.OUT_REVERSE, pin.OUT_POWER, pin.OUT_BRIGHT_PLUS, pin.OUT_BRIGHT_MINUS]
+        # outputChannel = [pin.OUT_SUSTE, pin.OUT_THIKKA, pin.OUT_BABBAL, pin.OUT_REVERSE, pin.OUT_POWER, pin.OUT_BRIGHT_PLUS, pin.OUT_BRIGHT_MINUS]
+        outputChannel = [pin.OUT_BRIGHT_MINUS, pin.OUT_BRIGHT_PLUS, pin.OUT_DISPLAY]
         # ledChannel = [5, 6, 13, 19, 26]
-        GPIO.setup(outputChannel, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(outputChannel, GPIO.OUT, initial=GPIO.LOW)
+        self.onBikeOn()
         vehicleEvents.onUserInactivity += self.setPower
         vehicleEvents.onBrightnessChange += self.setBrightness
+        vehicleEvents.bikeOff += self.onBikeOff
+        vehicleEvents.bikeOn += self.onBikeOn
         # GPIO.setup(pin.OUT_SUSTE, GPIO.OUT, initial=GPIO.HIGH)
         # GPIO.setup(pin.OUT_THIKKA, GPIO.OUT, initial=GPIO.HIGH)
         # GPIO.setup(pin.OUT_BABBAL, GPIO.OUT, initial=GPIO.HIGH)
@@ -226,6 +229,18 @@ class GPIOWriter():
             sleep(0.15)
             GPIO.output(pin.OUT_BRIGHT_MINUS, True)
         print('Brightness Delta: ', brightness)
+
+    def onBikeOff(self):
+        print('Turning OFF the display.')
+        GPIO.output(pin.OUT_DISPLAY, True)
+        sleep(0.15)
+        GPIO.output(pin.OUT_DISPLAY, False)
+
+    def onBikeOn(self):
+        print('Turning ON the display.')
+        GPIO.output(pin.OUT_DISPLAY, True)
+        sleep(0.15)
+        GPIO.output(pin.OUT_DISPLAY, False)
 
     def setMode(self, mode):
         if mode == eBikeMode.MODE_THIKKA:
