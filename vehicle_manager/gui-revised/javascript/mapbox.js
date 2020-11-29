@@ -39,7 +39,7 @@ function onAPIKeyResponse(key){
   console.log('Received Mapbox API Key');
 
   // eel.getCurrentLocation(true) //uncomment this after removing dummy
-  onLocationResponse([27.7142, 85.3145]) //dummy for UI development
+  onLocationResponse([27.71181, 85.3075]) //dummy for UI development
 }
 
 /*
@@ -110,7 +110,7 @@ function initMap(){
   currentMarker = new mapboxgl.Marker({
     element: elCurrentMarker,
     // pitchAlignment: viewport,
-    draggable: false}) // initialize a new marker //elPsyCongroo
+    draggable: true}) // initialize a new marker //elPsyCongroo
     .setLngLat(currentLocation) // Marker [lng, lat] coordinates
     .addTo(map); // Add the marker to the map
 
@@ -433,13 +433,13 @@ function startNavigation(request){
   console.log('Requesting for navigation session: '+ request);
   if(request == true){
     let cLngLat = currentMarker.getLngLat();
-    // let markerCoord = [cLngLat.lng, cLngLat.lat];
-    // map.easeTo({
-    //   center: [ cLngLat.lng, cLngLat.lat ],
-    //   pitch: navigationPitch,
-    //   zoom: navigationZoomLevel,
-    //   // essential: true // this animation is considered essential with respect to prefers-reduced-motion
-    //   });
+    let markerCoord = [cLngLat.lng, cLngLat.lat];
+    map.easeTo({
+      center: [ cLngLat.lng, cLngLat.lat ],
+      pitch: navigationPitch,
+      zoom: navigationZoomLevel,
+      // essential: true // this animation is considered essential with respect to prefers-reduced-motion
+      });
   
     // function to get the latitude and longitude of the vehicle and update it
     eel.requestLocationHeading(true);
@@ -488,39 +488,47 @@ function updateBearing(data){
   }
 
   if('None' != data[2]){
-    bearing = data[2];
+    bearing = -data[2];
     currentMarker.setLngLat(currentLocation);
-    currentMarker.setRotation(bearing);
-    // map.easeTo({
-    //     center: currentLocation,
-    //     bearing: bearing,
-    //     speed: 0.01,
-    //     maxDuration: 1900,
-    //     essential: true
-    // });
-    // findManeuverPoint();
-    // navigate();
+    // currentMarker.setRotation(bearing);
+    map.easeTo({
+        center: currentLocation,
+        bearing: bearing,
+        speed: 0.01,
+        maxDuration: 1900,
+        essential: true
+    });
+    findManeuverPoint();
+    navigate();
   }
   else{
     currentMarker.setLngLat(currentLocation);
-    // map.easeTo({
-    //     center: currentLocation,
-    //     speed: 0.01,
-    //     maxDuration: 1900,
-    //     essential: true
-    // });
-    // findManeuverPoint();
-    // navigate();
+    map.easeTo({
+        center: currentLocation,
+        speed: 0.01,
+        maxDuration: 1900,
+        essential: true
+    });
+    findManeuverPoint();
+    navigate();
   }
 }
 
-function updateHeading(heading){
+function updateHeadingTest(headingData){
   if(!isMapLoaded){
     return;
   }
-  headingDiff = Math.abs(heading - currentMarker.getRotation());
+  headingDiff = Math.abs(headingData - currentMarker.getRotation());
+  // console.log('Heading Diff: '+headingDiff);
   if(headingDiff > 2){
-    currentMarker.setRotation(heading);
+    // currentMarker.setRotation(headingData-82);
+    map.easeTo({
+      // center: currentLocation,
+      bearing: -bearing,
+      speed: 0.01,
+      maxDuration: 1900,
+      essential: true
+  });
   }
 }
 
