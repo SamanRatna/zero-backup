@@ -15,6 +15,7 @@ chargeLogger=logging.getLogger('event-logger')
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
 from navigation_simulator import *
+
 # maxSpeed = 0
 # bikeMode = "MODE_STANDBY"
 # bluetooth = 0
@@ -59,13 +60,14 @@ def publishBikeMode(mode):
 #     eel.updateBeam(status.name)
 
 def publishSpeedPower(speed, power):
-    eel.updateSpeedPower(round(speed), round(power))
+    eel.updateSpeedPower(int(speed), round(power))
 
 def publishSOC(soc, rangeSuste, rangeThikka, rangeBabbal):
     eel.updateSOC(round(soc), round(rangeSuste), round(rangeThikka), round(rangeBabbal))
 
 def publishChargingStatus(status, current, timeToCharge):
-    eel.updateChargingStatus(status, current, timeToCharge)
+    # eel.updateChargingStatus(status, current, timeToCharge)
+    pass
 
 def publishMaxSpeed(value):
     # global maxSpeed
@@ -255,6 +257,7 @@ def setGPS(state):
 
 @eel.expose
 def requestLocationHeading(request):
+    print('Request Location Heading: ', request)
     if(request == True):
         vehicleReadings.gpsLocation += publishCurrentLocation
         simulateRoute(request)
