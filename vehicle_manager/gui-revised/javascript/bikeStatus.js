@@ -66,7 +66,7 @@ function updateVariables(isMapLoaded){
 function updateSpeedPower(spd, power){
     console.log(spd, power);
     // console.log(spd);
-    speed.innerHTML = spd;
+    speed.innerHTML = Math.round(spd);
 
     if(spd > 1){
         activateTripResetButton(false);
@@ -328,5 +328,5 @@ document.getElementById('js-swupdate-snooze').addEventListener('click', function
 
 function updateOrientation(heading, roll, pitch){
     console.log(heading, roll, pitch);
-    updateHeading(heading);
+    updateHeadingTest(heading);
 }
