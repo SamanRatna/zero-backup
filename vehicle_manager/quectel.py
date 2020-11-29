@@ -166,6 +166,28 @@ class Quectel():
             print(balance)
         return balance
 
+    def getPhoneNumber(self):
+        name = 'CUSD'
+        # cmd = 'AT+CSCS="GSM"'
+        # self.send(cmd)
+        # response = self.getWriteResponse()
+        # print(response)
+        # time.sleep(1)
+        # cmd = 'AT+QURCCFG="urcport","usbat"'
+        # self.send(cmd)
+        # response = self.getWriteResponse()
+        # print('QURCCFQ write: ', response)
+        # time.sleep(1)
+        cmd = 'AT+CUSD=1,"*903#",15'
+        self.send(cmd)
+        response = self.getWriteResponse()
+        print('CUSD write: ', response)
+
+        Quectel.atCommandPort.readline()
+        response = self.getInfo(name)
+        balance = None
+        print('CUSD response: ', response)
+
     def onGUIReady(self):
         [simStatus, networkName] = self.getSimInfo()
         vehicleReadings.network({'simStatus': simStatus, 'networkName': networkName})
@@ -187,3 +209,6 @@ if __name__ == "__main__":
         print(networkName)
     time.sleep(2)
     quectel.getBalance()
+    time.sleep(2)
+    print('Getting Phone Number.')
+    quectel.getPhoneNumber()
