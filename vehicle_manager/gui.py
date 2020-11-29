@@ -14,7 +14,7 @@ from quectel import *
 chargeLogger=logging.getLogger('event-logger')
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
-from navigation_simulator import *
+# from navigation_simulator import *
 
 # maxSpeed = 0
 # bikeMode = "MODE_STANDBY"
@@ -260,9 +260,10 @@ def requestLocationHeading(request):
     print('Request Location Heading: ', request)
     if(request == True):
         vehicleReadings.gpsLocation += publishCurrentLocation
-        simulateRoute(request)
+        # simulateRoute(request)
     elif(request == False):
         vehicleReadings.gpsLocation -= publishCurrentLocation
+    vehicleEvents.onNavigation(request)
 
 @eel.expose
 def changeBluetoothName(name):

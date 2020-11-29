@@ -176,19 +176,29 @@ function updateNetworkInfo(info){
         document.getElementById('js-network-balance').innerHTML = info['balance'];
     }
     if('gpsStatus' in info){
-        if(info['gpsStatus'] == true){
+        // console.log('GPS Status: ' + info['gpsSatus'])
+        let gpsStatus = info['gpsStatus'];
+        if(gpsStatus == 'ON'){
             document.getElementById('js-gps-status').innerHTML = 'Enabled';
             isGPSActive = true;
             document.getElementById('js-gps-label-on').classList.add('active');
             document.getElementById('js-gps-label-off').classList.remove('active');
             document.getElementById('js-gps-toggle-button').classList.add('toggled');
         }
-        else{
+        else if(gpsStatus == 'OFF'){
             document.getElementById('js-gps-status').innerHTML = 'Disabled';
             isGPSActive = false;
             document.getElementById('js-gps-label-on').classList.remove('active');
             document.getElementById('js-gps-label-off').classList.add('active');
             document.getElementById('js-gps-toggle-button').classList.remove('toggled');
+        }
+        else if(gpsStatus == 'READY'){
+            document.getElementById('js-gps-status').innerHTML = 'Enabled';
+            isGPSActive = true;
+            document.getElementById('js-gps-label-on').classList.add('active');
+            document.getElementById('js-gps-label-off').classList.remove('active');
+            document.getElementById('js-gps-toggle-button').classList.add('toggled');
+            document.getElementById('js-gps-fix-status').innerHTML = 'Available'
         }
         toProcessing('js-gps-toggle', false);
     }

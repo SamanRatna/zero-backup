@@ -38,8 +38,8 @@ function onAPIKeyResponse(key){
   mapboxgl.accessToken = key;
   console.log('Received Mapbox API Key');
 
-  // eel.getCurrentLocation(true) //uncomment this after removing dummy
-  onLocationResponse([27.71181, 85.3075]) //dummy for UI development
+  eel.getCurrentLocation(true) //uncomment this after removing dummy
+  // onLocationResponse([27.71181, 85.3075]) //dummy for UI development
 }
 
 /*
@@ -160,7 +160,7 @@ function addListeners(){
     .addTo(map);
 
     //getCurrentLocation
-    startNavigation(true);
+    // startNavigation(true);
     getRoute(coordsObj);
   }); 
 
@@ -201,7 +201,6 @@ function getRoute(end) {
     // traverseAllSteps(maneuvers);
     // addStepMarkers(maneuvers); //this will add markers to the steps (debug functionality)
     // findManeuverPoint(maneuvers);
-    navigate();
 
     // elPsyCongroo
     // currentMarker.on('dragend', function(){
@@ -261,6 +260,8 @@ function getRoute(end) {
 
     // updateRouteToBackend(json.routes[0].geometry.coordinates)
     updateRouteToBackend(json.routes[0]);
+    navigate();
+    startNavigation(true);
   };
   req.send();
 }
@@ -498,7 +499,7 @@ function updateBearing(data){
         maxDuration: 1900,
         essential: true
     });
-    findManeuverPoint();
+    // findManeuverPoint();
     navigate();
   }
   else{
@@ -509,7 +510,7 @@ function updateBearing(data){
         maxDuration: 1900,
         essential: true
     });
-    findManeuverPoint();
+    // findManeuverPoint();
     navigate();
   }
 }

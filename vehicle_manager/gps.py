@@ -4,13 +4,20 @@ import threading
 import time
 import math
 from quectel import *
+import enum
 GPS_DATA_PORT = "/dev/ttyUSB1"
 
+class GPSStates(enum.Enum):
+    OFF     = 1
+    ON      = 2
+    READY   = 3
+    STRMNG  = 4
 
 class GPS():
     # _counter = 0
     __instance__ = None
     gpsPort = None
+    gpsState = GPSStates.OFF
     @staticmethod
     def getInstance(_gpsHandle):
         """ Static method to fetch the current instance.
@@ -38,15 +45,16 @@ class GPS():
         if(self.gpsHandle == None):
             return
 
-        print("Receiving GPS data")
+        # print("Receiving GPS data")
         self.initializeConnection()
         self.stopGPSThread = False
+        GPS.gpsState = GPSStates.ON
+        vehicleReadings.network({'gpsStatus': GPS.gpsState.name}) # the state should be ON
+        vehicleEvents.guiReady += self.onGUIReady
         vehicleEvents.onNavigation += self.onNavigation
-        # self.tGPS = threading.Thread(target = self.getGPSFix)
-        self.tGPS = threading.Thread(target = self.startGPS)
+        self.tGPS = threading.Thread(target = self.getGPSFix)
         self.tGPS.start()
-        vehicleReadings.network({'gpsStatus': True})
-    
+
     def __del__(self):
         # GPS._counter = GPS._counter - 1
         vehicleEvents.onNavigation -= self.onNavigation
@@ -56,6 +64,7 @@ class GPS():
         print("Destroyed GPS Object.")
 
     def parseGPS(self, data):
+        # data = GPS.gpsPort.readline()
         decodedData = data.decode()
         # print(decodedData)
 
@@ -111,7 +120,7 @@ class GPS():
         min = head[-2:]
         return deg + " deg " + min + "." + tail + " min"
 
-    def startGPS(self):
+    def startGPSStreaming(self):
         self.stopGPSThread = False
         print(self, ': GPS Read Thread Started.')
         while not self.stopGPSThread:
@@ -121,22 +130,22 @@ class GPS():
                 continue
             self.gpsHistory.append(data)
             vehicleReadings.gpsLocation(data[0], data[1])
-            time.sleep(2.0)
+            time.sleep(1.0)
         print(self, ': GPS Read Thread Stopped.')
 
     def getGPSFix(self):
         self.stopGPSThread = False
         print(self, ': GPS Fix Thread Started.')
-        while not self.stopGPSThread:
+        while True:
             rawData = GPS.gpsPort.readline()
             data = self.parseGPS(rawData)
             if(data is None):
                 time.sleep(1.0)
                 continue
             break
-        vehicleReadings.gpsLocation(data[0], data[1])
+        GPS.gpsState = GPSStates.READY
+        vehicleReadings.network({'gpsStatus': GPS.gpsState.name}) # the state should be READY
         print(self, ': GPS Fix Thread Stopped.')
-        vehicleEvents.onNavigation += self.onNavigation
 
     def stopGPS(self):
         self.stopGPSThread = True
@@ -157,20 +166,24 @@ class GPS():
         print('Heading: ', heading)
 
     def onNavigation(self, request):
-        if(request):
+        if((request==True) and (GPS.gpsState == GPSStates.READY)):
             self.stopGPSThread = False
             if(self.tGPS.is_alive()):
                 print(self, ': GPS Thread already active.')
                 return
             print(self, ': About to start GPS Thread')
-            self.tGPS = threading.Thread(target = self.startGPS)
+            GPS.gpsState = GPSStates.STRMNG
+            self.tGPS = threading.Thread(target = self.startGPSStreaming)
             self.tGPS.start()
-        else:
+        elif(request==False):
             print(self, ': About to stop GPS Thread')
+            GPS.gpsState = GPSStates.READY
             self.stopGPS()
 
+    def onGUIReady(self):
+        vehicleReadings.network({'gpsStatus': GPS.gpsState.name})
 
 if __name__ == "__main__":
     quectel = Quectel.getInstance()
-    gpsMgr = GPS(quectel)
+
     

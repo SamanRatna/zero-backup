@@ -71,6 +71,8 @@ def readingGPSLocation(lat, lon):
 def readingCarbonOffset(data):
     print(data)
 
+def readingNetwork(data):
+    print(data)
 def confirmBluetoothPairing(data):
     print(data)
 def respondBluetoothPairing(data):
@@ -122,3 +124,4 @@ vehicleEvents.swupdate += onswupdate
 vehicleEvents.bikeOff += onBikeOff
 vehicleEvents.bikeOn += onBikeOn
 vehicleReadings.orientation += onOrientationData
+vehicleReadings.network += readingNetwork
