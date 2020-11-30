@@ -23,7 +23,7 @@ eel.expose(updateOrientation);
 // eel.initCarbonOffset();
 
 function updateRouteToBackend(route){
-  eel.updateRoute(route);
+  // eel.updateRoute(route);
 }
 function initiateTripReset(){
   eel.resetTripData()
