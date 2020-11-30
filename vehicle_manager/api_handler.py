@@ -7,6 +7,6 @@ def returnAPI():
         with open('./maps-api.json', 'r') as f:
             api = json.load(f)
         value = api
-    except ( ) as error:
+    except Exception as error:
         print(error)
     return(value)
