@@ -121,10 +121,19 @@ function updateAdvertisementStatus(status){
 
 function updateBluetoothDevices(devices){
     // console.log(devices)
+
+    // Remove the devices currently shown in the UI
+    let devicesInUI = document.getElementsByClassName('bluetooth-paired-devices')
+    for(index=devicesInUI.length; index > 0 ; index--){
+        devicesInUI[0].parentNode.removeChild(devicesInUI[0]);
+    }
+
+    // Add the devices provided by the backend
     for (index = 0; index < devices.length; index++) {
         let item = document.createElement('div');
         item.innerHTML = devices[index];
         item.classList.add('bluetooth-text')
+        item.classList.add('bluetooth-paired-devices')
         document.getElementById("js-bluetooth-content").appendChild(item);
     }
 }
