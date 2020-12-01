@@ -72,7 +72,7 @@ class Devices:
         self.devices[deviceHandle]["Trusted"] = trust
         print(self.devices)
     def updatePairing(self, deviceHandle, pairing):
-        self.devices[deviceHandle]["Pairing"] = pairing
+        self.devices[deviceHandle]["Paired"] = pairing
         print(self.devices)
     def updateAddress(self, deviceHandle, address):
         self.devices[deviceHandle]["Address"] = address
@@ -189,18 +189,38 @@ class TestAdvertisement(Advertisement):
 def propertiesChangedCb(*args, **kwargs):
     global devices
     global bluetoothDevices
+    dev = None
+    if 'path' in kwargs:
+        devPath = kwargs['path']
+        print(devPath)
+        print(str(devPath))
+        strDevPath = str(devPath)
+        devIntermediate = strDevPath.replace('/org/bluez/hci0/dev_','')
+        dev=devIntermediate.replace('_',':')
+        print(dev)
+
     for i, arg in enumerate(args):
         if(i==1):
             if 'Name' in arg:
                 deviceName = str(arg['Name'])
                 print("Device Name: ", deviceName)
-                bluetoothDevices.updateName("org.bluez.Device1", deviceName)            
+                bluetoothDevices.updateName(dev, deviceName)
 
             if 'Connected' in arg:
                 isConnected = bool(arg['Connected'])
-                bluetoothDevices.updateConnection("org.bluez.Device1", isConnected)
+                bluetoothDevices.updateConnection(dev, isConnected)
 
 def interfacesAddedCb(*args, **kwargs):
+    print('interfacesAddedCb')
+    dev = None
+    if 'path' in kwargs:
+        devPath = kwargs['path']
+        print(devPath)
+        print(str(devPath))
+        strDevPath = str(devPath)
+        devIntermediate = strDevPath.replace('/org/bluez/hci0/dev_','')
+        dev=devIntermediate.replace('_',':')
+        print(dev)
     for i, arg in enumerate(args):
         if(i==1):
             if not 'org.bluez.Device1' in arg:
@@ -209,15 +229,15 @@ def interfacesAddedCb(*args, **kwargs):
 
             if 'Connected' in arg['org.bluez.Device1']:
                 isConnected = bool(arg["org.bluez.Device1"]["Connected"])
-                bluetoothDevices.updateConnection("org.bluez.Device1", isConnected)
+                bluetoothDevices.updateConnection(dev, isConnected)
 
             if 'Paired' in arg['org.bluez.Device1']:
                 isPaired = bool(arg["org.bluez.Device1"]["Paired"])
-                bluetoothDevices.updatePairing("org.bluez.Device1", isPaired)
+                bluetoothDevices.updatePairing(dev, isPaired)
 
             if 'Trusted' in arg['org.bluez.Device1']:
                 isTrusted = bool(arg["org.bluez.Device1"]["Trusted"])
-                bluetoothDevices.updateTrust("org.bluez.Device1", isTrusted)
+                bluetoothDevices.updateTrust(dev, isTrusted)
 
 def register_ad_cb():
     global bluetoothName
