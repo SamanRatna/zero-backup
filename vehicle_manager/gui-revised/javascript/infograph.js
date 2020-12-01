@@ -120,14 +120,13 @@ function updateAdvertisementStatus(status){
 }
 
 function updateBluetoothDevices(devices){
-    // document.getElementById('js-bluetooth-passkey').innerHTML = devices[0];
-    // setBluetoothNotificationVisibility(true);
-    // setTimeout(function(){
-    //     if(isBluetoothNotificationVisible()){
-    //         setBluetoothNotificationVisibility(false);
-    //     }
-    // }, 7000);
-    // logic to handle device lists
+    // console.log(devices)
+    for (index = 0; index < devices.length; index++) {
+        let item = document.createElement('div');
+        item.innerHTML = devices[index];
+        item.classList.add('bluetooth-text')
+        document.getElementById("js-bluetooth-content").appendChild(item);
+    }
 }
 
 document.getElementById('js-bluetooth-name-edit').addEventListener('click', function(){

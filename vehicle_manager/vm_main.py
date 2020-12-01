@@ -78,7 +78,7 @@ if __name__ == '__main__':
         tDiscovery = threading.Thread(target=threadDiscovery)
         tVmgr.start()
         # print('After VMGR: number of current threads is ', threading.active_count())
-        # tAgent.start()
+        tAgent.start()
         # print('After Agent: number of current threads is ', threading.active_count())
         tAdvertisement.start()
         # print('After Advertisement: number of current threads is ', threading.active_count())
