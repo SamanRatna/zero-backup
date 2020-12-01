@@ -59,6 +59,9 @@ class Devices:
         if 'Name' in self.devices[deviceHandle]:
             vehicleEvents.onBluetoothConnection(self.devices[deviceHandle]["Name"], self.devices[deviceHandle]["Connected"])
     def updateName(self, deviceHandle, name):
+        if(not deviceHandle in self.devices):
+            print('Device: ', deviceHandle, ' not found.')
+            return
         self.devices[deviceHandle]["Name"] = name
         print('BLE_ADVERTISEMENT: updateName')
         print(self.devices)
@@ -80,6 +83,22 @@ class Devices:
     def updateAddressType(self, deviceHandle, addressType):
         self.devices[deviceHandle]["AddressType"] = addressType
         print(self.devices)
+    def removeDevice(self, deviceHandle):
+        print('Removing device from local database.')
+        if(deviceHandle in self.devices):
+            global devicesFound
+            deletedDevice = self.devices.pop(deviceHandle)
+            print('Device deleted: ', deletedDevice)
+            try:
+                devicesFound.remove(deletedDevice['Alias'])
+                print('Device : ',deletedDevice['Alias'],' deleted')
+            except Exception as error:
+                print(error)
+            print(self.devices)
+            print('Devices Found: ', devicesFound)
+            vehicleReadings.bleDevices(devicesFound)
+        else:
+            print('Device to be deleted not found.')
 
 bluetoothDevices = Devices()
 
@@ -215,18 +234,19 @@ def interfacesAddedCb(*args, **kwargs):
     dev = None
     if 'path' in kwargs:
         devPath = kwargs['path']
-        print(devPath)
-        print(str(devPath))
+        # print(devPath)
+        # print(str(devPath))
         strDevPath = str(devPath)
         devIntermediate = strDevPath.replace('/org/bluez/hci0/dev_','')
         dev=devIntermediate.replace('_',':')
-        print(dev)
+        print('Device Path: ',dev)
     for i, arg in enumerate(args):
         if(i==1):
             if not 'org.bluez.Device1' in arg:
                 print('org.bluez.Device1 key not found')
                 return
-
+            if(dev == None):
+                dev = str(arg["org.bluez.Device1"]["Address"])
             if 'Connected' in arg['org.bluez.Device1']:
                 isConnected = bool(arg["org.bluez.Device1"]["Connected"])
                 bluetoothDevices.updateConnection(dev, isConnected)
@@ -238,6 +258,19 @@ def interfacesAddedCb(*args, **kwargs):
             if 'Trusted' in arg['org.bluez.Device1']:
                 isTrusted = bool(arg["org.bluez.Device1"]["Trusted"])
                 bluetoothDevices.updateTrust(dev, isTrusted)
+
+# def interfacesRemovedCb(*args, **kwargs):
+#     global bluetoothDevices
+#     print('interfacesRemovedCb')
+#     interface = str(args)
+#     print(args)
+#     print(kwargs)
+#     pos = interface.find('/org/bluez/hci0/dev_')
+#     if(pos != -1):
+#         devIntermediate = interface.replace('/org/bluez/hci0/dev_','')
+#         removedDevice = devIntermediate.replace('-',':')
+#         print(removedDevice)
+#         bluetoothDevices.removeDevice(removedDevice)
 
 def register_ad_cb():
     global bluetoothName
@@ -317,6 +350,10 @@ def startAdvertisement():
     bus.add_signal_receiver(interfacesAddedCb,
             dbus_interface = "org.freedesktop.DBus.ObjectManager",
             signal_name = "InterfacesAdded")
+
+    # bus.add_signal_receiver(interfacesRemovedCb,
+    #         dbus_interface = "org.freedesktop.DBus.ObjectManager",
+    #         signal_name = "InterfacesRemoved")
 
     adapter = find_adapter(bus)
     if not adapter:
