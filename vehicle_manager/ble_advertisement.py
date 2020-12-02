@@ -16,6 +16,7 @@ except ImportError:
 from random import randint
 import json
 bluetoothName = 'Yatri Appollo'
+bluetoothState = 'ADVERTISEMENT_OFF'
 mainloop = None
 devices = {}
 BLUEZ_SERVICE_NAME = 'org.bluez'
@@ -274,7 +275,10 @@ def interfacesAddedCb(*args, **kwargs):
 
 def register_ad_cb():
     global bluetoothName
-    vehicleEvents.onBLEReady([2, bluetoothName])
+    global bluetoothState
+    bluetoothState = 'ADVERTISEMENT_ON'
+    # vehicleEvents.onBLEReady([2, bluetoothName])
+    vehicleEvents.bluetoothStatus(bluetoothState)
     print('Advertisement registered')
 
 
@@ -321,6 +325,7 @@ def find_devices(bus):
     print('Found the following devices:')
     print(bluetoothDevices.devices)
     global devicesFound
+    devicesFound = []
     for key in bluetoothDevices.devices:
         print(key, '->', bluetoothDevices.devices[key])
         devicesFound.append(bluetoothDevices.devices[key]['Alias'])
@@ -333,54 +338,71 @@ def find_devices(bus):
     return
 
 def startAdvertisement():
-    getBluetoothNameFromPersistency()
-    global mainloop
+    try:
+        getBluetoothNameFromPersistency()
+        global mainloop
 
-    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
-    bus = dbus.SystemBus()
+        bus = dbus.SystemBus()
 
-    #register your signal callback
-    bus.add_signal_receiver(propertiesChangedCb,
-            dbus_interface = "org.freedesktop.DBus.Properties",
-            signal_name = "PropertiesChanged",
-            arg0 = "org.bluez.Device1",
-            path_keyword = "path")
+        #register your signal callback
+        bus.add_signal_receiver(propertiesChangedCb,
+                dbus_interface = "org.freedesktop.DBus.Properties",
+                signal_name = "PropertiesChanged",
+                arg0 = "org.bluez.Device1",
+                path_keyword = "path")
+
+        bus.add_signal_receiver(interfacesAddedCb,
+                dbus_interface = "org.freedesktop.DBus.ObjectManager",
+                signal_name = "InterfacesAdded")
+
+        # bus.add_signal_receiver(interfacesRemovedCb,
+        #         dbus_interface = "org.freedesktop.DBus.ObjectManager",
+        #         signal_name = "InterfacesRemoved")
+
+        adapter = find_adapter(bus)
+        if not adapter:
+            print('LEAdvertisingManager1 interface not found')
+            return
+        find_devices(bus)
+        adapter_props = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter),
+                                       "org.freedesktop.DBus.Properties");
+
+        adapter_props.Set("org.bluez.Adapter1", "Powered", dbus.Boolean(1))
+
+        ad_manager = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter),
+                                    LE_ADVERTISING_MANAGER_IFACE)
+
+        test_advertisement = TestAdvertisement(bus, 0)
+
+        mainloop = GObject.MainLoop()
+
+        ad_manager.RegisterAdvertisement(test_advertisement.get_path(), {},
+                                         reply_handler=register_ad_cb,
+                                         error_handler=register_ad_error_cb)
+
+        mainloop.run()
+        try:
+            ad_manager.UnregisterAdvertisement(test_advertisement)
+            print('Advertisement unregistered')
+            dbus.service.Object.remove_from_connection(test_advertisement)
+            global bluetoothState
+            bluetoothState = 'ADVERTISEMENT_OFF'
+            # vehicleEvents.onBLEReady([0, bluetoothName])
+            vehicleEvents.bluetoothName(bluetoothName)
+            vehicleEvents.bluetoothStatus(bluetoothState)
+        except Exception as error:
+            print(error)
+    except Exception as error:
+        print('Exception while starting advertisement.')
+        print(error)
+        # global bluetoothState
+        bluetoothState = 'ADVERTISEMENT_OFF'
+        # vehicleEvents.onBLEReady([0, bluetoothName])
+        vehicleEvents.bluetoothStatus(bluetoothState)
+
     
-    bus.add_signal_receiver(interfacesAddedCb,
-            dbus_interface = "org.freedesktop.DBus.ObjectManager",
-            signal_name = "InterfacesAdded")
-
-    # bus.add_signal_receiver(interfacesRemovedCb,
-    #         dbus_interface = "org.freedesktop.DBus.ObjectManager",
-    #         signal_name = "InterfacesRemoved")
-
-    adapter = find_adapter(bus)
-    if not adapter:
-        print('LEAdvertisingManager1 interface not found')
-        return
-    find_devices(bus)
-    adapter_props = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter),
-                                   "org.freedesktop.DBus.Properties");
-
-    adapter_props.Set("org.bluez.Adapter1", "Powered", dbus.Boolean(1))
-
-    ad_manager = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter),
-                                LE_ADVERTISING_MANAGER_IFACE)
-
-    test_advertisement = TestAdvertisement(bus, 0)
-
-    mainloop = GObject.MainLoop()
-
-    ad_manager.RegisterAdvertisement(test_advertisement.get_path(), {},
-                                     reply_handler=register_ad_cb,
-                                     error_handler=register_ad_error_cb)
-
-    mainloop.run()
-    ad_manager.UnregisterAdvertisement(test_advertisement)
-    print('Advertisement unregistered')
-    dbus.service.Object.remove_from_connection(test_advertisement)
-    vehicleEvents.onBLEReady([0, bluetoothName])
 
 def quitAdvertisement():
     global mainloop
@@ -399,7 +421,10 @@ def startAdvertisementThread():
 
 def onGUIReady():
     global devicesFound
-    vehicleEvents.onBLEReady([1, bluetoothName])
+    global bluetoothState
+    # vehicleEvents.onBLEReady([1, bluetoothName])
+    vehicleEvents.bluetoothName(bluetoothName)
+    vehicleEvents.bluetoothStatus(bluetoothState)
     vehicleReadings.bleDevices(devicesFound)
 
 def onChangeBluetoothName(name):

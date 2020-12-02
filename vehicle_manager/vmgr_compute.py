@@ -68,7 +68,8 @@ class VehicleInfoCalculator:
         vehicleReadings.odoReading += self.initializeRideTime
         vehicleReadings.speedReading += self.updateSpeedReading
         vehicleEvents.onTripReset += self.resetTrip
-        vehicleEvents.onBLEReady += self.onBLEReady
+        # vehicleEvents.onBLEReady += self.onBLEReady
+        vehicleEvents.bluetoothStatus += self.onBluetoothStatusChange
     # 
     # update the member odoReading
     # and then call methods that use odoReading
@@ -203,6 +204,14 @@ class VehicleInfoCalculator:
     def onBLEReady(self, value):
         print('BLE is ready.')
         if(value[0] == 1):
+            vehicleReadings.maxSpeed(self.maxSpeed)
+            vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
+            vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
+            vehicleReadings.distances(self.odoReading, self.tripDistance)
+
+    def onBluetoothStatusChange(self, state):
+        print('Bluetooth Status Changed.'):
+        if(state == 'SERVICES_READY'):
             vehicleReadings.maxSpeed(self.maxSpeed)
             vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
             vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)

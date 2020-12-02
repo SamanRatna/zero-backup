@@ -47,8 +47,9 @@ function setTripCardVisibility(visibility){
 
 // function to view or hide the dash card
 function setDashCardVisibility(visibility){
+    console.log('Setting Dash Card Visibility: ', visibility);
     if(visibility == true){
-        document.getElementById('js-dash-card').style.display = 'block';
+        document.getElementById('js-dash-card').style.display = 'flex';
     }
     else{
         document.getElementById('js-dash-card').style.display = 'none';

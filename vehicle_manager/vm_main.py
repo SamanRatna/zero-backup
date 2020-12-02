@@ -43,7 +43,8 @@ def threadServer():
     time.sleep(6)
     # vehicleEvents.onBLEReady(1)
     startServer()
-    vehicleEvents.onBLEReady(0)
+    # vehicleEvents.onBLEReady(0)
+    vehicleEvents.bluetoothState('SERVICES_OFF')
 
 def threadDiscovery():
     time.sleep(8)

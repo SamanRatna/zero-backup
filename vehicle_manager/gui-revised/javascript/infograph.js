@@ -97,30 +97,32 @@ function updateBluetoothStatus(name, status){
 function updateAdvertisementStatus(status){
     console.log("Bluetooth Advertisement Status: " + status)
 
-    if(status[0] =='2' || status[0] == '1'){
+    if(status=='ADVERTISEMENT_ON'){
         document.getElementById('js-bluetooth-label-on').classList.add('active');
         document.getElementById('js-bluetooth-label-off').classList.remove('active');
         document.getElementById('js-bluetooth-toggle-button').classList.add('toggled');
         document.getElementById('js-bluetooth-status').innerHTML = 'Discoverable';
         document.getElementById('js-bluetooth-icon').style.backgroundImage = "url('icons/bluetooth-icon-discoverable.svg')";
     }
-    else if(status[0] == '0'){
+    else if(status == 'ADVERTISEMENT_OFF'){
         document.getElementById('js-bluetooth-label-on').classList.remove('active');
         document.getElementById('js-bluetooth-label-off').classList.add('active');
         document.getElementById('js-bluetooth-toggle-button').classList.remove('toggled');
         document.getElementById('js-bluetooth-status').innerHTML = 'Hidden';
         document.getElementById('js-bluetooth-icon').style.backgroundImage = "url('icons/bluetooth-icon-off.svg')";
     }
-
-    if(status.length > 1 ){
-        document.getElementById('js-bluetooth-named-icon').innerHTML = status[1];
-        document.getElementById('js-bluetooth-name').innerHTML = status[1];
-    }
     toProcessing('js-bluetooth-toggle', false);
+}
+function removeDevicesInUI(){
+        // Remove the devices currently shown in the UI
+        let devicesInUI = document.getElementsByClassName('bluetooth-paired-devices')
+        for(index=devicesInUI.length; index > 0 ; index--){
+            devicesInUI[0].parentNode.removeChild(devicesInUI[0]);
+        }
 }
 
 function updateBluetoothDevices(devices){
-    // console.log(devices)
+    console.log(devices)
 
     // Remove the devices currently shown in the UI
     let devicesInUI = document.getElementsByClassName('bluetooth-paired-devices')
@@ -248,3 +250,8 @@ document.getElementById('js-gps-toggle').addEventListener('click', function(){
         eel.setGPS(true);
     }
 });
+
+function updateBluetoothName(name){
+    document.getElementById('js-bluetooth-named-icon').innerHTML = name;
+    document.getElementById('js-bluetooth-name').innerHTML = name;
+}

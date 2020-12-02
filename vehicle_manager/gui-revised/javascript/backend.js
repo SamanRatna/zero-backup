@@ -19,6 +19,7 @@ eel.expose(updateStandState);
 eel.expose(updateCarbonOffset);
 eel.expose(updateNetworkInfo);
 eel.expose(updateOrientation);
+eel.expose(updateBluetoothName);
 
 // eel.initCarbonOffset();
 

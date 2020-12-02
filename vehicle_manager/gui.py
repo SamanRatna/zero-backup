@@ -80,16 +80,18 @@ def publishAverageSpeeds(odoAverage, tripAverage):
 def publishDistances(odometer, tripDistance):
     eel.updateDistances(round(odometer), round(tripDistance))
 
-def publishAdvertisementStatus(status):
+# def publishAdvertisementStatus(status):
+#     eel.updateAdvertisementStatus(status)
+#     # global bluetooth
+#     # global bluetoothName
+#     # bluetooth = status[0]
+#     if(len(status) > 1):
+#         # bluetoothName = status[1]
+#         print(status[1])
+def publishBluetoothStatus(status):
     eel.updateAdvertisementStatus(status)
-    # global bluetooth
-    # global bluetoothName
-    # bluetooth = status[0]
-    if(len(status) > 1):
-        # bluetoothName = status[1]
-        print(status[1])
 
-def publishBluetoothStatus(name, status):
+def publishBluetoothConnectionStatus(name, status):
     eel.updateBluetoothStatus(name, status)
 
 def publishBatteryTemperature(temp):
@@ -269,11 +271,15 @@ def requestLocationHeading(request):
 def changeBluetoothName(name):
     vehicleEvents.onBluetoothNameChange(name)
 
+def publishBluetoothName(name):
+    eel.updateBluetoothName(name)
+
 vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances
-vehicleEvents.onBLEReady += publishAdvertisementStatus
+# vehicleEvents.onBLEReady += publishAdvertisementStatus
+vehicleEvents.bluetoothStatus += publishBluetoothStatus
 vehicleReadings.batteryTemperature += publishBatteryTemperature
 vehicleReadings.motorTemperature += publishMotorTemperature
 vehicleReadings.controllerTemperature += publishControllerTemperature
@@ -283,13 +289,13 @@ vehicleReadings.carbonOffset += publishCarbonOffset
 # vehicleReadings.gpsLocation += publishCurrentLocation
 vehicleReadings.heading += publishHeading
 vehicleEvents.confirmBluetoothPairing += requestForBluetoothPairingConfirmation
-vehicleEvents.onBluetoothConnection += publishBluetoothStatus
+vehicleEvents.onBluetoothConnection += publishBluetoothConnectionStatus
 vehicleReadings.bleDevices += publishBluetoothDevices
 vehicleReadings.network += publishNetworkInfo
 vehicleEvents.finder += publishFinder
 vehicleEvents.swupdate += publishSWUpdate
 vehicleReadings.orientation += publishOrientationData
-
+vehicleEvents.bluetoothName += publishBluetoothName
 
 # ########### For development only ########### #
 def publishSpeed(speed):

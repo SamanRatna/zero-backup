@@ -87,7 +87,8 @@ class CANHandler:
         #self.canLogger.addHandler(handler)
         #Start CAN
         self.startCAN()
-        vehicleEvents.onBLEReady += self.onBLEReady
+        # vehicleEvents.onBLEReady += self.onBLEReady
+        vehicleEvents.bluetoothStatus += self.onBluetoothStatusChange
 
     def setChargingStatus(self, status):
         if(status != self.chargingStatus):
@@ -98,6 +99,11 @@ class CANHandler:
         # print('BLE is ready.')
         if(value == 1):
             vehicleReadings.batteryStatus(self.stateOfCharge)
+    def onBluetoothStatusChange(self, state):
+        # print('BLE is ready.')
+        if(state == 'SERVICES_READY'):
+            vehicleReadings.batteryStatus(self.stateOfCharge)
+
     def extractCANData(self):
         while True:
             message = self.bus.recv(0.1)

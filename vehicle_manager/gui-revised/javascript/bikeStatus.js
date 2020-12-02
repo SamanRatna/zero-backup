@@ -20,14 +20,17 @@ let dashCard = document.getElementById('js-dash-card');
 
 let uiMode = 'light';
 function updateMapState(isMapLoaded){
+    console.log('Updating Map State: '+ true)
     updateVariables(isMapLoaded);
     if(isMapLoaded){
         noMapPage.style.display = 'none';
-        dashCard.style.display = 'flex';
+        // dashCard.style.display = 'flex';
+        setDashCardVisibility(true);
     }
     else{
         noMapPage.style.display = 'flex';
-        dashCard.style.display = 'none';
+        // dashCard.style.display = 'none';
+        setDashCardVisibility(false);
     }
 }
 

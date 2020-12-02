@@ -1,5 +1,5 @@
 import dbus
- 
+
 # Create Python object from /org/freedesktop/NetworkManager instance
 # in org.freedesktop.NetworkManager application.
 # nm = bus.get_object(BUS_NAME, '/org/bluez/hci0')
@@ -21,8 +21,7 @@ def setDiscovery(state):
     AGENT_INTERFACE = 'org.bluez.Adapter1'
 
     adapter_path = '/org/bluez/hci0'
-    adapter = dbus.Interface(bus.get_object("org.bluez", adapter_path),
-					"org.freedesktop.DBus.Properties")
+    adapter = dbus.Interface(bus.get_object("org.bluez", adapter_path), "org.freedesktop.DBus.Properties")
     connections = adapter.Get(AGENT_INTERFACE, 'Discoverable',
                      dbus_interface=dbus.PROPERTIES_IFACE)
     # print(connections)

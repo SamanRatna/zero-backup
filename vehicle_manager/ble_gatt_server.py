@@ -267,6 +267,7 @@ class BatteryLevelCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.BATTERY_LVL_UUID,
+                # ['read', 'notify'],
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
@@ -350,6 +351,7 @@ class MaxSpeedCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.TEST_CHRC_UUID,
+                # ['read', 'notify'],
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
@@ -434,6 +436,7 @@ class AverageSpeedsCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.AVSPEED_CHRC_UUID,
+                # ['read', 'notify'],
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
@@ -517,6 +520,7 @@ class TravelledDistancesCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.TEST_CHRC_UUID,
+                # ['read', 'notify'],
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
@@ -631,6 +635,7 @@ class VehicleFinderCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.TEST_CHRC_UUID,
+                # ['write'],
                 ['encrypt-write'],
                 service)
 
@@ -667,6 +672,7 @@ class CarbonOffsetCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.TEST_CHRC_UUID,
+                # ['write', 'notify'],
                 ['encrypt-write', 'notify'],
                 service)
         self.notifying = False
@@ -743,7 +749,8 @@ class CarbonOffsetDescriptor(Descriptor):
 
 def register_app_cb():
     print('GATT application registered')
-    vehicleEvents.onBLEReady([1])
+    # vehicleEvents.onBLEReady([1])
+    vehicleEvents.bluetoothStatus('SERVICES_READY')
 
 
 def register_app_error_cb(error):

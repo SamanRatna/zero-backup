@@ -29,7 +29,7 @@ function updateFinderRequest(command){
     }, 5000);
 }
 
-document.getElementById('js-dash-card').style.display = 'none';
+// document.getElementById('js-dash-card').style.display = 'none';
 document.getElementById('js-logo-frame').addEventListener('click', function(){
     location.reload();
 });
