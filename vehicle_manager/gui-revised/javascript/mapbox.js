@@ -38,8 +38,8 @@ function onAPIKeyResponse(key){
   mapboxgl.accessToken = key;
   console.log('Received Mapbox API Key');
 
-  eel.getCurrentLocation(true) //uncomment this after removing dummy
-  // onLocationResponse([27.71181, 85.3075]) //dummy for UI development
+  // eel.getCurrentLocation(true) //uncomment this after removing dummy
+  onLocationResponse([27.71181, 85.3075]) //dummy for UI development
 }
 
 /*
@@ -68,7 +68,7 @@ function initMap(){
 
   destinationMarker = new mapboxgl.Marker({
     element: elDestinationMarker,
-    draggable: true
+    // draggable: true
   });
 
   // Initialize the map
@@ -110,7 +110,8 @@ function initMap(){
   currentMarker = new mapboxgl.Marker({
     element: elCurrentMarker,
     // pitchAlignment: viewport,
-    draggable: true}) // initialize a new marker //elPsyCongroo
+    // draggable: false
+  }) // initialize a new marker //elPsyCongroo
     .setLngLat(currentLocation) // Marker [lng, lat] coordinates
     .addTo(map); // Add the marker to the map
 
@@ -210,45 +211,48 @@ function getRoute(end) {
     // });
     // elPsyCongroo
 
-    var route = data.geometry.coordinates;
-    var geojson = {
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: route
-      }
-    };
-    // if the route already exists on the map, reset it using setData
-    if (map.getSource('route')) {
-      map.getSource('route').setData(geojson);
-    } else { // otherwise, make a new request
-      map.addLayer({
-        id: 'route',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'LineString',
-              coordinates: geojson
-            }
           }
         },
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-color': '#40e0d0',
-          'line-width': 30,
-          'line-opacity': 0.75
-        }
-      });
-      map.getSource('route').setData(geojson);
-    }
+    var route = data.geometry.coordinates; //navigationRoute.routes[0].geometry.coordinates
+    // var geojson = {
+    //   type: 'Feature',
+    //   properties: {},
+    //   geometry: {
+    //     type: 'LineString',
+    //     coordinates: route
+    //   }
+    // };
+    // // if the route already exists on the map, reset it using setData
+    // if (map.getSource('route')) {
+    //   map.getSource('route').setData(geojson);
+    // } else { // otherwise, make a new request
+    //   map.addLayer({
+    //     id: 'route',
+    //     type: 'line',
+    //     source: {
+    //       type: 'geojson',
+    //       data: {
+    //         type: 'Feature',
+    //         properties: {},
+    //         geometry: {
+    //           type: 'LineString',
+    //           coordinates: geojson
+    //         }
+    //       }
+    //     },
+    //     layout: {
+    //       'line-join': 'round',
+    //       'line-cap': 'round'
+    //     },
+    //     paint: {
+    //       'line-color': '#40e0d0',
+    //       'line-width': 30,
+    //       'line-opacity': 0.75
+    //     }
+    //   });
+    //   map.getSource('route').setData(geojson);
+    // }
+    loadRoute(navigationRoute.routes[0].geometry.coordinates);
 
     //fit the route in the view : start
     var bounds = route.reduce(function (bounds, coord) {
@@ -627,11 +631,59 @@ function calculateDistanceToDestination(distanceToManeuver, closestManeuverIndex
 //   });
 // }
 
-// function switchMapMode(layer) {
-//   if(layer == 'dark'){
-//     map.setStyle('mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh');
-//   }
-//   else{
-//     map.setStyle('mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb');
-//   }
-// }
+function switchMapMode(layer) {
+  if(layer == 'dark'){
+    map.setStyle('mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh');
+  }
+  else{
+    map.setStyle('mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb');
+  }
+
+  if(currentMode == 'nav-info-mode' || currentMode == 'navigation-mode'){
+    console.log('Getting the Route.');
+    map.on('styledata', function(){
+      loadRoute(navigationRoute.routes[0].geometry.coordinates);
+    });
+  }
+}
+
+function loadRoute(route){
+  var geojson = {
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'LineString',
+      coordinates: route
+    }
+  };
+  // if the route already exists on the map, reset it using setData
+  if (map.getSource('route')) {
+    map.getSource('route').setData(geojson);
+  } else { // otherwise, make a new request
+    map.addLayer({
+      id: 'route',
+      type: 'line',
+      source: {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'LineString',
+            coordinates: geojson
+          }
+        }
+      },
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      paint: {
+        'line-color': '#40e0d0',
+        'line-width': 30,
+        'line-opacity': 0.75
+      }
+    });
+    map.getSource('route').setData(geojson);
+  }
+}
