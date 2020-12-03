@@ -59,7 +59,7 @@ function onLocationResponse(location){
 }
 function initMap(){
 
-  moveNotificationCard('normal-mode');
+  // moveNotificationCard('normal-mode');
   var elCurrentMarker = document.createElement('div');
   elCurrentMarker.className = 'current-marker';
 
@@ -173,7 +173,7 @@ function addListeners(){
 
   initKeyboardListener();
   isMapLoaded = true;
-  updateMapState(isMapLoaded);
+  updateUIMode('map-mode');
 }
 
 let navigationRoute = undefined;
@@ -211,8 +211,6 @@ function getRoute(end) {
     // });
     // elPsyCongroo
 
-          }
-        },
     var route = data.geometry.coordinates; //navigationRoute.routes[0].geometry.coordinates
     // var geojson = {
     //   type: 'Feature',

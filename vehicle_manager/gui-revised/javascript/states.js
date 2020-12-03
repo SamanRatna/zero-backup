@@ -282,17 +282,17 @@ function setBluetoothInputVisibility(visibility){
 
 let signalBoxes = document.getElementsByClassName('signal-box');
 let inputFields = document.getElementsByTagName('input');
-function switchUIMode(){
+function switchUITheme(){
 
-    if(uiMode == 'light'){
-        uiMode = 'dark';
+    if(uiTheme == 'light'){
+        uiTheme = 'dark';
         signalInactive = 'signal-box-dark';
         myKeyboard.setOptions({
             theme: "hg-theme-default hg-layout-default dark-theme"
           });
     }
     else{
-        uiMode = 'light';
+        uiTheme = 'light';
         signalInactive = 'signal-box-light';
         myKeyboard.setOptions({
             theme: "hg-theme-default hg-layout-default"
@@ -317,7 +317,7 @@ function switchUIMode(){
     document.getElementById('js-dash-card-auxiliary').classList.toggle('dark');
 
     if(isMapLoaded){
-        switchMapMode(uiMode);
+        switchMapMode(uiTheme);
         document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.toggle('geocoder-dark');
         for(let i=0; i<inputFields.length; i++){
             inputFields[i].classList.toggle('geocoder-dark');

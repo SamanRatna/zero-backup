@@ -89,7 +89,7 @@
 .dark .connectivity-label > p {
     color: white;
 }
-.settings-performance {
+.settings-navigation {
     height: 88px;
     width: 186px;
     margin:  31px auto;
@@ -99,9 +99,15 @@
     display: flex;
     text-align: center;
 }
-.settings-performance > p {
+.settings-navigation.navigation-mode-active{
+    background: #30D5C8;
+}
+.settings-navigation.navigation-mode-active > p{
+    color: white;
+}
+.settings-navigation > p {
     margin: auto;
-    font-weight: 800;
+    font-weight: 600;
     font-size: 25px;
     line-height: 30px;
     display: flex;

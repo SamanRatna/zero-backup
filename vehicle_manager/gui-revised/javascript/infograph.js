@@ -255,3 +255,23 @@ function updateBluetoothName(name){
     document.getElementById('js-bluetooth-named-icon').innerHTML = name;
     document.getElementById('js-bluetooth-name').innerHTML = name;
 }
+
+let navigationModeToggle = document.getElementById('js-navigation-mode-toggle');
+navigationModeToggle.addEventListener('click', function(){
+    if(uiMode == 'no-map-mode'){ //go to map mode
+        updateUIMode('map-mode');
+    }
+    else if(uiMode == 'map-mode'){ // go to no-map-mode
+        updateUIMode('no-map-mode');
+    }
+});
+
+function updateNavigationToggle(mode){
+    console.log('updateNavigationToggle: '+mode);
+    if(mode == 'no-map-mode'){
+        navigationModeToggle.classList.remove('navigation-mode-active');
+    }
+    else if(mode == 'map-mode'){
+        navigationModeToggle.classList.add('navigation-mode-active');
+    }
+}

@@ -16,26 +16,33 @@ let modeScroller = document.getElementById('js-mode-scroller-no-map');
 let time = document.getElementById('js-time-no-map');
 
 let noMapPage = document.getElementById('js-no-map-card');
+let mapPage = document.getElementById('js-map-card');
 let dashCard = document.getElementById('js-dash-card');
 
-let uiMode = 'light';
-function updateMapState(isMapLoaded){
-    console.log('Updating Map State: '+ true)
-    updateVariables(isMapLoaded);
-    if(isMapLoaded){
+let uiTheme = 'light';
+let uiMode = 'no-map-mode'
+
+function updateUIMode(mode){
+    // console.log('Updating Map State: '+ true)
+    uiMode = mode;
+    updateVariables(mode);
+    if(mode == 'map-mode'){
         noMapPage.style.display = 'none';
-        // dashCard.style.display = 'flex';
+        mapPage.style.display = 'flex';
         setDashCardVisibility(true);
+        moveNotificationCard('normal-mode');
     }
-    else{
+    else if(mode == 'no-map-mode'){
         noMapPage.style.display = 'flex';
-        // dashCard.style.display = 'none';
+        mapPage.style.display = 'none';
         setDashCardVisibility(false);
+        moveNotificationCard('navigation-mode');
     }
+    updateNavigationToggle(mode);
 }
 
-function updateVariables(isMapLoaded){
-    if(isMapLoaded){
+function updateVariables(mode){
+    if(mode == 'map-mode'){
         soc = document.getElementById('js-battery-value');
         batteryLevel = document.getElementById('js-battery-level');
         batteryCap = document.getElementById('js-battery-cap');
@@ -49,7 +56,7 @@ function updateVariables(isMapLoaded){
         modeScroller = document.getElementById('js-mode-scroller');
         bikeModeStandby = document.getElementById('js-bikemode-standby');
     }
-    else{
+    else if(mode == 'no-map-mode'){
         soc = document.getElementById('js-battery-value-no-map');
         batteryLevel = document.getElementById('js-battery-level-no-map');
         batteryCap = document.getElementById('js-battery-cap-no-map');
@@ -84,7 +91,7 @@ let bikeModeActiveIndicator = 'mode-indicator-active';
 function updateBikeMode(mode){
     console.log('Updating Bike Mode To: ' + mode)
     console.log(bikeModeActiveIndicator);
-    // if(uiMode == 'light'){
+    // if(uiTheme == 'light'){
     //     console.log('in light mode');
     //     switch(currentBikeMode){
     //         case 'MODE_STANDBY':
