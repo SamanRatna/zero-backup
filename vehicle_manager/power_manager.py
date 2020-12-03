@@ -1,7 +1,7 @@
 from event_handler import *
 import threading
 from gpio_manager import RepeatableTimer
-import os
+import subprocess
 
 class PowerManager():
     def __init__(self):
@@ -32,11 +32,11 @@ class PowerManager():
             self.inactivityTimer.start()
 
     def onBikeOff(self):
-        pass
-        # os.system('tvservice -o')
-        # os.system('systemctl stop guix.service')
+        subprocess.call('pkill chromium &', shell=True)
+        print('X Started.')
+        print('Bike is Off.')
 
     def onBikeOn(self):
-        pass
-        # os.system('tvservice -p')
-        # os.system('systemctl start guix.service')
+        subprocess.call('startx -- -nocursor &', shell=True)
+        print('Chromium Killed')
+        print('Bike is On.')
