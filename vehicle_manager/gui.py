@@ -1,4 +1,5 @@
 import eel
+import math
 import threading
 import multiprocessing
 import os
@@ -78,7 +79,7 @@ def publishAverageSpeeds(odoAverage, tripAverage):
     eel.updateAverageSpeeds(round(odoAverage), round(tripAverage))
 
 def publishDistances(odometer, tripDistance):
-    eel.updateDistances(round(odometer), round(tripDistance))
+    eel.updateDistances(math.floor(odometer), math.floor(tripDistance))
 
 # def publishAdvertisementStatus(status):
 #     eel.updateAdvertisementStatus(status)
@@ -98,12 +99,12 @@ def publishBatteryTemperature(temp):
     eel.updateBatteryTemperature(temp)
     # print('Battery Temperature: ', str(temp))
 
-def publishMotorTemperature(temp):
-    eel.updateMotorTemperature(temp)
+def publishMotorTemperature(motorTemp, controllerTemp):
+    eel.updateMotorTemperature(motorTemp, controllerTemp)
     # print('Motor Temperature: ', str(temp))
 
-def publishControllerTemperature(temp):
-    eel.updateControllerTemperature(temp)
+# def publishControllerTemperature(temp):
+#     eel.updateControllerTemperature(temp)
     # print('Controller Temperature: ', str(temp))
 
 def publishPackVoltage(voltage):
@@ -221,7 +222,6 @@ def getConnectivityStatus():
 
 @eel.expose
 def resetTripData():
-    print('Trip Reset Requested.')
     vehicleEvents.onTripReset()
 
 @eel.expose
@@ -282,7 +282,7 @@ vehicleReadings.distances += publishDistances
 vehicleEvents.bluetoothStatus += publishBluetoothStatus
 vehicleReadings.batteryTemperature += publishBatteryTemperature
 vehicleReadings.motorTemperature += publishMotorTemperature
-vehicleReadings.controllerTemperature += publishControllerTemperature
+# vehicleReadings.controllerTemperature += publishControllerTemperature
 vehicleReadings.packVoltage += publishPackVoltage
 vehicleEvents.onStandSwitch += publishStandState
 vehicleReadings.carbonOffset += publishCarbonOffset

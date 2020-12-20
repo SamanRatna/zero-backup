@@ -300,23 +300,30 @@ function updateTime(){
 }
 updateTime();
 
-// function to activate or deactivate the trip reset button 
-let tripResetState = true; // true means activated
+// function to activate or deactivate the trip reset button
+let tripResetState = false; // true means activated
+activateTripResetButton(true);
 function activateTripResetButton(activation){
-    if(activation == true && tripResetState == false){
+    if(activation == tripResetState){
+        console.log('Trip Reset Button already in the requested state: ', activation)
+    }
+    else if(activation == true && tripResetState == false){
+        console.log('Activating Trip Reset Button.')
         document.getElementById('js-trip-reset').classList.remove('trip-reset-deactivated');
-        document.addEventListener('click', requestTripReset);
+        document.getElementById('js-trip-reset').addEventListener('click', requestTripReset);
         tripResetState = true;
     }
     else if(activation == false && tripResetState == true){
+        console.log('Deactivating Trip Reset Button.')
         document.getElementById('js-trip-reset').classList.add('trip-reset-deactivated');
-        document.removeEventListener('click', requestTripReset);
+        document.getElementById('js-trip-reset').removeEventListener('click', requestTripReset);
         tripResetState = false;
     }
 }
 
 function requestTripReset(){
-    eel.resetTrip();
+    console.log('Requesting trip reset')
+    eel.resetTripData();
 }
 
 

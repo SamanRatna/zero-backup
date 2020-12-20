@@ -8,6 +8,11 @@ from gui import *
 from gpio_manager import GPIOWriter
 from event_handler import *
 # from mqtt_publisher import *
+
+RPM_TO_KMPH = 0.025
+ODO_FACTOR = 0.1
+TRACTION_MIN_FACTOR = 0.25
+
 class CANHandler:
     # def __init__(self, _gpioWriter):
     def __init__(self):
@@ -67,6 +72,8 @@ class CANHandler:
         LOG_FORMAT = ('%(asctime)s : %(name)s : %(levelname)s : %(message)s')
         self.canLogger=logging.getLogger("event_logger")
         self.canLogger.setLevel(logging.INFO)
+
+        #Handle FileNotFound error
         self.canLoggerHandler = logging.FileHandler('../logs/yatri.log')
         self.canLoggerHandler.setLevel(logging.INFO)
         self.canLoggerHandler.setFormatter(logging.Formatter(LOG_FORMAT))
@@ -109,15 +116,50 @@ class CANHandler:
             message = self.bus.recv(0.1)
             if message is not None:
                 if message.arbitration_id != 128:
-                    if message.arbitration_id == 512:
+                    # if message.arbitration_id == 512:
+                    #     data = message.data
+                    #     command = data[0]
+                    #     if(command == 17):
+                    #         #bike-on
+                    #         vehicleEvents.bikeOn()
+                    #     elif(command == 34):
+                    #         #bike-off
+                    #         vehicleEvents.bikeOff()
+                    #Thakur
+                    if message.arbitration_id == 0x124:
+                        # Perform data swap in binary
                         data = message.data
-                        command = data[0]
-                        if(command == 17):
-                            #bike-on
-                            vehicleEvents.bikeOn()
-                        elif(command == 34):
-                            #bike-off
-                            vehicleEvents.bikeOff()
+                        speed = round((((data[1])*256 + (data[0]))* RPM_TO_KMPH), 2)
+                        # Fix negative velocity issue
+                        if speed > 240:
+                            self.bikeSpeed = 0
+                        else:
+                            self.bikeSpeed = speed
+
+                        print('Bike Speed(kmph): ', self.bikeSpeed)
+                        vehicleReadings.speedReading(self.bikeSpeed)
+
+
+                    if message.arbitration_id == 0x125:
+                        data = message.data
+                        odometer = round((data[3] * 16777216 + data[2] * 65536  + data[1] * 256 + data[0])*ODO_FACTOR, 2)
+                        tractionHour = round((data[5] * 256 + data[4] + data[6]*TRACTION_MIN_FACTOR/60), 2)
+
+                        print('Odo Reading (km): ', odometer)
+                        print('Traction Hours: ', tractionHour)
+                        # print('AverageSpeed: ', averageSpeed)
+                        self.odometer = odometer
+                        vehicleReadings.odoReading(self.odometer)
+                        vehicleReadings.distancehour(self.odometer, tractionHour)
+                    if message.arbitration_id == 0x126:
+                        data = message.data
+                        tripDistance = round((data[3] * 16777216 + data[2] * 65536  + data[1] * 256 + data[0])*ODO_FACTOR, 2)
+                        print('Trip Distance: ', tripDistance)
+
+                        motorTemperature = int((data[5]*256 + data[4]))
+                        controllerTemperature = int(data[6])
+                        vehicleReadings.motorTemperature(motorTemperature, controllerTemperature)
+                        print('Temperature (motor, heatsink): ', motorTemperature, controllerTemperature)
                     #Lith-Tech Battery
                     if message.arbitration_id == 284693918:
                         data = message.data
@@ -557,9 +599,9 @@ class CANHandler:
         self.tPushSlowData = threading.Thread(target=self.pushSlowData)
         self.tPushSlowData.start()
         self.tPrintData = threading.Thread(target=self.printData)
-        #self.tPrintData.start()
+        # self.tPrintData.start()
         self.tLogData = threading.Thread(target = self.logData)
-        self.tLogData.start()
+        # self.tLogData.start()
 
     def printData(self):
         while True:
