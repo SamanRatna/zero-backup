@@ -5,6 +5,7 @@
     position: absolute;
     left: 0;
     top: 0;
+    overflow: hidden;
 }
 
 .greeting{
@@ -115,12 +116,14 @@
     bottom: 0;
 }
 .p0-image{
+    overflow: hidden;
     width: 100%;
     height: 40%;
     position: absolute;
     top: 35%;
     left: 10%;
     background-image: url('../images/p0-image.png');
+    background-repeat: no-repeat;
 }
 
 .p0-text {

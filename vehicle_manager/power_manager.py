@@ -32,11 +32,11 @@ class PowerManager():
             self.inactivityTimer.start()
 
     def onBikeOff(self):
-        subprocess.call('pkill chromium &', shell=True)
+        subprocess.call('vcgencmd display_power 0', shell=True)
         print('X Started.')
         print('Bike is Off.')
 
     def onBikeOn(self):
-        subprocess.call('startx -- -nocursor &', shell=True)
+        subprocess.call('vcgencmd display_power 1', shell=True)
         print('Chromium Killed')
         print('Bike is On.')

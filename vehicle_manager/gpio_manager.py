@@ -188,8 +188,8 @@ class GPIOWriter():
         GPIO.setup(outputChannel, GPIO.OUT, initial=GPIO.HIGH)
         vehicleEvents.onUserInactivity += self.setPower
         vehicleEvents.onBrightnessChange += self.setBrightness
-        vehicleEvents.bikeOff += self.onBikeOff
-        vehicleEvents.bikeOn += self.onBikeOn
+        # vehicleEvents.bikeOff += self.onBikeOff
+        # vehicleEvents.bikeOn += self.onBikeOn
         # self.onBikeOn()
         # GPIO.setup(pin.OUT_SUSTE, GPIO.OUT, initial=GPIO.HIGH)
         # GPIO.setup(pin.OUT_THIKKA, GPIO.OUT, initial=GPIO.HIGH)

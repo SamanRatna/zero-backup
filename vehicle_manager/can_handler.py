@@ -7,6 +7,8 @@ import os
 from gui import *
 from gpio_manager import GPIOWriter
 from event_handler import *
+from watchdog import Watchdog
+import subprocess
 # from mqtt_publisher import *
 
 RPM_TO_KMPH = 0.025
@@ -16,8 +18,10 @@ TRACTION_MIN_FACTOR = 0.25
 class CANHandler:
     # def __init__(self, _gpioWriter):
     def __init__(self):
+        subprocess.call('sudo ifconfig can0 up', shell=True)
         # self.gpioWriter = _gpioWriter
         #Parameters
+        self.iterator               = 0
         self.chargingStatus         = 'discharging'
         self.chargingCurrent        = 0     # Ampere
         self.chargingCurrentCharger = 0     # Ampere
@@ -72,7 +76,7 @@ class CANHandler:
         LOG_FORMAT = ('%(asctime)s : %(name)s : %(levelname)s : %(message)s')
         self.canLogger=logging.getLogger("event_logger")
         self.canLogger.setLevel(logging.INFO)
-
+        self.watchdog = Watchdog(30, self.watchdogHandler)
         #Handle FileNotFound error
         self.canLoggerHandler = logging.FileHandler('../logs/yatri.log')
         self.canLoggerHandler.setLevel(logging.INFO)
@@ -111,21 +115,36 @@ class CANHandler:
         if(state == 'SERVICES_READY'):
             vehicleReadings.batteryStatus(self.stateOfCharge)
 
+    def watchdogHandler(self):
+        print('Something has gone wrong!!!')
+        self.canLogger.info('Watchdog Timer Expired!!!')
+        subprocess.call('sudo ifconfig can0 down', shell=True)
+        time.sleep(3.0)
+        subprocess.call('sudo ifconfig can0 up', shell=True)
+        time.sleep(3.0)
+        subprocess.call('sudo systemctl restart vmgr.service', shell=True)
+
+
     def extractCANData(self):
         while True:
             message = self.bus.recv(0.1)
             if message is not None:
                 if message.arbitration_id != 128:
-                    # if message.arbitration_id == 512:
-                    #     data = message.data
-                    #     command = data[0]
-                    #     if(command == 17):
-                    #         #bike-on
-                    #         vehicleEvents.bikeOn()
-                    #     elif(command == 34):
-                    #         #bike-off
-                    #         vehicleEvents.bikeOff()
-                    #Thakur
+                    if message.arbitration_id == 0x120:
+                        data = message.data
+                        command = data[0]
+                        if(command == 1):
+                            #bike-on
+                            print('Turning bike on')
+                            self.canLogger.info(++self.iterator, ': Turning display ON.')
+                            vehicleEvents.bikeOn()
+                        elif(command == 2):
+                            #bike-off
+                            print('Turning bike off')
+                            self.canLogger.info(self.iterator, ': Turning display OFF.')
+                            vehicleEvents.bikeOff()
+                        self.watchdog.reset()
+
                     if message.arbitration_id == 0x124:
                         # Perform data swap in binary
                         data = message.data

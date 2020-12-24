@@ -3,7 +3,7 @@ Description=Vehicle Manager Service
  
 [Service]
 Type=simple
-ExecStart=/bin/bash /home/pi/Share/yatri-project-zero/scripts/1.sh
+ExecStart=/bin/bash /home/pi/yatri-project-zero/scripts/1.sh
  
 [Install]
 WantedBy=multi-user.target
