@@ -65,7 +65,8 @@ var temperatureChart = new Chart('temperature-canvas', {
     options: options
 });
 
-function changeBatteryTemperature(value) {
+eel.expose(updateBatteryTemperature);
+function updateBatteryTemperature(value) {
     temperatureChart.data.datasets[0].data[2] = value;
     temperatureChart.update();
 }

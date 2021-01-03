@@ -74,8 +74,8 @@ function updateVariables(mode){
 
 // Function to update the speed and power in the dashboard
 function updateSpeedPower(spd, power){
-    console.log(spd, power);
-    // console.log(spd);
+    // console.log(spd, power);
+
     speed.innerHTML = Math.round(spd);
 
     if(spd > 1){
@@ -199,6 +199,7 @@ function updateBikeMode(mode){
 
 // Function to update the battery level in the dashboard
 function updateSOC(socData, suste, thikka, babbal){
+    // console.log('SOC received: '+socData + ' '+suste)
     if(socData > 100){
         return;
     }
@@ -213,7 +214,7 @@ function updateSOC(socData, suste, thikka, babbal){
         batteryCap.style.background = 'rgba(48, 213, 200, 0.4)';
     }
 
-    // range.innerHTML = thikka;
+    range.innerHTML = suste;
 }
 
 // Function to update the odometer and trip distances
@@ -305,7 +306,7 @@ let tripResetState = false; // true means activated
 activateTripResetButton(true);
 function activateTripResetButton(activation){
     if(activation == tripResetState){
-        console.log('Trip Reset Button already in the requested state: ', activation)
+        // console.log('Trip Reset Button already in the requested state: ', activation)
     }
     else if(activation == true && tripResetState == false){
         console.log('Activating Trip Reset Button.')

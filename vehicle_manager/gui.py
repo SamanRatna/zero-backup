@@ -64,7 +64,7 @@ def publishSpeedPower(speed, power):
     eel.updateSpeedPower(int(speed), round(power))
 
 def publishSOC(soc, rangeSuste, rangeThikka, rangeBabbal):
-    eel.updateSOC(round(soc), round(rangeSuste), round(rangeThikka), round(rangeBabbal))
+    eel.updateSOC(math.floor(soc), math.floor(rangeSuste), math.floor(rangeThikka), math.floor(rangeBabbal))
 
 def publishChargingStatus(status, current, timeToCharge):
     # eel.updateChargingStatus(status, current, timeToCharge)
@@ -204,6 +204,7 @@ def publishBluetoothDevices(devices):
     eel.updateBluetoothDevices(devices)
 
 def publishFinder(command):
+    print('GUI: publishFinder: ', command)
     eel.updateFinderRequest(command)
 
 def publishSWUpdate(message):
@@ -302,9 +303,11 @@ def publishSpeed(speed):
     eel.updateSpeedPower(speed, speed)
 
 def publishBattery(soc):
-    eel.updateSOC(round(soc), 0,0,0)
+    print('SOC GUI: ', math.floor(soc))
+    eel.updateSOC(math.floor(soc), 0,0,0)
 vehicleReadings.speedReading += publishSpeed
-vehicleReadings.batteryStatus += publishBattery
+# vehicleReadings.batteryStatus += publishBattery
+vehicleReadings.socRange += publishSOC
 #################################################
 
 if __name__ == "__main__":

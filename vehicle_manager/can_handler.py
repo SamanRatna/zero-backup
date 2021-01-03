@@ -9,11 +9,18 @@ from gpio_manager import GPIOWriter
 from event_handler import *
 from watchdog import Watchdog
 import subprocess
+import math
 # from mqtt_publisher import *
 
 RPM_TO_KMPH = 0.025
 ODO_FACTOR = 0.1
 TRACTION_MIN_FACTOR = 0.25
+SOC_FACTOR = 0.01
+SOH_FACTOR = 0.01
+TMP_FACTOR = 0.1
+
+RANGE_ON_FULL_AH = 180
+AH_ON_FULL_SOH = 90
 
 class CANHandler:
     # def __init__(self, _gpioWriter):
@@ -76,7 +83,7 @@ class CANHandler:
         LOG_FORMAT = ('%(asctime)s : %(name)s : %(levelname)s : %(message)s')
         self.canLogger=logging.getLogger("event_logger")
         self.canLogger.setLevel(logging.INFO)
-        self.watchdog = Watchdog(30, self.watchdogHandler)
+        # self.watchdog = Watchdog(30, self.watchdogHandler)
         #Handle FileNotFound error
         self.canLoggerHandler = logging.FileHandler('../logs/yatri.log')
         self.canLoggerHandler.setLevel(logging.INFO)
@@ -106,10 +113,10 @@ class CANHandler:
             print('Charge Status: ', status)
             self.chargingStatus = status
             vehicleEvents.onCharging(self.chargingStatus)
-    def onBLEReady(self, value):
-        # print('BLE is ready.')
-        if(value == 1):
-            vehicleReadings.batteryStatus(self.stateOfCharge)
+    # def onBLEReady(self, value):
+    #     # print('BLE is ready.')
+    #     if(value == 1):
+    #         vehicleReadings.batteryStatus(self.stateOfCharge)
     def onBluetoothStatusChange(self, state):
         # print('BLE is ready.')
         if(state == 'SERVICES_READY'):
@@ -143,8 +150,9 @@ class CANHandler:
                             print('Turning bike off')
                             self.canLogger.info(self.iterator, ': Turning display OFF.')
                             vehicleEvents.bikeOff()
-                        self.watchdog.reset()
+                        # self.watchdog.reset()
 
+                    # Motor Controller
                     if message.arbitration_id == 0x124:
                         # Perform data swap in binary
                         data = message.data
@@ -179,6 +187,50 @@ class CANHandler:
                         controllerTemperature = int(data[6])
                         vehicleReadings.motorTemperature(motorTemperature, controllerTemperature)
                         print('Temperature (motor, heatsink): ', motorTemperature, controllerTemperature)
+
+                    #ION BMS
+                    if message.arbitration_id == 0x18FF05D0:
+                        data = message.data
+                        soc = round((data[0] * 256 + data[1])*SOC_FACTOR, 2)
+                        soh = round((data[2] * 256 + data[3])*SOH_FACTOR, 2)
+
+                        print('SOC: ', soc, '%')
+                        print('SOH: ', soh, '%')
+                        if((soc - self.stateOfCharge) > 0.01):
+                            vehicleReadings.batteryStatus(self.stateOfCharge)
+                            #caculate range
+                            # ah = soc * AH_ON_FULL_SOH * soh / 10000
+                            # print('Ah: ', ah)
+                            # estimatedRange = round(RANGE_ON_FULL_AH * (self.stateOfCharge * AH_ON_FULL_SOH * soh / (100*100)) / AH_ON_FULL_SOH, 1)
+                            estimatedRange = round(RANGE_ON_FULL_AH * (soc * soh / (100*100)), 1)
+                            self.rangeSuste = estimatedRange
+                            print('Estimated Range: ', estimatedRange, 'km')
+                            vehicleReadings.socRange(soc, estimatedRange, estimatedRange, estimatedRange)
+
+                        self.stateOfCharge = soc
+
+                    if message.arbitration_id == 0x18FF03D0:
+                        data = message.data
+                        batteryTemperature = round((data[4] * 256 + data[5])*TMP_FACTOR, 1)
+                        print('Battery Temperature: ', batteryTemperature, 'degree Celsius')
+                        if(batteryTemperature - self.batteryTemperature > 0.1):
+                            self.batteryTemperature = batteryTemperature
+                            vehicleReadings.batteryTemperature(self.batteryTemperature)
+                    # if message.arbitration_id == 0x18FF07D0:
+                    #     data = message.data
+                    #     isCharging = data[0] * 0x20
+                    #     isDischarging = data[0] * 0x40
+                    #     print('Charging Status: ', isCharging)
+                    #     print('Discharging Status: ', isDischarging)
+
+                    # Elcon Charger
+                    if message.arbitration_id == 0x18FF50E5:
+                        data = message.data
+                        current = (data[2]*256 + data[3])*0.1
+                        print('Charging Current: ', current, 'A')
+                        if(current > 0.1):
+                            print('Charging')
+
                     #Lith-Tech Battery
                     if message.arbitration_id == 284693918:
                         data = message.data
