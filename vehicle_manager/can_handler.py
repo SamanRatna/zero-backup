@@ -29,7 +29,8 @@ class CANHandler:
         # self.gpioWriter = _gpioWriter
         #Parameters
         self.iterator               = 0
-        self.chargingStatus         = 'discharging'
+        # self.chargingStatus         = 'discharging'
+        self.isCharging             = False
         self.chargingCurrent        = 0     # Ampere
         self.chargingCurrentCharger = 0     # Ampere
         self.packVoltage            = 0     # Volts
@@ -226,10 +227,17 @@ class CANHandler:
                     # Elcon Charger
                     if message.arbitration_id == 0x18FF50E5:
                         data = message.data
-                        current = (data[2]*256 + data[3])*0.1
+                        current = round((data[2]*256 + data[3])*0.1, 2)
                         print('Charging Current: ', current, 'A')
                         if(current > 0.1):
+                            isCharging = True
                             print('Charging')
+                        else:
+                            isCharging = False
+
+                        if(isCharging != self.isCharging):
+                            self.isCharging = isCharging
+                            vehicleEvents.charging(self.isCharging)
 
                     #Lith-Tech Battery
                     if message.arbitration_id == 284693918:
@@ -641,7 +649,7 @@ class CANHandler:
         while True:
             time.sleep(0.2)
             publishSpeedPower(self.bikeSpeed, self.power)
-            publishChargingStatus(self.chargingStatus, self.chargingCurrent, self.timeToCharge)
+            # publishChargingStatus(self.chargingStatus, self.chargingCurrent, self.timeToCharge)
             #self.startFastCharge()
 
     def pushSlowData(self):
