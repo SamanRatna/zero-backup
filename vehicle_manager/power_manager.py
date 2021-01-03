@@ -65,10 +65,10 @@ class PowerManager():
     def onCharging(self, state):
         if(state == True):
             self.socOnChargeStart = self.stateOfCharge
-            self.socOnChargeStartTime = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+            self.socOnChargeStartTime = datetime.now().timestamp()
         else:
             self.socOnChargeEnd = self.stateOfCharge
-            self.socOnChargeEndTime = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+            self.socOnChargeEndTime = datetime.now().timestamp()
             if(self.socOnChargeStart == None):
                 return
 
