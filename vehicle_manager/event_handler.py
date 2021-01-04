@@ -2,10 +2,10 @@ from events import Events
 import threading
 
 class VehicleEvents(Events):
-    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'bluetoothStatus','onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation', 'onBluetooth', 'guiReady', 'onBluetoothNameChange', 'bluetoothName', 'finder','swupdate','swupdateResponse', 'bikeOn', 'bikeOff', 'charging')
+    __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'bluetoothStatus','onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation', 'onBluetooth', 'guiReady', 'onBluetoothNameChange', 'bluetoothName', 'finder','swupdate','swupdateResponse', 'bikeOn', 'bikeOff', 'charging', 'onChargeCostsRequest')
 
 class VehicleReadings(Events):
-    __events__ = ('odoReading','speedReading', 'maxSpeed', 'tripMaxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset', 'carbonOffsetForBluetooth', 'heading', 'bleDevices', 'network', 'bikeMode', 'orientation', 'distancehour', 'socRange')
+    __events__ = ('odoReading','speedReading', 'maxSpeed', 'tripMaxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset', 'carbonOffsetForBluetooth', 'heading', 'bleDevices', 'network', 'bikeMode', 'orientation', 'distancehour', 'socRange', 'fuelSavings', 'chargeCostsForBluetooth')
 
 vehicleEvents = VehicleEvents()
 vehicleReadings = VehicleReadings()
@@ -91,6 +91,8 @@ def onBikeOff():
     print('Bike is Off.')
 def onBikeOn():
     print('Bike is On.')
+def chargeCostsRequest(cycle):
+    print('Cycle: ', cycle)
 def onOrientationData(heading, roll, pitch):
     print('Heading={0} Roll={1} Pitch={2}'.format(heading, roll, pitch))
 
@@ -125,3 +127,4 @@ vehicleEvents.bikeOff += onBikeOff
 vehicleEvents.bikeOn += onBikeOn
 vehicleReadings.orientation += onOrientationData
 vehicleReadings.network += readingNetwork
+vehicleEvents.onChargeCostsRequest += chargeCostsRequest

@@ -2,6 +2,11 @@ from datetime import date, datetime
 import json
 from event_handler import vehicleReadings, vehicleEvents
 
+RUNNING_CO_INDEX = 0
+OUTSTANDING_CO_INDEX = 1
+SUM_TILL_LAST_DAY_INDEX = 2
+CO_DATA_ARRAY_INDEX = 3
+
 class CarbonOffsetCalculator:
     def __init__(self):
         # load the values of CO from JSON
@@ -92,11 +97,17 @@ class CarbonOffsetCalculator:
     def sendToBluetooth(self, date):
         print('CarbonOffsetCalculator: Date Received from Bluetooth: ', date)
         index = self.searchForDate(date)
-        print('Nearest Date: ', self.carbonOffset[index][0])
-        vehicleReadings.carbonOffsetForBluetooth(self.carbonOffset[index:])
+        if(index != None):
+            print('Nearest Date: ', self.carbonOffset[index][0])
+            vehicleReadings.carbonOffsetForBluetooth(self.carbonOffset[index:])
 
     def searchForDate(self, date):
-        receivedDate = datetime.strptime(date, "%Y-%m-%d")
+        try:
+            receivedDate = datetime.strptime(date, "%Y-%m-%d")
+        except ValueError:
+            print("Incorrect data format, should be YYYY-MM-DD")
+            return None
+
         initialDate = datetime.strptime(self.carbonOffset[0][0], "%Y-%m-%d")
         difference = (receivedDate - initialDate).days
 

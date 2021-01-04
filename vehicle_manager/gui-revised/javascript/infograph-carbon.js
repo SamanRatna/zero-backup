@@ -136,7 +136,26 @@ function updateCarbonOffset(data){
   codata.forEach(item => {
     updateCarbonData(item[0], item[1]);
     console.log(item);
+    updateTheTotalCarbonOffset(item[1])
+    document.getElementById('js-carbon-today').innerHTML = item[0]
   });
+  if(data.length > 1){
+    console.log(data)
+    document.getElementById('js-carbon-start-date').innerHTML = data[0][0]
+  }
 }
 
+function updateTheTotalCarbonOffset(data){
+  if(data < 1000){
+    document.getElementById('js-carbon-fuel-value').innerHTML = data + 'g';
+  }
+  else if(data/1000 < 1000){
+    document.getElementById('js-carbon-fuel-value').innerHTML = Math.round(data/1000, 1) + 'kg';
+  }
+}
+
+eel.expose(updateFuelSavings);
+function updateFuelSavings(data){
+  document.getElementById('js-carbon-savings-value').innerHTML = data;
+}
 

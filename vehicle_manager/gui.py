@@ -275,6 +275,9 @@ def changeBluetoothName(name):
 def publishBluetoothName(name):
     eel.updateBluetoothName(name)
 
+def publishFuelSavings(data):
+    eel.updateFuelSavings(data)
+
 vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
@@ -297,6 +300,7 @@ vehicleEvents.finder += publishFinder
 vehicleEvents.swupdate += publishSWUpdate
 vehicleReadings.orientation += publishOrientationData
 vehicleEvents.bluetoothName += publishBluetoothName
+vehicleReadings.fuelSavings += publishFuelSavings
 
 # ########### For development only ########### #
 def publishSpeed(speed):

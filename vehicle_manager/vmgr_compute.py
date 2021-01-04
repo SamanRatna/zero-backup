@@ -4,6 +4,11 @@ from event_handler import *
 import json
 import math
 
+MILEAGE_PETROL = 25             # km per litre of petrol
+MILEAGE_BATTERY = 2             # km per Ah
+UNIT_COST_OF_PETROL = 100       # NRs
+UNIT_COST_OF_AH     = 1.4       # NRs
+
 class VehicleInfoCalculator:
     def __init__(self):
         # inputs
@@ -87,7 +92,7 @@ class VehicleInfoCalculator:
         vehicleReadings.distances(self.odoReading, self.tripDistance)
 
         self.computeAverageSpeeds(odometer, tractionHour)
-    
+        self.calculateFuelSavings(self.odoReading)
     # 
     # update the member speedReading
     # and then call methods that use speedReading
@@ -284,3 +289,9 @@ class VehicleInfoCalculator:
         vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
         vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
         vehicleReadings.distances(self.odoReading, self.tripDistance)
+
+    def calculateFuelSavings(self, distance):
+        costOfPetrol = distance / MILEAGE_PETROL * UNIT_COST_OF_PETROL
+        costOfBattery = distance / MILEAGE_BATTERY * UNIT_COST_OF_AH
+        savings = costOfPetrol - costOfBattery
+        vehicleReadings.fuelSavings(savings)

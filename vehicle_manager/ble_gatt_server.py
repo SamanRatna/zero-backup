@@ -271,7 +271,7 @@ class BatteryLevelCharacteristic(Characteristic):
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
-        self.battery_lvl = 100
+        self.battery_lvl = 0
         vehicleReadings.batteryStatus += self.actualBatteryLevel
         # GObject.timeout_add(5000, self.drain_battery)
 
@@ -310,6 +310,7 @@ class BatteryLevelCharacteristic(Characteristic):
         return [dbus.Byte(self.battery_lvl)]
 
     def StartNotify(self):
+        print('Starting Notify.')
         if self.notifying:
             print('Already notifying, nothing to do')
             return
@@ -318,6 +319,7 @@ class BatteryLevelCharacteristic(Characteristic):
         self.notify_battery_level()
 
     def StopNotify(self):
+        print('Stoping Notify.')
         if not self.notifying:
             print('Not notifying, nothing to do')
             return
@@ -339,6 +341,8 @@ class VehicleManagerService(Service):
         self.add_characteristic(TravelledDistancesCharacteristic(bus, 2, self))
         self.add_characteristic(VehicleFinderCharacteristic(bus, 3, self))
         self.add_characteristic(CarbonOffsetCharacteristic(bus, 4, self))
+        self.add_characteristic(RiderInfoCharacteristic(bus, 5, self))
+        self.add_characteristic(ChargeCostsCharacteristic(bus, 6, self))
 
 ''' -------------------------------------------------------------------------- '''
 ''' ----------------------- Max Speed Characteristic ------------------------- '''
@@ -746,6 +750,148 @@ class CarbonOffsetDescriptor(Descriptor):
 
     def ReadValue(self, options):
         return self.value
+
+''' -------------------------------------------------------------------------- '''
+''' ------------------- Rider Info Characteristic ------------------------ '''
+''' -------------------------------------------------------------------------- '''
+
+class RiderInfoCharacteristic(Characteristic):
+    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed833'
+
+    def __init__(self, bus, index, service):
+        Characteristic.__init__(
+                self, bus, index,
+                self.TEST_CHRC_UUID,
+                # ['write'],
+                ['encrypt-write'],
+                service)
+
+        self.add_descriptor(VehicleFinderDescriptor(bus, 0, self))
+
+    def WriteValue(self, value, options):
+        print('TestCharacteristic Write: ' + repr(value))
+        command = ''.join([str(v) for v in value])
+        vehicleEvents.finder(command)
+
+class RiderInfoDescriptor(Descriptor):
+    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
+
+    def __init__(self, bus, index, characteristic):
+        self.value = array.array('B', b'Rider Info Characteristics.')
+        self.value = self.value.tolist()
+        Descriptor.__init__(
+                self, bus, index,
+                self.TEST_DESC_UUID,
+                ['read', 'write'],
+                characteristic)
+
+    def ReadValue(self, options):
+        return self.value
+
+''' -------------------------------------------------------------------------- '''
+''' ------------------- Charge Costs Characteristic ------------------------- '''
+''' -------------------------------------------------------------------------- '''
+
+class ChargeCostsCharacteristic(Characteristic):
+    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed835'
+
+    def __init__(self, bus, index, service):
+        Characteristic.__init__(
+                self, bus, index,
+                self.TEST_CHRC_UUID,
+                # ['write', 'notify'],
+                ['encrypt-write', 'notify'],
+                service)
+        self.notifying = False
+        self.cycle = 0
+        self.chargeCostsData = []
+        vehicleReadings.chargeCostsForBluetooth += self.onChargeCostsData
+        self.add_descriptor(ChargeCostsDescriptor(bus, 0, self))
+        # self.add_descriptor(
+        #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
+
+    def WriteValue(self, value, options):
+        # print('TestCharacteristic Write: ' + repr(value))
+        cycle = ''
+        for v in value:
+            cycle += str(v)
+        print('BLEGATT: Charge Costs Cycle: ', cycle)
+        if(cycle.isnumeric()):
+            self.cycle = int(cycle)
+            print('BLEGATT: Charge Costs Cycle: ', self.cycle)
+            vehicleEvents.onChargeCostsRequest(self.cycle)
+        else:
+            print('BLEGATT: Charge Costs Cycle: ', cycle, ' not a number')
+
+    def NotifyValue(self):
+        if not self.notifying:
+            return
+        for data in self.chargeCostsData:
+            startSOCBytes = bytearray(str(data[0]), 'utf-8')
+            endSOCBytes = bytearray(str(data[1]), 'utf-8')
+            startDateBytes = bytearray(str(data[2]), 'utf-8')
+            endDateBytes = bytearray(str(data[3]), 'utf-8')
+            chargeCostsBytes = bytearray(str(data[4]), 'utf-8')
+            dbusBytes = []
+            for v in list(startSOCBytes):
+                dbusBytes.append(dbus.Byte(v))
+            dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
+            for v in list(endSOCBytes):
+                dbusBytes.append(dbus.Byte(v))
+            dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
+            for v in list(startDateBytes):
+                dbusBytes.append(dbus.Byte(v))
+            dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
+            for v in list(endDateBytes):
+                dbusBytes.append(dbus.Byte(v))
+            dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
+            for v in list(chargeCostsBytes):
+                dbusBytes.append(dbus.Byte(v))
+            print(data)
+            # print(dbusBytes)
+            self.PropertiesChanged(
+                    GATT_CHRC_IFACE,
+                    { 'Value': dbus.Array(dbusBytes) }, [])
+
+    def StartNotify(self):
+        if self.notifying:
+            print('Already notifying, nothing to do')
+            return
+
+        self.notifying = True
+        self.NotifyValue()
+
+    def StopNotify(self):
+        if not self.notifying:
+            print('Not notifying, nothing to do')
+            return
+
+        self.notifying = False
+
+    def onChargeCostsData(self, data):
+        self.chargeCostsData = data
+        print('Received Charge Costs Data')
+        print(self.chargeCostsData)
+        self.NotifyValue()
+
+class ChargeCostsDescriptor(Descriptor):
+    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed836'
+
+    def __init__(self, bus, index, characteristic):
+        self.value = array.array('B', b'Charge Costs Data')
+        self.value = self.value.tolist()
+        Descriptor.__init__(
+                self, bus, index,
+                self.TEST_DESC_UUID,
+                ['read', 'write'],
+                characteristic)
+
+    def ReadValue(self, options):
+        return self.value
+
+''' -------------------------------------------------------------------------- '''
+''' -------------------------------------------------------------------------- '''
+''' -------------------------------------------------------------------------- '''
 
 def register_app_cb():
     print('GATT application registered')
