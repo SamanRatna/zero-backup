@@ -25,7 +25,7 @@ import logging
 import sys
 import time
 from event_handler import *
-
+import json
 from Adafruit_BNO055 import BNO055
 ORIENTATION_DATA_PORT = '/dev/serial0'
 RESET_PIN = 18
@@ -34,22 +34,26 @@ class Orientation():
     # _counter = 0
     __instance__ = None
     dataPort = None
+    initialization = False
+    attempts = 0
+    calibrationStatus = False
     @staticmethod
     def getInstance():
         """ Static method to fetch the current instance.
         """
         if not Orientation.__instance__:
             Orientation.__instance__ = Orientation()
-        elif not Orientation.dataPort:
+        elif not Orientation.initialization:
             self.initializeConnection()
         print('Returning Orientation instance: ', Orientation.__instance__)
         return Orientation.__instance__
 
     def initializeConnection(self):
-        if not Orientation.dataPort:
+        while(Orientation.initialization != True and Orientation.attempts < 10):
             try:
+                Orientation.attempts += 1
+                print('Orientation Sensor initialization attempt: ', Orientation.attempts)
                 Orientation.dataPort = BNO055.BNO055(serial_port=ORIENTATION_DATA_PORT, rst=RESET_PIN)
-
                 # Initialize the BNO055 and stop if something went wrong.
                 if not Orientation.dataPort.begin():
                     raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
@@ -62,7 +66,6 @@ class Orientation():
                 if status == 0x01:
                     print('System error: {0}'.format(error))
                     print('See datasheet section 4.3.59 for the meaning.')
-
                 # Print BNO055 software revision and other diagnostic data.
                 sw, bl, accel, mag, gyro = Orientation.dataPort.get_revision()
                 print('Software version:   {0}'.format(sw))
@@ -70,9 +73,13 @@ class Orientation():
                 print('Accelerometer ID:   0x{0:02X}'.format(accel))
                 print('Magnetometer ID:    0x{0:02X}'.format(mag))
                 print('Gyroscope ID:       0x{0:02X}\n'.format(gyro))
+                self.loadCalibrationData()
+                Orientation.initialization = True
+                Orientation.attempts = 0
             except Exception as error:
                 print(error)
-                return
+                time.sleep(2)
+                Orientation.initialization = False
 
     def __init__(self):
         # GPS._counter = GPS._counter + 1
@@ -90,18 +97,32 @@ class Orientation():
     
     def onNavigationStart(self):
         while self.navigationMode:
-            # Read the Euler angles for heading, roll, pitch (all in degrees).
-            heading, roll, pitch = Orientation.dataPort.read_euler()
-            # Read the calibration status, 0=uncalibrated and 3=fully calibrated.
-            sys, gyro, accel, mag = Orientation.dataPort.get_calibration_status()
-            # Print everything out.
-            print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
-                  heading, roll, pitch, sys, gyro, accel, mag))
-            heading = round(heading, 2)
-            roll = round(roll, 2)
-            pitch = round(pitch, 2)
-            vehicleReadings.orientation(heading, roll, pitch)
-            time.sleep(1)
+            try:
+                # Read the Euler angles for heading, roll, pitch (all in degrees).
+                heading, roll, pitch = Orientation.dataPort.read_euler()
+                # Read the calibration status, 0=uncalibrated and 3=fully calibrated.
+                sys, gyro, accel, mag = Orientation.dataPort.get_calibration_status()
+                calibrationData = Orientation.dataPort.get_calibration()
+                # Print everything out.
+                print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
+                      heading, roll, pitch, sys, gyro, accel, mag))
+                print(calibrationData)
+                heading = round(heading, 2)
+                roll = round(roll, 2)
+                pitch = round(pitch, 2)
+                if(sys == 3 and mag==3 and gyro==3 and accel==3 and Orientation.calibrationStatus==False):
+                    #save data to json
+                    Orientation.calibrationStatus = True
+                    self.saveCalibrationData(calibrationData)
+                else:
+                    Orientation.calibrationStatus = False
+
+                if(sys == 3 and mag==3):
+                    vehicleReadings.orientation(heading, roll, pitch)
+                time.sleep(1)
+            except:
+                Orientation.initialization = False
+                self.initializateConnection()
 
     def onNavigation(self,request):
         print('Orientation: Navigation Request: ',request)
@@ -117,6 +138,21 @@ class Orientation():
         else:
             print(self, ': About to stop Orientation Thread')
             self.navigationMode = False
+
+    def loadCalibrationData(self):
+        try:
+            with open('calibration.json', 'r') as f:
+                calibrationData = json.load(f)
+            Orientation.dataPort.set_calibration(calibrationData)
+            print('Loaded Calibration Data onto the sensor.')
+
+        except Exception as error:
+            print(error)
+    
+    def saveCalibrationData(self,data):
+        with open('calibration.json', 'w') as f:  # writing JSON object
+            json.dump(data, f)
+            print('Saved Calibration Data from the sensor.')
 
 if __name__ == "__main__":
     orientation = Orientation.getInstance()

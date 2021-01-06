@@ -4,6 +4,8 @@ from gpio_manager import RepeatableTimer
 import subprocess
 import json
 from datetime import datetime
+import requests
+from bike_credentials import *
 
 COST_FACTOR = 1.2
 CHARGE_SAVINGS_FILE = 'charge-savings.json'
@@ -13,6 +15,8 @@ class PowerManager():
     def __init__(self):
         self.standState = 0
         self.chargeCycle = 0
+        self.isCharging = False
+        self.lastChargeUpdate = None
         self.socOnChargeStart = None
         self.socOnChargeEnd = None
         self.chargeSavingsData = []
@@ -65,12 +69,20 @@ class PowerManager():
 
     def batteryStatus(self, soc, rangeSuste, rangeThikka, rangeBabbal):
         self.stateOfCharge = soc
+        if(self.isCharging):
+            if(self.stateOfCharge - self.lastChargeUpdate >= 5):
+                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
 
     def onCharging(self, state):
+        self.isCharging = state
         if(state == True):
             self.socOnChargeStart = self.stateOfCharge
             self.socOnChargeStartTime = int(datetime.now().timestamp())
+            if(self.lastChargeUpdate == None):
+                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
         else:
+            if(self.lastChargeUpdate != None):
+                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
             self.socOnChargeEnd = self.stateOfCharge
             self.socOnChargeEndTime = int(datetime.now().timestamp())
             if(self.socOnChargeStart == None):
@@ -118,3 +130,16 @@ class PowerManager():
         print('Latest Charge Cycle Index: ', index)
         if(index != None):
             vehicleReadings.chargeCostsForBluetooth(self.chargeSavingsData[index:])
+
+    def sendStateOfCharge(self, soc, chargingStatus):
+        current_soc = str(soc)
+        current_status = str(chargingStatus).lower()
+        print(current_soc, current_status )
+        url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/batteries/" + battery_id
+        payload = '{\r\n    \"soc\": '+ current_soc + ',\r\n    \"isCharging\": ' + current_status + '\r\n}'
+        response = requests.request("PATCH", url, headers=headers, data=payload)
+        print(response.text)
+        if(chargingStatus == True):
+            self.lastChargeUpdate = soc
+        else:
+            self.lastChargeUpdate = False
