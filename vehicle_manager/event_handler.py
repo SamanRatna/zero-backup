@@ -5,7 +5,7 @@ class VehicleEvents(Events):
     __events__ = ('onRUPress','onRDPress', 'onRDHold', 'onRBPress', 'onHibeamToggle', 'onRightSideLightToggle', 'onLeftSideLightToggle', 'onBrakeToggle', 'onStandSwitch', 'onIgnition', 'onCharging', 'onTripReset', 'onBLEReady', 'bluetoothStatus','onUserInteraction', 'onUserInactivity', 'onCarbonOffsetRequest', 'onBrightnessChange', 'confirmBluetoothPairing', 'onBluetoothPairingConfirmation', 'onBluetoothConnection', 'onNavigation', 'onBluetooth', 'guiReady', 'onBluetoothNameChange', 'bluetoothName', 'finder','swupdate','swupdateResponse', 'bikeOn', 'bikeOff', 'charging', 'onChargeCostsRequest')
 
 class VehicleReadings(Events):
-    __events__ = ('odoReading','speedReading', 'maxSpeed', 'tripMaxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset', 'carbonOffsetForBluetooth', 'heading', 'bleDevices', 'network', 'bikeMode', 'orientation', 'distancehour', 'socRange', 'fuelSavings', 'chargeCostsForBluetooth')
+    __events__ = ('odoReading','speedReading', 'maxSpeed', 'tripMaxSpeed', 'averageSpeeds', 'distances', 'batteryStatus', 'batteryTemperature', 'motorTemperature', 'controllerTemperature', 'packVoltage', 'gpsLocation' , 'carbonOffset', 'carbonOffsetForBluetooth', 'heading', 'bleDevices', 'network', 'bikeMode', 'orientation', 'distancehour', 'socRange', 'fuelSavings', 'chargeCostsForBluetooth', 'riderInfo')
 
 vehicleEvents = VehicleEvents()
 vehicleReadings = VehicleReadings()

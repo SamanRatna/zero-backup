@@ -10,6 +10,7 @@ from event_handler import *
 # from power_manager import *
 from api_handler import *
 from quectel import *
+from kalman_filter import *
 #Configure logger
 # logging.basicConfig(filemode='a')
 chargeLogger=logging.getLogger('event-logger')
@@ -278,6 +279,9 @@ def publishBluetoothName(name):
 def publishFuelSavings(data):
     eel.updateFuelSavings(data)
 
+def publishRiderInfo(info):
+    eel.updateRiderInfo(info)
+
 vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
@@ -301,7 +305,7 @@ vehicleEvents.swupdate += publishSWUpdate
 vehicleReadings.orientation += publishOrientationData
 vehicleEvents.bluetoothName += publishBluetoothName
 vehicleReadings.fuelSavings += publishFuelSavings
-
+vehicleReadings.riderInfo += publishRiderInfo
 # ########### For development only ########### #
 def publishSpeed(speed):
     eel.updateSpeedPower(speed, speed)

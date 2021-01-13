@@ -348,3 +348,16 @@ function updateOrientation(heading, roll, pitch){
     console.log(heading, roll, pitch);
     updateHeadingTest(heading);
 }
+
+eel.expose(updateRiderInfo);
+function updateRiderInfo(info){
+    if("Name" in info){
+        document.getElementById('js-account-person').innerHTML = info["Name"];
+    }
+    if("LicenseNumber" in info){
+        document.getElementById('js-account-license').innerHTML = 'Lic. # ' + info["LicenseNumber"];
+    }
+    if("BikeNumber" in info){
+        document.getElementById('js-account-vehicle').innerHTML = info["BikeNumber"];
+    }
+}

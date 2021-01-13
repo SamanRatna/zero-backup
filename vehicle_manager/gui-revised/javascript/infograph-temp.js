@@ -1,3 +1,10 @@
+let tController = null;
+let tECU = null;
+let tBattery = null;
+let tAmbient = null;
+let tMotor = null;
+let tUnitIsCelsius = true;
+
 var data = {
     labels: ["CONTROLLER", "ECU", "BATTERY", "AMBIENT", "MOTOR"],
     datasets: [{
@@ -67,14 +74,80 @@ var temperatureChart = new Chart('temperature-canvas', {
 
 eel.expose(updateBatteryTemperature);
 function updateBatteryTemperature(value) {
+    if(!tUnitIsCelsius){
+        value = value * 9/5 +32
+    }
     temperatureChart.data.datasets[0].data[2] = value;
+    tBattery = value;
     temperatureChart.update();
 }
 
 eel.expose(updateMotorTemperature);
 function updateMotorTemperature(motorTemp, controllerTemp){
+    if(!tUnitIsCelsius){
+        motorTemp = motorTemp * 9/5 +32
+        controllerTemp = controllerTemp * 9/5 +32
+    }
     temperatureChart.data.datasets[0].data[4] = motorTemp;
     temperatureChart.data.datasets[0].data[0] = controllerTemp;
+    tController = controllerTemp;
+    tMotor = motorTemp;
+    temperatureChart.update();
+}
+
+function changeUnitsToFarenheit(toFarenheit){
+    console.log('Changing uints to Farenheit: ' + toFarenheit)
+    if(tUnitIsCelsius != toFarenheit){
+        return;
+    } else {
+        tUnitIsCelsius = !toFarenheit;
+    }
+    tUnitIsCelsius = false
+    if(toFarenheit){
+        if(tController != null){
+            tController = tController * 9/5 +32;
+            temperatureChart.data.datasets[0].data[0] = tController;
+        }
+        if(tECU != null){
+            tECU = tECU * 9/5 +32;
+            temperatureChart.data.datasets[0].data[1] = tECU;
+        }
+        if(tBattery != null){
+            tBattery = tBattery * 9/5 +32;
+            temperatureChart.data.datasets[0].data[2] = tBattery;
+        }
+        if(tAmbient != null){
+            tAmbient = tAmbient * 9/5 +32;
+            temperatureChart.data.datasets[0].data[3] = tAmbient;
+        }
+        if(tMotor != null){
+            tMotor = tMotor * 9/5 +32;
+            temperatureChart.data.datasets[0].data[4] = tMotor;
+        }
+    }
+    else{
+        if(tController != null){
+            tController = (tController -32)*5/9 ;
+            temperatureChart.data.datasets[0].data[0] = tController;
+        }
+        if(tECU != null){
+            tECU = (tController -32)*5/9;
+            temperatureChart.data.datasets[0].data[1] = tECU;
+        }
+        if(tBattery != null){
+            tBattery = (tController -32)*5/9;
+            temperatureChart.data.datasets[0].data[2] = tBattery;
+        }
+        if(tAmbient != null){
+            tAmbient = (tController -32)*5/9;
+            temperatureChart.data.datasets[0].data[3] = tAmbient;
+        }
+        if(tMotor != null){
+            tMotor = (tController -32)*5/9;
+            temperatureChart.data.datasets[0].data[4] = tMotor;
+        }
+    }
+
     temperatureChart.update();
 }
 

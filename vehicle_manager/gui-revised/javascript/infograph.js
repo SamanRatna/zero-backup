@@ -10,6 +10,11 @@ document.getElementById('js-temperature-unit-toggle').addEventListener('click', 
     document.getElementById('js-temperature-label-c').classList.toggle('active');
     document.getElementById('js-temperature-label-f').classList.toggle('active');
     document.getElementById('js-temperature-unit-button').classList.toggle('toggled');
+    if(document.getElementById('js-temperature-label-f').classList.contains('active')){
+        changeUnitsToFarenheit(true);
+    } else {
+        changeUnitsToFarenheit(false);
+    }
 });
 
 // brightness control slider

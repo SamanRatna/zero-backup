@@ -1,3 +1,8 @@
+let maxSpeed = null;
+let odoAverage = null;
+let tripAverage = null;
+let unitIsKm = true;
+
 var data = {
     labels: ["MAX SPEED", "ODO AVERAGE", "TRIP AVERAGE"],
     datasets: [{
@@ -59,7 +64,11 @@ var speedChart = new Chart('speed-canvas', {
 
 
 function updateMaxSpeed(value) {
+    if(!unitIsKm){
+        value = Math.floor(value * 0.621371)
+    }
     speedChart.data.datasets[0].data[0] = value;
+    maxSpeed = value;
     speedChart.update();
 }
 
@@ -74,8 +83,49 @@ function updateMaxSpeed(value) {
 // }
 
 function updateAverageSpeeds(odo, trip){
+    if(!unitIsKm){
+        odo = Math.floor(odo * 0.621371)
+        trip = Math.floor(trip * 0.621371)
+    }
     speedChart.data.datasets[0].data[1] = odo;
-    speedChart.update();  
     speedChart.data.datasets[0].data[2] = trip;
+    odoAverage = odo;
+    tripAverage = trip;
+    speedChart.update();
+}
+
+function changeUnitToMiles(toMiles){
+    if(unitIsKm != toMiles){
+        return;
+    } else {
+        unitIsKm = !toMiles;
+    }
+    if(toMiles){
+        if(maxSpeed != null){
+            maxSpeed = Math.floor(maxSpeed * 0.621371);
+            speedChart.data.datasets[0].data[0] = maxSpeed;
+        }
+        if(odoAverage != null){
+            odoAverage = Math.floor(odoAverage * 0.621371);
+            speedChart.data.datasets[0].data[1] = odoAverage;
+        }
+        if(tripAverage != null){
+            tripAverage = Math.floor(tripAverage * 0.621371);
+            speedChart.data.datasets[0].data[2] = tripAverage;
+        }
+    }else{
+        if(maxSpeed != null){
+            maxSpeed = Math.floor(maxSpeed / 0.621371);
+            speedChart.data.datasets[0].data[0] = maxSpeed;
+        }
+        if(odoAverage != null){
+            odoAverage = Math.floor(odoAverage / 0.621371);
+            speedChart.data.datasets[0].data[1] = odoAverage;
+        }
+        if(tripAverage != null){
+            tripAverage = Math.floor(tripAverage / 0.621371);
+            speedChart.data.datasets[0].data[2] = tripAverage;
+        }
+    }
     speedChart.update();
 }
