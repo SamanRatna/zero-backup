@@ -202,6 +202,15 @@ function updateBikeMode(mode){
             break;
     }
     currentBikeMode = mode;
+    if(currentBikeMode == 'MODE_STANDBY'){
+        document.getElementById('js-p0-image-text').style.display = 'block'
+        document.getElementById('js-p0-image').style.display = 'block'
+        document.getElementById('js-stats-no-map').style.display = 'none'
+    }else{
+        document.getElementById('js-p0-image-text').style.display = 'none'
+        document.getElementById('js-p0-image').style.display = 'none'
+        document.getElementById('js-stats-no-map').style.display = 'block'
+    }
 }
 
 
@@ -352,6 +361,18 @@ function requestTripReset(){
 
 function updateOrientation(heading, roll, pitch){
     console.log(heading, roll, pitch);
+    if(pitch > 10 || pitch < -10){
+        document.getElementById('js-pitch-indicator').classList.add('pitch-dial-caution');
+    }
+    else{
+        document.getElementById('js-pitch-indicator').classList.remove('pitch-dial-caution');
+    }
+    pitch = pitch > 10 ? 10 : pitch < -10 ? -10 : pitch;
+    scaledPitch = pitch / 10 * 115;
+
+    document.getElementById('js-roll-indicator').style.transform = 'rotate('+roll+'deg)';
+    document.getElementById('js-pitch-indicator').style.transform = 'translate(0px,'+ scaledPitch + 'px)';
+    document.getElementById('js-yaw-indicator').style.transform = 'rotate('+ heading + 'deg)';
     updateHeadingTest(heading);
 }
 
@@ -366,4 +387,9 @@ function updateRiderInfo(info){
     if("BikeNumber" in info){
         document.getElementById('js-account-vehicle').innerHTML = info["BikeNumber"];
     }
+}
+
+eel.expose(updateTripMaxSpeed);
+function updateTripMaxSpeed(speed){
+    document.getElementById('js-trip-max-speed').innerHTML = speed;
 }

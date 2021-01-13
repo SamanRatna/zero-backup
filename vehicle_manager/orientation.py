@@ -87,9 +87,9 @@ class Orientation():
         # print('GPS Constructor: GPS Object Id: ', self)
         self.initializeConnection()
         self.tOrientation = None
-        self.navigationMode = False
+        self.navigationMode = True
         vehicleEvents.onNavigation += self.onNavigation
-        # self.onNavigationStart()
+        self.onNavigationStart()
     def __del__(self):
         # GPS._counter = GPS._counter - 1
         vehicleEvents.onNavigation -= self.onNavigation
@@ -117,12 +117,12 @@ class Orientation():
                 else:
                     Orientation.calibrationStatus = False
 
-                if(sys == 3 and mag==3):
+                if(mag>=2):
                     vehicleReadings.orientation(heading, roll, pitch)
-                time.sleep(1)
+                time.sleep(0.2)
             except:
                 Orientation.initialization = False
-                self.initializateConnection()
+                self.initializeConnection()
 
     def onNavigation(self,request):
         print('Orientation: Navigation Request: ',request)
@@ -154,5 +154,37 @@ class Orientation():
             json.dump(data, f)
             print('Saved Calibration Data from the sensor.')
 
+    def getReadings(self):
+        try:
+            # Read the Euler angles for heading, roll, pitch (all in degrees).
+            heading, roll, pitch = Orientation.dataPort.read_euler()
+            q0, q1, q2, q3 = Orientation.dataPort.read_quaternion()
+            ax,ay, az = Orientation.dataPort.read_linear_acceleration()
+            # Read the calibration status, 0=uncalibrated and 3=fully calibrated.
+            sys, gyro, accel, mag = Orientation.dataPort.get_calibration_status()
+            calibrationData = Orientation.dataPort.get_calibration()
+            # Print everything out.
+            # print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
+            #       heading, roll, pitch, sys, gyro, accel, mag))
+            # print(calibrationData)
+            heading = round(heading, 2)
+            roll = round(roll, 2)
+            pitch = round(pitch, 2)
+            if(sys == 3 and mag==3 and gyro==3 and accel==3 and Orientation.calibrationStatus==False):
+                #save data to json
+                Orientation.calibrationStatus = True
+                self.saveCalibrationData(calibrationData)
+            else:
+                Orientation.calibrationStatus = False
+            if(sys == 3 and mag == 3):
+                vehicleReadings.orientation(heading, roll, pitch)
+            
+            return [heading, roll, pitch, q0, q1, q2, q3, ax,ay, az, sys, gyro, accel, mag]
+        except:
+            pass
+            # Orientation.initialization = False
+            # self.initializateConnection()
+
 if __name__ == "__main__":
     orientation = Orientation.getInstance()
+    vehicleEvents.onNavigation(True)

@@ -75,6 +75,10 @@ def publishMaxSpeed(value):
     # global maxSpeed
     eel.updateMaxSpeed(round(value))
     # maxSpeed = value
+def publishTripMaxSpeed(value):
+    # global maxSpeed
+    eel.updateTripMaxSpeed(round(value))
+    # maxSpeed = value
 
 def publishAverageSpeeds(odoAverage, tripAverage):
     eel.updateAverageSpeeds(round(odoAverage), round(tripAverage))
@@ -284,6 +288,7 @@ def publishRiderInfo(info):
 
 vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
+vehicleReadings.tripMaxSpeed += publishTripMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances
 # vehicleEvents.onBLEReady += publishAdvertisementStatus
