@@ -12,7 +12,9 @@ let bikeModeThikka = document.getElementById('js-bikemode-thikka-no-map');
 let bikeModeBabbal = document.getElementById('js-bikemode-babbal-no-map');
 let bikeModeReverse = document.getElementById('js-bikemode-reverse-no-map');
 let modeScroller = document.getElementById('js-mode-scroller-no-map');
-
+let odoDistance = document.getElementById('js-odo-travel-no-map');
+let tripDistance = document.getElementById('js-trip-travel-no-map');
+let tripResetButton = document.getElementById('js-trip-reset-no-map');
 let time = document.getElementById('js-time-no-map');
 
 let noMapPage = document.getElementById('js-no-map-card');
@@ -55,6 +57,9 @@ function updateVariables(mode){
         bikeModeReverse = document.getElementById('js-bikemode-reverse');
         modeScroller = document.getElementById('js-mode-scroller');
         bikeModeStandby = document.getElementById('js-bikemode-standby');
+        odoDistance = document.getElementById('js-odo-travel');
+        tripDistance = document.getElementById('js-trip-travel');
+        tripResetButton = document.getElementById('js-trip-reset');
     }
     else if(mode == 'no-map-mode'){
         soc = document.getElementById('js-battery-value-no-map');
@@ -69,6 +74,9 @@ function updateVariables(mode){
         bikeModeReverse = document.getElementById('js-bikemode-reverse-no-map');
         modeScroller = document.getElementById('js-mode-scroller-no-map');
         bikeModeStandby = document.getElementById('js-bikemode-standby-no-map');
+        odoDistance = document.getElementById('js-odo-travel-no-map');
+        tripDistance = document.getElementById('js-trip-travel-no-map');
+        tripResetButton = document.getElementById('js-trip-reset-no-map');
     }
 }
 
@@ -78,12 +86,12 @@ function updateSpeedPower(spd, power){
 
     speed.innerHTML = Math.round(spd);
 
-    if(spd > 1){
-        activateTripResetButton(false);
-    }
-    else{
-        activateTripResetButton(true);
-    }
+    // if(spd > 1){
+    //     activateTripResetButton(false);
+    // }
+    // else{
+    //     activateTripResetButton(true);
+    // }
 }
 
 // Function to update the bike mode in the dashboard
@@ -218,8 +226,6 @@ function updateSOC(socData, suste, thikka, babbal){
 }
 
 // Function to update the odometer and trip distances
-let odoDistance = document.getElementById('js-odo-travel');
-let tripDistance = document.getElementById('js-trip-travel');
 function updateDistances(odo, trip){
     odoDistance.innerHTML = odo;
     tripDistance.innerHTML = trip;

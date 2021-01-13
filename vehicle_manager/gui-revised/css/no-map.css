@@ -12,7 +12,7 @@
     display: flex;
     position: absolute;
     font-size: 96px;
-    top: 76%;
+    top: 80%;
     width: 100%;
     font-weight: 700;
 }
@@ -115,12 +115,26 @@
     position: absolute;
     bottom: 0;
 }
+.no-map-dash .travel-stats {
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    top: 92.5%;
+    bottom: 0.66%;
+    display: flex;
+    /* background: #FFFFFF; */
+    /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25); */
+    border-radius: 20px;
+    padding-left: 5%;
+    padding-right: 4%;
+    padding-top: 0.5%;
+}
 .p0-image{
     overflow: hidden;
     width: 100%;
     height: 40%;
     position: absolute;
-    top: 35%;
+    top: 40%;
     left: 10%;
     background-image: url('../images/p0-image.png');
     background-repeat: no-repeat;
@@ -130,7 +144,7 @@
     width: 80%;
     height: 15%;
     position: absolute;
-    top: 40%;
+    top: 42.5%;
     left: 20%;
     background-image: url('../images/p0-text.png');
     background-repeat: no-repeat;
@@ -146,4 +160,25 @@
     font-size: 64px;
     font-weight: 500;
     text-align: right;
+}
+
+.no-map-dash .travel__label{
+    font-size: 40px;
+}
+.no-map-dash .travel__value{
+    font-size: 40px;
+}
+
+.no-map-dash .travel__unit{
+    font-size: 40px;
+}
+
+.no-map-dash .trip-reset{
+    font-size: 35px;
+    min-height: 45px;
+}
+
+.no-map-dash .trip-reset > p {
+    margin: auto;
+    margin-top: 2.5%;
 }
