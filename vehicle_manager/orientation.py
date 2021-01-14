@@ -88,7 +88,8 @@ class Orientation():
         self.initializeConnection()
         self.tOrientation = None
         self.navigationMode = True
-        vehicleEvents.onNavigation += self.onNavigation
+        # vehicleEvents.onNavigation += self.onNavigation
+        vehicleEvents.bikeOnOff += self.onBikeOnOff
         self.onNavigationStart()
     def __del__(self):
         # GPS._counter = GPS._counter - 1
@@ -124,7 +125,7 @@ class Orientation():
                 Orientation.initialization = False
                 self.initializeConnection()
 
-    def onNavigation(self,request):
+    def onBikeOnOff(self,request):
         print('Orientation: Navigation Request: ',request)
         if(request):
             self.navigationMode = True

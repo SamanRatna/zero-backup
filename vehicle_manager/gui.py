@@ -10,7 +10,7 @@ from event_handler import *
 # from power_manager import *
 from api_handler import *
 from quectel import *
-from kalman_filter import *
+# from kalman_filter import *
 #Configure logger
 # logging.basicConfig(filemode='a')
 chargeLogger=logging.getLogger('event-logger')
@@ -130,11 +130,14 @@ def startGUIThread():
         print("Error: Unable to start the GUI thread.")
 
 def publishCurrentLocation(lat, lon):
-    data = [lat, lon, 'None']
-    eel.updateBearing(data)
+    data = [lat, lon]
+    eel.updateLocation(data)
 
-def publishHeading(data):
-    eel.updateBearing(data)
+def publishOrientationData(heading, roll, pitch):
+    eel.updateOrientation(heading,roll,pitch)
+
+# def publishHeading(data):
+#     eel.updateBearing(data)
 
 def requestForBluetoothPairingConfirmation(passkey):
     # print('Requesting for Bluetooth: ', passkey)
@@ -184,9 +187,6 @@ def getCurrentLocation(status):
     else:
         vehicleReadings.gpsLocation -= initializeLocation
     vehicleEvents.onNavigation(status)
-
-def publishOrientationData(heading, roll, pitch):
-    eel.updateOrientation(heading,roll,pitch)
 
 @eel.expose
 def startFastCharge(option):
@@ -304,7 +304,7 @@ vehicleReadings.packVoltage += publishPackVoltage
 vehicleEvents.onStandSwitch += publishStandState
 vehicleReadings.carbonOffset += publishCarbonOffset
 # vehicleReadings.gpsLocation += publishCurrentLocation
-vehicleReadings.heading += publishHeading
+# vehicleReadings.heading += publishHeading
 vehicleEvents.confirmBluetoothPairing += requestForBluetoothPairingConfirmation
 vehicleEvents.onBluetoothConnection += publishBluetoothConnectionStatus
 vehicleReadings.bleDevices += publishBluetoothDevices

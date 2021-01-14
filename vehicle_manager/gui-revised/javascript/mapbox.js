@@ -1,4 +1,5 @@
 let currentLocation = [];
+let mbBearing = null;
 let map;
 let geocoder;
 let destinationMarker, currentMarker;
@@ -14,17 +15,17 @@ startMap();
 /*
 Request for API Key from the backend
 */
-function startMap() {
-  console.log('Executing getKeyFunction');
-  eel.getAPIKey()(onAPIKeyResponse);
-}
-
-// dummy startMap function for UI development
 // function startMap() {
 //   console.log('Executing getKeyFunction');
-//   let key = "pk.eyJ1IjoieWF0cmkiLCJhIjoiY2swZzY1MDNqMDQ2ZzNubXo2emc4NHZwYiJ9.FtepvvGORqK03qJxFNvlEQ";
-//   onAPIKeyResponse(key)
+//   eel.getAPIKey()(onAPIKeyResponse);
 // }
+
+// dummy startMap function for UI development
+function startMap() {
+  console.log('Executing getKeyFunction');
+  let key = "pk.eyJ1IjoieWF0cmkiLCJhIjoiY2swZzY1MDNqMDQ2ZzNubXo2emc4NHZwYiJ9.FtepvvGORqK03qJxFNvlEQ";
+  onAPIKeyResponse(key)
+}
 
 /*
 On receiving API Key from the backend
@@ -479,9 +480,60 @@ function addMarkersToRoute(data){
     .addTo(map);
   });
 }
-eel.expose(updateBearing);
+// eel.expose(updateBearing);
 
-function updateBearing(data){
+// function updateBearing(data){
+//   if(data[1] != null && data[0] != null){
+//     currentLocation = [data[1], data[0]];
+//     // console.log(currentLocation);
+//     if(map === undefined || currentMarker === undefined){
+//       return;
+//     }
+//   }
+
+//   if('None' != data[2]){
+//     bearing = -data[2];
+//     currentMarker.setLngLat(currentLocation);
+//     // currentMarker.setRotation(bearing);
+//     map.easeTo({
+//         center: currentLocation,
+//         bearing: bearing,
+//         speed: 0.01,
+//         maxDuration: 1900,
+//         essential: true
+//     });
+//     // findManeuverPoint();
+//     // navigate();
+//   }
+//   else{
+//     currentMarker.setLngLat(currentLocation);
+//     map.easeTo({
+//         center: currentLocation,
+//         speed: 0.01,
+//         maxDuration: 1900,
+//         essential: true
+//     });
+//     // findManeuverPoint();
+//     // navigate();
+//   }
+// }
+
+function updateHeading(heading){
+  mbBearing = heading;
+  //mapbox
+  if(!isMapLoaded){
+    return;
+  }
+  map.easeTo({
+    bearing: mbBearing,
+    speed: 0.01,
+    maxDuration: 1900,
+    essential: true
+  });
+}
+eel.expose(updateLocation);
+function updateLocation(data){
+  console.log('GPS Data:'+data[0]+data[1])
   if(data[1] != null && data[0] != null){
     currentLocation = [data[1], data[0]];
     // console.log(currentLocation);
@@ -489,32 +541,31 @@ function updateBearing(data){
       return;
     }
   }
-
-  if('None' != data[2]){
-    bearing = -data[2];
-    currentMarker.setLngLat(currentLocation);
-    // currentMarker.setRotation(bearing);
+  if(!isMapLoaded){
+    return;
+  }
+  
+  currentMarker.setLngLat(currentLocation);
+  if(mbBearing != null){
     map.easeTo({
-        center: currentLocation,
-        bearing: bearing,
-        speed: 0.01,
-        maxDuration: 1900,
-        essential: true
+      center: currentLocation,
+      bearing: mbBearing,
+      speed: 0.01,
+      maxDuration: 1900,
+      essential: true
     });
-    // findManeuverPoint();
-    navigate();
   }
   else{
-    currentMarker.setLngLat(currentLocation);
     map.easeTo({
-        center: currentLocation,
-        speed: 0.01,
-        maxDuration: 1900,
-        essential: true
+      center: currentLocation,
+      speed: 0.01,
+      maxDuration: 1900,
+      essential: true
     });
-    // findManeuverPoint();
-    navigate();
   }
+
+  // findManeuverPoint();
+  // navigate();
 }
 
 function updateHeadingTest(headingData){
@@ -527,7 +578,7 @@ function updateHeadingTest(headingData){
     // currentMarker.setRotation(headingData-82);
     map.easeTo({
       // center: currentLocation,
-      bearing: -bearing,
+      bearing: -headingData,
       speed: 0.01,
       maxDuration: 1900,
       essential: true
@@ -629,6 +680,9 @@ function calculateDistanceToDestination(distanceToManeuver, closestManeuverIndex
 //   });
 // }
 
+// Function: switches the style of the map based on the input
+// Funtion: Draws the geojson line on the map for specific modes related to navigation
+// Input: Style to switch to i.e. dark or light
 function switchMapMode(layer) {
   if(layer == 'dark'){
     map.setStyle('mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh');
@@ -637,6 +691,7 @@ function switchMapMode(layer) {
     map.setStyle('mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb');
   }
 
+  // Draw route on the map if the mode is 'nav-info-mode' or 'navigation-mode'
   if(currentMode == 'nav-info-mode' || currentMode == 'navigation-mode'){
     console.log('Getting the Route.');
     map.on('styledata', function(){
@@ -645,6 +700,9 @@ function switchMapMode(layer) {
   }
 }
 
+// Draws a line on the map based on the input
+// Input: co-ordinates of the route
+// Global Variable Used: map
 function loadRoute(route){
   var geojson = {
     type: 'Feature',

@@ -212,6 +212,12 @@ function setMode(mode){
             currentMode = 'navigation-mode';
             startNavigation(true);
             break;
+        case 'no-map-mode':
+            setTripCardVisibility(false);
+            setRouteCardVisibility(false);
+            previousMode = currentMode;
+            currentMode = 'no-map-mode';
+            break;
         default:
             break;
     }

@@ -4,8 +4,8 @@ import time
 import can
 import random
 import os
-from gui import *
-from gpio_manager import GPIOWriter
+# from gui import *
+# from gpio_manager import GPIOWriter
 from event_handler import *
 from watchdog import Watchdog
 import subprocess
@@ -84,7 +84,7 @@ class CANHandler:
         LOG_FORMAT = ('%(asctime)s : %(name)s : %(levelname)s : %(message)s')
         self.canLogger=logging.getLogger("event_logger")
         self.canLogger.setLevel(logging.INFO)
-        # self.watchdog = Watchdog(30, self.watchdogHandler)
+        self.watchdog = Watchdog(30, self.watchdogHandler)
         #Handle FileNotFound error
         self.canLoggerHandler = logging.FileHandler('../logs/yatri.log')
         self.canLoggerHandler.setLevel(logging.INFO)
@@ -146,11 +146,13 @@ class CANHandler:
                             print('Turning bike on')
                             self.canLogger.info(++self.iterator, ': Turning display ON.')
                             vehicleEvents.bikeOn()
+                            vehicleEvents.bikeOnOff(True)
                         elif(command == 2):
                             #bike-off
                             print('Turning bike off')
                             self.canLogger.info(self.iterator, ': Turning display OFF.')
                             vehicleEvents.bikeOff()
+                            vehicleEvents.bikeOnOff(False)
                         # self.watchdog.reset()
 
                     # Motor Controller

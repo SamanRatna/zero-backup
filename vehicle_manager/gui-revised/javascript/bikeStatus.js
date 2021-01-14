@@ -24,6 +24,7 @@ let dashCard = document.getElementById('js-dash-card');
 let uiTheme = 'light';
 let uiMode = 'no-map-mode'
 
+let lastMapUIMode = 'normal-mode'
 function updateUIMode(mode){
     // console.log('Updating Map State: '+ true)
     uiMode = mode;
@@ -33,12 +34,15 @@ function updateUIMode(mode){
         mapPage.style.display = 'flex';
         setDashCardVisibility(true);
         moveNotificationCard('normal-mode');
+        setMode(lastMapUIMode);
     }
     else if(mode == 'no-map-mode'){
         noMapPage.style.display = 'flex';
         mapPage.style.display = 'none';
         setDashCardVisibility(false);
         moveNotificationCard('navigation-mode');
+        lastMapUIMode = currentMode;
+        setMode('no-map-mode');
     }
     updateNavigationToggle(mode);
 }
@@ -364,20 +368,40 @@ function requestTripReset(){
 // })
 
 function updateOrientation(heading, roll, pitch){
-    console.log(heading, roll, pitch);
-    if(pitch > 10 || pitch < -10){
-        document.getElementById('js-pitch-indicator').classList.add('pitch-dial-caution');
+    // console.log(heading, roll, pitch);
+    console.log('Heading: '+heading)
+    if(uiMode == 'no-map-mode'){ //go to map mode
+        if(pitch > 10 || pitch < -10){
+            document.getElementById('js-pitch-indicator').classList.add('pitch-dial-caution');
+        }
+        else{
+            document.getElementById('js-pitch-indicator').classList.remove('pitch-dial-caution');
+        }
+        pitch = pitch > 10 ? 10 : pitch < -10 ? -10 : pitch;
+        scaledPitch = pitch / 10 * 115;
+    
+        document.getElementById('js-roll-indicator').style.transform = 'rotate('+roll+'deg)';
+        document.getElementById('js-pitch-indicator').style.transform = 'translate(0px,'+ scaledPitch + 'px)';
+        document.getElementById('js-yaw-indicator').style.transform = 'rotate('+ heading + 'deg)';
     }
-    else{
-        document.getElementById('js-pitch-indicator').classList.remove('pitch-dial-caution');
+    else if(uiMode == 'map-mode'){ // go to no-map-mode
+        updateHeading(heading)
     }
-    pitch = pitch > 10 ? 10 : pitch < -10 ? -10 : pitch;
-    scaledPitch = pitch / 10 * 115;
 
-    document.getElementById('js-roll-indicator').style.transform = 'rotate('+roll+'deg)';
-    document.getElementById('js-pitch-indicator').style.transform = 'translate(0px,'+ scaledPitch + 'px)';
-    document.getElementById('js-yaw-indicator').style.transform = 'rotate('+ heading + 'deg)';
-    updateHeadingTest(heading);
+    // updateHeading(heading)
+    // if(pitch > 10 || pitch < -10){
+    //     document.getElementById('js-pitch-indicator').classList.add('pitch-dial-caution');
+    // }
+    // else{
+    //     document.getElementById('js-pitch-indicator').classList.remove('pitch-dial-caution');
+    // }
+    // pitch = pitch > 10 ? 10 : pitch < -10 ? -10 : pitch;
+    // scaledPitch = pitch / 10 * 115;
+
+    // document.getElementById('js-roll-indicator').style.transform = 'rotate('+roll+'deg)';
+    // document.getElementById('js-pitch-indicator').style.transform = 'translate(0px,'+ scaledPitch + 'px)';
+    // document.getElementById('js-yaw-indicator').style.transform = 'rotate('+ heading + 'deg)';
+    // updateHeadingTest(heading);
 }
 
 eel.expose(updateRiderInfo);
