@@ -91,6 +91,7 @@ function setSettingsCardVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-settings-page').style.display = 'flex';
         document.addEventListener('click', clickHandlerForSettingsPage);
+        eel.onSettingsPage()
     }
     else {
         document.getElementById('js-settings-page').style.display = 'none';
@@ -222,7 +223,7 @@ document.getElementById('js-dash-card-primary').addEventListener('click', functi
     setSettingsCardVisibility(true);
 });
 
-document.getElementById('js-no-map-dash').addEventListener('click', function(){
+document.getElementById('js-mode-indicator-no-map').addEventListener('click', function(){
     setSettingsCardVisibility(true);
 });
 

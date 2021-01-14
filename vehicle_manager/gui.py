@@ -216,6 +216,10 @@ def publishSWUpdate(message):
     eel.requestSWUpdateConfirmation(message)
 
 @eel.expose
+def onSettingsPage():
+    vehicleEvents.refreshSettingsData()
+
+@eel.expose
 def swupdateResponse(response):
     vehicleEvents.swupdateResponse(response)
 

@@ -327,12 +327,16 @@ function activateTripResetButton(activation){
         console.log('Activating Trip Reset Button.')
         document.getElementById('js-trip-reset').classList.remove('trip-reset-deactivated');
         document.getElementById('js-trip-reset').addEventListener('click', requestTripReset);
+        document.getElementById('js-trip-reset-no-map').classList.remove('trip-reset-deactivated');
+        document.getElementById('js-trip-reset-no-map').addEventListener('click', requestTripReset);
         tripResetState = true;
     }
     else if(activation == false && tripResetState == true){
         console.log('Deactivating Trip Reset Button.')
         document.getElementById('js-trip-reset').classList.add('trip-reset-deactivated');
         document.getElementById('js-trip-reset').removeEventListener('click', requestTripReset);
+        document.getElementById('js-trip-reset-no-map').classList.add('trip-reset-deactivated');
+        document.getElementById('js-trip-reset-no-map').removeEventListener('click', requestTripReset);
         tripResetState = false;
     }
 }

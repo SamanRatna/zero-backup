@@ -45,9 +45,11 @@ class Quectel():
                 return
     def subscribeToEvents(self):
         vehicleEvents.guiReady += self.onGUIReady
+        vehicleEvents.refreshSettingsData += self.onGUIReady
 
     def unsubscribeToEvents(self):
         vehicleEvents.guiReady -= self.onGUIReady
+        vehicleEvents.refreshSettingsData -= self.onGUIReady
 
     def __del__(self):
         if Quectel.atCommandPort != None:
@@ -141,16 +143,16 @@ class Quectel():
 
     def getBalance(self):
         name = 'CUSD'
-        # cmd = 'AT+CSCS="GSM"'
-        # self.send(cmd)
-        # response = self.getWriteResponse()
-        # print(response)
-        # time.sleep(1)
-        # cmd = 'AT+QURCCFG="urcport","usbat"'
-        # self.send(cmd)
-        # response = self.getWriteResponse()
-        # print('QURCCFQ write: ', response)
-        # time.sleep(1)
+        cmd = 'AT+CSCS="GSM"'
+        self.send(cmd)
+        response = self.getWriteResponse()
+        print(response)
+        time.sleep(1)
+        cmd = 'AT+QURCCFG="urcport","usbat"'
+        self.send(cmd)
+        response = self.getWriteResponse()
+        print('QURCCFQ write: ', response)
+        time.sleep(1)
         cmd = 'AT+CUSD=1,"*101#",15'
         self.send(cmd)
         response = self.getWriteResponse()
@@ -160,33 +162,50 @@ class Quectel():
         response = self.getInfo(name)
         balance = None
         print('CUSD response: ', response)
+        # if(response != None):
+        #     nameSplit = response.split(':')
+        #     balance = nameSplit[2].strip().strip('.')
+        #     print('Extracted Balance: ', balance)
         if(response != None):
-            nameSplit = response.split(':')
-            balance = nameSplit[2].strip().strip('.')
-            print(balance)
+            title = 'Balance:'
+            titleIndex = response.find(title)
+            # print('Extracted title index: ', titleIndex)
+            if(titleIndex != -1):
+                nameSplit = response.split(':')
+                balance = nameSplit[2].strip().strip('.')
+                print('Extracted Balance: ', balance)
         return balance
 
     def getPhoneNumber(self):
         name = 'CUSD'
-        # cmd = 'AT+CSCS="GSM"'
-        # self.send(cmd)
-        # response = self.getWriteResponse()
-        # print(response)
-        # time.sleep(1)
-        # cmd = 'AT+QURCCFG="urcport","usbat"'
-        # self.send(cmd)
-        # response = self.getWriteResponse()
-        # print('QURCCFQ write: ', response)
-        # time.sleep(1)
-        cmd = 'AT+CUSD=1,"*903#",15'
+        cmd = 'AT+CSCS="GSM"'
+        self.send(cmd)
+        response = self.getWriteResponse()
+        print(response)
+        time.sleep(1)
+        cmd = 'AT+QURCCFG="urcport","usbat"'
+        self.send(cmd)
+        response = self.getWriteResponse()
+        print('QURCCFQ write: ', response)
+        time.sleep(1)
+        cmd = 'AT+CUSD=1,"*103#",15'
         self.send(cmd)
         response = self.getWriteResponse()
         print('CUSD write: ', response)
 
         Quectel.atCommandPort.readline()
         response = self.getInfo(name)
-        balance = None
+        number = None
         print('CUSD response: ', response)
+        if(response != None):
+            title = 'Your number is '
+            titleIndex = response.find(title)
+            if(titleIndex != -1):
+                # print('Extracted Index: ', titleIndex + len(title))
+                numberIndex = titleIndex+len(title)
+                number = response[numberIndex:numberIndex+10]
+                print('Extracted phone number: ', number)
+        return number
 
     def onGUIReady(self):
         [simStatus, networkName] = self.getSimInfo()
@@ -194,6 +213,9 @@ class Quectel():
         balance = self.getBalance()
         if balance != None:
             vehicleReadings.network({'balance': balance})
+        number = self.getPhoneNumber()
+        if number != None:
+            vehicleReadings.network({'number': number})
         if self.gpsMgr != None:
             vehicleReadings.network({'gpsStatus': True})
         else:
