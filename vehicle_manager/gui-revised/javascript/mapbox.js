@@ -1,4 +1,5 @@
 let currentLocation = [];
+let destinationLocation =[];
 let mbBearing = null;
 let map;
 let geocoder;
@@ -157,7 +158,7 @@ function addListeners(){
     var coordsObj = e.result.geometry.coordinates;
     //   console.log(coordsObj);
     // canvas.style.cursor = '';
-  
+    destinationLocation = coordsObj;
     destinationMarker.setLngLat(coordsObj)
     .addTo(map);
 
@@ -199,7 +200,9 @@ function getRoute(end) {
     }
     maneuvers = json.routes[0].legs[0].steps;
     var data = json.routes[0];
-    addSummaryToPanel(data);
+    if(currentMode != 'navigation-mode'){
+      addSummaryToPanel(data);
+    }
     // traverseAllSteps(maneuvers);
     // addStepMarkers(maneuvers); //this will add markers to the steps (debug functionality)
     // findManeuverPoint(maneuvers);
@@ -263,6 +266,7 @@ function getRoute(end) {
 
     // updateRouteToBackend(json.routes[0].geometry.coordinates)
     updateRouteToBackend(json.routes[0]);
+    resetCurrentStep(); //it's important to call this function before calling navigate() for a new route
     navigate();
     startNavigation(true);
   };
@@ -350,6 +354,9 @@ function findCurrentStep(){
 }
 
 let _currentStep = -2;
+function resetCurrentStep(){
+  _currentStep = -2;
+}
 function navigate(){
   let steps = navigationRoute.routes[0].legs[0].steps;
   let currentStep = findCurrentStep();
@@ -563,7 +570,14 @@ function updateLocation(data){
       essential: true
     });
   }
-
+  let tCurrentLocation = turf.point(currentLocation);
+  let contains = turf.booleanContains(tRouteBuffer, tCurrentLocation);
+  if(!contains){
+    // console.log('Off Route Detected');
+    offRouteDetection(true);
+  } else {
+    offRouteDetection(false);
+  }
   // findManeuverPoint();
   // navigate();
 }
@@ -700,6 +714,8 @@ function switchMapMode(layer) {
   }
 }
 
+let tRouteLineString;
+let tRouteBuffer;
 // Draws a line on the map based on the input
 // Input: co-ordinates of the route
 // Global Variable Used: map
@@ -742,4 +758,62 @@ function loadRoute(route){
     });
     map.getSource('route').setData(geojson);
   }
+
+  tRouteLineString = turf.lineString(route);
+  tRouteBuffer = turf.buffer(tRouteLineString, 0.075, {units: 'kilometers'});
+
+  if (map.getSource('routeBuffer')){
+    map.getSource('routeBuffer').setData(tRouteBuffer);
+  }else{
+    map.addLayer({
+      "id": "routeBuffer",
+      "type": "fill",
+      "source": {
+        "type": "geojson",
+        "data": tRouteBuffer
+      },
+      "layout": {},
+      "paint": {
+        "fill-color": '#d9d838',
+        "fill-opacity": 0.3
+      }
+    });
+  }
 }
+
+let offRouteCountDown = 5;
+function offRouteDetection(state){
+  if(state){
+    offRouteCountDown -= 1;
+    if(offRouteCountDown <= 0){
+      console.log('Vehicle is going off route!!!');
+      displayRerouteSuggestion(true);
+    }
+  }
+  else{
+    offRouteCountDown = 5;
+    displayRerouteSuggestion(false);
+  }
+}
+
+let rerouteSuggestionState = null;
+displayRerouteSuggestion(false);
+function displayRerouteSuggestion(state){
+  if(state == rerouteSuggestionState){
+    return;
+  }
+  if(state){
+    document.getElementById('js-off-route').style.display = 'flex';
+    rerouteSuggestionState = true;
+  } else{
+    document.getElementById('js-off-route').style.display = 'none';
+    rerouteSuggestionState = false;
+  }
+}
+
+document.getElementById('js-off-route').addEventListener('click', function(){
+  if(currentMode == 'nav-info-mode' || currentMode == 'navigation-mode'){
+    console.log('Rerouting.');
+    getRoute(destinationLocation);
+  }
+});
