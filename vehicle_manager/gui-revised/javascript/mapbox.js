@@ -762,23 +762,25 @@ function loadRoute(route){
   tRouteLineString = turf.lineString(route);
   tRouteBuffer = turf.buffer(tRouteLineString, 0.075, {units: 'kilometers'});
 
-  if (map.getSource('routeBuffer')){
-    map.getSource('routeBuffer').setData(tRouteBuffer);
-  }else{
-    map.addLayer({
-      "id": "routeBuffer",
-      "type": "fill",
-      "source": {
-        "type": "geojson",
-        "data": tRouteBuffer
-      },
-      "layout": {},
-      "paint": {
-        "fill-color": '#d9d838',
-        "fill-opacity": 0.3
-      }
-    });
-  }
+  // Development only: visualize the route buffer zone
+
+  // if (map.getSource('routeBuffer')){
+  //   map.getSource('routeBuffer').setData(tRouteBuffer);
+  // }else{
+  //   map.addLayer({
+  //     "id": "routeBuffer",
+  //     "type": "fill",
+  //     "source": {
+  //       "type": "geojson",
+  //       "data": tRouteBuffer
+  //     },
+  //     "layout": {},
+  //     "paint": {
+  //       "fill-color": '#d9d838',
+  //       "fill-opacity": 0.3
+  //     }
+  //   });
+  // }
 }
 
 let offRouteCountDown = 5;
