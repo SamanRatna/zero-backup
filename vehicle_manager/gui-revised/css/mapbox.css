@@ -146,6 +146,7 @@
 .mapboxgl-ctrl-attrib-inner{
   pointer-events: none;
   font-size: 40px;
+  transform: translateY(12px);
 }
 
 .mapboxgl-popup-content {
@@ -189,4 +190,8 @@
 .mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon {
   background-image: url(../icons/map-north-red.svg);
 
+}
+
+.mapboxgl-ctrl-logo {
+  transform: scale(3) translateX(30px) translateY(-80px);
 }

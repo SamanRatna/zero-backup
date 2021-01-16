@@ -50,9 +50,12 @@ function setDashCardVisibility(visibility){
     console.log('Setting Dash Card Visibility: ', visibility);
     if(visibility == true){
         document.getElementById('js-dash-card').style.display = 'flex';
+        document.getElementsByClassName('mapboxgl-ctrl-logo')[0].style.transform = 'scale(3) translateX(30px) translateY(-80px)';
     }
     else{
         document.getElementById('js-dash-card').style.display = 'none';
+        document.getElementsByClassName('mapboxgl-ctrl-logo')[0].style.transform = 'scale(3) translateX(30px) translateY(-7px)';
+
     }
 }
 
