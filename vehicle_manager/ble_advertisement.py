@@ -366,8 +366,12 @@ def startAdvertisement():
             print('LEAdvertisingManager1 interface not found')
             return
         find_devices(bus)
+
         adapter_props = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter),
                                        "org.freedesktop.DBus.Properties");
+
+        value = adapter_props.Get("org.bluez.Adapter1", "Powered")
+        print('Adapter Powered Value:',value)
 
         adapter_props.Set("org.bluez.Adapter1", "Powered", dbus.Boolean(1))
 
