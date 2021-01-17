@@ -26,8 +26,9 @@ import sys
 import time
 from event_handler import *
 import json
-from Adafruit_BNO055 import BNO055
-ORIENTATION_DATA_PORT = '/dev/serial0'
+# from Adafruit_BNO055 import BNO055
+from BNO055_library import BNO055
+# ORIENTATION_DATA_PORT = '/dev/serial0'
 RESET_PIN = 18
 
 class Orientation():
@@ -53,7 +54,8 @@ class Orientation():
             try:
                 Orientation.attempts += 1
                 print('Orientation Sensor initialization attempt: ', Orientation.attempts)
-                Orientation.dataPort = BNO055.BNO055(serial_port=ORIENTATION_DATA_PORT, rst=RESET_PIN)
+                # Orientation.dataPort = BNO055.BNO055(serial_port=ORIENTATION_DATA_PORT, rst=RESET_PIN)
+                Orientation.dataPort = BNO055(rst=RESET_PIN)
                 # Initialize the BNO055 and stop if something went wrong.
                 if not Orientation.dataPort.begin():
                     raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
@@ -188,4 +190,3 @@ class Orientation():
 
 if __name__ == "__main__":
     orientation = Orientation.getInstance()
-    vehicleEvents.onNavigation(True)
