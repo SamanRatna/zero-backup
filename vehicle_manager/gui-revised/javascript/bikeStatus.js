@@ -29,6 +29,12 @@ function updateUIMode(mode){
     // console.log('Updating Map State: '+ true)
     uiMode = mode;
     updateVariables(mode);
+
+    // sync data
+    updateBikeMode(currentBikeMode);
+    updateSOC(currentSOC, currentSusteRange);
+    updateDistances(currentOdoReading, currentTripReading);
+
     if(mode == 'map-mode'){
         noMapPage.style.display = 'none';
         mapPage.style.display = 'flex';
@@ -168,41 +174,46 @@ function updateBikeMode(mode){
     // }
     switch(currentBikeMode){
         case 'MODE_STANDBY':
-            bikeModeStandby.classList.toggle(bikeModeActiveIndicator);
+            bikeModeStandby.classList.remove(bikeModeActiveIndicator);
             break;
         case 'MODE_SUSTE':
-            bikeModeSuste.classList.toggle(bikeModeActiveIndicator);
+            bikeModeSuste.classList.remove(bikeModeActiveIndicator);
             break;        
         case 'MODE_THIKKA':
-            bikeModeThikka.classList.toggle(bikeModeActiveIndicator);
+            bikeModeThikka.classList.remove(bikeModeActiveIndicator);
             break;
         case 'MODE_BABBAL':
-            bikeModeBabbal.classList.toggle(bikeModeActiveIndicator);
+            bikeModeBabbal.classList.remove(bikeModeActiveIndicator);
             break;
         case 'MODE_REVERSE':
-            bikeModeReverse.classList.toggle(bikeModeActiveIndicator);
+            bikeModeReverse.classList.remove(bikeModeActiveIndicator);
             break;
     }
     switch(mode){
+        case 'MODE_REVERSE':
+            // currentBikeMode = 'MODE_REVERSE'
+            bikeModeReverse.classList.add(bikeModeActiveIndicator);
+            modeScroller.style.marginTop = '0%';
+            break;
         case 'MODE_STANDBY':
-            bikeModeStandby.classList.toggle(bikeModeActiveIndicator);
+            // currentBikeMode = 'MODE_STANDBY'
+            bikeModeStandby.classList.add(bikeModeActiveIndicator);
             modeScroller.style.marginTop = '-25%';
             break;
         case 'MODE_SUSTE':
-            bikeModeSuste.classList.toggle(bikeModeActiveIndicator);
+            // currentBikeMode = 'MODE_SUSTE'
+            bikeModeSuste.classList.add(bikeModeActiveIndicator);
             modeScroller.style.marginTop = '-50%';
             break;        
         case 'MODE_THIKKA':
-            bikeModeThikka.classList.toggle(bikeModeActiveIndicator);
+            // currentBikeMode = 'MODE_THIKKA'
+            bikeModeThikka.classList.add(bikeModeActiveIndicator);
             modeScroller.style.marginTop = '-80%';
             break;
         case 'MODE_BABBAL':
-            bikeModeBabbal.classList.toggle(bikeModeActiveIndicator);
+            // currentBikeMode = 'MODE_BABBAL'
+            bikeModeBabbal.classList.add(bikeModeActiveIndicator);
             modeScroller.style.marginTop = '-105%';
-            break;
-        case 'MODE_REVERSE':
-            bikeModeReverse.classList.toggle(bikeModeActiveIndicator);
-            modeScroller.style.marginTop = '0%';
             break;
     }
     currentBikeMode = mode;
@@ -219,12 +230,14 @@ function updateBikeMode(mode){
 
 
 // Function to update the battery level in the dashboard
+let currentSOC = 0;
+let currentSusteRange = 0;
 function updateSOC(socData, suste, thikka, babbal){
     // console.log('SOC received: '+socData + ' '+suste)
     if(socData > 100){
         return;
     }
-
+    currentSOC = socData;
     soc.innerHTML = socData + '%';
     batteryLevel.style.height = socData + '%';
 
@@ -234,12 +247,18 @@ function updateSOC(socData, suste, thikka, babbal){
     else{
         batteryCap.style.background = 'rgba(48, 213, 200, 0.4)';
     }
-
-    range.innerHTML = suste;
+    if(suste){
+        currentSusteRange = suste;
+        range.innerHTML = suste;
+    }
 }
 
 // Function to update the odometer and trip distances
+let currentOdoReading = 0;
+let currentTripReading = 0;
 function updateDistances(odo, trip){
+    currentOdoReading = odo;
+    currentTripReading = trip;
     odoDistance.innerHTML = odo;
     tripDistance.innerHTML = trip;
 }
@@ -253,16 +272,10 @@ let lowBeamSignal = document.getElementById('js-low-beam');
 let signalInactive = 'signal-box-light';
 function updateTurnSignal(turnSignal){
     switch(turnSignal){
-        case 0:
+        case 1:
             rightTurnSignal.classList.add(signalInactive);
             leftTurnSignal.classList.add(signalInactive);
             rightTurnSignal.classList.remove('turn-signal-active');
-            leftTurnSignal.classList.remove('turn-signal-active');
-            break;
-        case 1:
-            rightTurnSignal.classList.remove(signalInactive);
-            leftTurnSignal.classList.add(signalInactive);
-            rightTurnSignal.classList.add('turn-signal-active');
             leftTurnSignal.classList.remove('turn-signal-active');
             break;
         case 2:
@@ -272,6 +285,12 @@ function updateTurnSignal(turnSignal){
             leftTurnSignal.classList.add('turn-signal-active');
             break;
         case 3:
+            rightTurnSignal.classList.remove(signalInactive);
+            leftTurnSignal.classList.add(signalInactive);
+            rightTurnSignal.classList.add('turn-signal-active');
+            leftTurnSignal.classList.remove('turn-signal-active');
+            break;
+        case 4:
             rightTurnSignal.classList.remove(signalInactive);
             leftTurnSignal.classList.remove(signalInactive);
             rightTurnSignal.classList.add('turn-signal-active');
@@ -282,32 +301,42 @@ function updateTurnSignal(turnSignal){
 // Function to update the turn signals
 // headlight signal format (lowBeamStatus, highBeamStatus)
 function updateHeadlightSignal(headlightSignal){
+    console.log('Head Light State: '+headlightSignal);
     switch(headlightSignal){
-        case 0:
+        case 1:
+            lowBeamSignal.classList.add(signalInactive);
+            highBeamSignal.classList.add(signalInactive);
             lowBeamSignal.classList.remove('low-beam-active');
             highBeamSignal.classList.remove('high-beam-active');
             break;
-        case 1:
-            lowBeamSignal.classList.remove('low-beam-active');
-            highBeamSignal.classList.add('high-beam-active');
-            break;
         case 2:
+            lowBeamSignal.classList.remove(signalInactive);
+            highBeamSignal.classList.add(signalInactive);
             lowBeamSignal.classList.add('low-beam-active');
             highBeamSignal.classList.remove('high-beam-active');
             break;
         case 3:
-            lowBeamSignal.classList.add('low-beam-active');
+        case 4:
+            lowBeamSignal.classList.add(signalInactive);
+            highBeamSignal.classList.remove(signalInactive);
+            lowBeamSignal.classList.remove('low-beam-active');
             highBeamSignal.classList.add('high-beam-active');
             break;
+
+            // lowBeamSignal.classList.remove(signalInactive);
+            // highBeamSignal.classList.remove(signalInactive);
+            // lowBeamSignal.classList.add('low-beam-active');
+            // highBeamSignal.classList.add('high-beam-active');
+            // break;
     }
 }
 
 // Function to update the kick stand state
 function updateStandState(standState){
-    if(standState){
+    if(standState == 1){
         setKickstandSignalVisibility(true);
     }
-    else{
+    else if(standState == 2){
         setKickstandSignalVisibility(false);
     }
 }
@@ -369,7 +398,7 @@ function requestTripReset(){
 
 function updateOrientation(heading, roll, pitch){
     // console.log(heading, roll, pitch);
-    console.log('Heading: '+heading)
+    // console.log('Heading: '+heading)
     if(uiMode == 'no-map-mode'){ //go to map mode
         if(pitch > 10 || pitch < -10){
             document.getElementById('js-pitch-indicator').classList.add('pitch-dial-caution');

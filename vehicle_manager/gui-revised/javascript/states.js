@@ -50,12 +50,15 @@ function setDashCardVisibility(visibility){
     console.log('Setting Dash Card Visibility: ', visibility);
     if(visibility == true){
         document.getElementById('js-dash-card').style.display = 'flex';
-        document.getElementsByClassName('mapboxgl-ctrl-logo')[0].style.transform = 'scale(3) translateX(30px) translateY(-80px)';
+        if(document.getElementsByClassName('mapboxgl-ctrl-logo')[0]){
+            document.getElementsByClassName('mapboxgl-ctrl-logo')[0].style.transform = 'scale(3) translateX(30px) translateY(-80px)';
+        }
     }
     else{
         document.getElementById('js-dash-card').style.display = 'none';
-        document.getElementsByClassName('mapboxgl-ctrl-logo')[0].style.transform = 'scale(3) translateX(30px) translateY(-7px)';
-
+        if(document.getElementsByClassName('mapboxgl-ctrl-logo')[0]){
+            document.getElementsByClassName('mapboxgl-ctrl-logo')[0].style.transform = 'scale(3) translateX(30px) translateY(-7px)';
+        }
     }
 }
 
@@ -82,10 +85,14 @@ function setRouteCardVisibility(visibility){
 // function to view or hide the geocoder
 function setGeocoderVisibility(visibility){
     if(visibility == true){
-        document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].style.display = 'block';
+        if(document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0]){
+            document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].style.display = 'block';
+        }
     }
     else{
-        document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].style.display = 'none';
+        if(document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0]){
+            document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].style.display = 'none';
+        }
     }
 }
 
@@ -310,7 +317,7 @@ function switchUITheme(){
     }
 
     document.getElementById('js-dash-page').classList.toggle('dark');
-    updateBikeMode(currentBikeMode);
+    // updateBikeMode(currentBikeMode);
     document.getElementById('js-light-signal').classList.toggle('dark-signal');
     document.getElementById('js-settings-area').classList.toggle('dark');
 

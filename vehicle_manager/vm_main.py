@@ -3,7 +3,7 @@ from event_handler import *
 from gpio_manager import *
 # from state_manager import StateManager
 # from tail_light_controller import TailLightController
-# from vmgr_compute import *
+from vmgr_compute import *
 from power_manager import *
 from carbon_offset import CarbonOffsetCalculator
 from quectel import *
@@ -18,6 +18,8 @@ from gps import *
 from orientation import Orientation
 from sw_update import *
 from ble_adapter import *
+from rider_info import *
+from time_sync import *
 
 # import signal
 
@@ -50,21 +52,26 @@ def threadDiscovery():
     time.sleep(8)
     setDiscovery(True)
 
+def threadOrientation():
+    orientation = Orientation.getInstance()
+
+def threadCANHandler():
+    cany = CANHandler()
+
 def threadVehicleManager():
     startGUIThread()
-    # quectel = Quectel.getInstance()
-    # if(quectel != None):
-    #     gpsMgr = GPS(quectel)
+    quectel = Quectel.getInstance()
+
     # stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
     # tlContoller = TailLightController(GPIOWriter.getInstance())
-    # powerManager = PowerManager()
+    powerManager = PowerManager()
     # gpioReader = GPIOReader.getInstance()
     # gpioWriter = GPIOWriter.getInstance()
-    # vmgrComputer = VehicleInfoCalculator()
-    # carbonOffsetCalculator = CarbonOffsetCalculator()
-    # orientation = Orientation.getInstance()
+    vmgrComputer = VehicleInfoCalculator()
+    carbonOffsetCalculator = CarbonOffsetCalculator()
+    orientation = Orientation.getInstance()
     # cany = CANHandler(GPIOWriter.getInstance())
-    cany = CANHandler()
+    # cany = CANHandler()
 
 def threadSWUpdate():
     swupdate()
@@ -75,9 +82,13 @@ if __name__ == '__main__':
         tAdvertisement = threading.Thread(target = threadAdvertisement)
         tServer = threading.Thread(target = threadServer)
         tVmgr = threading.Thread(target = threadVehicleManager)
+        tOrientation = threading.Thread(target = threadOrientation)
+        tCAN = threading.Thread(target = threadCANHandler)
         tSWUpdate = threading.Thread(target=threadSWUpdate)
         tDiscovery = threading.Thread(target=threadDiscovery)
         tVmgr.start()
+        tCAN.start()
+        # tOrientation.start()
         # print('After VMGR: number of current threads is ', threading.active_count())
         tAgent.start()
         # print('After Agent: number of current threads is ', threading.active_count())

@@ -81,7 +81,19 @@ function updateBatteryTemperature(value) {
     tBattery = value;
     temperatureChart.update();
 }
-
+eel.expose(updateVCUTemperature);
+function updateVCUTemperature(uc, power) {
+    // console.log('Unit is Celsius: '+tUnitIsCelsius);
+    if(!tUnitIsCelsius){
+        uc = uc * 9/5 +32;
+        power = power * 9/5 +32
+    }
+    temperatureChart.data.datasets[0].data[1] = power;
+    tECU = power;
+    temperatureChart.data.datasets[0].data[3] = uc;
+    tAmbient = uc;
+    temperatureChart.update();
+}
 eel.expose(updateMotorTemperature);
 function updateMotorTemperature(motorTemp, controllerTemp){
     if(!tUnitIsCelsius){
@@ -102,7 +114,8 @@ function changeUnitsToFarenheit(toFarenheit){
     } else {
         tUnitIsCelsius = !toFarenheit;
     }
-    tUnitIsCelsius = false
+    // console.log('Unit is Celsius: '+tUnitIsCelsius);
+
     if(toFarenheit){
         if(tController != null){
             tController = tController * 9/5 +32;
@@ -131,27 +144,32 @@ function changeUnitsToFarenheit(toFarenheit){
             temperatureChart.data.datasets[0].data[0] = tController;
         }
         if(tECU != null){
-            tECU = (tController -32)*5/9;
+            tECU = (tECU -32)*5/9;
             temperatureChart.data.datasets[0].data[1] = tECU;
         }
         if(tBattery != null){
-            tBattery = (tController -32)*5/9;
+            tBattery = (tBattery -32)*5/9;
             temperatureChart.data.datasets[0].data[2] = tBattery;
         }
         if(tAmbient != null){
-            tAmbient = (tController -32)*5/9;
+            tAmbient = (tAmbient -32)*5/9;
             temperatureChart.data.datasets[0].data[3] = tAmbient;
         }
         if(tMotor != null){
-            tMotor = (tController -32)*5/9;
+            tMotor = (tMotor -32)*5/9;
             temperatureChart.data.datasets[0].data[4] = tMotor;
         }
     }
 
     temperatureChart.update();
+    // printTemperatures();
 }
 
 // function changeControllerTemperature(value){
 //     carbonChart.data.datasets[0].data[0] = value;
 //     carbonChart.update();
+// }
+
+// function printTemperatures(){
+//     console.log('ECU Temperature: '+tECU);
 // }

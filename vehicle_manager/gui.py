@@ -39,9 +39,18 @@ def startGUI():
     startGUI()
 
 def publishBikeMode(mode):
-    # global bikeMode
-    eel.updateBikeMode(mode.name)
-    # bikeMode = mode.name
+    bikeMode = 'None'
+    if(mode == 1):
+        bikeMode = 'MODE_REVERSE'
+    elif(mode == 2):
+        bikeMode = 'MODE_STANDBY'
+    elif(mode == 3):
+        bikeMode = 'MODE_SUSTE'
+    elif(mode == 4):
+        bikeMode = 'MODE_THIKKA'
+    elif(mode == 5):
+        bikeMode = 'MODE_BABBAL'
+    eel.updateBikeMode(bikeMode)
 
 # def publishLeftTurnStatus(status):
 #     if status==True:
@@ -55,8 +64,11 @@ def publishBikeMode(mode):
 #     else:
 #         eel.updateRightTurnStatus(0)
 
-# def publishSideLightStatus(status):
-#     eel.updateSideLight(status)
+def publishSideLightStatus(status):
+    eel.updateTurnSignal(status)
+
+def publishHeadLightStatus(status):
+    eel.updateHeadlightSignal(status)
 
 # def publishBeamStatus(status):
 #     eel.updateBeam(status.name)
@@ -107,7 +119,8 @@ def publishBatteryTemperature(temp):
 def publishMotorTemperature(motorTemp, controllerTemp):
     eel.updateMotorTemperature(motorTemp, controllerTemp)
     # print('Motor Temperature: ', str(temp))
-
+def publishVCUTemperature(uc, power):
+    eel.updateVCUTemperature(uc, power)
 # def publishControllerTemperature(temp):
 #     eel.updateControllerTemperature(temp)
     # print('Controller Temperature: ', str(temp))
@@ -299,6 +312,8 @@ vehicleReadings.distances += publishDistances
 vehicleEvents.bluetoothStatus += publishBluetoothStatus
 vehicleReadings.batteryTemperature += publishBatteryTemperature
 vehicleReadings.motorTemperature += publishMotorTemperature
+vehicleReadings.vcuTemperature += publishVCUTemperature
+
 # vehicleReadings.controllerTemperature += publishControllerTemperature
 vehicleReadings.packVoltage += publishPackVoltage
 vehicleEvents.onStandSwitch += publishStandState
@@ -315,6 +330,8 @@ vehicleReadings.orientation += publishOrientationData
 vehicleEvents.bluetoothName += publishBluetoothName
 vehicleReadings.fuelSavings += publishFuelSavings
 vehicleReadings.riderInfo += publishRiderInfo
+vehicleEvents.onSideLight += publishSideLightStatus
+vehicleEvents.onHeadLight += publishHeadLightStatus
 # ########### For development only ########### #
 def publishSpeed(speed):
     eel.updateSpeedPower(speed, speed)

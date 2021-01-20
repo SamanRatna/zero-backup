@@ -28,6 +28,7 @@ from event_handler import *
 import json
 from Adafruit_BNO055 import BNO055
 ORIENTATION_DATA_PORT = '/dev/ttyAMA1'
+
 RESET_PIN = 18
 
 class Orientation():
@@ -107,20 +108,20 @@ class Orientation():
                 calibrationData = Orientation.dataPort.get_calibration()
                 # Print everything out.
                 print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
-                      heading, roll, pitch, sys, gyro, accel, mag))
-                print(calibrationData)
+                      heading, roll, pitch-180, sys, gyro, accel, mag))
+                # print(calibrationData)
                 heading = round(heading, 2)
                 roll = round(roll, 2)
                 pitch = round(pitch, 2)
-                if(sys == 3 and mag==3 and gyro==3 and accel==3 and Orientation.calibrationStatus==False):
-                    #save data to json
-                    Orientation.calibrationStatus = True
-                    self.saveCalibrationData(calibrationData)
-                else:
-                    Orientation.calibrationStatus = False
+                # if(sys == 3 and mag==3 and gyro==3 and accel==3 and Orientation.calibrationStatus==False):
+                #     #save data to json
+                #     Orientation.calibrationStatus = True
+                #     self.saveCalibrationData(calibrationData)
+                # else:
+                    # Orientation.calibrationStatus = False
 
                 if(mag>=2):
-                    vehicleReadings.orientation(heading, roll, pitch)
+                    vehicleReadings.orientation(heading-90, -pitch, -roll)
                 time.sleep(0.2)
             except:
                 Orientation.initialization = False

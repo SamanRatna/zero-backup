@@ -25,7 +25,7 @@ AH_ON_FULL_SOH = 90
 class CANHandler:
     # def __init__(self, _gpioWriter):
     def __init__(self):
-        subprocess.call('sudo ifconfig can0 up', shell=True)
+        # subprocess.call('sudo ifconfig can0 up', shell=True)
         # self.gpioWriter = _gpioWriter
         #Parameters
         self.iterator               = 0
@@ -43,6 +43,7 @@ class CANHandler:
         self.maxTorque              = 0     # Newton-meter
         self.actualTorque           = 0     # Newton-meter
         self.batteryTemperature     = 0     # Celsius
+        self.vcuTemperature         = 0
         self.motorTemp              = 0     # Celsius
         self.driveMode              = 0
         self.odometer               = 0     # km
@@ -84,7 +85,7 @@ class CANHandler:
         LOG_FORMAT = ('%(asctime)s : %(name)s : %(levelname)s : %(message)s')
         self.canLogger=logging.getLogger("event_logger")
         self.canLogger.setLevel(logging.INFO)
-        self.watchdog = Watchdog(30, self.watchdogHandler)
+        # self.watchdog = Watchdog(30, self.watchdogHandler)
         #Handle FileNotFound error
         self.canLoggerHandler = logging.FileHandler('../logs/yatri.log')
         self.canLoggerHandler.setLevel(logging.INFO)
@@ -240,7 +241,68 @@ class CANHandler:
                         if(isCharging != self.isCharging):
                             self.isCharging = isCharging
                             vehicleEvents.charging(self.isCharging)
-
+                    # VCU
+                    if message.arbitration_id == 0x1E00103:
+                        data=message.data
+                        if(data[0] == 0x5):
+                            if(data[1] == 0x1):
+                                # ignition off
+                                print('Turning bike off')
+                                vehicleEvents.bikeOff()
+                                vehicleEvents.bikeOnOff(False)
+                            elif(data[1] == 0x2):
+                                # ignition on
+                                print('Turning bike on')
+                                vehicleEvents.bikeOn()
+                                vehicleEvents.bikeOnOff(True)
+                        
+                        if(data[0] == 0x1):
+                            vehicleEvents.onSideLight(data[1])
+                            # if(data[1] == 0x1):
+                            #     # no side lights
+                            # elif(data[2] == 0x2):
+                            #     # left side light
+                            # elif(data[3] == 0x3):
+                            #     # right side light
+                            # elif(data[4] == 0x4):
+                            #     # both side lights
+                        
+                        elif(data[0] == 0x2):
+                            vehicleEvents.onHeadLight(data[1])
+                            # if(data[1] == 0x1):
+                            #     # low beam
+                            # elif(data[1] == 0x1):
+                            #     # high beam
+                        
+                        elif(data[0] == 0x3):
+                            vehicleReadings.bikeMode(data[1])
+                            # if(data[1] == 0x1):
+                            #     # reverse mode
+                            # elif(data[1] == 0x2):
+                            #     # standby mode
+                            # elif(data[1] == 0x3):
+                            #     # suste mode
+                            # elif(data[1] == 0x4):
+                            #     # thikka mode
+                            # elif(data[1] == 0x5):
+                            #     # babbal mode
+                        
+                        elif(data[0] == 0x4):
+                            vehicleEvents.onStandSwitch(data[1])
+                            # if(data[1] == 0x1):
+                            #     # stand being used
+                            # elif(data[1] == 0x2):
+                            #     # stand no being used
+                    if message.arbitration_id == 0x1E00100:
+                        data=message.data
+                        vehicleReadings.time(data)
+                    if message.arbitration_id == 0x1E00102:
+                        data=message.data
+                        vehicleReadings.adxl(data)
+                    
+                    if message.arbitration_id == 0x1E00101:
+                        data = message.data
+                        vehicleReadings.vcuTemperature(data[1], data[0])
                     #Lith-Tech Battery
                     if message.arbitration_id == 284693918:
                         data = message.data
@@ -647,21 +709,21 @@ class CANHandler:
     #         self.bus.send(frame)
     #         time.sleep(0.1)
 
-    def pushFastData(self):
-        while True:
-            time.sleep(0.2)
-            publishSpeedPower(self.bikeSpeed, self.power)
-            # publishChargingStatus(self.chargingStatus, self.chargingCurrent, self.timeToCharge)
-            #self.startFastCharge()
+    # def pushFastData(self):
+    #     while True:
+    #         time.sleep(0.2)
+    #         publishSpeedPower(self.bikeSpeed, self.power)
+    #         # publishChargingStatus(self.chargingStatus, self.chargingCurrent, self.timeToCharge)
+    #         #self.startFastCharge()
 
-    def pushSlowData(self):
-        while True:
-            self.calculateRange()
-            publishSOC(self.stateOfCharge, self.rangeSuste, self.rangeThikka, self.rangeBabbal)
-            #self.stateOfCharge = 55
-            # print('SOC: ', self.stateOfCharge)
-            # self.gpioWriter.setSOC(self.stateOfCharge)
-            time.sleep(1)
+    # def pushSlowData(self):
+    #     while True:
+    #         self.calculateRange()
+    #         publishSOC(self.stateOfCharge, self.rangeSuste, self.rangeThikka, self.rangeBabbal)
+    #         #self.stateOfCharge = 55
+    #         # print('SOC: ', self.stateOfCharge)
+    #         # self.gpioWriter.setSOC(self.stateOfCharge)
+    #         time.sleep(1)
     
     def logData(self):
         while True:
@@ -675,10 +737,10 @@ class CANHandler:
         self.tExtractCANData.start()
         self.tRequestFrames = threading.Thread(target=self.requestCANFrames)
         # self.tRequestFrames.start()
-        self.tPushFastData = threading.Thread(target=self.pushFastData)
-        self.tPushFastData.start()
-        self.tPushSlowData = threading.Thread(target=self.pushSlowData)
-        self.tPushSlowData.start()
+        # self.tPushFastData = threading.Thread(target=self.pushFastData)
+        # self.tPushFastData.start()
+        # self.tPushSlowData = threading.Thread(target=self.pushSlowData)
+        # self.tPushSlowData.start()
         self.tPrintData = threading.Thread(target=self.printData)
         # self.tPrintData.start()
         self.tLogData = threading.Thread(target = self.logData)
