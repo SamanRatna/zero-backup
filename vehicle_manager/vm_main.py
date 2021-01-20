@@ -19,7 +19,7 @@ from orientation import Orientation
 from sw_update import *
 from ble_adapter import *
 from rider_info import *
-from time_sync import *
+# from time_sync import *
 
 # import signal
 
