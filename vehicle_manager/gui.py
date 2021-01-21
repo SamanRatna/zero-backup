@@ -303,6 +303,10 @@ def publishFuelSavings(data):
 def publishRiderInfo(info):
     eel.updateRiderInfo(info)
 
+@eel.expose
+def fetchRiderInfo():
+    vehicleEvents.fetchRiderInfo()
+
 vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.tripMaxSpeed += publishTripMaxSpeed

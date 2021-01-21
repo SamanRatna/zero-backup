@@ -450,3 +450,42 @@ eel.expose(updateTripMaxSpeed);
 function updateTripMaxSpeed(speed){
     document.getElementById('js-trip-max-speed').innerHTML = speed;
 }
+
+
+// rider info
+let count = 0;
+let elements = new Map();
+document.getElementById('js-rider-info').addEventListener('click', function (event) {
+  let countdown;
+  function reset () {
+    count = 0;
+    countdown = null;
+  }
+  count++;
+  if (count === 5) {
+    if (!elements.has(event.target)) {
+      elements.set(event.target, 1);
+    } else {
+      let currentCount = elements.get(event.target);
+      currentCount++;
+      elements.set(event.target, currentCount);
+    }
+    let fiveClick = new CustomEvent('fiveClicks', {
+      bubbles: true,
+      detail: {
+        numberOfFiveClicks: elements.get(event.target)
+      }
+    });
+    event.target.dispatchEvent(fiveClick);
+    reset();
+  }
+  if (!countdown) {
+    countdown = window.setTimeout(function () {
+      reset();
+    }, 1500);
+  }
+});
+document.getElementById('js-rider-info').addEventListener('fiveClicks', function (event) {
+    eel.fetch_bikeInfo();
+    console.log('This element has been five-clicked', event.detail.numberOfFiveClicks, 'times');
+});

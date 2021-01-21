@@ -4,8 +4,8 @@ let mbBearing = null;
 let map;
 let geocoder;
 let destinationMarker, currentMarker;
-const initialZoomLevel = 18;
-const navigationZoomLevel = 20;
+const initialZoomLevel = 17;
+const navigationZoomLevel = 18;
 const navigationPitch = 0;
 let maneuvers;
 let destinationName;
@@ -265,8 +265,7 @@ function getRoute(end) {
     map.fitBounds(bounds, { padding: 100 });
     // fit the route in the view :  end
 
-    // updateRouteToBackend(json.routes[0].geometry.coordinates)
-    updateRouteToBackend(json.routes[0]);
+    // updateRouteToBackend(json.routes[0]);
     resetCurrentStep(); //it's important to call this function before calling navigate() for a new route
     navigate();
     startNavigation(true);
@@ -350,18 +349,23 @@ function findCurrentStep(){
   let closestPoint = findClosestStepOffset(closestStep);
   console.log('Closest Step: ' + closestStep + ' : Closest Point: '+closestPoint)
   let currentStep = closestStep + closestPoint;
-
+  // if(closestPoint > -1){
+  //   map.setLngLat(navigationRoute.routes[0].legs[0].steps[currentStep].geometry.coordinates[closestPoint]);
+  // }
   return currentStep;
 }
 
 let _currentStep = -2;
+let _currentStepOffset = -2;
 function resetCurrentStep(){
   _currentStep = -2;
+}
+function resetCurrentStepOffset(){
+  _currentStepOffset = -2;
 }
 function navigate(){
   let steps = navigationRoute.routes[0].legs[0].steps;
   let currentStep = findCurrentStep();
-  map.setBearing(steps[currentStep].maneuver.bearing_after);
   let upcompingStep = currentStep + 1;
   distanceToManeuver = calculateDistanceToManeuver(steps[upcompingStep]);
   distanceToDestination = calculateDistanceToDestination(distanceToManeuver, upcompingStep, steps);
@@ -549,9 +553,10 @@ function updateHeading(heading){
 // map.on('rotate', function() {
 //   map.getBearing() + 
 //   });
+let dataCounter = 0;
 eel.expose(updateLocation);
 function updateLocation(data){
-  console.log('GPS Data:'+data[0]+data[1])
+  // console.log('GPS Data:'+data[0]+data[1])
   if(data[1] != null && data[0] != null){
     currentLocation = [data[1], data[0]];
     // console.log(currentLocation);
@@ -564,23 +569,33 @@ function updateLocation(data){
   }
   
   currentMarker.setLngLat(currentLocation);
-  if(mbBearing != null){
+  dataCounter = (dataCounter + 1) % 7;
+  if(dataCounter == 0){
+    // console.log('Centering map.')
     map.easeTo({
       center: currentLocation,
-      bearing: mbBearing,
-      speed: 0.01,
-      maxDuration: 1900,
-      essential: true
+      // speed: 0.01,
+      // maxDuration: 1900,
+      // essential: true
     });
   }
-  else{
-    map.easeTo({
-      center: currentLocation,
-      speed: 0.01,
-      maxDuration: 1900,
-      essential: true
-    });
-  }
+  // if(mbBearing != null){
+  //   map.easeTo({
+  //     center: currentLocation,
+  //     // bearing: mbBearing,
+  //     // speed: 0.01,
+  //     // maxDuration: 1900,
+  //     // essential: true
+  //   });
+  // }
+  // else{
+  //   map.easeTo({
+  //     center: currentLocation,
+  //     // speed: 0.01,
+  //     // maxDuration: 1900,
+  //     // essential: true
+  //   });
+  // }
   let tCurrentLocation = turf.point(currentLocation);
   let contains = turf.booleanContains(tRouteBuffer, tCurrentLocation);
   if(!contains){
