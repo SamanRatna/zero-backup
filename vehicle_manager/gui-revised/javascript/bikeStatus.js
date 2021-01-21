@@ -486,6 +486,6 @@ document.getElementById('js-rider-info').addEventListener('click', function (eve
   }
 });
 document.getElementById('js-rider-info').addEventListener('fiveClicks', function (event) {
-    eel.fetch_bikeInfo();
+    eel.fetchRiderInfo();
     console.log('This element has been five-clicked', event.detail.numberOfFiveClicks, 'times');
 });
