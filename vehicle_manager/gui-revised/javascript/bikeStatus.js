@@ -2,7 +2,7 @@
 let soc = document.getElementById('js-battery-value-no-map');
 let batteryLevel = document.getElementById('js-battery-level-no-map');
 let batteryCap = document.getElementById('js-battery-cap-no-map');
-let range = document.getElementById('js-range-no-map');
+let range = document.getElementById('js-range-value-no-map');
 let speed = document.getElementById('js-speed-value-no-map');
 
 let currentBikeMode = 'MODE_STANDBY'
@@ -87,7 +87,7 @@ function updateVariables(mode){
         soc = document.getElementById('js-battery-value-no-map');
         batteryLevel = document.getElementById('js-battery-level-no-map');
         batteryCap = document.getElementById('js-battery-cap-no-map');
-        range = document.getElementById('js-range-no-map');
+        range = document.getElementById('js-range-value-no-map');
         speed = document.getElementById('js-speed-value-no-map');
         time = document.getElementById('js-time-no-map');
         bikeModeSuste = document.getElementById('js-bikemode-suste-no-map');
@@ -261,7 +261,12 @@ function updateSOC(socData, suste, thikka, babbal){
     }
     if(suste){
         currentSusteRange = suste;
-        range.innerHTML = suste;
+        if(uiMode == 'map-mode'){
+            range.innerHTML = suste;
+        }
+        else if(uiMode =='no-map-mode'){
+            range.innerHTML = suste + 'km';
+        }
     }
 }
 

@@ -74,8 +74,22 @@
     line-height: 70%;
     display: flex;
 }
+.no-map-dash .range-indicator__value{
+    height: 20%;
+    width: 100%;
+    font-style: normal;
+    font-weight: 600;
+    
+    text-align: center;
+    font-size: 70px;
+    line-height: 70%;
+    display: flex;
+}
 
 .no-map-dash .battery-indicator__value > p {
+    margin: auto;
+}
+.no-map-dash .range-indicator__value > p {
     margin: auto;
 }
 

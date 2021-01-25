@@ -348,3 +348,19 @@ function switchUITheme(){
         document.getElementsByClassName('route__summary')[0].classList.toggle('dark');
     }
 }
+
+let isRange = false;
+function switchBatteryRange(){
+    if(isRange){
+        document.getElementById('js-range-value-box-no-map').style.display = 'none';
+        document.getElementById('js-battery-value-box-no-map').style.display = 'flex';
+        isRange = false;
+    }else{
+        document.getElementById('js-battery-value-box-no-map').style.display = 'none';
+        document.getElementById('js-range-value-box-no-map').style.display = 'flex';
+        isRange = true;
+    }
+}
+document.getElementById('js-battery-indicator-no-map').addEventListener('click', function(){
+    switchBatteryRange();
+});
