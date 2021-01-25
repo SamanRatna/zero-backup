@@ -217,6 +217,18 @@ function updateNetworkInfo(info){
         }
         toProcessing('js-gps-toggle', false);
     }
+
+    if('internetConnectivity' in info){
+        console.log('Internet Connectivity Checked.')
+        let internetStatus = info['internetConnectivity'];
+        onInternetConnectivity(internetStatus);
+        if(internetStatus == true){
+            document.getElementById('js-internet-status').innerHTML = 'Available';
+        }
+        else{
+            document.getElementById('js-internet-status').innerHTML = 'Unavailable';
+        }
+    }
 }
 
 // network on-off toggle
@@ -263,12 +275,13 @@ function updateBluetoothName(name){
 
 let navigationModeToggle = document.getElementById('js-navigation-mode-toggle');
 navigationModeToggle.addEventListener('click', function(){
-    if(uiMode == 'no-map-mode'){ //go to map mode
-        updateUIMode('map-mode');
-    }
-    else if(uiMode == 'map-mode'){ // go to no-map-mode
-        updateUIMode('no-map-mode');
-    }
+    // if(uiMode == 'no-map-mode'){ //go to map mode
+    //     updateUIMode('map-mode');
+    // }
+    // else if(uiMode == 'map-mode'){ // go to no-map-mode
+    //     updateUIMode('no-map-mode');
+    // }
+    switchUIMode();
 });
 
 function updateNavigationToggle(mode){

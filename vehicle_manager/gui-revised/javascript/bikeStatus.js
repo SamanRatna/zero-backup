@@ -25,8 +25,19 @@ let uiTheme = 'light';
 let uiMode = 'no-map-mode'
 
 let lastMapUIMode = 'normal-mode'
+let waitingForMapMode = false;
+function switchUIMode(){
+    if(uiMode == 'no-map-mode'){
+        waitingForMapMode = true;
+        loadMapbox();
+    }
+    else if(uiMode == 'map-mode'){
+        updateUIMode('no-map-mode');
+    }
+}
 function updateUIMode(mode){
     // console.log('Updating Map State: '+ true)
+
     uiMode = mode;
     updateVariables(mode);
 
@@ -36,6 +47,7 @@ function updateUIMode(mode){
     updateDistances(currentOdoReading, currentTripReading);
 
     if(mode == 'map-mode'){
+        waitingForMapMode = false;
         noMapPage.style.display = 'none';
         mapPage.style.display = 'flex';
         setDashCardVisibility(true);

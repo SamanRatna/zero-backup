@@ -11,7 +11,7 @@ let maneuvers;
 let destinationName;
 let distanceToDestination = Infinity;
 let isMapLoaded = false;
-startMap();
+// startMap();
 
 /*
 Request for API Key from the backend

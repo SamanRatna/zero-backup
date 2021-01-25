@@ -23,16 +23,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <!-- Mapbox GL JS -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
+    <!-- <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" /> -->
     <!-- Geocoder -->
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' /> -->
     <!-- Directions -->
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.css' type='text/css' />
+    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.css' type='text/css' /> -->
 
-    <link rel="stylesheet" type="text/css" href="css/mapbox.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/mapbox.css"> -->
     <link rel="stylesheet" type="text/css" href='css/simple-keyboard.css'>
     <link rel="stylesheet" type="text/css" href='css/simple-keyboard-dark.css'>
     <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -483,6 +483,10 @@
                                     <div class='bluetooth-text-title'>Network</div>
                                     <div class='bluetooth-text-value'>: &nbsp; &nbsp;<span id='js-network-status'>Disabled</span></div>
                                 </div>
+                                <div class='bluetooth-text'>
+                                    <div class='bluetooth-text-title'>Internet</div>
+                                    <div class='bluetooth-text-value'>: &nbsp; &nbsp;<span id='js-internet-status'>Unavailable</span></div>
+                                </div>
                                 <!-- <div class='bluetooth-text'>
                                     <div class='bluetooth-text-title'>GPS</div>
                                     <div class='bluetooth-text-value'>: &nbsp; &nbsp;<span id='js-gps-status'>Disabled</span></div>
@@ -539,7 +543,7 @@
 <script type="text/javascript" src="/eel.js"></script>
 <script src="dependencies/simple-keyboard.js"></script>
 <script src='dependencies/chart.js'></script>
-
+<script src='javascript/loadMapbox.js'></script>
 <script src='javascript/bikeStatus.js'></script>
 <script src='javascript/states.js'></script>
 <script src='javascript/keyboard.js'></script>
@@ -550,7 +554,7 @@
 <script src='javascript/infograph.js'></script>
 <script src='javascript/backend.js'></script>
 <script src='dependencies/turf.min.js'></script>
-<script src='javascript/mapbox.js'></script>
+<!-- <script src='javascript/mapbox.js'></script> -->
 
 <!-- JavaScripts v4 end -->
 

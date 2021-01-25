@@ -307,6 +307,10 @@ def publishRiderInfo(info):
 def fetchRiderInfo():
     vehicleEvents.fetchRiderInfo()
 
+@eel.expose
+def checkInternetConnectivity():
+    vehicleEvents.checkInternetConnectivity()
+
 vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.tripMaxSpeed += publishTripMaxSpeed

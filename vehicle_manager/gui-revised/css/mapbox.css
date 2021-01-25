@@ -1,5 +1,5 @@
 .mapboxgl-ctrl-top-left .mapboxgl-ctrl {
-    margin: 60px 0 0 38px;
+    margin: 60px 0 0 38px !important;
 }
 .mapboxgl-ctrl-geocoder--icon-search {
     left: 23px;
@@ -174,8 +174,8 @@
 .mapboxgl-ctrl.mapboxgl-ctrl-group {
   margin: 10px 10px 0 0;
   float: right;
-  margin-top: 500px;
-  margin-right: 40px;
+  margin-top: 500px !important;
+  margin-right: 40px !important;
   min-width: 75px;
   min-height: 75px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
@@ -188,10 +188,14 @@
 }
 
 .mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon {
-  background-image: url(../icons/map-north-red.svg);
+  background-image: url(../icons/map-north-red.svg) !important;
 
 }
 
 .mapboxgl-ctrl-logo {
   transform: scale(3) translateX(30px) translateY(-80px);
+}
+
+.mapboxgl-ctrl.mapboxgl-ctrl-attrib{
+  min-height: 40px !important;
 }
