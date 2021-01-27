@@ -45,6 +45,7 @@ function updateUIMode(mode){
     updateBikeMode(currentBikeMode);
     updateSOC(currentSOC, currentSusteRange);
     updateDistances(currentOdoReading, currentTripReading);
+    updateTime();
 
     if(mode == 'map-mode'){
         waitingForMapMode = false;

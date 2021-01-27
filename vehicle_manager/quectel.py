@@ -216,10 +216,10 @@ class Quectel():
         number = self.getPhoneNumber()
         if number != None:
             vehicleReadings.network({'number': number})
-        if self.gpsMgr != None:
-            vehicleReadings.network({'gpsStatus': True})
-        else:
-            vehicleReadings.network({'gpsStatus': False})
+        # if self.gpsMgr != None:
+        #     vehicleReadings.network({'gpsStatus': True})
+        # else:
+        #     vehicleReadings.network({'gpsStatus': False})
 if __name__ == "__main__":
     quectel = Quectel()
     quectel.test()

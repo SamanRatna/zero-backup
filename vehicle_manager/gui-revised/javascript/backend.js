@@ -1,5 +1,5 @@
 
-eel.expose(requestSWUpdateConfirmation);
+// eel.expose(requestSWUpdateConfirmation);
 eel.expose(updateSpeedPower);
 eel.expose(updateSOC)
 eel.expose(updateBikeMode);
@@ -24,7 +24,7 @@ eel.expose(updateBluetoothName);
 // eel.initCarbonOffset();
 
 function updateRouteToBackend(route){
-  // eel.updateRoute(route);
+  eel.updateRoute(route);
 }
 function initiateTripReset(){
   eel.resetTripData()

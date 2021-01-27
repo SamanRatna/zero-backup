@@ -175,6 +175,8 @@ class GPS():
             GPS.gpsState = GPSStates.STRMNG
             self.tGPS = threading.Thread(target = self.startGPSStreaming)
             self.tGPS.start()
+        elif(GPS.gpsState != GPSStates.READY):
+            print(self,': GPS not ready.')
         elif(request==False):
             print(self, ': About to stop GPS Thread')
             GPS.gpsState = GPSStates.READY
