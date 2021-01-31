@@ -3,6 +3,11 @@ const mapboxScript_2 = document.createElement('script');
 const mapboxScript_3 = document.createElement('script');
 const mapboxScript_4 = document.createElement('script');
 
+let isLoaded_Script1 = false;
+let isLoaded_Script2 = false;
+let isLoaded_Script3 = false;
+let isLoaded_Script4 = false;
+
 mapboxScript_1.src = 'https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'
 mapboxScript_1.id = 'mapboxScript_1'
 
@@ -16,18 +21,22 @@ mapboxScript_4.src = 'javascript/mapbox.js'
 mapboxScript_4.id = 'mapboxScript_4'
 
 mapboxScript_1.addEventListener('load', function() {
+    isLoaded_Script1 = true;
     loadMapboxScript_2();
 });
 
 mapboxScript_2.addEventListener('load', function() {
+    isLoaded_Script2 = true;
     loadMapboxScript_3();
 });
 
 mapboxScript_3.addEventListener('load', function() {
+    isLoaded_Script3 = true;
     loadMapboxScript_4();
 });
 
 mapboxScript_4.addEventListener('load', function() {
+    isLoaded_Script4 = true;
     startMap();
     updateUIMode('map-mode');
 });
@@ -54,13 +63,13 @@ function loadMapbox(){
 }
 
 function onInternetConnectivity(status){
-    console.log(status, waitingForMapMode);
+    // console.log(status, waitingForMapMode);
     if(status == true && waitingForMapMode==true){
         loadMapboxScript_1();
     }
 }
 function loadMapboxScript_1(){
-    if(! document.getElementById(mapboxScript_1)){
+    if(!isLoaded_Script1){
         document.head.appendChild(mapboxLink_1);
         document.head.appendChild(mapboxScript_1);
     }
@@ -69,7 +78,7 @@ function loadMapboxScript_1(){
     }
 }
 function loadMapboxScript_2(){
-    if(! document.getElementById(mapboxScript_2)){
+    if(!isLoaded_Script2){
         document.head.appendChild(mapboxLink_2);
         document.head.appendChild(mapboxScript_2);
     }
@@ -78,7 +87,7 @@ function loadMapboxScript_2(){
     }
 }
 function loadMapboxScript_3(){
-    if(! document.getElementById(mapboxScript_3)){
+    if(!isLoaded_Script3){
         document.head.appendChild(mapboxLink_3);
         document.head.appendChild(mapboxScript_3);
     }
@@ -87,7 +96,7 @@ function loadMapboxScript_3(){
     }
 }
 function loadMapboxScript_4(){
-    if(! document.getElementById(mapboxScript_4)){
+    if(!isLoaded_Script4){
         document.head.appendChild(mapboxLink_4);
         document.head.appendChild(mapboxScript_4);
     }

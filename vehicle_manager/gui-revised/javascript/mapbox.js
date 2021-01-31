@@ -23,6 +23,9 @@ Request for API Key from the backend
 
 // dummy startMap function for UI development
 function startMap() {
+  if(isMapLoaded){
+    return;
+  }
   console.log('Executing getKeyFunction');
   let key = "pk.eyJ1IjoieWF0cmkiLCJhIjoiY2swZzY1MDNqMDQ2ZzNubXo2emc4NHZwYiJ9.FtepvvGORqK03qJxFNvlEQ";
   onAPIKeyResponse(key)
