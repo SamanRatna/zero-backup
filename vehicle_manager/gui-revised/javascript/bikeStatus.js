@@ -30,6 +30,7 @@ let lastMapUIMode = 'normal-mode'
 // set this to false after switching to map-mode has completed
 let waitingForMapMode = false;
 function switchUIMode(){
+    resetBikeMode();
     if(uiMode == 'no-map-mode'){
         waitingForMapMode = true;
         loadMapbox();
@@ -127,6 +128,25 @@ function updateSpeedPower(spd, power){
 
 // Function to update the bike mode in the dashboard
 let bikeModeActiveIndicator = 'mode-indicator-active';
+function resetBikeMode(){
+    switch(currentBikeMode){
+        case 'MODE_STANDBY':
+            bikeModeStandby.classList.remove(bikeModeActiveIndicator);
+            break;
+        case 'MODE_SUSTE':
+            bikeModeSuste.classList.remove(bikeModeActiveIndicator);
+            break;
+        case 'MODE_THIKKA':
+            bikeModeThikka.classList.remove(bikeModeActiveIndicator);
+            break;
+        case 'MODE_BABBAL':
+            bikeModeBabbal.classList.remove(bikeModeActiveIndicator);
+            break;
+        case 'MODE_REVERSE':
+            bikeModeReverse.classList.remove(bikeModeActiveIndicator);
+            break;
+    }
+}
 function updateBikeMode(mode){
     console.log('Updating Bike Mode To: ' + mode)
     console.log(bikeModeActiveIndicator);
