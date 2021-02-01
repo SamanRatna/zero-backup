@@ -11,6 +11,8 @@ let maneuvers;
 let destinationName;
 let distanceToDestination = Infinity;
 let isMapLoaded = false;
+
+const RANGE_ON_FULL_AH = 180;
 // startMap();
 
 /*
@@ -198,7 +200,7 @@ function getRoute(end) {
   req.onload = function() {
     var json = JSON.parse(req.response);
     navigationRoute = json;
-    console.log(json);
+    console.log(navigationRoute);
     if(json.code.toLowerCase() != 'ok'){
       return;
     }
@@ -279,6 +281,7 @@ function getRoute(end) {
 function addSummaryToPanel(route){
   let content = route.distance;
   let distance = Infinity;
+  let estimatedStateOfCharge = 0;
   if(content > 999){
     distance = content / 1000;
     document.getElementById('js-trip-distance').innerHTML = distance.toFixed(1);
@@ -293,6 +296,16 @@ function addSummaryToPanel(route){
   }
   document.getElementById('js-route-destination').innerHTML = 'To: '+ destinationName;
 
+  // update trip start SOC
+  document.getElementById('js-trip-start-soc').innerHTML = currentSOC +'%';
+
+  // update trip end soc
+  if(currentSusteRange - content/1000 > 0){
+    estimatedStateOfCharge = (currentSusteRange - content/1000) *10000 / (RANGE_ON_FULL_AH * currentSOH);
+    console.log('EstimatedStateOfCharge: ', estimatedStateOfCharge);
+  }
+  document.getElementById('js-trip-end-soc').innerHTML = Math.round(estimatedStateOfCharge) +'%';
+  
   setMode('nav-info-mode');
 }
 

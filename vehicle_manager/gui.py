@@ -76,8 +76,8 @@ def publishHeadLightStatus(status):
 def publishSpeedPower(speed, power):
     eel.updateSpeedPower(int(speed), round(power))
 
-def publishSOC(soc, rangeSuste, rangeThikka, rangeBabbal):
-    eel.updateSOC(math.floor(soc), math.floor(rangeSuste), math.floor(rangeThikka), math.floor(rangeBabbal))
+def publishSOC(soc, soh,rangeSuste, rangeThikka, rangeBabbal):
+    eel.updateSOC(math.floor(soc), math.floor(soh), rangeSuste, rangeThikka, rangeBabbal)
 
 def publishChargingStatus(status, current, timeToCharge):
     # eel.updateChargingStatus(status, current, timeToCharge)

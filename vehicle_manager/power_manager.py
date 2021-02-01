@@ -67,7 +67,7 @@ class PowerManager():
         print('Chromium Killed')
         print('Bike is On.')
 
-    def batteryStatus(self, soc, rangeSuste, rangeThikka, rangeBabbal):
+    def batteryStatus(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
         self.stateOfCharge = soc
         if(self.isCharging):
             if(self.stateOfCharge - self.lastChargeUpdate >= 5):

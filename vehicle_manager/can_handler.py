@@ -209,7 +209,7 @@ class CANHandler:
                             estimatedRange = round(RANGE_ON_FULL_AH * (soc * soh / (100*100)), 1)
                             self.rangeSuste = estimatedRange
                             print('Estimated Range: ', estimatedRange, 'km')
-                            vehicleReadings.socRange(soc, estimatedRange, estimatedRange, estimatedRange)
+                            vehicleReadings.socRange(soc, soh, estimatedRange, estimatedRange, estimatedRange)
 
                         self.stateOfCharge = soc
 

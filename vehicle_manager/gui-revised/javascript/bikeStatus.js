@@ -36,7 +36,6 @@ function switchUIMode(){
     }
     else if(uiMode == 'map-mode'){
         // if navigation is going on, cancel it
-        console.log('Current Mode is: '+currentMode);
         if(currentMode == 'nav-info-mode' || currentMode == 'navigation-mode'){
             startNavigation(false);
             setMode('normal-mode');
@@ -253,13 +252,15 @@ function updateBikeMode(mode){
 
 // Function to update the battery level in the dashboard
 let currentSOC = 0;
+let currentSOH = 100;
 let currentSusteRange = 0;
-function updateSOC(socData, suste, thikka, babbal){
+function updateSOC(socData, sohData, suste, thikka, babbal){
     // console.log('SOC received: '+socData + ' '+suste)
     if(socData > 100){
         return;
     }
     currentSOC = socData;
+    currentSOH = sohData;
     soc.innerHTML = socData + '%';
     batteryLevel.style.height = socData + '%';
 
@@ -272,10 +273,10 @@ function updateSOC(socData, suste, thikka, babbal){
     if(suste){
         currentSusteRange = suste;
         if(uiMode == 'map-mode'){
-            range.innerHTML = suste;
+            range.innerHTML = Math.round(suste);
         }
         else if(uiMode =='no-map-mode'){
-            range.innerHTML = suste + 'km';
+            range.innerHTML = Math.round(suste) + 'km';
         }
     }
 }
