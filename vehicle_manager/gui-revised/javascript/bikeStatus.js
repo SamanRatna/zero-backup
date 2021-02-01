@@ -25,6 +25,9 @@ let uiTheme = 'light';
 let uiMode = 'no-map-mode'
 
 let lastMapUIMode = 'normal-mode'
+
+// set this to true when switching from non-map mode to map-mode
+// set this to false after switching to map-mode has completed
 let waitingForMapMode = false;
 function switchUIMode(){
     if(uiMode == 'no-map-mode'){
@@ -32,6 +35,12 @@ function switchUIMode(){
         loadMapbox();
     }
     else if(uiMode == 'map-mode'){
+        // if navigation is going on, cancel it
+        console.log('Current Mode is: '+currentMode);
+        if(currentMode == 'nav-info-mode' || currentMode == 'navigation-mode'){
+            startNavigation(false);
+            setMode('normal-mode');
+        }
         updateUIMode('no-map-mode');
     }
 }
