@@ -66,6 +66,8 @@ function onInternetConnectivity(status){
     // console.log(status, waitingForMapMode);
     if(status == true && waitingForMapMode==true){
         loadMapboxScript_1();
+    } else if(status == false){
+        waitingForMapMode = false;
     }
 }
 function loadMapboxScript_1(){

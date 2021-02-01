@@ -30,7 +30,6 @@ let lastMapUIMode = 'normal-mode'
 // set this to false after switching to map-mode has completed
 let waitingForMapMode = false;
 function switchUIMode(){
-    resetBikeMode();
     if(uiMode == 'no-map-mode'){
         waitingForMapMode = true;
         loadMapbox();
@@ -48,6 +47,7 @@ function updateUIMode(mode){
     // console.log('Updating Map State: '+ true)
 
     uiMode = mode;
+    resetBikeMode();
     updateVariables(mode);
 
     // sync data
