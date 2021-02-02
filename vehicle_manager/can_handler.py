@@ -106,6 +106,7 @@ class CANHandler:
 
         #self.canLogger.addHandler(handler)
         #Start CAN
+        vehicleEvents.autoOff += self.onAutoOff
         self.startCAN()
         # vehicleEvents.onBLEReady += self.onBLEReady
         vehicleEvents.bluetoothStatus += self.onBluetoothStatusChange
@@ -670,6 +671,11 @@ class CANHandler:
                         data=message.data
                         #new_data = [data[0], data[2], data[1], data[4], data[3], data[6], data[5], data[7]]
                         self.canLogger.debug('Charging Command')
+
+    def onAutoOff(self, request):
+        if(request == True):
+            frame = can.Message(arbitration_id=0x1D00100, data=[1], extended_id=True)
+            self.bus.send(frame)
 
     def requestCANFrames(self):
         while True:

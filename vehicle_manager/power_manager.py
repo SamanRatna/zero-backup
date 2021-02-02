@@ -44,13 +44,16 @@ class PowerManager():
     
     def poweroff(self):
         print('User inactive.')
-        vehicleEvents.onUserInactivity(0)
+        vehicleEvents.autoOff(True)
+        self.onBikeOff()
 
     def standMonitor(self, state):
         if(state == 1):
-            self.inactivityTimer.start()
-        elif (state == 0):
-            self.inactivityTimer.cancel()
+            if(not self.inactivityTimer.isAlive()):
+                self.inactivityTimer.start()
+        elif (state == 2):
+            if(self.inactivityTimer.isAlive()):
+                self.inactivityTimer.cancel()
 
     def uiMonitor(self, state):
         if(self.standState == 1 and state == 1):
@@ -59,12 +62,10 @@ class PowerManager():
 
     def onBikeOff(self):
         subprocess.call('vcgencmd display_power 0', shell=True)
-        print('X Started.')
         print('Bike is Off.')
 
     def onBikeOn(self):
         subprocess.call('vcgencmd display_power 1', shell=True)
-        print('Chromium Killed')
         print('Bike is On.')
 
     def batteryStatus(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
