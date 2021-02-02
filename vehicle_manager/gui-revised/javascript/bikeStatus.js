@@ -346,11 +346,39 @@ function updateTurnSignal(turnSignal){
             break;
     }
 }
-// Function to update the turn signals
-// headlight signal format (lowBeamStatus, highBeamStatus)
-function updateHeadlightSignal(headlightSignal){
-    console.log('Head Light State: '+headlightSignal);
-    switch(headlightSignal){
+// Function to update the headlight signals
+let lowbeamState = false;
+let highbeamState = false;
+let headlightState = 1;
+function updateHeadlightSignal(light, signal){
+    console.log('Head Light State: '+signal);
+    if(light == 1){ // low beam
+        if(signal == 1){ // off
+            lowbeamState = false;
+        }
+        else if(signal == 2){ // on
+            lowbeamState = true;
+        }
+    }
+    else if(light == 2){ // high beam
+        if(signal == 1){ // off
+            highbeamState = false;
+        }
+        else if(signal == 2){ // on
+            highbeamState = true;
+        }
+    }
+
+    if(highbeamState){
+        headlightState = 3;
+    }
+    else if(lowbeamState){
+        headlightState = 2;
+    }
+    else{
+        headlightState = 1;
+    }
+    switch(headlightState){
         case 1:
             lowBeamSignal.classList.add(signalInactive);
             highBeamSignal.classList.add(signalInactive);
@@ -364,18 +392,11 @@ function updateHeadlightSignal(headlightSignal){
             highBeamSignal.classList.remove('high-beam-active');
             break;
         case 3:
-        case 4:
             lowBeamSignal.classList.add(signalInactive);
             highBeamSignal.classList.remove(signalInactive);
             lowBeamSignal.classList.remove('low-beam-active');
             highBeamSignal.classList.add('high-beam-active');
             break;
-
-            // lowBeamSignal.classList.remove(signalInactive);
-            // highBeamSignal.classList.remove(signalInactive);
-            // lowBeamSignal.classList.add('low-beam-active');
-            // highBeamSignal.classList.add('high-beam-active');
-            // break;
     }
 }
 
@@ -541,8 +562,8 @@ document.getElementById('js-rider-info').addEventListener('fiveClicks', function
 eel.expose(updateBikeOnOffStatus);
 function updateBikeOnOffStatus(state){
     if(state == true){  // if bike is turning ON
-        document.body.style.pointerEvents = 'none';
-    }else{  // if bike is turning OFF
         document.body.style.pointerEvents = 'auto';
+    }else{  // if bike is turning OFF
+        document.body.style.pointerEvents = 'none';
     }
 }

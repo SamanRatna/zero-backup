@@ -67,8 +67,8 @@ def publishBikeMode(mode):
 def publishSideLightStatus(status):
     eel.updateTurnSignal(status)
 
-def publishHeadLightStatus(status):
-    eel.updateHeadlightSignal(status)
+def publishHeadLightStatus(light, status):
+    eel.updateHeadlightSignal(light, status)
 
 # def publishBeamStatus(status):
 #     eel.updateBeam(status.name)
@@ -343,6 +343,7 @@ vehicleReadings.fuelSavings += publishFuelSavings
 vehicleReadings.riderInfo += publishRiderInfo
 vehicleEvents.onSideLight += publishSideLightStatus
 vehicleEvents.onHeadLight += publishHeadLightStatus
+
 vehicleEvents.bikeOnOff += publishBikeOnOffStatus
 # ########### For development only ########### #
 def publishSpeed(speed):

@@ -245,7 +245,7 @@ class CANHandler:
                     # VCU
                     if message.arbitration_id == 0x1E00103:
                         data=message.data
-                        if(data[0] == 0x5):
+                        if(data[0] == 0x6):
                             if(data[1] == 0x1):
                                 # ignition off
                                 print('Turning bike off')
@@ -268,14 +268,12 @@ class CANHandler:
                             # elif(data[4] == 0x4):
                             #     # both side lights
                         
-                        elif(data[0] == 0x2):
-                            vehicleEvents.onHeadLight(data[1])
-                            # if(data[1] == 0x1):
-                            #     # low beam
-                            # elif(data[1] == 0x1):
-                            #     # high beam
+                        elif(data[0] == 0x2): # low beam
+                            vehicleEvents.onHeadLight(1, data[1])
+                        elif(data[0] == 0x3): # high beam
+                            vehicleEvents.onHeadLight(2, data[1])
                         
-                        elif(data[0] == 0x3):
+                        elif(data[0] == 0x4):
                             vehicleReadings.bikeMode(data[1])
                             # if(data[1] == 0x1):
                             #     # reverse mode
@@ -288,7 +286,7 @@ class CANHandler:
                             # elif(data[1] == 0x5):
                             #     # babbal mode
                         
-                        elif(data[0] == 0x4):
+                        elif(data[0] == 0x5):
                             vehicleEvents.onStandSwitch(data[1])
                             # if(data[1] == 0x1):
                             #     # stand being used

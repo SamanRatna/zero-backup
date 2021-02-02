@@ -14,6 +14,7 @@ MAX_DATA_COUNT = 30
 class PowerManager():
     def __init__(self):
         self.standState = 0
+        self.ignitionState = True
         self.chargeCycle = 0
         self.isCharging = False
         self.lastChargeUpdate = None
@@ -50,7 +51,7 @@ class PowerManager():
         self.onBikeOnOff(False)
 
     def standMonitor(self, state):
-        if(state == 1):
+        if(state == 1 and self.ignitionState == True):
             if(not self.inactivityTimer.isAlive()):
                 self.inactivityTimer.start()
         elif (state == 2):
@@ -71,12 +72,13 @@ class PowerManager():
         print('Bike is On.')
 
     def onBikeOnOff(self, state):
-        if(state == True):
+        if(state == False): # bike is off
             subprocess.call('vcgencmd display_power 0', shell=True)
             print('Bike is Off.')
-        elif(state == False):
+        elif(state == True): #bike is on
             subprocess.call('vcgencmd display_power 1', shell=True)
             print('Bike is On.')
+        self.ignitionState = state
 
     def batteryStatus(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
         self.stateOfCharge = soc
