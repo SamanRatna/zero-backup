@@ -311,6 +311,9 @@ def fetchRiderInfo():
 def checkInternetConnectivity():
     vehicleEvents.checkInternetConnectivity()
 
+def publishBikeOnOffStatus(state):
+    eel.updateBikeOnOffStatus(state)
+
 vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.tripMaxSpeed += publishTripMaxSpeed
@@ -340,6 +343,7 @@ vehicleReadings.fuelSavings += publishFuelSavings
 vehicleReadings.riderInfo += publishRiderInfo
 vehicleEvents.onSideLight += publishSideLightStatus
 vehicleEvents.onHeadLight += publishHeadLightStatus
+vehicleEvents.bikeOnOff += publishBikeOnOffStatus
 # ########### For development only ########### #
 def publishSpeed(speed):
     eel.updateSpeedPower(speed, speed)

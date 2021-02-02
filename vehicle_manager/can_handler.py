@@ -147,13 +147,13 @@ class CANHandler:
                             #bike-on
                             print('Turning bike on')
                             self.canLogger.info(++self.iterator, ': Turning display ON.')
-                            vehicleEvents.bikeOn()
+                            # vehicleEvents.bikeOn()
                             vehicleEvents.bikeOnOff(True)
                         elif(command == 2):
                             #bike-off
                             print('Turning bike off')
                             self.canLogger.info(self.iterator, ': Turning display OFF.')
-                            vehicleEvents.bikeOff()
+                            # vehicleEvents.bikeOff()
                             vehicleEvents.bikeOnOff(False)
                         # self.watchdog.reset()
 

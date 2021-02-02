@@ -249,7 +249,7 @@ let settingsActiveArea = document.getElementById('js-settings-area');
 let settingsPage = document.getElementById('js-settings-page');
 
 
-document.addEventListener('click', relayUserActivity)
+document.body.addEventListener('click', relayUserActivity);
 function relayUserActivity(){
     console.log('Page Active.')
     eel.updateUserActivityStatus(1);

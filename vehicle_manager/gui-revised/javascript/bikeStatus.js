@@ -537,3 +537,12 @@ document.getElementById('js-rider-info').addEventListener('fiveClicks', function
     eel.fetchRiderInfo();
     console.log('This element has been five-clicked', event.detail.numberOfFiveClicks, 'times');
 });
+
+eel.expose(updateBikeOnOffStatus);
+function updateBikeOnOffStatus(state){
+    if(state == true){  // if bike is turning ON
+        document.body.style.pointerEvents = 'none';
+    }else{  // if bike is turning OFF
+        document.body.style.pointerEvents = 'auto';
+    }
+}

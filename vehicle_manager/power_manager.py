@@ -30,8 +30,9 @@ class PowerManager():
 
         vehicleEvents.onStandSwitch += self.updateStandState
         vehicleEvents.onUserInteraction += self.uiMonitor
-        vehicleEvents.bikeOff += self.onBikeOff
-        vehicleEvents.bikeOn += self.onBikeOn
+        # vehicleEvents.bikeOff += self.onBikeOff
+        # vehicleEvents.bikeOn += self.onBikeOn
+        vehicleEvents.bikeOnOff += self.onBikeOnOff
         vehicleEvents.charging += self.onCharging
         vehicleReadings.socRange += self.batteryStatus
         # vehicleEvents.bluetoothStatus += self.onBluetoothStatusChange
@@ -45,7 +46,8 @@ class PowerManager():
     def poweroff(self):
         print('User inactive.')
         vehicleEvents.autoOff(True)
-        self.onBikeOff()
+        # self.onBikeOff()
+        self.onBikeOnOff(False)
 
     def standMonitor(self, state):
         if(state == 1):
@@ -67,6 +69,14 @@ class PowerManager():
     def onBikeOn(self):
         subprocess.call('vcgencmd display_power 1', shell=True)
         print('Bike is On.')
+
+    def onBikeOnOff(self, state):
+        if(state == True):
+            subprocess.call('vcgencmd display_power 0', shell=True)
+            print('Bike is Off.')
+        elif(state == False):
+            subprocess.call('vcgencmd display_power 1', shell=True)
+            print('Bike is On.')
 
     def batteryStatus(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
         self.stateOfCharge = soc
