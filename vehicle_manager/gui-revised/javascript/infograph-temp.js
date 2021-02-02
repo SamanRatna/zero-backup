@@ -43,10 +43,10 @@ var options = {
             fontColor: '#666',
             fontFamily: 'Barlow',
             fontStyle: 'bold',
-            stepSize: 25,
+            // stepSize: 25,
             beginAtZero: false,
-            min: 1,
-            max: 70,
+            // min: 1,
+            // max: 70,
             maxTicksLimit: 5,
             lineHeight: 50
         },
