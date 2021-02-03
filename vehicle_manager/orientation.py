@@ -26,8 +26,7 @@ import sys
 import time
 from event_handler import *
 import json
-from Adafruit_BNO055 import BNO055
-ORIENTATION_DATA_PORT = '/dev/ttyAMA1'
+from BNO055_library import *
 
 RESET_PIN = 18
 
@@ -54,7 +53,7 @@ class Orientation():
             try:
                 Orientation.attempts += 1
                 print('Orientation Sensor initialization attempt: ', Orientation.attempts)
-                Orientation.dataPort = BNO055.BNO055(serial_port=ORIENTATION_DATA_PORT, rst=RESET_PIN)
+                Orientation.dataPort = BNO055(rst=RESET_PIN)
 
                 # Initialize the BNO055 and stop if something went wrong.
                 if not Orientation.dataPort.begin():
@@ -107,8 +106,10 @@ class Orientation():
                 sys, gyro, accel, mag = Orientation.dataPort.get_calibration_status()
                 calibrationData = Orientation.dataPort.get_calibration()
                 # Print everything out.
-                print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
-                      heading, roll, pitch-180, sys, gyro, accel, mag))
+                # print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(heading, roll, pitch-180, sys, gyro, accel, mag))
+
+                if(sys < 3):
+                    print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(heading, roll, pitch-180, sys, gyro, accel, mag))
                 # print(calibrationData)
                 heading = round(heading, 2)
                 roll = round(roll, 2)
