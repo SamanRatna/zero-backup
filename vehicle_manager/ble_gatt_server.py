@@ -13,7 +13,7 @@ try:
 except ImportError:
   import gobject as GObject
 import sys
-
+import math
 from random import randint
 
 mainloop = None
@@ -278,6 +278,7 @@ class BatteryLevelCharacteristic(Characteristic):
     def notify_battery_level(self):
         if not self.notifying:
             return
+        # print('Notify Battery Level: ', self.battery_lvl)
         self.PropertiesChanged(
                 GATT_CHRC_IFACE,
                 { 'Value': [dbus.Byte(self.battery_lvl)] }, [])
@@ -285,22 +286,14 @@ class BatteryLevelCharacteristic(Characteristic):
     def drain_battery(self):
         if not self.notifying:
             return True
-        if self.battery_lvl > 0:
-            self.battery_lvl -= 2
-            if self.battery_lvl < 0:
-                self.battery_lvl = 0
-        print('Battery Level drained: ' + repr(self.battery_lvl))
+
+        self.battery_lvl = randint(1,100)
+
         self.notify_battery_level()
         return True
-            # if self.battery_lvl > 0:
-            #     self.battery_lvl -= 2
-            # if self.battery_lvl <= 0:
-            #     self.battery_lvl = 100
-            # print('Battery Level drained: ' + repr(self.battery_lvl))
-            # return True
 
     def actualBatteryLevel(self, value):
-        self.battery_lvl = value        
+        self.battery_lvl = math.floor(value)
         print('Battery Level received: ' + repr(self.battery_lvl))
         self.notify_battery_level()
         return True

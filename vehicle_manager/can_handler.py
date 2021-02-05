@@ -170,7 +170,7 @@ class CANHandler:
                         else:
                             self.bikeSpeed = speed
 
-                        print('Bike Speed(kmph): ', self.bikeSpeed)
+                        # print('Bike Speed(kmph): ', self.bikeSpeed)
                         vehicleReadings.speedReading(self.bikeSpeed)
 
 
@@ -179,8 +179,8 @@ class CANHandler:
                         odometer = round((data[3] * 16777216 + data[2] * 65536  + data[1] * 256 + data[0])*ODO_FACTOR, 2)
                         tractionHour = round((data[5] * 256 + data[4] + data[6]*TRACTION_MIN_FACTOR/60), 2)
 
-                        print('Odo Reading (km): ', odometer)
-                        print('Traction Hours: ', tractionHour)
+                        # print('Odo Reading (km): ', odometer)
+                        # print('Traction Hours: ', tractionHour)
                         # print('AverageSpeed: ', averageSpeed)
                         self.odometer = odometer
                         vehicleReadings.odoReading(self.odometer)
@@ -188,12 +188,12 @@ class CANHandler:
                     if message.arbitration_id == 0x126:
                         data = message.data
                         tripDistance = round((data[3] * 16777216 + data[2] * 65536  + data[1] * 256 + data[0])*ODO_FACTOR, 2)
-                        print('Trip Distance: ', tripDistance)
+                        # print('Trip Distance: ', tripDistance)
 
                         motorTemperature = int((data[5]*256 + data[4]))
                         controllerTemperature = int(data[6])
                         vehicleReadings.motorTemperature(motorTemperature, controllerTemperature)
-                        print('Temperature (motor, heatsink): ', motorTemperature, controllerTemperature)
+                        # print('Temperature (motor, heatsink): ', motorTemperature, controllerTemperature)
 
                     #ION BMS
                     if message.arbitration_id == 0x18FF05D0:
@@ -201,8 +201,8 @@ class CANHandler:
                         soc = round((data[0] * 256 + data[1])*SOC_FACTOR, 2)
                         soh = round((data[2] * 256 + data[3])*SOH_FACTOR, 2)
 
-                        print('SOC: ', soc, '%')
-                        print('SOH: ', soh, '%')
+                        # print('SOC: ', soc, '%')
+                        # print('SOH: ', soh, '%')
                         if(abs(soc - self.stateOfCharge) > 0.01):
                             self.stateOfCharge = soc
                             self.stateOfHealth = soh
@@ -213,7 +213,7 @@ class CANHandler:
                             # estimatedRange = round(RANGE_ON_FULL_AH * (self.stateOfCharge * AH_ON_FULL_SOH * soh / (100*100)) / AH_ON_FULL_SOH, 1)
                             estimatedRange = round(RANGE_ON_FULL_AH * (soc * soh / (100*100)), 1)
                             self.rangeSuste = estimatedRange
-                            print('Estimated Range: ', estimatedRange, 'km')
+                            # print('Estimated Range: ', estimatedRange, 'km')
                             vehicleReadings.socRange(soc, soh, estimatedRange, estimatedRange, estimatedRange)
 
                         self.stateOfCharge = soc
@@ -221,7 +221,7 @@ class CANHandler:
                     if message.arbitration_id == 0x18FF03D0:
                         data = message.data
                         batteryTemperature = round((data[4] * 256 + data[5])*TMP_FACTOR, 1)
-                        print('Battery Temperature: ', batteryTemperature, 'degree Celsius')
+                        # print('Battery Temperature: ', batteryTemperature, 'degree Celsius')
                         if(batteryTemperature - self.batteryTemperature > 0.1):
                             self.batteryTemperature = batteryTemperature
                             vehicleReadings.batteryTemperature(self.batteryTemperature)
@@ -236,10 +236,10 @@ class CANHandler:
                     if message.arbitration_id == 0x18FF50E5:
                         data = message.data
                         current = round((data[2]*256 + data[3])*0.1, 2)
-                        print('Charging Current: ', current, 'A')
+                        # print('Charging Current: ', current, 'A')
                         if(current > 0.1):
                             isCharging = True
-                            print('Charging')
+                            # print('Charging')
                         else:
                             isCharging = False
 
@@ -570,7 +570,7 @@ class CANHandler:
                             self.bikeSpeed = 0
                         else:
                             self.bikeSpeed = speed
-                        print('Speed: ', speed)
+                        # print('Speed: ', speed)
                         # self.maxTorque = round(((new_data[2]<<8) + new_data[3])*0.1, 2)
                         # self.actualTorque = round(((new_data[4]<<8) + new_data[5])*0.0625, 2)
                         # motorTemp = round(((new_data[6]<<8) + new_data[7]), 2)

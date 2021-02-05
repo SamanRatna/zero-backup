@@ -86,10 +86,11 @@ class VehicleInfoCalculator:
     # and then call methods that use odoReading
     # 
     def updateOdoReading(self, odometer, tractionHour):
-        self.odoReading = odometer
         self.tractionHours = tractionHour
         self.computeTripDistance(odometer)
-        vehicleReadings.distances(self.odoReading, self.tripDistance)
+        if(abs(self.odoReading - odometer) > 0.1):
+            vehicleReadings.distances(odometer, self.tripDistance)
+        self.odoReading = odometer
 
         self.computeAverageSpeeds(odometer, tractionHour)
         self.calculateFuelSavings(self.odoReading)

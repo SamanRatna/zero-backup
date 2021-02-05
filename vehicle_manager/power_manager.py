@@ -14,10 +14,13 @@ MAX_DATA_COUNT = 30
 class PowerManager():
     def __init__(self):
         self.standState = 0
+        self.isInMotion = False
+        self.motionTimer = None
         self.ignitionState = True
         self.chargeCycle = 0
         self.isCharging = False
         self.lastChargeUpdate = None
+        self.stateOfCharge = None
         self.socOnChargeStart = None
         self.socOnChargeEnd = None
         self.chargeSavingsData = []
@@ -36,6 +39,7 @@ class PowerManager():
         vehicleEvents.bikeOnOff += self.onBikeOnOff
         vehicleEvents.charging += self.onCharging
         vehicleReadings.socRange += self.batteryStatus
+        vehicleReadings.speedReading += self.speedMonitor
         # vehicleEvents.bluetoothStatus += self.onBluetoothStatusChange
         vehicleEvents.onChargeCostsRequest += self.onChargeCostsRequest
         # self.inactivityTimer = threading.Timer(5.0, self.poweroff)
@@ -51,44 +55,72 @@ class PowerManager():
         self.onBikeOnOff(False)
 
     def standMonitor(self, state):
-        if(state == 1 and self.ignitionState == True):
+        self.standState == state
+        if(state == 1 and self.ignitionState == True and self.isInMotion == False):
             if(not self.inactivityTimer.isAlive()):
                 self.inactivityTimer.start()
         elif (state == 2):
             if(self.inactivityTimer.isAlive()):
                 self.inactivityTimer.cancel()
-
+    
+    def speedMonitor(self, speed):
+        if(speed < 0.5):
+            if(self.motionTimer == None):
+                self.motionTimer = int(datetime.now().timestamp())
+            elif(int(datetime.now().timestamp()) - self.motionTimer > 10):
+                self.isInMotion = False
+        else:
+            self.motionTimer = None
+            self.isInMotion = True
+        
+        if(self.isInMotion):
+            if(self.inactivityTimer.isAlive()):
+                self.inactivityTimer.cancel()
+        elif((not self.isInMotion) and (self.standState == 1)):
+            if(not self.inactivityTimer.isAlive()):
+                self.inactivityTimer.start()
+        
     def uiMonitor(self, state):
-        if(self.standState == 1 and state == 1):
+        if((self.standState == 1) and (state == 1) and (self.ignitionState == True)):
             self.inactivityTimer.cancel()
             self.inactivityTimer.start()
 
-    def onBikeOff(self):
-        subprocess.call('vcgencmd display_power 0', shell=True)
-        print('Bike is Off.')
+    # def onBikeOff(self):
+    #     subprocess.call('vcgencmd display_power 0', shell=True)
+    #     print('Bike is Off.')
 
-    def onBikeOn(self):
-        subprocess.call('vcgencmd display_power 1', shell=True)
-        print('Bike is On.')
+    # def onBikeOn(self):
+    #     subprocess.call('vcgencmd display_power 1', shell=True)
+    #     print('Bike is On.')
 
     def onBikeOnOff(self, state):
         if(state == False): # bike is off
             subprocess.call('vcgencmd display_power 0', shell=True)
             print('Bike is Off.')
+            if(self.inactivityTimer.isAlive()):
+                self.inactivityTimer.cancel()
         elif(state == True): #bike is on
             subprocess.call('vcgencmd display_power 1', shell=True)
             print('Bike is On.')
+            if(self.standState == 1):
+                self.inactivityTimer.cancel()
+                self.inactivityTimer.start()
         self.ignitionState = state
 
     def batteryStatus(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
         self.stateOfCharge = soc
         if(self.isCharging):
-            if(self.stateOfCharge - self.lastChargeUpdate >= 5):
+            if(self.lastChargeUpdate == None):
+                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
+            elif(self.stateOfCharge - self.lastChargeUpdate >= 5):
                 self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
 
     def onCharging(self, state):
         self.isCharging = state
         if(state == True):
+            if(self.stateOfCharge == None):
+                return
+            
             self.socOnChargeStart = self.stateOfCharge
             self.socOnChargeStartTime = int(datetime.now().timestamp())
             if(self.lastChargeUpdate == None):
