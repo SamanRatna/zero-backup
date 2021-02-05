@@ -52,7 +52,7 @@ function updateUIMode(mode){
 
     // sync data
     updateBikeMode(currentBikeMode);
-    updateSOC(currentSOC, currentSOH, currentSusteRange, currentSusteRange, currentSusteRangevehicleReadings.carbonOffset);
+    updateSOC(currentSOC, currentSOH, currentSusteRange, currentSusteRange, currentSusteRange);
     updateDistances(currentOdoReading, currentTripReading);
     updateTime();
 
