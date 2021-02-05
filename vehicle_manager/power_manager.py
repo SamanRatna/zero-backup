@@ -150,7 +150,7 @@ class PowerManager():
         print(current_soc, current_status )
         url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/batteries/" + battery_id
         payload = '{\r\n    \"soc\": '+ current_soc + ',\r\n    \"isCharging\": ' + current_status + '\r\n}'
-        response = requests.request("PATCH", url, headers=headers, data=payload)
+        response = requests.request("PATCH", url, headers=headerCharge, data=payload)
         print(response.text)
         if(chargingStatus == True):
             self.lastChargeUpdate = soc

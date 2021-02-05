@@ -35,6 +35,7 @@ class CANHandler:
         self.chargingCurrentCharger = 0     # Ampere
         self.packVoltage            = 0     # Volts
         self.stateOfCharge          = 0     # Percentage
+        self.stateOfHealth          = 0     # Percentage
         self.timeToCharge           = 0     # Minutes
         self.timeToDischarge        = 0     # Minutes
         self.highTemp               = 0     # Celsius      
@@ -106,6 +107,7 @@ class CANHandler:
 
         #self.canLogger.addHandler(handler)
         #Start CAN
+        vehicleEvents.guiReady += self.onGUIReady
         vehicleEvents.autoOff += self.onAutoOff
         self.startCAN()
         # vehicleEvents.onBLEReady += self.onBLEReady
@@ -201,7 +203,9 @@ class CANHandler:
 
                         print('SOC: ', soc, '%')
                         print('SOH: ', soh, '%')
-                        if((soc - self.stateOfCharge) > 0.01):
+                        if(abs(soc - self.stateOfCharge) > 0.01):
+                            self.stateOfCharge = soc
+                            self.stateOfHealth = soh
                             vehicleReadings.batteryStatus(self.stateOfCharge)
                             #caculate range
                             # ah = soc * AH_ON_FULL_SOH * soh / 10000
@@ -810,4 +814,6 @@ class CANHandler:
         self.rangeThikka = int(self.remainingCapacity*self.packVoltage/wattHourPerKmThikka)
         self.rangeSuste = int(self.remainingCapacity*self.packVoltage/wattHourPerKmSuste)
         self.rangeBabbal = int(self.remainingCapacity*self.packVoltage/wattHourPerKmBabbal)
-    
+
+    def onGUIReady(self):
+        vehicleReadings.socRange(self.stateOfCharge, self.stateOfHealth, self.rangeSuste, self.rangeSuste, self.rangeSuste)

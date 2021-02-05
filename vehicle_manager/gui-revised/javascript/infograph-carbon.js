@@ -131,12 +131,14 @@ function removeCarbonData() {
   chart.update();
 }
 
-function updateCarbonOffset(data){
+function updateCarbonOffset(coSum, data){
   var codata = data;
+
+  updateTheTotalCarbonOffset(coSum);
+  
   codata.forEach(item => {
     updateCarbonData(item[0], item[1]);
     console.log(item);
-    updateTheTotalCarbonOffset(item[1])
     document.getElementById('js-carbon-today').innerHTML = item[0]
   });
   if(data.length > 1){

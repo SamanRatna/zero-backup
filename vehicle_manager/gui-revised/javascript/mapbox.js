@@ -26,6 +26,7 @@ Request for API Key from the backend
 // dummy startMap function for UI development
 function startMap() {
   if(isMapLoaded){
+    eel.getCurrentLocation(true);
     return;
   }
   console.log('Executing getKeyFunction');
@@ -45,8 +46,8 @@ function onAPIKeyResponse(key){
   mapboxgl.accessToken = key;
   console.log('Received Mapbox API Key');
 
-  // eel.getCurrentLocation(true) //uncomment this after removing dummy
-  onLocationResponse([27.71181, 85.3075]) //dummy for UI development
+  eel.getCurrentLocation(true) //uncomment this after removing dummy
+  // onLocationResponse([27.71181, 85.3075]) //dummy for UI development
 }
 
 /*
@@ -62,7 +63,17 @@ function onLocationResponse(location){
   eel.getCurrentLocation(false);
   currentLocation = [location[1], location[0]];
   console.log("Current Location Received: " + currentLocation);
-  initMap();
+  if(isMapLoaded){
+    currentMarker.setLngLat(currentLocation);
+    map.easeTo({
+      center: currentLocation,
+      // speed: 0.01,
+      // maxDuration: 1900,
+      // essential: true
+    });
+  } else{
+    initMap();
+  }
 }
 function initMap(){
 
@@ -118,7 +129,7 @@ function initMap(){
     element: elCurrentMarker,
     // rotationAlignment: map,
     // pitchAlignment: viewport,
-    draggable: true
+    // draggable: true
   }) // initialize a new marker //elPsyCongroo
     .setLngLat(currentLocation) // Marker [lng, lat] coordinates
     .addTo(map); // Add the marker to the map

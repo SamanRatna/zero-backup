@@ -90,9 +90,9 @@ class CarbonOffsetCalculator:
     def sendToUI(self, mode = 0):
         # the data has to be sent as an array of array of date and Carbon Offset Data
         if mode == 0: 
-            vehicleReadings.carbonOffset(self.carbonOffset[self.runningCarbonOffsetIndex:])
+            vehicleReadings.carbonOffset(self.sumTillLastDay, self.carbonOffset[self.runningCarbonOffsetIndex:])
         elif mode == 1:
-            vehicleReadings.carbonOffset([self.latestData])
+            vehicleReadings.carbonOffset(self.sumTillLastDay,[self.latestData])
 
     def sendToBluetooth(self, date):
         print('CarbonOffsetCalculator: Date Received from Bluetooth: ', date)

@@ -131,9 +131,9 @@ def publishPackVoltage(voltage):
 def publishStandState(state):
     eel.updateStandState(state)
 
-def publishCarbonOffset(data):
+def publishCarbonOffset(coSum, data):
     print('Publishing Carbon Offset Data')
-    eel.updateCarbonOffset(data)
+    eel.updateCarbonOffset(coSum, data)
 
 def startGUIThread():
     try:        

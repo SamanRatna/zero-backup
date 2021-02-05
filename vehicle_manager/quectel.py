@@ -2,6 +2,8 @@ import serial
 import time
 from event_handler import *
 from gps import *
+import requests
+from bike_credentials import *
 
 MAX_COUNT = 8
 AT_COMMAND_PORT = "/dev/ttyUSB2"
@@ -15,6 +17,8 @@ class Quectel():
         """ Constructor.
         """
         self.gpsMgr = None
+        self.isLowBalanceNotified = False
+        self.isCriticalLowBalanceNotified = False
         if Quectel.__instance__ is None:
             self.initializeConnection()
             if Quectel.atCommandPort:
@@ -213,9 +217,32 @@ class Quectel():
         balance = self.getBalance()
         if balance != None:
             vehicleReadings.network({'balance': balance})
+        
         number = self.getPhoneNumber()
         if number != None:
             vehicleReadings.network({'number': number})
+    
+    def checkForLowBalance(self, balance):
+        if balance != None:
+            title = "Rs. "
+            titleIndex = balance.find(title)
+            if(titleIndex != -1):
+                nameSplit = balance.split('. ')
+                print(nameSplit)
+                balanceNum = nameSplit[1].strip()
+                if((float(balanceNum) - 25.0) < 0):
+                    print('Balance Low.')
+                    self.sendBalanceInformation(balance, 0)
+                else:
+                    print('Balance is fine.')
+    
+    def sendBalanceInformation(self, balance, data):
+        url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/low-balance"
+        payload = '{\r\n    \"balance\": \"'+ str(balance) + '\",\r\n    \"data\": \"' + str(data) + '\"\r\n}'
+        print(payload)
+        response = requests.request("POST", url, headers=headerLowBalance, data=payload)
+        print(response.status_code)
+
         # if self.gpsMgr != None:
         #     vehicleReadings.network({'gpsStatus': True})
         # else:
@@ -230,7 +257,8 @@ if __name__ == "__main__":
         networkName = quectel.getNetworkInfo()
         print(networkName)
     time.sleep(2)
-    quectel.getBalance()
+    balance = quectel.getBalance()
+    quectel.checkForLowBalance(balance)
     time.sleep(2)
     print('Getting Phone Number.')
     quectel.getPhoneNumber()
