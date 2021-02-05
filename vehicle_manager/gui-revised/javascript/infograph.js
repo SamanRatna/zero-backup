@@ -3,6 +3,11 @@ document.getElementById('js-speed-unit-toggle').addEventListener('click', functi
     document.getElementById('js-speed-label-km').classList.toggle('active');
     document.getElementById('js-speed-label-mile').classList.toggle('active');
     document.getElementById('js-speed-unit-button').classList.toggle('toggled');
+    if(document.getElementById('js-speed-label-mile').classList.contains('active')){
+        changeUnitToMiles(true);
+    } else {
+        changeUnitToMiles(false);
+    }
 });
 
 // toggle temperature infograph unit Celsius <-> Farenheit

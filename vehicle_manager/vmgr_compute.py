@@ -290,9 +290,10 @@ class VehicleInfoCalculator:
         vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
         vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
         vehicleReadings.distances(self.odoReading, self.tripDistance)
+        vehicleReadings.fuelSavings(self.fuelSavings)
 
     def calculateFuelSavings(self, distance):
         costOfPetrol = distance / MILEAGE_PETROL * UNIT_COST_OF_PETROL
         costOfBattery = distance / MILEAGE_BATTERY * UNIT_COST_OF_AH
-        savings = costOfPetrol - costOfBattery
-        vehicleReadings.fuelSavings(savings)
+        self.fuelSavings = int(costOfPetrol - costOfBattery)
+        vehicleReadings.fuelSavings(self.fuelSavings)
