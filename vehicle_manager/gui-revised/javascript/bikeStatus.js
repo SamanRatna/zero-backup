@@ -30,6 +30,7 @@ let lastMapUIMode = 'normal-mode'
 // set this to false after switching to map-mode has completed
 let waitingForMapMode = false;
 function switchUIMode(){
+    updateNavigationToggle('processing');
     if(uiMode == 'no-map-mode'){
         waitingForMapMode = true;
         loadMapbox();
@@ -42,6 +43,7 @@ function switchUIMode(){
         }
         updateUIMode('no-map-mode');
     }
+    // setSettingsCardVisibility(false);
 }
 function updateUIMode(mode){
     // console.log('Updating Map State: '+ true)
@@ -73,6 +75,7 @@ function updateUIMode(mode){
         setMode('no-map-mode');
     }
     updateNavigationToggle(mode);
+    setSettingsCardVisibility(false);
 }
 
 function updateVariables(mode){
@@ -114,10 +117,16 @@ function updateVariables(mode){
 
 // Function to update the speed and power in the dashboard
 function updateSpeedPower(spd, power){
-    // console.log(spd, power);
+    console.log(spd, power);
 
     speed.innerHTML = Math.round(spd);
-
+    if(isBikeOn){
+        if(spd > 1){
+            document.body.style.pointerEvents = 'none';
+        } else {
+            document.body.style.pointerEvents = 'auto';
+        }
+    }
     // if(spd > 1){
     //     activateTripResetButton(false);
     // }
@@ -559,8 +568,10 @@ document.getElementById('js-rider-info').addEventListener('fiveClicks', function
     console.log('This element has been five-clicked', event.detail.numberOfFiveClicks, 'times');
 });
 
+let isBikeOn = false;
 eel.expose(updateBikeOnOffStatus);
 function updateBikeOnOffStatus(state){
+    isBikeOn = state;
     if(state == true){  // if bike is turning ON
         document.body.style.pointerEvents = 'auto';
     }else{  // if bike is turning OFF

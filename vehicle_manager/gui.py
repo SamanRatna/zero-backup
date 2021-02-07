@@ -16,6 +16,9 @@ from quectel import *
 chargeLogger=logging.getLogger('event-logger')
 chargeLogger.setLevel(logging.WARNING)
 eel.init('gui-revised')
+
+ignitionState = True
+bikeModeMemory = 2
 # from navigation_simulator import *
 
 # maxSpeed = 0
@@ -39,6 +42,8 @@ def startGUI():
     startGUI()
 
 def publishBikeMode(mode):
+    global bikeModeMemory
+    bikeModeMemory = mode
     bikeMode = 'None'
     if(mode == 1):
         bikeMode = 'MODE_REVERSE'
@@ -250,6 +255,9 @@ def resetTripData():
 @eel.expose
 def getGUIData():
     vehicleEvents.guiReady()
+    global ignitionState, bikeModeMemory
+    publishBikeOnOffStatus(ignitionState)
+    publishBikeMode(bikeModeMemory)
     # global maxSpeed
     # global bikeMode
     # global bluetooth
@@ -312,6 +320,8 @@ def checkInternetConnectivity():
     vehicleEvents.checkInternetConnectivity()
 
 def publishBikeOnOffStatus(state):
+    global ignitionState
+    ignitionState = state
     eel.updateBikeOnOffStatus(state)
 
 vehicleReadings.bikeMode += publishBikeMode

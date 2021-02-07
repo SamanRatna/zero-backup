@@ -279,22 +279,31 @@ function updateBluetoothName(name){
 }
 
 let navigationModeToggle = document.getElementById('js-navigation-mode-toggle');
-navigationModeToggle.addEventListener('click', function(){
-    // if(uiMode == 'no-map-mode'){ //go to map mode
-    //     updateUIMode('map-mode');
-    // }
-    // else if(uiMode == 'map-mode'){ // go to no-map-mode
-    //     updateUIMode('no-map-mode');
-    // }
-    switchUIMode();
-});
-
+// navigationModeToggle.addEventListener('click', function(){
+//     // if(uiMode == 'no-map-mode'){ //go to map mode
+//     //     updateUIMode('map-mode');
+//     // }
+//     // else if(uiMode == 'map-mode'){ // go to no-map-mode
+//     //     updateUIMode('no-map-mode');
+//     // }
+//     switchUIMode();
+// });
+navigationModeToggle.addEventListener('click', switchUIMode);
 function updateNavigationToggle(mode){
     console.log('updateNavigationToggle: '+mode);
-    if(mode == 'no-map-mode'){
+    if(mode == 'processing'){
+        navigationModeToggle.removeEventListener('click', switchUIMode);
         navigationModeToggle.classList.remove('navigation-mode-active');
+        navigationModeToggle.classList.add('navigation-mode-processing');
+    }
+    else if(mode == 'no-map-mode'){
+        navigationModeToggle.classList.remove('navigation-mode-processing')
+        navigationModeToggle.classList.remove('navigation-mode-active');
+        navigationModeToggle.addEventListener('click', switchUIMode);
     }
     else if(mode == 'map-mode'){
+        navigationModeToggle.classList.remove('navigation-mode-processing')
         navigationModeToggle.classList.add('navigation-mode-active');
+        navigationModeToggle.addEventListener('click', switchUIMode);
     }
 }
