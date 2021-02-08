@@ -50,9 +50,10 @@ class PowerManager():
     
     def poweroff(self):
         print('User inactive.')
-        vehicleEvents.autoOff(True)
-        # self.onBikeOff()
-        self.onBikeOnOff(False)
+        if(self.ignitionState == True):
+            vehicleEvents.autoOff(True)
+            # self.onBikeOff()
+            self.onBikeOnOff(False)
 
     def standMonitor(self, state):
         self.standState == state

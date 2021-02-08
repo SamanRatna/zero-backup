@@ -236,7 +236,8 @@ function setMode(mode){
 
 // click handler for opening settings page
 document.getElementById('js-dash-card-primary').addEventListener('click', function(){
-    setSettingsCardVisibility(true);
+    // setSettingsCardVisibility(true);
+    switchUIMode();
 });
 
 document.getElementById('js-mode-indicator-no-map').addEventListener('click', function(){

@@ -1,7 +1,11 @@
 let maxSpeed = null;
 let odoAverage = null;
 let tripAverage = null;
+let maxSpeed_miles = null;
+let odoAverage_miles = null;
+let tripAverage_miles = null;
 let unitIsKm = true;
+const KM_TO_MILES = 0.621371;
 
 var data = {
     labels: ["MAX SPEED", "ODO AVERAGE", "TRIP AVERAGE"],
@@ -64,11 +68,13 @@ var speedChart = new Chart('speed-canvas', {
 
 
 function updateMaxSpeed(value) {
-    if(!unitIsKm){
-        value = Math.floor(value * 0.621371)
-    }
-    speedChart.data.datasets[0].data[0] = value;
+    maxSpeed_miles = Math.floor(value*KM_TO_MILES)
     maxSpeed = value;
+    if(unitIsKm){
+        speedChart.data.datasets[0].data[0] = maxSpeed;
+    } else {
+        speedChart.data.datasets[0].data[0] = maxSpeed_miles;
+    }
     speedChart.update();
 }
 
@@ -83,14 +89,18 @@ function updateMaxSpeed(value) {
 // }
 
 function updateAverageSpeeds(odo, trip){
-    if(!unitIsKm){
-        odo = Math.floor(odo * 0.621371)
-        trip = Math.floor(trip * 0.621371)
-    }
-    speedChart.data.datasets[0].data[1] = odo;
-    speedChart.data.datasets[0].data[2] = trip;
     odoAverage = odo;
     tripAverage = trip;
+    odoAverage_miles = Math.floor(odo*KM_TO_MILES);
+    tripAverage_miles = Math.floor(trip*KM_TO_MILES);
+
+    if(unitIsKm){
+        speedChart.data.datasets[0].data[1] = odoAverage;
+        speedChart.data.datasets[0].data[2] = tripAverage;
+    } else {
+        speedChart.data.datasets[0].data[1] = odoAverage_miles;
+        speedChart.data.datasets[0].data[2] = tripAverage_miles; 
+    }
     speedChart.update();
 }
 
@@ -101,29 +111,23 @@ function changeUnitToMiles(toMiles){
         unitIsKm = !toMiles;
     }
     if(toMiles){
-        if(maxSpeed != null){
-            maxSpeed = Math.floor(maxSpeed * 0.621371);
-            speedChart.data.datasets[0].data[0] = maxSpeed;
+        if(maxSpeed_miles != null){
+            speedChart.data.datasets[0].data[0] = maxSpeed_miles;
         }
-        if(odoAverage != null){
-            odoAverage = Math.floor(odoAverage * 0.621371);
-            speedChart.data.datasets[0].data[1] = odoAverage;
+        if(odoAverage_miles != null){
+            speedChart.data.datasets[0].data[1] = odoAverage_miles;
         }
-        if(tripAverage != null){
-            tripAverage = Math.floor(tripAverage * 0.621371);
-            speedChart.data.datasets[0].data[2] = tripAverage;
+        if(tripAverage_miles != null){
+            speedChart.data.datasets[0].data[2] = tripAverage_miles;
         }
     }else{
         if(maxSpeed != null){
-            maxSpeed = Math.floor(maxSpeed / 0.621371);
             speedChart.data.datasets[0].data[0] = maxSpeed;
         }
         if(odoAverage != null){
-            odoAverage = Math.floor(odoAverage / 0.621371);
             speedChart.data.datasets[0].data[1] = odoAverage;
         }
         if(tripAverage != null){
-            tripAverage = Math.floor(tripAverage / 0.621371);
             speedChart.data.datasets[0].data[2] = tripAverage;
         }
     }

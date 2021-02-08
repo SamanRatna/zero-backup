@@ -288,13 +288,20 @@ let navigationModeToggle = document.getElementById('js-navigation-mode-toggle');
 //     // }
 //     switchUIMode();
 // });
+let navigationModeToggleState = 'no-map-mode';
 navigationModeToggle.addEventListener('click', switchUIMode);
 function updateNavigationToggle(mode){
     console.log('updateNavigationToggle: '+mode);
+    navigationModeToggleState = mode;
     if(mode == 'processing'){
         navigationModeToggle.removeEventListener('click', switchUIMode);
         navigationModeToggle.classList.remove('navigation-mode-active');
         navigationModeToggle.classList.add('navigation-mode-processing');
+        setTimeout(function(){
+            if(navigationModeToggleState == 'processing'){
+                updateNavigationToggle('no-map-mode');
+            }
+        }, 15000);
     }
     else if(mode == 'no-map-mode'){
         navigationModeToggle.classList.remove('navigation-mode-processing')
