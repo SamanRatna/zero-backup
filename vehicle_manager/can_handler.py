@@ -31,6 +31,7 @@ class CANHandler:
         self.iterator               = 0
         # self.chargingStatus         = 'discharging'
         self.isCharging             = False
+        self.isFastCharging         = False
         self.chargingCurrent        = 0     # Ampere
         self.chargingCurrentCharger = 0     # Ampere
         self.packVoltage            = 0     # Volts
@@ -237,15 +238,20 @@ class CANHandler:
                         data = message.data
                         current = round((data[2]*256 + data[3])*0.1, 2)
                         # print('Charging Current: ', current, 'A')
+                        isCharging = None
+                        # isFastCharging = None
                         if(current > 0.1):
                             isCharging = True
+                            # isFastCharging = False
                             # print('Charging')
                         else:
                             isCharging = False
+                            # isFastCharging = False
 
                         if(isCharging != self.isCharging):
                             self.isCharging = isCharging
-                            vehicleEvents.charging(self.isCharging)
+                            # self.isFastCharging = isFastCharging
+                            vehicleEvents.charging(self.isCharging, False)
                     # VCU
                     if message.arbitration_id == 0x1E00103:
                         data=message.data
@@ -323,7 +329,7 @@ class CANHandler:
 
                         if(isCharging != self.isCharging):
                             self.isCharging = isCharging
-                            vehicleEvents.charging(self.isCharging)
+                            vehicleEvents.charging(self.isCharging, True)
                     #Lith-Tech Battery
                     if message.arbitration_id == 284693918:
                         data = message.data

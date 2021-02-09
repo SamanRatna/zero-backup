@@ -12,12 +12,12 @@ UNIT_COST_OF_AH     = 1.4       # NRs
 class VehicleInfoCalculator:
     def __init__(self):
         # inputs
-        self.odoReading             = 0
+        self.odoReading             = None
         self.speedReading           = 0
         self.tractionHours          = 0
 
         # outputs
-        self.tripDistance           = 0
+        self.tripDistance           = None
         self.maxSpeed               = 0
         self.tripMaxSpeed           = 0
         self.averageSpeed           = 0
@@ -116,7 +116,10 @@ class VehicleInfoCalculator:
     # 
     # 
     def computeTripDistance(self, newOdoReading):
-        oldTripDistance = self.tripDistance
+        oldTripDistance = 0
+        if(self.tripDistance != None):
+            oldTripDistance = self.tripDistance
+
         newTripDistance = newOdoReading - self.tripDistanceOffset
 
         if((newTripDistance - oldTripDistance) > 0 ):
@@ -270,13 +273,13 @@ class VehicleInfoCalculator:
         with open('speed.json', 'w') as f:  # writing JSON object
             json.dump(maxSpeeds, f)
 
-    def onBLEReady(self, value):
-        print('BLE is ready.')
-        if(value[0] == 1):
-            vehicleReadings.maxSpeed(self.maxSpeed)
-            vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
-            vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
-            vehicleReadings.distances(self.odoReading, self.tripDistance)
+    # def onBLEReady(self, value):
+    #     print('BLE is ready.')
+    #     if(value[0] == 1):
+    #         vehicleReadings.maxSpeed(self.maxSpeed)
+    #         vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
+    #         vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
+    #         vehicleReadings.distances(self.odoReading, self.tripDistance)
 
     def onBluetoothStatusChange(self, state):
         print('Bluetooth Status Changed.')
@@ -284,13 +287,15 @@ class VehicleInfoCalculator:
             vehicleReadings.maxSpeed(self.maxSpeed)
             vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
             vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
-            vehicleReadings.distances(self.odoReading, self.tripDistance)
+            if(self.odoReading != None and self.tripDistance != None):
+                vehicleReadings.distances(self.odoReading, self.tripDistance)
 
     def onGUIReady(self):
         vehicleReadings.maxSpeed(self.maxSpeed)
         vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
         vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
-        vehicleReadings.distances(self.odoReading, self.tripDistance)
+        if(self.odoReading != None and self.tripDistance != None):
+            vehicleReadings.distances(self.odoReading, self.tripDistance)
         vehicleReadings.fuelSavings(self.fuelSavings)
 
     def calculateFuelSavings(self, distance):

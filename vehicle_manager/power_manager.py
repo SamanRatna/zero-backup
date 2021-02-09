@@ -19,6 +19,7 @@ class PowerManager():
         self.ignitionState = True
         self.chargeCycle = 0
         self.isCharging = False
+        self.isFastCharging = False
         self.lastChargeUpdate = None
         self.stateOfCharge = None
         self.socOnChargeStart = None
@@ -120,19 +121,20 @@ class PowerManager():
             elif(self.stateOfCharge - self.lastChargeUpdate >= 5):
                 self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
 
-    def onCharging(self, state):
-        self.isCharging = state
-        if(state == True):
+    def onCharging(self, isCharging, isFastCharging):
+        self.isCharging = isCharging
+        self.isFastCharging = isFastCharging
+        if(isCharging == True):
             if(self.stateOfCharge == None):
                 return
             
             self.socOnChargeStart = self.stateOfCharge
             self.socOnChargeStartTime = int(datetime.now().timestamp())
             if(self.lastChargeUpdate == None):
-                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
+                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
         else:
             if(self.lastChargeUpdate != None):
-                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
+                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
             self.socOnChargeEnd = self.stateOfCharge
             self.socOnChargeEndTime = int(datetime.now().timestamp())
             if(self.socOnChargeStart == None):
@@ -142,7 +144,7 @@ class PowerManager():
             if(deltaSOC > 1.0):
                 costOfCharging = round(deltaSOC * COST_FACTOR, 2)
                 self.chargeCycle += 1
-                dataToBeSaved = [self.chargeCycle, self.socOnChargeStart, self.socOnChargeEnd, self.socOnChargeStartTime, self.socOnChargeEndTime, costOfCharging]
+                dataToBeSaved = [self.chargeCycle, self.isFastCharging, self.socOnChargeStart, self.socOnChargeEnd, self.socOnChargeStartTime, self.socOnChargeEndTime, costOfCharging]
                 self.addToList(dataToBeSaved)
                 with open(CHARGE_SAVINGS_FILE, 'w') as f:  # writing JSON object
                     json.dump(self.chargeSavingsData, f)
@@ -181,7 +183,7 @@ class PowerManager():
         if(index != None):
             vehicleReadings.chargeCostsForBluetooth(self.chargeSavingsData[index:])
 
-    def sendStateOfCharge(self, soc, chargingStatus):
+    def sendStateOfCharge(self, soc, chargingStatus, isFastCharging):
         current_soc = str(soc)
         current_status = str(chargingStatus).lower()
         print(current_soc, current_status )

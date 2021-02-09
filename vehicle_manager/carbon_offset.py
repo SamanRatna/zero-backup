@@ -41,27 +41,30 @@ class CarbonOffsetCalculator:
         # self.sendToUI(0)
         vehicleEvents.onCarbonOffsetRequest += self.sendToBluetooth
         vehicleEvents.guiReady += self.onRequest
+        vehicleReadings.distances += self.onChange
+        vehicleEvents.bikeOnOff += self.onShutdown
 
-    def onChange(self, distance):
+    def onChange(self, odoDistance, tripDistance):
         # compute carbon offset from the distance travelled
         # check if the cycle has changed
         # if it has changed, end the current running cycle
         # start a new cycle and initialize the new cycle to current cycle
         # update the values 
         # send the values to GUI
-        carbonOffset = distance * 77
+        carbonOffset = odoDistance * 77
         if(not self.isToday(self.latestData[0])):
             self.carbonOffset[-1] = self.latestData
             self.sumTillLastDay = self.sumTillLastDay + self.latestData[1]
         self.latestData = [self.getDate(), carbonOffset - self.sumTillLastDay]
         self.sendToUI(1)
 
-    def onShutdown(self):
-        # save the data to JSON
-        self.carbonOffset[-1] = self.latestData
-        carbonOffsetData = [self.runningCarbonOffsetIndex, self.outstandingCarbonOffsetIndex, self.sumTillLastDay, self.carbonOffset]
-        with open('carbon-offset.json', 'w') as f:
-            json.dump(carbonOffsetData, f)
+    def onShutdown(self, state):
+        if(state == False):
+            # save the data to JSON
+            self.carbonOffset[-1] = self.latestData
+            carbonOffsetData = [self.runningCarbonOffsetIndex, self.outstandingCarbonOffsetIndex, self.sumTillLastDay, self.carbonOffset]
+            with open('carbon-offset.json', 'w') as f:
+                json.dump(carbonOffsetData, f)
 
     def onRequest(self, mode = 0):
         # send the outstanding values to bluetooth/UI
