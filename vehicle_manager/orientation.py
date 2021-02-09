@@ -107,7 +107,8 @@ class Orientation():
                 calibrationData = Orientation.dataPort.get_calibration()
                 # Print everything out.
                 # print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(heading, roll, pitch-180, sys, gyro, accel, mag))
-
+                if(sys==0 and gyro==0 and accel==0 and mag==0):
+                    self.loadCalibrationData()
                 if(sys < 3):
                     print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(heading, roll, pitch-180, sys, gyro, accel, mag))
                 # print(calibrationData)

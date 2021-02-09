@@ -34,6 +34,7 @@ class PowerManager():
 
         vehicleEvents.onStandSwitch += self.updateStandState
         vehicleEvents.onUserInteraction += self.uiMonitor
+        vehicleEvents.onButtonPress += self.onButtonPress
         # vehicleEvents.bikeOff += self.onBikeOff
         # vehicleEvents.bikeOn += self.onBikeOn
         vehicleEvents.bikeOnOff += self.onBikeOnOff
@@ -93,7 +94,10 @@ class PowerManager():
     # def onBikeOn(self):
     #     subprocess.call('vcgencmd display_power 1', shell=True)
     #     print('Bike is On.')
-
+    def onButtonPress(self):
+        if(self.inactivityTimer.isAlive()):
+            self.inactivityTimer.cancel()
+            self.inactivityTimer.start()
     def onBikeOnOff(self, state):
         if(state == False): # bike is off
             subprocess.call('vcgencmd display_power 0', shell=True)

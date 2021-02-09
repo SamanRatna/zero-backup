@@ -5,7 +5,7 @@
 
 eel.expose(updateFinderRequest);
 function updateFinderRequest(command){
-    command = command.substring(1); //this removes the extra whitespace character in infront of the actual command character
+    // command = command.substring(1); //this removes the extra whitespace character in infront of the actual command character
                                     // for some reason this whitespace character is being received
     console.log('Finder Request: '+command);
 

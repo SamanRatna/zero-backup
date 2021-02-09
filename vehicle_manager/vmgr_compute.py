@@ -22,6 +22,7 @@ class VehicleInfoCalculator:
         self.tripMaxSpeed           = 0
         self.averageSpeed           = 0
         self.tripAverageSpeed       = 0
+        self.fuelSavings            = 0
 
         #persistency
         self.tripDistanceOffset     = 0

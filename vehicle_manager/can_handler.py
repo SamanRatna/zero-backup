@@ -263,6 +263,7 @@ class CANHandler:
                         
                         if(data[0] == 0x1):
                             vehicleEvents.onSideLight(data[1])
+                            vehicleEvents.onButtonPress()
                             # if(data[1] == 0x1):
                             #     # no side lights
                             # elif(data[2] == 0x2):
@@ -274,11 +275,15 @@ class CANHandler:
                         
                         elif(data[0] == 0x2): # low beam
                             vehicleEvents.onHeadLight(1, data[1])
+                            vehicleEvents.onButtonPress()
                         elif(data[0] == 0x3): # high beam
                             vehicleEvents.onHeadLight(2, data[1])
+                            vehicleEvents.onButtonPress()
+
                         
                         elif(data[0] == 0x4):
                             vehicleReadings.bikeMode(data[1])
+                            vehicleEvents.onButtonPress()
                             # if(data[1] == 0x1):
                             #     # reverse mode
                             # elif(data[1] == 0x2):
@@ -306,6 +311,19 @@ class CANHandler:
                     if message.arbitration_id == 0x1E00101:
                         data = message.data
                         vehicleReadings.vcuTemperature(data[1], data[0])
+                    if message.arbitration_id == 0x1E00104:
+                        data = message.data
+                        current = round((data[1]*256 + data[2])*0.1, 2)
+                        # print('Charging Current: ', current, 'A')
+                        if(data[0] == 2):
+                            isCharging = True
+                            # print('Charging')
+                        elif(data[0] == 1):
+                            isCharging = False
+
+                        if(isCharging != self.isCharging):
+                            self.isCharging = isCharging
+                            vehicleEvents.charging(self.isCharging)
                     #Lith-Tech Battery
                     if message.arbitration_id == 284693918:
                         data = message.data
