@@ -166,6 +166,8 @@ function setKickstandSignalVisibility(visibility){
     }
     else {
         document.getElementById('js-kickstand-signal').style.display = 'none';
+        document.getElementById('js-kickstand-signal').classList.remove('warning-pulse');
+        pulseCounter = false;
     } 
 }
 function moveNotificationCard(to){

@@ -216,6 +216,7 @@
     padding: 5%;
     width: 37.5%;
     height: 37.5%;
+    position: relative;
     /* background: lime; */
 }
 
@@ -239,7 +240,7 @@
     background-repeat: no-repeat;
 }
 .compass-gauge{
-    background-image: url('../icons/compass-clock-2.svg');
+    background-image: url('../icons/compass-clock-3.svg');
     background-size: 50%;
     background-position: center;
     background-repeat: no-repeat;
@@ -265,6 +266,7 @@
     background-image: url('../icons/compass-pointer.png');
     background-position-x: center;
     background-position-y: center;
+    background-repeat: no-repeat;
 }
 
 /* .dark .compass-gauge{

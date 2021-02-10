@@ -276,8 +276,23 @@ function updateBikeMode(mode){
         document.getElementById('js-p0-image').style.display = 'none'
         document.getElementById('js-stats-no-map').style.display = 'block'
     }
+    pulsateWarning();
+
 }
 
+let pulseCounter = false;
+function pulsateWarning(){
+    if(document.getElementById('js-kickstand-signal').style.display == 'flex' && pulseCounter == true){
+        if(!document.getElementById('js-kickstand-signal').classList.contains('warning-pulse')){
+            document.getElementById('js-kickstand-signal').classList.add('warning-pulse');
+            setTimeout(function(){
+                document.getElementById('js-kickstand-signal').classList.remove('warning-pulse');
+            }, 3500);
+        }
+    } else if(document.getElementById('js-kickstand-signal').style.display == 'flex' && pulseCounter == false){
+        pulseCounter = true;
+    }
+}
 
 // Function to update the battery level in the dashboard
 let currentSOC = 0;
@@ -489,10 +504,10 @@ function updateOrientation(heading, roll, pitch){
     
         document.getElementById('js-roll-indicator').style.transform = 'rotate('+roll+'deg)';
         document.getElementById('js-pitch-indicator').style.transform = 'translate(0px,'+ scaledPitch + 'px)';
-        document.getElementById('js-yaw-indicator').style.transform = 'rotate('+ heading + 'deg)';
+        document.getElementById('js-yaw-gauge').style.transform = 'rotate('+ -heading + 'deg)';
     }
     else if(uiMode == 'map-mode'){ // go to no-map-mode
-        updateHeading(heading)
+        updateHeading(heading);
     }
 
     // updateHeading(heading)
