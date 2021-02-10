@@ -135,7 +135,9 @@ function updateCarbonOffset(coSum, data){
   var codata = data;
 
   updateTheTotalCarbonOffset(coSum);
-  
+  if(data.length > 1){
+    resetCarbonData();
+  }
   codata.forEach(item => {
     updateCarbonData(item[0], item[1]);
     console.log(item);
@@ -156,6 +158,12 @@ function updateTheTotalCarbonOffset(data){
   }
 }
 
+function resetCarbonData(){
+  console.log('Reseting co')
+  let chart = carbonChart;
+  chart.data.labels = [];
+  chart.data.datasets[0].data = [];
+}
 eel.expose(updateFuelSavings);
 function updateFuelSavings(data){
   document.getElementById('js-carbon-savings-value').innerHTML = data;
