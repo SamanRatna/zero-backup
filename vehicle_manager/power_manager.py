@@ -117,9 +117,9 @@ class PowerManager():
         self.stateOfCharge = soc
         if(self.isCharging):
             if(self.lastChargeUpdate == None):
-                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
+                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
             elif(self.stateOfCharge - self.lastChargeUpdate >= 5):
-                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging)
+                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
 
     def onCharging(self, isCharging, isFastCharging):
         self.isCharging = isCharging
