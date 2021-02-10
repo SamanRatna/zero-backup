@@ -287,7 +287,7 @@ function pulsateWarning(){
             document.getElementById('js-kickstand-signal').classList.add('warning-pulse');
             setTimeout(function(){
                 document.getElementById('js-kickstand-signal').classList.remove('warning-pulse');
-            }, 3500);
+            }, 1200);
         }
     } else if(document.getElementById('js-kickstand-signal').style.display == 'flex' && pulseCounter == false){
         pulseCounter = true;
