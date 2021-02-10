@@ -150,11 +150,11 @@ function updateBluetoothDevices(devices){
     }
 }
 
-document.getElementById('js-bluetooth-name-edit').addEventListener('click', function(){
-    console.log('Edit Bluetooth Name');
-    openKeyboard('bluetooth');
-    setBluetoothInputVisibility(true);
-});
+// document.getElementById('js-bluetooth-name-edit').addEventListener('click', function(){
+//     console.log('Edit Bluetooth Name');
+//     openKeyboard('bluetooth');
+//     setBluetoothInputVisibility(true);
+// });
 
 function setBluetoothName(name){
     name = name.trim()
