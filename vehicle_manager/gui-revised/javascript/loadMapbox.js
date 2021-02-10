@@ -68,7 +68,14 @@ function onInternetConnectivity(status){
         loadMapboxScript_1();
     } else if(status == false){
         waitingForMapMode = false;
+        showInternetWarning();
     }
+}
+function showInternetWarning(){
+    document.getElementById('js-internet-signal').style.display = 'flex';
+    setTimeout(function(){
+        document.getElementById('js-internet-signal').style.display = 'none';
+    }, 5000);
 }
 function loadMapboxScript_1(){
     if(!isLoaded_Script1){
