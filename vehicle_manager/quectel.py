@@ -19,6 +19,7 @@ class Quectel():
         self.gpsMgr = None
         self.isLowBalanceNotified = False
         self.isCriticalLowBalanceNotified = False
+        self.phoneNumber = None
         if Quectel.__instance__ is None:
             self.initializeConnection()
             if Quectel.atCommandPort:
@@ -208,6 +209,7 @@ class Quectel():
                 # print('Extracted Index: ', titleIndex + len(title))
                 numberIndex = titleIndex+len(title)
                 number = response[numberIndex:numberIndex+10]
+                self.phoneNumber = number
                 print('Extracted phone number: ', number)
         return number
 
@@ -218,9 +220,10 @@ class Quectel():
         if balance != None:
             vehicleReadings.network({'balance': balance})
         
-        number = self.getPhoneNumber()
-        if number != None:
-            vehicleReadings.network({'number': number})
+        if(self.phoneNumber == None):
+            self.getPhoneNumber()
+        if(self.phoneNumber != None):
+            vehicleReadings.network({'number': self.phoneNumber})
     
     def checkForLowBalance(self, balance):
         if balance != None:
