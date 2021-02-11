@@ -305,3 +305,70 @@ function updateBluetoothName(name){
 //         navigationModeToggle.addEventListener('click', switchUIMode);
 //     }
 // }
+
+let themeToggle = document.getElementById('js-theme-toggle');
+const themes = {
+    LIGHT:  'light',
+    DARK:   'dark',
+    AUTO:   'auto'
+}
+let currentTheme = themes.LIGHT;
+themeToggle.addEventListener('click', toggleUIMode);
+function toggleUIMode(){
+    switch(currentTheme){
+        case themes.LIGHT:
+            //switch to auto theme
+            changeTheme(themes.AUTO);
+            break;
+        case themes.AUTO:
+            //switch to dark theme
+            changeTheme(themes.DARK);
+            break;
+        case themes.DARK:
+            //switch to light theme
+            changeTheme(themes.LIGHT);
+            break;
+    }
+}
+
+function changeTheme(toTheme){
+    // check if toTheme is valid
+    currentTheme = toTheme;
+    switch(toTheme){
+        case themes.LIGHT:
+            document.getElementById('js-theme-name').innerHTML = 'Light <br /> Mode';
+            if(uiTheme != 'light'){
+                switchUITheme();
+            }
+            break;
+        case themes.AUTO:
+            document.getElementById('js-theme-name').innerHTML = 'Auto <br /> Mode';
+            checkTimeForTheme();
+            break;
+        case themes.DARK:
+            document.getElementById('js-theme-name').innerHTML = 'Dark <br /> Mode';
+            if(uiTheme != 'dark'){
+                switchUITheme();
+            }
+            break;
+    }
+}
+
+function checkTimeForTheme(){
+    if(currentTheme != themes.AUTO){
+        return;
+    }
+    let date = new Date();
+    let hour= date.getHours();
+    if(hour > 7 && hour < 17){
+        if(uiTheme != 'light'){
+            switchUITheme();
+        }
+    }
+    else{
+        if(uiTheme != 'dark'){
+            switchUITheme();
+        }
+    }
+    setTimeout(checkTimeForTheme, 1800000);
+}

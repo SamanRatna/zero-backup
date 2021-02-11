@@ -841,3 +841,5 @@ class CANHandler:
 
     def onGUIReady(self):
         vehicleReadings.socRange(self.stateOfCharge, self.stateOfHealth, self.rangeSuste, self.rangeSuste, self.rangeSuste)
+        vehicleReadings.batteryTemperature(self.batteryTemperature)
+        

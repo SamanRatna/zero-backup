@@ -318,7 +318,7 @@ function switchUITheme(){
             theme: "hg-theme-default hg-layout-default"
         });
     }
-
+    document.getElementById('js-theme-toggle').classList.toggle('dark');
     document.getElementById('js-dash-page').classList.toggle('dark');
     // updateBikeMode(currentBikeMode);
     document.getElementById('js-light-signal').classList.toggle('dark-signal');
@@ -335,21 +335,45 @@ function switchUITheme(){
 
     document.getElementById('js-dash-card-primary').classList.toggle('dark');
     document.getElementById('js-dash-card-auxiliary').classList.toggle('dark');
+    updateMapTheme();
+    // if(isMapLoaded){
+    //     switchMapMode(uiTheme);
+    //     document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.toggle('geocoder-dark');
+    //     for(let i=0; i<inputFields.length; i++){
+    //         inputFields[i].classList.toggle('geocoder-dark');
+    //     }
+    //     document.getElementsByClassName('suggestions')[0].classList.toggle('geocoder-dark');
+    //     document.getElementsByClassName('mapboxgl-ctrl-compass')[0].parentElement.classList.toggle('geocoder-dark');
 
-    if(isMapLoaded){
-        switchMapMode(uiTheme);
-        document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.toggle('geocoder-dark');
-        for(let i=0; i<inputFields.length; i++){
-            inputFields[i].classList.toggle('geocoder-dark');
-        }
-        document.getElementsByClassName('suggestions')[0].classList.toggle('geocoder-dark');
-        document.getElementsByClassName('mapboxgl-ctrl-compass')[0].parentElement.classList.toggle('geocoder-dark');
+    //     document.getElementsByClassName('trip__info')[0].classList.toggle('dark');
+    //     document.getElementsByClassName('route__info')[0].classList.toggle('dark');
+    //     document.getElementsByClassName('route__info__current')[0].classList.toggle('dark');
+    //     document.getElementsByClassName('route__summary')[0].classList.toggle('dark');
+    // }
+}
 
-        document.getElementsByClassName('trip__info')[0].classList.toggle('dark');
-        document.getElementsByClassName('route__info')[0].classList.toggle('dark');
-        document.getElementsByClassName('route__info__current')[0].classList.toggle('dark');
-        document.getElementsByClassName('route__summary')[0].classList.toggle('dark');
+let mapTheme = 'light';
+function updateMapTheme(){
+    console.log('UI theme: '+uiTheme);
+    console.log('Map theme: '+ mapTheme);
+  if(mapTheme == uiTheme){
+    return;
+  }
+
+  if(isMapLoaded){
+    switchMapMode(uiTheme);
+    document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.toggle('geocoder-dark');
+    for(let i=0; i<inputFields.length; i++){
+        inputFields[i].classList.toggle('geocoder-dark');
     }
+    document.getElementsByClassName('suggestions')[0].classList.toggle('geocoder-dark');
+    document.getElementsByClassName('mapboxgl-ctrl-compass')[0].parentElement.classList.toggle('geocoder-dark');
+
+    document.getElementsByClassName('trip__info')[0].classList.toggle('dark');
+    document.getElementsByClassName('route__info')[0].classList.toggle('dark');
+    document.getElementsByClassName('route__info__current')[0].classList.toggle('dark');
+    document.getElementsByClassName('route__summary')[0].classList.toggle('dark');
+  }
 }
 
 let isRange = false;

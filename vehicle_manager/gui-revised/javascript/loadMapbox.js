@@ -1,3 +1,6 @@
+let isMapLoaded = false;
+let isMapboxLoaded = false;
+
 const mapboxScript_1 = document.createElement('script');
 const mapboxScript_2 = document.createElement('script');
 const mapboxScript_3 = document.createElement('script');
@@ -108,6 +111,7 @@ function loadMapboxScript_4(){
     if(!isLoaded_Script4){
         document.head.appendChild(mapboxLink_4);
         document.head.appendChild(mapboxScript_4);
+        isMapboxLoaded = true;
     }
     else{
         startMap();

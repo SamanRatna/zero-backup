@@ -10,8 +10,6 @@ const navigationPitch = 0;
 let maneuvers;
 let destinationName;
 let distanceToDestination = Infinity;
-let isMapLoaded = false;
-
 const RANGE_ON_FULL_AH = 180;
 // startMap();
 
@@ -25,6 +23,7 @@ Request for API Key from the backend
 
 // dummy startMap function for UI development
 function startMap() {
+  updateMapTheme();
   if(isMapLoaded){
     eel.getCurrentLocation(true);
     return;
@@ -751,6 +750,7 @@ function calculateDistanceToDestination(distanceToManeuver, closestManeuverIndex
 // Funtion: Draws the geojson line on the map for specific modes related to navigation
 // Input: Style to switch to i.e. dark or light
 function switchMapMode(layer) {
+  mapTheme = layer;
   if(layer == 'dark'){
     map.setStyle('mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh');
   }
@@ -872,4 +872,3 @@ document.getElementById('js-off-route').addEventListener('click', function(){
     getRoute(destinationLocation);
   }
 });
-

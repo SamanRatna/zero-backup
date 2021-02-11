@@ -12,12 +12,12 @@ UNIT_COST_OF_AH     = 1.4       # NRs
 class VehicleInfoCalculator:
     def __init__(self):
         # inputs
-        self.odoReading             = None
+        self.odoReading             = 0
         self.speedReading           = 0
         self.tractionHours          = 0
 
         # outputs
-        self.tripDistance           = None
+        self.tripDistance           = 0
         self.maxSpeed               = 0
         self.tripMaxSpeed           = 0
         self.averageSpeed           = 0

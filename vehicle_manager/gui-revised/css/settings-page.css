@@ -99,6 +99,12 @@
     display: flex;
     text-align: center;
 }
+.settings-navigation.dark{
+    background: #535353;
+}
+.settings-navigation.dark > p{
+    color: white;
+}
 .settings-navigation.navigation-mode-processing{
     background: #e1dfdf;
 }
