@@ -359,6 +359,9 @@
 .active{
     color: black;
 }
+.dark .switch-field-label.active{
+    color: white;
+}
 /*settings pane toggle  */
 .toggled{
     left: 40px;
