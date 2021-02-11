@@ -360,6 +360,7 @@ function updateMapTheme(){
     return;
   }
 
+  setMapStyleURI(uiTheme);
   if(isMapLoaded){
     switchMapMode(uiTheme);
     document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].classList.toggle('geocoder-dark');
@@ -373,6 +374,7 @@ function updateMapTheme(){
     document.getElementsByClassName('route__info')[0].classList.toggle('dark');
     document.getElementsByClassName('route__info__current')[0].classList.toggle('dark');
     document.getElementsByClassName('route__summary')[0].classList.toggle('dark');
+    mapTheme = uiTheme;
   }
 }
 

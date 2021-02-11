@@ -122,3 +122,15 @@ function loadMapboxScript_4(){
 function checkInternetConnectivity(){
     eel.checkInternetConnectivity()
 }
+
+let mapStyleURI = 'mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb?optimize=true';
+let mapStyle = 'light';
+function setMapStyleURI(style){
+  mapStyle = style;
+  if(style == 'light'){
+    mapStyleURI = 'mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb?optimize=true';
+  }
+  else if(style == 'dark'){
+    mapStyleURI = 'mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh?optimize=true';
+  }
+}

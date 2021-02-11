@@ -92,7 +92,8 @@ function initMap(){
   map = new mapboxgl.Map({
     container: 'js-map-card', // element where map is loaded
     // style: 'mapbox://styles/yatri/ck7n2g8mw0mf41ipgdkwglthq',
-    style:'mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb?optimize=true',
+    // style:'mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb?optimize=true',
+    style: mapStyleURI,
     // style: 'mapbox://styles/mapbox/streets-v11?optimize=true', // stylesheet location
     center: currentLocation, // starting position [lng, lat]
     zoom: initialZoomLevel,
@@ -191,6 +192,7 @@ function addListeners(){
 
   initKeyboardListener();
   isMapLoaded = true;
+  updateMapTheme();
   updateUIMode('map-mode');
 }
 
@@ -750,14 +752,15 @@ function calculateDistanceToDestination(distanceToManeuver, closestManeuverIndex
 // Funtion: Draws the geojson line on the map for specific modes related to navigation
 // Input: Style to switch to i.e. dark or light
 function switchMapMode(layer) {
-  mapTheme = layer;
-  if(layer == 'dark'){
-    map.setStyle('mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh');
+  // if(layer == 'dark'){
+  //   map.setStyle('mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh?optimize=true');
+  // }
+  // else{
+  //   map.setStyle('mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb?optimize=true');
+  // }
+  if(mapStyle != layer){
+    map.setStyle(mapStyleURI);
   }
-  else{
-    map.setStyle('mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb');
-  }
-
   // Draw route on the map if the mode is 'nav-info-mode' or 'navigation-mode'
   if(currentMode == 'nav-info-mode' || currentMode == 'navigation-mode'){
     console.log('Getting the Route.');
