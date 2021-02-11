@@ -11,7 +11,7 @@ def getRiderInfo():
             info = json.load(f)
             vehicleReadings.riderInfo(info)
             print(info)
-    except error as err:
+    except Exception as err:
         print(err)
 
 def saveRiderInfo(name, licenseNumber, bikeNumber):

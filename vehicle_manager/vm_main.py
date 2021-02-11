@@ -1,3 +1,5 @@
+import time
+from gui import *
 import threading
 from event_handler import *
 from gpio_manager import *
@@ -8,8 +10,6 @@ from power_manager import *
 from carbon_offset import CarbonOffsetCalculator
 from quectel import *
 import vehicle_states
-import time
-from gui import *
 from can_handler import *
 from ble_agent import *
 from ble_advertisement import *
@@ -19,14 +19,15 @@ from orientation import Orientation
 from sw_update import *
 from ble_adapter import *
 from rider_info import *
-# from time_sync import *
+from internet import *
+# from auto_sidelight import *
 
 # import signal
 
-try:
-    import dummy_data
-except:
-    pass
+# try:
+#     import dummy_data
+# except:
+#     pass
 
 # def keyboardInterruptHandler(signal, frame):
 #     # print("KeyboardInterrupt (ID: {}) has been caught. Cleaning up...".format(signal))
@@ -56,7 +57,7 @@ def threadOrientation():
     orientation = Orientation.getInstance()
 
 def threadCANHandler():
-    cany = CANHandler()
+    can = CANHandler()
 
 def threadVehicleManager():
     startGUIThread()
@@ -69,7 +70,7 @@ def threadVehicleManager():
     # gpioWriter = GPIOWriter.getInstance()
     vmgrComputer = VehicleInfoCalculator()
     carbonOffsetCalculator = CarbonOffsetCalculator()
-    orientation = Orientation.getInstance()
+    # orientation = Orientation.getInstance()
     # cany = CANHandler(GPIOWriter.getInstance())
     # cany = CANHandler()
 
@@ -88,7 +89,7 @@ if __name__ == '__main__':
         tDiscovery = threading.Thread(target=threadDiscovery)
         tVmgr.start()
         tCAN.start()
-        # tOrientation.start()
+        tOrientation.start()
         # print('After VMGR: number of current threads is ', threading.active_count())
         tAgent.start()
         # print('After Agent: number of current threads is ', threading.active_count())
@@ -96,7 +97,7 @@ if __name__ == '__main__':
         # print('After Advertisement: number of current threads is ', threading.active_count())
         tServer.start()
         # print('After Server: number of current threads is ', threading.active_count())
-        tSWUpdate.start()
+        # tSWUpdate.start()
         tDiscovery.start()
 
     except KeyboardInterrupt:
