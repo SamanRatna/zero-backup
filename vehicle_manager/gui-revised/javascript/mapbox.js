@@ -758,7 +758,7 @@ function switchMapMode(layer) {
   // else{
   //   map.setStyle('mapbox://styles/yatri/cke13s7e50j3s19olk91crfkb?optimize=true');
   // }
-  if(mapStyle != layer){
+  if(mapTheme != layer){
     map.setStyle(mapStyleURI);
   }
   // Draw route on the map if the mode is 'nav-info-mode' or 'navigation-mode'
