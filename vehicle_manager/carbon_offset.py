@@ -51,7 +51,7 @@ class CarbonOffsetCalculator:
         # start a new cycle and initialize the new cycle to current cycle
         # update the values 
         # send the values to GUI
-        carbonOffset = odoDistance * 77
+        carbonOffset = int(odoDistance * 77)
         if(not self.isToday(self.latestData[0])):
             self.carbonOffset[-1] = self.latestData
             self.sumTillLastDay = self.sumTillLastDay + self.latestData[1]

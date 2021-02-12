@@ -820,12 +820,20 @@ class ChargeCostsCharacteristic(Characteristic):
         if not self.notifying:
             return
         for data in self.chargeCostsData:
-            startSOCBytes = bytearray(str(data[0]), 'utf-8')
-            endSOCBytes = bytearray(str(data[1]), 'utf-8')
-            startDateBytes = bytearray(str(data[2]), 'utf-8')
-            endDateBytes = bytearray(str(data[3]), 'utf-8')
-            chargeCostsBytes = bytearray(str(data[4]), 'utf-8')
+            chargeCycleBytes = bytearray(str(data[0]), 'utf-8')
+            isFastChargingBytes = bytearray(str(data[1]), 'utf-8')
+            startSOCBytes = bytearray(str(data[2]), 'utf-8')
+            endSOCBytes = bytearray(str(data[3]), 'utf-8')
+            startDateBytes = bytearray(str(data[4]), 'utf-8')
+            endDateBytes = bytearray(str(data[5]), 'utf-8')
+            chargeCostsBytes = bytearray(str(data[6]), 'utf-8')
             dbusBytes = []
+            for v in list(chargeCycleBytes):
+                dbusBytes.append(dbus.Byte(v))
+            dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
+            for v in list(isFastChargingBytes):
+                dbusBytes.append(dbus.Byte(v))
+            dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
             for v in list(startSOCBytes):
                 dbusBytes.append(dbus.Byte(v))
             dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
