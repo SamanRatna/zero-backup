@@ -54,7 +54,6 @@ class PowerManager():
         print('User inactive.')
         if(self.ignitionState == True):
             vehicleEvents.autoOff(True)
-            # self.onBikeOff()
             self.onBikeOnOff(False)
 
     def standMonitor(self, state):
@@ -102,11 +101,13 @@ class PowerManager():
     def onBikeOnOff(self, state):
         if(state == False): # bike is off
             subprocess.call('vcgencmd display_power 0', shell=True)
+            vehicleReadings.speedReading -= self.speedMonitor
             print('Bike is Off.')
             if(self.inactivityTimer.isAlive()):
                 self.inactivityTimer.cancel()
         elif(state == True): #bike is on
             subprocess.call('vcgencmd display_power 1', shell=True)
+            vehicleReadings.speedReading += self.speedMonitor
             print('Bike is On.')
             if(self.standState == 1):
                 self.inactivityTimer.cancel()
