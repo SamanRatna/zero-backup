@@ -12,12 +12,12 @@ UNIT_COST_OF_AH     = 1.4       # NRs
 class VehicleInfoCalculator:
     def __init__(self):
         # inputs
-        self.odoReading             = 0
+        self.odoReading             = None
         self.speedReading           = 0
-        self.tractionHours          = 0
+        self.tractionHours          = None
 
         # outputs
-        self.tripDistance           = 0
+        self.tripDistance           = None
         self.maxSpeed               = 0
         self.tripMaxSpeed           = 0
         self.averageSpeed           = 0
@@ -87,8 +87,11 @@ class VehicleInfoCalculator:
     # and then call methods that use odoReading
     # 
     def updateOdoReading(self, odometer, tractionHour):
+        if(self.odoReading == None):
+            self.odoReading = 0
         self.tractionHours = tractionHour
         self.computeTripDistance(odometer)
+
         if(abs(self.odoReading - odometer) > 0.1):
             vehicleReadings.distances(odometer, self.tripDistance)
         self.odoReading = odometer
@@ -184,7 +187,7 @@ class VehicleInfoCalculator:
         
         self.odoReading = odometer
         self.computeTripDistance(odometer)
-
+        vehicleReadings.distances(self.odoReading, self.tripDistance)
         # if (self.averageSpeed != 0):
         #     self.rideTimeOnboot = int(self.odoReading / self.averageSpeed)
 
