@@ -70,3 +70,9 @@
 #js-touchdisable-icon {
     display: none;
 }
+#js-attribution-page{
+    display: none;
+}
+#js-attribution-toggle{
+    display: none;
+}

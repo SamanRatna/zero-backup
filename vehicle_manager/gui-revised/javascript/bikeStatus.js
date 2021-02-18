@@ -65,6 +65,7 @@ function updateUIMode(mode){
         setDashCardVisibility(true);
         moveNotificationCard('normal-mode');
         setMode(lastMapUIMode);
+        setAttributionToggleVisibility(true);
     }
     else if(mode == 'no-map-mode'){
         noMapPage.style.display = 'flex';
@@ -73,6 +74,7 @@ function updateUIMode(mode){
         moveNotificationCard('navigation-mode');
         lastMapUIMode = currentMode;
         setMode('no-map-mode');
+        setAttributionToggleVisibility(false);
     }
     // updateNavigationToggle(mode);
     setSettingsCardVisibility(false);

@@ -1070,3 +1070,64 @@ img{
     background-position-x: 80%;
     z-index: 1000;
 }
+.attribution-content{
+    position: absolute;
+    top: 610px;
+    left:100px;
+    height: 800px;
+    width: 1000px;
+    border: 3px solid gray;
+    border-radius: 60px;
+    background-color:white;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+.attribution-page{
+    position: absolute;
+    height: 1920px;
+    width: 1200px;
+    top: 0px;
+    left: 0px;
+    backdrop-filter: blur(40px);
+    z-index: 10;
+}
+.attribution-bar{
+    margin: auto;
+    width: 80%;
+    height:20%;
+    /* background-color: blue; */
+}
+.attribution-title{
+    display: flex;
+    font-size: 60px;
+}
+.attribution-title > p{
+    margin: auto;
+}
+.attribution-link{
+    display: flex;
+    font-size: 40px;
+    color: gray;
+}
+.attribution-link > p{
+    margin: auto;
+}
+.attribution-toggle{
+    transition-duration: 250ms;
+    width:5.2vh;
+    height: 5.2vh;
+    border-radius: 20px;
+    display: flex;
+
+    position: absolute;
+    right: 10px;
+    bottom: 220px;
+    background-image: url('../icons/information.svg');
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+}
+.attribution-toggle-low{
+    transform: translateY(160px);
+}

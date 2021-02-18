@@ -66,9 +66,15 @@ function setDashCardVisibility(visibility){
 function setLogoFrameVisibility(visibility){
     if(visibility == true){
         document.getElementById('js-logo-frame').style.display = 'flex';
+        if(uiMode == 'map-mode'){
+            document.getElementById('js-attribution-toggle').classList.remove('attribution-toggle-low');
+        }
     }
     else{
         document.getElementById('js-logo-frame').style.display = 'none';
+        if(uiMode == 'map-mode'){
+            document.getElementById('js-attribution-toggle').classList.add('attribution-toggle-low');
+        }
     }
 }
 
@@ -318,6 +324,7 @@ function switchUITheme(){
             theme: "hg-theme-default hg-layout-default"
         });
     }
+    // document.getElementById('js-attribution-page').classList.toggle('dark');
     document.getElementById('js-theme-toggle').classList.toggle('dark');
     document.getElementById('js-dash-page').classList.toggle('dark');
     // updateBikeMode(currentBikeMode);
@@ -430,5 +437,24 @@ function disableTouch(value){
     else{
         document.body.style.pointerEvents = 'auto';
         setTouchDisabledWarningVisiblity(false);
+    }
+}
+
+// attribution page
+document.getElementById('js-attribution-page').addEventListener('click', clickHandlerForAttributionPage);
+
+let attributionActiveArea = document.getElementById('js-attribution-content');
+function clickHandlerForAttributionPage(event){
+  let isInsideActiveArea = attributionActiveArea.contains(event.target);
+  if (!isInsideActiveArea) {
+    document.getElementById('js-attribution-page').style.display = 'none';
+  }
+}
+
+function setAttributionToggleVisibility(visibility){
+    if(visibility){
+        document.getElementById('js-attribution-toggle').style.display = 'flex';
+    } else {
+        document.getElementById('js-attribution-toggle').style.display = 'none';
     }
 }

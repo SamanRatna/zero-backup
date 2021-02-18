@@ -875,3 +875,8 @@ document.getElementById('js-off-route').addEventListener('click', function(){
     getRoute(destinationLocation);
   }
 });
+
+document.getElementById('js-attribution-toggle').addEventListener('click', function(){
+  //open attribution page
+  document.getElementById('js-attribution-page').style.display = 'flex';
+});

@@ -144,6 +144,7 @@
 }
 
 .mapboxgl-ctrl-attrib-inner{
+  display: none;
   pointer-events: none;
   font-size: 40px;
   transform: translateY(12px);
