@@ -393,3 +393,42 @@ function switchBatteryRange(){
 document.getElementById('js-battery-indicator-no-map').addEventListener('click', function(){
     switchBatteryRange();
 });
+function setTouchDisabledIconVisibility(visibility){
+    if(visibility){
+        document.getElementById('js-touchdisable-icon').style.display = 'flex';
+    } else {
+        document.getElementById('js-touchdisable-icon').style.display = 'none';
+    }
+}
+function setTouchDisabledNotificationVisibility(visibility){
+    if(visibility){
+        document.getElementById('js-touchdisable-signal').style.display = 'flex';
+    } else {
+        document.getElementById('js-touchdisable-signal').style.display = 'none';
+    }
+}
+function setTouchDisabledWarningVisiblity(visibility){
+    if(visibility){
+        if(uiMode == 'no-map-mode'){
+            setTouchDisabledNotificationVisibility(false);
+            setTouchDisabledIconVisibility(true);
+        } else if(uiMode == 'map-mode'){
+            setTouchDisabledNotificationVisibility(true);
+            setTouchDisabledIconVisibility(false);
+        }
+    } else {
+        setTouchDisabledNotificationVisibility(false);
+        setTouchDisabledIconVisibility(false);
+    }
+}
+
+function disableTouch(value){
+    if(value){
+        document.body.style.pointerEvents = 'none';
+        setTouchDisabledWarningVisiblity(true);
+    }
+    else{
+        document.body.style.pointerEvents = 'auto';
+        setTouchDisabledWarningVisiblity(false);
+    }
+}

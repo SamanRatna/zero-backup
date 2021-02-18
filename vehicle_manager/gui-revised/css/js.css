@@ -64,3 +64,9 @@
 #js-internet-signal{
     display: none;
 }
+#js-touchdisable-signal{
+    display: none;
+}
+#js-touchdisable-icon {
+    display: none;
+}

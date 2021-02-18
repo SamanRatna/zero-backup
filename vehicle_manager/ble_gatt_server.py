@@ -278,7 +278,6 @@ class BatteryLevelCharacteristic(Characteristic):
     def notify_battery_level(self):
         if not self.notifying:
             return
-        # print('Notify Battery Level: ', self.battery_lvl)
         self.PropertiesChanged(
                 GATT_CHRC_IFACE,
                 { 'Value': [dbus.Byte(self.battery_lvl)] }, [])
@@ -372,12 +371,13 @@ class MaxSpeedCharacteristic(Characteristic):
         self.NotifyValue()
 
     def ReadValue(self, options):
-        print('Max Speed Read: ' + repr(self.maxSpeed))
+        print('Max Speed Read: ', repr(self.maxSpeed), repr(self.tripMaxSpeed))
         return [dbus.Byte(self.maxSpeed), dbus.Byte(self.tripMaxSpeed)]
 
     def NotifyValue(self):
         if not self.notifying:
             return
+        print('Max Speed Read: ', repr(self.maxSpeed), repr(self.tripMaxSpeed))
         self.PropertiesChanged(
                 GATT_CHRC_IFACE,
                 { 'Value': [dbus.Byte(self.maxSpeed), dbus.Byte(self.tripMaxSpeed)] }, [])
@@ -452,14 +452,14 @@ class AverageSpeedsCharacteristic(Characteristic):
 
     def ReadValue(self, options):
         print('Trip Average Speed Read: ' + repr(self.tripAverageSpeed))
-        return [dbus.Byte(self.tripAverageSpeed), dbus.Byte(self.totalAverageSpeed)]
+        return [dbus.Byte(self.totalAverageSpeed), dbus.Byte(self.tripAverageSpeed)]
 
     def NotifyValue(self):
         if not self.notifying:
             return
         self.PropertiesChanged(
                 GATT_CHRC_IFACE,
-                { 'Value': [dbus.Byte(self.tripAverageSpeed), dbus.Byte(self.totalAverageSpeed)] }, [])
+                { 'Value': [dbus.Byte(self.totalAverageSpeed), dbus.Byte(self.tripAverageSpeed)] }, [])
     
     def StartNotify(self):
         if self.notifying:

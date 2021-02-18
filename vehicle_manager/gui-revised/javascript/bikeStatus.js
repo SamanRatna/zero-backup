@@ -122,9 +122,9 @@ function updateSpeedPower(spd, power){
     speed.innerHTML = Math.round(spd);
     if(isBikeOn){
         if(spd > 1){
-            document.body.style.pointerEvents = 'none';
+            disableTouch(true);
         } else {
-            document.body.style.pointerEvents = 'auto';
+            disableTouch(false);
         }
     }
     // if(spd > 1){
@@ -588,8 +588,8 @@ eel.expose(updateBikeOnOffStatus);
 function updateBikeOnOffStatus(state){
     isBikeOn = state;
     if(state == true){  // if bike is turning ON
-        document.body.style.pointerEvents = 'auto';
+        disableTouch(false);
     }else{  // if bike is turning OFF
-        document.body.style.pointerEvents = 'none';
+        disableTouch(true);
     }
 }

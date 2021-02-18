@@ -35,9 +35,7 @@ class PowerManager():
 
         vehicleEvents.onStandSwitch += self.updateStandState
         vehicleEvents.onUserInteraction += self.uiMonitor
-        vehicleEvents.onButtonPress += self.onButtonPress
-        # vehicleEvents.bikeOff += self.onBikeOff
-        # vehicleEvents.bikeOn += self.onBikeOn
+        # vehicleEvents.onButtonPress += self.onButtonPress
         vehicleEvents.bikeOnOff += self.onBikeOnOff
         vehicleEvents.charging += self.onCharging
         vehicleReadings.socRange += self.batteryStatus
@@ -59,9 +57,11 @@ class PowerManager():
     def standMonitor(self, state):
         self.standState == state
         if(state == 1 and self.ignitionState == True and self.isInMotion == False):
+            vehicleEvents.onButtonPress += self.onButtonPress
             if(not self.inactivityTimer.isAlive()):
                 self.inactivityTimer.start()
         elif (state == 2):
+            vehicleEvents.onButtonPress -= self.onButtonPress
             if(self.inactivityTimer.isAlive()):
                 self.inactivityTimer.cancel()
     

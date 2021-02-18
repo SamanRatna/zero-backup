@@ -17,7 +17,7 @@ class VehicleInfoCalculator:
         self.tractionHours          = None
 
         # outputs
-        self.tripDistance           = None
+        self.tripDistance           = 0
         self.maxSpeed               = 0
         self.tripMaxSpeed           = 0
         self.averageSpeed           = 0
@@ -123,6 +123,7 @@ class VehicleInfoCalculator:
         if(self.tripDistance != None):
             oldTripDistance = self.tripDistance
 
+
         newTripDistance = newOdoReading - self.tripDistanceOffset
 
         if((newTripDistance - oldTripDistance) > 0 ):
@@ -187,6 +188,7 @@ class VehicleInfoCalculator:
         
         self.odoReading = odometer
         self.computeTripDistance(odometer)
+
         vehicleReadings.distances(self.odoReading, self.tripDistance)
         # if (self.averageSpeed != 0):
         #     self.rideTimeOnboot = int(self.odoReading / self.averageSpeed)
