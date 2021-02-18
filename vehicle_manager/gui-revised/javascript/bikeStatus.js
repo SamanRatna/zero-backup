@@ -611,6 +611,8 @@ function updateBikeOnOffStatus(state){
 //     }, 7000);
 //   };
 window.onload = (event) => {
+    stopWarningTimeout();
+    setWarningVisibility(true);
     startWarningTimeout();
 }
 
