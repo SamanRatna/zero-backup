@@ -458,3 +458,21 @@ function setAttributionToggleVisibility(visibility){
         document.getElementById('js-attribution-toggle').style.display = 'none';
     }
 }
+
+// warning page
+document.getElementById('js-warning-page').addEventListener('click', clickHandlerForWarningPage);
+function setWarningVisibility(visibility){
+    if(visibility){
+        document.getElementById('js-warning-page').style.display = 'flex';
+    } else{
+        stopWarningTimeout();
+        document.getElementById('js-warning-page').style.display = 'none';
+    }
+}
+let warningActiveArea = document.getElementById('js-warning-content');
+function clickHandlerForWarningPage(event){
+  let isInsideActiveArea = warningActiveArea.contains(event.target);
+  if (!isInsideActiveArea) {
+    setWarningVisibility(false);
+  }
+}

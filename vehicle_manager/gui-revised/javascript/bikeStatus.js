@@ -161,6 +161,9 @@ function resetBikeMode(){
 function updateBikeMode(mode){
     console.log('Updating Bike Mode To: ' + mode)
     console.log(bikeModeActiveIndicator);
+    if(mode != 'MODE_STANDBY'){
+        setWarningVisibility(false);
+    }
     // if(uiTheme == 'light'){
     //     console.log('in light mode');
     //     switch(currentBikeMode){
@@ -591,7 +594,39 @@ function updateBikeOnOffStatus(state){
     isBikeOn = state;
     if(state == true){  // if bike is turning ON
         disableTouch(false);
+        // setTimeout(function(){
+        //     setWarningVisibility(false);
+        // }, 10000);
+        startWarningTimeout();
     }else{  // if bike is turning OFF
         disableTouch(true);
+        stopWarningTimeout();
+        setWarningVisibility(true);
+    }
+}
+
+// window.onload = (event) => {
+//     setTimeout(function(){
+//         setWarningVisibility(false)
+//     }, 7000);
+//   };
+window.onload = (event) => {
+    startWarningTimeout();
+}
+
+var warningTimeout;
+var warningTimeoutRunning = false;
+function startWarningTimeout() {
+    warningTimeout = setTimeout(function(){
+        setWarningVisibility(false);
+        warningTimeoutRunning = false;
+    }, 7000);
+    warningTimeoutRunning = true;
+}
+
+function stopWarningTimeout() {
+    if(warningTimeoutRunning){
+        warningTimeoutRunning = false;
+        clearTimeout(warningTimeout);
     }
 }
