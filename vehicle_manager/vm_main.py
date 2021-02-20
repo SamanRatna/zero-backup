@@ -20,6 +20,7 @@ from sw_update import *
 from ble_adapter import *
 from rider_info import *
 from internet import *
+from telematics import *
 # from auto_sidelight import *
 
 # import signal
@@ -59,6 +60,9 @@ def threadOrientation():
 def threadCANHandler():
     can = CANHandler()
 
+def threadTelematics():
+    telematics = Telematics()
+
 def threadVehicleManager():
     startGUIThread()
     quectel = Quectel.getInstance()
@@ -86,10 +90,12 @@ if __name__ == '__main__':
         tOrientation = threading.Thread(target = threadOrientation)
         tCAN = threading.Thread(target = threadCANHandler)
         tSWUpdate = threading.Thread(target=threadSWUpdate)
+        tTelematics = threading.Thread(target=threadTelematics)
         tDiscovery = threading.Thread(target=threadDiscovery)
         tVmgr.start()
         tCAN.start()
         tOrientation.start()
+        tTelematics.start()
         # print('After VMGR: number of current threads is ', threading.active_count())
         tAgent.start()
         # print('After Agent: number of current threads is ', threading.active_count())

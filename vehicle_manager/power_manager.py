@@ -4,7 +4,7 @@ from gpio_manager import RepeatableTimer
 import subprocess
 import json
 from datetime import datetime
-import requests
+# import requests
 from bike_credentials import *
 
 COST_FACTOR = 1.2
@@ -116,11 +116,6 @@ class PowerManager():
 
     def batteryStatus(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
         self.stateOfCharge = soc
-        if(self.isCharging):
-            if(self.lastChargeUpdate == None):
-                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
-            elif(self.stateOfCharge - self.lastChargeUpdate >= 5):
-                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
 
     def onCharging(self, isCharging, isFastCharging):
         self.isCharging = isCharging
@@ -131,11 +126,11 @@ class PowerManager():
             
             self.socOnChargeStart = self.stateOfCharge
             self.socOnChargeStartTime = int(datetime.now().timestamp())
-            if(self.lastChargeUpdate == None):
-                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
+            # if(self.lastChargeUpdate == None):
+            #     self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
         else:
-            if(self.lastChargeUpdate != None):
-                self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
+            # if(self.lastChargeUpdate != None):
+            #     self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
             self.socOnChargeEnd = self.stateOfCharge
             self.socOnChargeEndTime = int(datetime.now().timestamp())
             if(self.socOnChargeStart == None):
@@ -184,15 +179,18 @@ class PowerManager():
         if(index != None):
             vehicleReadings.chargeCostsForBluetooth(self.chargeSavingsData[index:])
 
-    def sendStateOfCharge(self, soc, chargingStatus, isFastCharging):
-        current_soc = str(soc)
-        current_status = str(chargingStatus).lower()
-        print(current_soc, current_status )
-        url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/batteries/" + battery_id
-        payload = '{\r\n    \"soc\": '+ current_soc + ',\r\n    \"isCharging\": ' + current_status + '\r\n}'
-        response = requests.request("PATCH", url, headers=headerCharge, data=payload)
-        print(response.text)
-        if(chargingStatus == True):
-            self.lastChargeUpdate = soc
-        else:
-            self.lastChargeUpdate = False
+    # def sendStateOfCharge(self, soc, chargingStatus, isFastCharging):
+    #     current_soc = str(soc)
+    #     current_status = str(chargingStatus).lower()
+    #     print(current_soc, current_status )
+    #     try:
+    #         url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/batteries/" + battery_id
+    #         payload = '{\r\n    \"soc\": '+ current_soc + ',\r\n    \"isCharging\": ' + current_status + '\r\n}'
+    #         response = requests.request("PATCH", url, headers=headerCharge, data=payload)
+    #         print(response.text)
+    #         if(chargingStatus == True):
+    #             self.lastChargeUpdate = soc
+    #         else:
+    #             self.lastChargeUpdate = False
+    #     except Exception as err:
+    #         print(err)

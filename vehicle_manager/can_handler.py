@@ -259,12 +259,12 @@ class CANHandler:
                             if(data[1] == 0x1):
                                 # ignition off
                                 print('Turning bike off')
-                                vehicleEvents.bikeOff()
+                                # vehicleEvents.bikeOff()
                                 vehicleEvents.bikeOnOff(False)
                             elif(data[1] == 0x2):
                                 # ignition on
                                 print('Turning bike on')
-                                vehicleEvents.bikeOn()
+                                # vehicleEvents.bikeOn()
                                 vehicleEvents.bikeOnOff(True)
                         
                         if(data[0] == 0x1):
