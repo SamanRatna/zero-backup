@@ -119,7 +119,7 @@ function updateVariables(mode){
 
 // Function to update the speed and power in the dashboard
 function updateSpeedPower(spd, power){
-    console.log(spd, power);
+    // console.log(spd, power);
 
     speed.innerHTML = Math.round(spd);
     if(isBikeOn){
@@ -310,22 +310,27 @@ function updateSOC(socData, sohData, suste, thikka, babbal){
     }
     currentSOC = socData;
     currentSOH = sohData;
-    soc.innerHTML = socData + '%';
-    batteryLevel.style.height = socData + '%';
 
-    if(socData == 100){
-        batteryCap.style.background = '#30D5C8';
-    }
-    else{
-        batteryCap.style.background = 'rgba(48, 213, 200, 0.4)';
-    }
-    if(suste){
-        currentSusteRange = suste;
-        if(uiMode == 'map-mode'){
-            range.innerHTML = Math.round(suste);
+    if(chargingState){
+        document.getElementById('js-charge-level').innerHTML = socData;
+    } else {
+        soc.innerHTML = socData + '%';
+        batteryLevel.style.height = socData + '%';
+        
+        if(socData == 100){
+            batteryCap.style.background = '#30D5C8';
         }
-        else if(uiMode =='no-map-mode'){
-            range.innerHTML = Math.round(suste) + 'km';
+        else{
+            batteryCap.style.background = 'rgba(48, 213, 200, 0.4)';
+        }
+        if(suste){
+            currentSusteRange = suste;
+            if(uiMode == 'map-mode'){
+                range.innerHTML = Math.round(suste);
+            }
+            else if(uiMode =='no-map-mode'){
+                range.innerHTML = Math.round(suste) + 'km';
+            }
         }
     }
 }
@@ -630,5 +635,22 @@ function stopWarningTimeout() {
     if(warningTimeoutRunning){
         warningTimeoutRunning = false;
         clearTimeout(warningTimeout);
+    }
+}
+
+let chargingState = false;
+let fastChargingState = false;
+eel.expose(updateChargingStatus);
+function updateChargingStatus(isCharging, isFastCharging){
+    console.log('chargingState: ', isCharging);
+    chargingState = isCharging;
+    fastChargingState = isFastCharging;
+    if(isCharging){
+        document.getElementById('js-charge-level').innerHTML = currentSOC;
+        document.getElementById('js-charge-level-ripple').classList.add('ripple');
+        document.getElementById('js-charge-card').style.display = 'flex';
+    } else {
+        document.getElementById('js-charge-card').style.display = 'none';
+        document.getElementById('js-charge-level-ripple').classList.remove('ripple');
     }
 }

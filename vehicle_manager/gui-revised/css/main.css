@@ -1131,3 +1131,87 @@ img{
 .attribution-toggle-low{
     transform: translateY(160px);
 }
+
+.charge-card{
+    background: #F0F0F0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.charge-level{
+    height: 800px;
+    width: 800px;
+    position: absolute;
+    margin: auto;
+    display: flex;
+    font-size: 250px;
+    color: #A6A6A6;
+    border-radius: 50%;
+    background: #F0F0F0;
+    box-shadow:  15px 15px 30px #c5c5c5,
+             -15px -15px 30px #ffffff;
+}
+
+.charge-level > p{
+    margin: auto;
+}
+
+.dark .charge-card{
+    background: rgb(70, 70, 70);
+}
+
+.dark .charge-level {
+    background: rgb(70, 70, 70);
+    box-shadow:  30px 30px 80px #393939,
+             -30px -30px 80px #6b6b6b;
+}
+
+.logo-frame.charging {
+    background: #F0F0F0;
+}
+.dark .logo-frame.charging{
+    background: linear-gradient(0deg, rgb(70, 70, 70) 50%, rgba(70, 70, 70, 0) 100%);
+}
+
+@keyframes ripple {
+    from {
+      transform: scale(0.9, 0.9);
+      opacity: 1;
+    }
+    to {
+      transform: scale(2.2, 2.2);
+      opacity: 0;
+    }
+  }
+
+.charge-level.ripple{
+        animation: ripple 4s ease infinite;
+}
+
+.neon{
+    color: #fff;
+    text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #fff,
+    0 0 40px #0ff,
+    0 0 80px #0ff,
+    0 0 90px #0ff;
+}
+
+.dark .neon {
+    color: #fff;
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 40px #0ff,
+      0 0 80px #0ff,
+}

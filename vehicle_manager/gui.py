@@ -19,6 +19,8 @@ eel.init('gui-revised')
 
 ignitionState = True
 bikeModeMemory = 2
+chargingStateMemory = False
+fastChargingStateMemory = False
 # from navigation_simulator import *
 
 # maxSpeed = 0
@@ -84,9 +86,11 @@ def publishSpeedPower(speed, power):
 def publishSOC(soc, soh,rangeSuste, rangeThikka, rangeBabbal):
     eel.updateSOC(math.floor(soc), math.floor(soh), rangeSuste, rangeThikka, rangeBabbal)
 
-def publishChargingStatus(status, current, timeToCharge):
-    # eel.updateChargingStatus(status, current, timeToCharge)
-    pass
+def publishChargingStatus(isCharging, isFastCharging):
+    global chargingStateMemory, fastChargingStateMemory
+    chargingStateMemory = isCharging
+    fastChargingStateMemory = isFastCharging
+    eel.updateChargingStatus(isCharging, isFastCharging)
 
 def publishMaxSpeed(value):
     # global maxSpeed
@@ -255,8 +259,9 @@ def resetTripData():
 @eel.expose
 def getGUIData():
     vehicleEvents.guiReady()
-    global ignitionState, bikeModeMemory
+    global ignitionState, bikeModeMemory, chargingStateMemory, fastChargingStateMemory
     publishBikeOnOffStatus(ignitionState)
+    eel.updateChargingStatus(chargingStateMemory, fastChargingStateMemory)
     publishBikeMode(bikeModeMemory)
     # global maxSpeed
     # global bikeMode
@@ -353,7 +358,7 @@ vehicleReadings.fuelSavings += publishFuelSavings
 vehicleReadings.riderInfo += publishRiderInfo
 vehicleEvents.onSideLight += publishSideLightStatus
 vehicleEvents.onHeadLight += publishHeadLightStatus
-
+vehicleEvents.charging += publishChargingStatus
 vehicleEvents.bikeOnOff += publishBikeOnOffStatus
 # ########### For development only ########### #
 def publishSpeed(speed):

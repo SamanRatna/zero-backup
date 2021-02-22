@@ -121,6 +121,7 @@ class PowerManager():
         self.isCharging = isCharging
         self.isFastCharging = isFastCharging
         if(isCharging == True):
+            subprocess.call('vcgencmd display_power 1', shell=True)
             if(self.stateOfCharge == None):
                 return
             
@@ -129,6 +130,7 @@ class PowerManager():
             # if(self.lastChargeUpdate == None):
             #     self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
         else:
+            subprocess.call('vcgencmd display_power 0', shell=True)
             # if(self.lastChargeUpdate != None):
             #     self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
             self.socOnChargeEnd = self.stateOfCharge
