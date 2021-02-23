@@ -608,6 +608,10 @@ function updateBikeOnOffStatus(state){
         stopWarningTimeout();
         displayShutdownAnimation();
         setWarningVisibility(true);
+        setSettingsCardVisibility(false);
+        if(uiMode == 'map-mode'){
+            switchUIMode();
+        }
     }
 }
 
