@@ -606,6 +606,7 @@ function updateBikeOnOffStatus(state){
     }else{  // if bike is turning OFF
         disableTouch(true);
         stopWarningTimeout();
+        displayShutdownAnimation();
         setWarningVisibility(true);
     }
 }
@@ -647,10 +648,17 @@ function updateChargingStatus(isCharging, isFastCharging){
     fastChargingState = isFastCharging;
     if(isCharging){
         document.getElementById('js-charge-level').innerHTML = currentSOC;
-        document.getElementById('js-charge-level-ripple').classList.add('ripple');
+        // document.getElementById('js-charge-level-ripple').classList.add('ripple');
         document.getElementById('js-charge-card').style.display = 'flex';
     } else {
         document.getElementById('js-charge-card').style.display = 'none';
-        document.getElementById('js-charge-level-ripple').classList.remove('ripple');
+        // document.getElementById('js-charge-level-ripple').classList.remove('ripple');
     }
+}
+
+function displayShutdownAnimation(){
+    document.getElementById('js-shutdown-card').style.display = 'block';
+    setTimeout(function(){
+        document.getElementById('js-shutdown-card').style.display = 'none';
+    }, 4000);
 }

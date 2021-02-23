@@ -1132,6 +1132,11 @@ img{
     transform: translateY(160px);
 }
 
+.dark.attribution-content {
+    background-color:rgb(53, 53, 53);
+    border: 3px solid white;
+    color: white;
+}
 .charge-card{
     background: #F0F0F0;
     position: absolute;

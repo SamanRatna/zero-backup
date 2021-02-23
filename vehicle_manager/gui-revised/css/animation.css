@@ -1,0 +1,101 @@
+.animation-card{
+    background: #F0F0F0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 12;
+}
+
+.dark .animation-card{
+    background: rgb(70, 70, 70);
+}
+.yatri-logo-blob {
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    top: 750px;
+    left:600px;
+}
+
+.yatri-white {
+    background-color: white;
+    animation: logo-reveal-white 2s linear forwards ;
+}
+.yatri-turquoise {
+    background-color: turquoise;
+    animation: logo-reveal-turquoise 2s linear forwards;
+}
+
+@keyframes logo-reveal-turquoise{
+    0%{
+        transform: scale3d(0,0,1);
+    }
+    15%{
+        transform: scale3d(20, 10,1);
+    }
+    30%{
+        transform: scale3d(20, 10,1) skewX(-10deg);
+    }
+    45%{
+        transform: scale3d(20, 10,1) skewX(-10deg) translateX(5px);
+    }
+    100%{
+        transform: scale3d(20, 10,1) skewX(-10deg) translateX(5px);
+    }
+}
+
+@keyframes logo-reveal-white{
+    0%{
+        transform: scale3d(0,0,1);
+    }
+    15%{
+        transform: scale3d(20, 10,1);
+    }
+    30%{
+        transform: scale3d(20, 10,1) skewX(-10deg);
+    }
+    45%{
+        transform: scale3d(20, 10,1) skewX(-10deg) translateX(-5px);
+    }
+    100%{
+        transform: scale3d(20, 10,1) skewX(-10deg) translateX(-5px);
+    }
+}
+
+/* @keyframes logo-reveal-turquoise{
+    0%{
+        transform: scale(0,0);
+    }
+    15%{
+        transform: scale(20, 10);
+    }
+    30%{
+        transform: scale(20, 10) skewX(-10deg);
+    }
+    45%{
+        transform: scale(20, 10) skewX(-10deg) translateX(5px);
+    }
+    100%{
+        transform: scale(20, 10) skewX(-10deg) translateX(5px);
+    }
+}
+
+@keyframes logo-reveal-white{
+    0%{
+        transform: scale(0,0);
+    }
+    15%{
+        transform: scale(20, 10);
+    }
+    30%{
+        transform: scale(20, 10) skewX(-10deg);
+    }
+    45%{
+        transform: scale(20, 10) skewX(-10deg) translateX(-5px);
+    }
+    100%{
+        transform: scale(20, 10) skewX(-10deg) translateX(-5px);
+    }
+} */

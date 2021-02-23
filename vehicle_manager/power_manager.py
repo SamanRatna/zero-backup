@@ -100,7 +100,8 @@ class PowerManager():
             self.inactivityTimer.start()
     def onBikeOnOff(self, state):
         if(state == False): # bike is off
-            subprocess.call('vcgencmd display_power 0', shell=True)
+            # subprocess.call('vcgencmd display_power 0', shell=True)
+            process = subprocess.Popen('sleep 3s; vcgencmd display_power 0',stdout=subprocess.PIPE, shell=True)
             vehicleReadings.speedReading -= self.speedMonitor
             print('Bike is Off.')
             if(self.inactivityTimer.isAlive()):

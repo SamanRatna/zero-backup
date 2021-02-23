@@ -332,7 +332,8 @@ function switchUITheme(){
     document.getElementById('js-settings-area').classList.toggle('dark');
 
     document.getElementsByClassName('settings-brightness-title')[0].classList.toggle('title-dark');
-
+    document.getElementById('js-warning-content').classList.toggle('dark');
+    document.getElementById('js-attribution-content').classList.toggle('dark');
     for(let i=0; i<signalBoxes.length; i++){
         if(!signalBoxes[i].classList.contains('turn-signal-active')){
             signalBoxes[i].classList.toggle('signal-box-light');
