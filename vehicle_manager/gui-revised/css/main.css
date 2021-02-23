@@ -1098,6 +1098,12 @@ img{
     height:20%;
     /* background-color: blue; */
 }
+.warning-bar{
+    margin: auto;
+    width: 80%;
+    height:50%;
+    /* background-color: blue; */
+}
 .attribution-title{
     display: flex;
     font-size: 60px;
@@ -1113,6 +1119,23 @@ img{
 .attribution-link > p{
     margin: auto;
 }
+
+.warning-title{
+    display: flex;
+    font-size: 80px;
+}
+.warning-title > p{
+    margin: auto;
+}
+.warning-link{
+    display: flex;
+    font-size: 60px;
+    color: gray;
+}
+.warning-link > p{
+    margin: auto;
+}
+
 .attribution-toggle{
     transition-duration: 250ms;
     width:5.2vh;
