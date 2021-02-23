@@ -44,7 +44,7 @@ var options = {
             fontFamily: 'Barlow',
             fontStyle: 'bold',
             // stepSize: 25,
-            beginAtZero: false,
+            beginAtZero: true,
             // min: 1,
             // max: 70,
             maxTicksLimit: 5,
@@ -84,6 +84,7 @@ function updateBatteryTemperature(value) {
 eel.expose(updateVCUTemperature);
 function updateVCUTemperature(uc, power) {
     // console.log('Unit is Celsius: '+tUnitIsCelsius);
+    // console.log('VCU Temp: ', uc, power)
     if(!tUnitIsCelsius){
         uc = uc * 9/5 +32;
         power = power * 9/5 +32
