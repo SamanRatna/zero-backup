@@ -235,6 +235,7 @@ function setMode(mode){
             setRouteCardVisibility(false);
             previousMode = currentMode;
             currentMode = 'no-map-mode';
+            showInternetWarning(false);
             break;
         default:
             break;

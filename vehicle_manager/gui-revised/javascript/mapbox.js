@@ -594,8 +594,10 @@ eel.expose(updateLocation);
 function updateLocation(hasFix, data){
   if(!hasFix){
     console.log('GPS Fix not available.');
+    showInternetWarning(true, 'GPS Signal Lost', false, true);
     return;
   }
+  showInternetWarning(false);
   console.log('GPS Data:'+data[0]+ ' ' + data[1])
   let latitude = data[0];
   let longitude = data[1];
