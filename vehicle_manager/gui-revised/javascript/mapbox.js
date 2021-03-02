@@ -25,6 +25,7 @@ Request for API Key from the backend
 function startMap() {
   updateMapTheme();
   if(isMapLoaded){
+    showInternetWarning(true, 'Waiting for GPS signal', false, false);
     eel.getCurrentLocation(true);
     return;
   }
@@ -44,7 +45,7 @@ function onAPIKeyResponse(key){
 
   mapboxgl.accessToken = key;
   console.log('Received Mapbox API Key');
-
+  showInternetWarning(true, 'Waiting for GPS signal', false, false);
   eel.getCurrentLocation(true) //uncomment this after removing dummy
   // onLocationResponse([27.71181, 85.3075]) //dummy for UI development
 }
@@ -54,7 +55,13 @@ On receiving location from the backend
 */
 eel.expose(onLocationResponse);
 
-function onLocationResponse(location){
+function onLocationResponse(hasFix, location){
+  if(!hasFix){
+    console.log('GPS Signal Lost.');
+    showInternetWarning(true, "GPS Signal not available.", true, true);
+    return;
+  }
+  showInternetWarning(false);
   if(location == null){
     console.log('Unable to retreive current location.')
     return;
@@ -234,6 +241,7 @@ function getRoute(end) {
     // elPsyCongroo
 
     var route = data.geometry.coordinates; //navigationRoute.routes[0].geometry.coordinates
+
     // var geojson = {
     //   type: 'Feature',
     //   properties: {},
@@ -583,8 +591,14 @@ function updateHeading(heading){
 //   });
 let dataCounter = 0;
 eel.expose(updateLocation);
-function updateLocation(data){
-  // console.log('GPS Data:'+data[0]+data[1])
+function updateLocation(hasFix, data){
+  if(!hasFix){
+    console.log('GPS Fix not available.');
+    return;
+  }
+  console.log('GPS Data:'+data[0]+ ' ' + data[1])
+  let latitude = data[0];
+  let longitude = data[1];
   if(data[1] != null && data[0] != null){
     currentLocation = [data[1], data[0]];
     // console.log(currentLocation);
@@ -596,6 +610,15 @@ function updateLocation(data){
     return;
   }
   
+  // var turfPoint = turf.point([longitude, latitude]);
+
+  // if(currentMode == 'navigation-mode'){
+  //   var snapped = turf.nearestPointOnLine(tRouteLineString, turfPoint);
+  //   console.log(snapped);
+  //   currentMarker.setLngLat(snapped.geometry.coordinates);
+  // } else {
+  // currentMarker.setLngLat(currentLocation);
+  // }
   currentMarker.setLngLat(currentLocation);
   dataCounter = (dataCounter + 1) % 7;
   if(dataCounter == 0){

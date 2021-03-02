@@ -266,6 +266,8 @@ class CANHandler:
                                 print('Turning bike on')
                                 # vehicleEvents.bikeOn()
                                 vehicleEvents.bikeOnOff(True)
+                            elif(data[1] == 0x5):
+                                vehicleEvents.vcuCharging(False)
                         
                         if(data[0] == 0x1):
                             vehicleEvents.onSideLight(data[1])

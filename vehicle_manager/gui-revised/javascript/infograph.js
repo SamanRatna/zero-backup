@@ -221,6 +221,7 @@ function updateNetworkInfo(info){
             document.getElementById('js-gps-fix-status').innerHTML = 'Available'
         }
         toProcessing('js-gps-toggle', false);
+        onGPSStatus(gpsStatus);
     }
 
     if('internetConnectivity' in info){

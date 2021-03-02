@@ -151,9 +151,9 @@ def startGUIThread():
     except:
         print("Error: Unable to start the GUI thread.")
 
-def publishCurrentLocation(lat, lon):
+def publishCurrentLocation(hasFix, lat, lon):
     data = [lat, lon]
-    eel.updateLocation(data)
+    eel.updateLocation(hasFix, data)
 
 def publishOrientationData(heading, roll, pitch):
     eel.updateOrientation(heading,roll,pitch)
@@ -171,9 +171,9 @@ def publishNetworkInfo(info):
     # networkInfo = info
     eel.updateNetworkInfo(info)
 
-def initializeLocation(lat, lon):
+def initializeLocation(hasFix, lat, lon):
     data = [lat, lon, 'None']
-    eel.onLocationResponse(data)
+    eel.onLocationResponse(hasFix, data)
 
 @eel.expose
 def bluetoothPairingConfirmation(response):

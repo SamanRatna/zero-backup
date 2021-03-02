@@ -42,6 +42,7 @@ class PowerManager():
         vehicleReadings.speedReading += self.speedMonitor
         # vehicleEvents.bluetoothStatus += self.onBluetoothStatusChange
         vehicleEvents.onChargeCostsRequest += self.onChargeCostsRequest
+        # vehicleEvents.vcuCharging += self.onVCUCharging
         # self.inactivityTimer = threading.Timer(5.0, self.poweroff)
         self.inactivityTimer = RepeatableTimer(10.0, self.poweroff)
     def updateStandState(self, state):
@@ -56,7 +57,7 @@ class PowerManager():
 
     def standMonitor(self, state):
         self.standState == state
-        if(state == 1 and self.ignitionState == True and self.isInMotion == False):
+        if(state == 1 and self.ignitionState == True and self.isInMotion == False and self.isCharging == False):
             vehicleEvents.onButtonPress += self.onButtonPress
             if(not self.inactivityTimer.isAlive()):
                 self.inactivityTimer.start()
@@ -128,6 +129,8 @@ class PowerManager():
             
             self.socOnChargeStart = self.stateOfCharge
             self.socOnChargeStartTime = int(datetime.now().timestamp())
+            if(self.inactivityTimer.isAlive()):
+                self.inactivityTimer.cancel()
             # if(self.lastChargeUpdate == None):
             #     self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
         else:

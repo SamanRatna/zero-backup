@@ -64,7 +64,6 @@ class GPS():
         print("Destroyed GPS Object.")
 
     def parseGPS(self, data):
-        # data = GPS.gpsPort.readline()
         decodedData = data.decode()
         # print(decodedData)
 
@@ -73,7 +72,7 @@ class GPS():
             # print(sdata)
             if sdata[2] == 'V':
                 print("no satellite data available")
-                return None
+                return False
             # print("-----Parsing GPRMC-----")
             # print(sdata)
             gmttime = sdata[1][0:2] + ":" + sdata[1][2:4] + ":" + sdata[1][4:6]
@@ -108,8 +107,8 @@ class GPS():
             # print("Longitude: ", lon)
             return [lat, lon]
 
-        # else:
-        #     print("Printed data is ",data[0:6])
+        else:
+            return None
 
     def decode(self, coord):
         #Converts DDDMM.MMMMM -> DD deg MM.MMMMM min
@@ -126,10 +125,14 @@ class GPS():
         while not self.stopGPSThread:
             rawData = GPS.gpsPort.readline()
             data = self.parseGPS(rawData)
-            if(data is None):
+            if(data == None):
+                continue
+            elif(data == False):
+                vehicleReadings.gpsLocation(False, 0, 0)
+                time.sleep(1.0)
                 continue
             self.gpsHistory.append(data)
-            vehicleReadings.gpsLocation(data[0], data[1])
+            vehicleReadings.gpsLocation(True, data[0], data[1])
             time.sleep(1.0)
         print(self, ': GPS Read Thread Stopped.')
 
@@ -176,6 +179,7 @@ class GPS():
             self.tGPS = threading.Thread(target = self.startGPSStreaming)
             self.tGPS.start()
         elif((request==True) and (GPS.gpsState != GPSStates.READY)):
+            vehicleReadings.network({'gpsStatus': GPS.gpsState.name})
             print(self,': GPS not ready.')
         elif(request==False):
             print(self, ': About to stop GPS Thread')

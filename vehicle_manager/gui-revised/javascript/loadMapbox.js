@@ -71,16 +71,32 @@ function onInternetConnectivity(status){
         loadMapboxScript_1();
     } else if(status == false){
         waitingForMapMode = false;
-        showInternetWarning();
+        showInternetWarning(true, 'No internet Connectivity', true, true);
     }
 }
-function showInternetWarning(){
-    document.getElementById('js-internet-signal').style.display = 'flex';
-    setTimeout(function(){
+function showInternetWarning(show, msg='', isTimeout=true, isWarning=false){
+    if(show == false){
         document.getElementById('js-internet-signal').style.display = 'none';
-    }, 5000);
+        return;
+    }
+
+    document.getElementById('js-navigation-status-msg').innerHTML = msg;
+
+    if(isWarning){
+        document.getElementById('js-internet-signal').classList.add('signal-bar-warning');
+    } else {
+        document.getElementById('js-internet-signal').classList.remove('signal-bar-warning');
+    }
+
+    document.getElementById('js-internet-signal').style.display = 'flex';
+    if(isTimeout){
+        setTimeout(function(){
+            document.getElementById('js-internet-signal').style.display = 'none';
+        }, 5000);
+    }
 }
 function loadMapboxScript_1(){
+    showInternetWarning(true, 'Loading Map', false, false);
     if(!isLoaded_Script1){
         document.head.appendChild(mapboxLink_1);
         document.head.appendChild(mapboxScript_1);
@@ -120,6 +136,7 @@ function loadMapboxScript_4(){
 }
 
 function checkInternetConnectivity(){
+    showInternetWarning(true, 'Checking internet Connectivity', false, false);
     eel.checkInternetConnectivity()
 }
 
@@ -133,4 +150,10 @@ function setMapStyleURI(style){
   else if(style == 'dark'){
     mapStyleURI = 'mapbox://styles/yatri/ckgucl6jh0l9o19qj83mzbrjh?optimize=true';
   }
+}
+
+function onGPSStatus(status){
+    if(status != 'READY'){
+        showInternetWarning(true, 'GPS Signal not available', true, true);
+    }
 }
