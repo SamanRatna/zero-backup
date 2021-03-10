@@ -267,15 +267,12 @@ vehicleEvents.onSideLight += publishSideLightStatus
 vehicleEvents.onHeadLight += publishHeadLightStatus
 vehicleEvents.charging += publishChargingStatus
 vehicleEvents.bikeOnOff += publishBikeOnOffStatus
+vehicleReadings.socRange += publishSOC
 # ########### For development only ########### #
 def publishSpeed(speed):
     eel.updateSpeedPower(speed, speed)
 
-def publishBattery(soc):
-    print('SOC GUI: ', math.floor(soc))
-    eel.updateSOC(math.floor(soc), 0,0,0)
 vehicleReadings.speedReading += publishSpeed
-vehicleReadings.socRange += publishSOC
 #################################################
 
 if __name__ == "__main__":
