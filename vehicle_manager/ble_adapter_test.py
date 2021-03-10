@@ -7,7 +7,6 @@ from optparse import OptionParser, make_option
 import sys
 import time
 import dbus
-# import bluezutils
 
 bus = dbus.SystemBus()
 
@@ -19,7 +18,6 @@ parser = OptionParser(option_list=option_list)
 
 (options, args) = parser.parse_args()
 
-# adapter_path = bluezutils.find_adapter(options.dev_id).object_path
 adapter_path = '/org/bluez/hci0'
 adapter = dbus.Interface(bus.get_object("org.bluez", adapter_path),
 					"org.freedesktop.DBus.Properties")

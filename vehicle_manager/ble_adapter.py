@@ -24,7 +24,6 @@ def setDiscovery(state):
     adapter = dbus.Interface(bus.get_object("org.bluez", adapter_path), "org.freedesktop.DBus.Properties")
     connections = adapter.Get(AGENT_INTERFACE, 'Discoverable',
                      dbus_interface=dbus.PROPERTIES_IFACE)
-    # print(connections)
 
     adapter.Set(AGENT_INTERFACE, 'Discoverable', dbus.Boolean(state))
- 
+

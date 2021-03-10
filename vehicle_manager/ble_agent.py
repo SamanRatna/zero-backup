@@ -11,12 +11,13 @@ try:
   from gi.repository import GObject
 except ImportError:
   import gobject as GObject
-# import bluezutils
 from event_handler import *
 import threading
 BUS_NAME = 'org.bluez'
 AGENT_INTERFACE = 'org.bluez.Agent1'
 AGENT_PATH = "/test/agent"
+
+CONFIRMATION_TIMEOUT = 8
 
 bus = None
 device_obj = None
@@ -103,9 +104,8 @@ class Agent(dbus.service.Object):
 	# 	raise Rejected("Passkey doesn't match")
 
 	def RequestConfirmation(self, device, passkey):
-		# print("RequestConfirmation (%s, %06d)" % (device, passkey))
 		vehicleEvents.confirmBluetoothPairing(passkey)
-		event_set = self.e.wait(8)
+		event_set = self.e.wait(CONFIRMATION_TIMEOUT)
 		if(event_set):
 			set_trusted(device)
 			self.e.clear()

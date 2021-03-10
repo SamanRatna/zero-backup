@@ -40,7 +40,6 @@ class VehicleInfoCalculator:
         #initialze
         self.subscribeToEvents()
         self.loadData()
-        # self.stopwatch = Stopwatch()
         print('VehicleInfoCalculator initialized.')
     
     # 
@@ -67,22 +66,15 @@ class VehicleInfoCalculator:
         
         vehicleReadings.maxSpeed(self.maxSpeed)
         vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
-        # vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
-        # print('tripDistanceOffset: ', str(self.tripDistanceOffset))
-        # print('tripSpeedInitial: ', str(self.tripAverageSpeed))
-        # print('Average Speed On Boot: ', str(self.averageSpeed))
-        # print('Max Speed On Boot: ', str(self.maxSpeed))
 
     # 
     # Subscribe to vehicleReading events which will be provided by the CAN module
     # 
     def subscribeToEvents(self):
         vehicleEvents.guiReady += self.onGUIReady
-        # vehicleReadings.odoReading += self.initializeRideTime
         vehicleReadings.distancehour += self.initializeRideTime
         vehicleReadings.speedReading += self.updateSpeedReading
         vehicleEvents.onTripReset += self.resetTrip
-        # vehicleEvents.onBLEReady += self.onBLEReady
         vehicleEvents.bluetoothStatus += self.onBluetoothStatusChange
     # 
     # update the member odoReading
@@ -108,18 +100,6 @@ class VehicleInfoCalculator:
         self.speedReading = value
         self.computeMaxSpeed(value)
 
-    #     
-        
-    #     if(self.speedReading > 1):
-    #         if(not self.stopwatch.running):
-    #             self.stopwatch.start()
-    #     else:
-    #         if(self.stopwatch.running):
-    #             self.stopwatch.stop()
-    #             # self.currentRideTime = self.stopwatch.duration
-        
-    # 
-    # 
     def computeTripDistance(self, newOdoReading):
         oldTripDistance = 0
         if(self.tripDistance != None):
@@ -150,40 +130,6 @@ class VehicleInfoCalculator:
         if(flagNewData):
             self.saveMaxSpeedsToPersistency(self.maxSpeed, self.tripMaxSpeed)
 
-    # 
-    # [ Description ]
-    # Initialize overall-ride-time and trip-ride-time
-    # 
-    # [Outputs]
-    # Overall-Ride-Time = Odo-Reading / Odo-Average-Speed
-    # Trip-Ride-Time = Trip-Distance / Trip-Average-Speed
-    # 
-    # [Inputs]
-    # Odo-Reading comes from CAN
-    # Odo-Average-Speed initially comes from the json file
-    # Trip-Distance should be computed before this method is called
-    # Trip-Average-Speed initially comes from the json file
-    # 
-    # def initializeRideTime(self, value):
-    #     if(self.rideTimeInitialization):
-    #         return
-        
-    #     self.odoReading = value
-    #     self.computeTripDistance()
-
-    #     if (self.averageSpeed != 0):
-    #         self.rideTimeOnboot = int(self.odoReading / self.averageSpeed)
-
-    #     # print("TripDistance: ", str(self.tripDistance), ": TripAvSpeed: ", str(self.tripAverageSpeed))
-    #     if(self.tripAverageSpeed != 0):
-    #         self.tripRideTimeOnboot = int(self.tripDistance / self.tripAverageSpeed)
-        
-    #     # print('InitialRideTime: ', str(self.rideTimeOnboot))
-    #     # print('initialTripRideTime: ', str(self.tripRideTimeOnboot))
-    #     self.rideTimeInitialization = True
-
-    #     # vehicleReadings.odoReading += self.updateOdoReading
-    #     vehicleReadings.distancehour += self.updateOdoReading
     def initializeRideTime(self, odometer, tractionHour):
         if(self.rideTimeInitialization):
             return
@@ -192,11 +138,6 @@ class VehicleInfoCalculator:
         self.computeTripDistance(odometer)
 
         vehicleReadings.distances(self.odoReading, self.tripDistance)
-        # if (self.averageSpeed != 0):
-        #     self.rideTimeOnboot = int(self.odoReading / self.averageSpeed)
-
-        # if(self.tripAverageSpeed != 0):
-        #     self.tripRideTimeOnboot = int(self.tripDistance / self.tripAverageSpeed)
         
         self.rideTimeInitialization = True
 
@@ -230,28 +171,6 @@ class VehicleInfoCalculator:
             self.averageSpeed = newAverageSpeed
             self.tripAverageSpeed = newTripAverageSpeed
             vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
-        # tempTripAverageSpeed = self.tripAverageSpeed
-
-        # self.averageSpeed = int(self.odoReading / (self.rideTimeOnboot + self.stopwatch.duration/3600))
-        # # print('Total Distance: ', str(self.odometer))
-        # # print('Ride Time: ', str(self.rideTime))
-        # # print('Average Speed: ', str(self.averageSpeed))
-
-        # self.computeTripDistance()
-        # self.tripRideTime = (self.stopwatch.duration / 3600) + self.tripRideTimeOnboot - self.tripRideTimeOffset
-
-        # if((self.tripDistance != 0) and (self.tripRideTime != 0)):
-        #     self.tripAverageSpeed = int(self.tripDistance / self.tripRideTime)
-        # else:
-        #     self.tripAverageSpeed = 0
-        # # print('initialTripRideTime: ', str(self.initialTripRideTime))
-        # # print('tripRideTime: ', str(self.tripRideTime))
-        # # print('Trip Average Speed: ', str(self.tripAverageSpeed))
-        # # print('Trip Average Speed: ', str(self.tripAverageSpeed))
-        # # print("OdoReading: ", str(self.odoReading),": rideTimeOnboot: ", str(self.rideTimeOnboot),": tripRideTimeOnboot: ", str(self.tripRideTimeOnboot), ": tripRideTimeOffset: ", str(self.tripRideTimeOffset) )
-
-        # if( (tempAverageSpeed != self.averageSpeed) or (tempTripAverageSpeed != self.tripAverageSpeed) ):
-        #     vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
 
     def resetTrip(self):
         self.tripDistanceOffset = self.odoReading
@@ -279,14 +198,6 @@ class VehicleInfoCalculator:
         }
         with open(FILE_SPEED, 'w') as f:  # writing JSON object
             json.dump(maxSpeeds, f)
-
-    # def onBLEReady(self, value):
-    #     print('BLE is ready.')
-    #     if(value[0] == 1):
-    #         vehicleReadings.maxSpeed(self.maxSpeed)
-    #         vehicleReadings.tripMaxSpeed(self.tripMaxSpeed)
-    #         vehicleReadings.averageSpeeds(self.averageSpeed, self.tripAverageSpeed)
-    #         vehicleReadings.distances(self.odoReading, self.tripDistance)
 
     def onBluetoothStatusChange(self, state):
         print('Bluetooth Status Changed.')

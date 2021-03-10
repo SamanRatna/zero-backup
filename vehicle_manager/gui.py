@@ -4,13 +4,10 @@ import threading
 import multiprocessing
 import os
 import time
-# import netifaces
 import logging
 from event_handler import *
-# from power_manager import *
 from api_handler import *
-from quectel import *
-# from kalman_filter import *
+
 #Configure logger
 # logging.basicConfig(filemode='a')
 chargeLogger=logging.getLogger('event-logger')
@@ -21,19 +18,7 @@ ignitionState = True
 bikeModeMemory = 2
 chargingStateMemory = False
 fastChargingStateMemory = False
-# from navigation_simulator import *
 
-# maxSpeed = 0
-# bikeMode = "MODE_STANDBY"
-# bluetooth = 0
-# bluetoothName = ' '
-# networkInfo = None
-# my_options = {
-#     'mode': "chrome", #or "chrome-app",
-#     'host': 'localhost',
-#     'port': 8080,
-#     'chromeFlags': ["--start-fullscreen", "--browser-startup-dialog"]
-# }
 def startGUI():
     try:
         eel.start('index.html', mode=False, host='0.0.0.0')
@@ -59,26 +44,11 @@ def publishBikeMode(mode):
         bikeMode = 'MODE_BABBAL'
     eel.updateBikeMode(bikeMode)
 
-# def publishLeftTurnStatus(status):
-#     if status==True:
-#         eel.updateLeftTurnStatus(1)
-#     else:
-#         eel.updateLeftTurnStatus(0)
-
-# def publishRightTurnStatus(status):
-#     if status==True:
-#         eel.updateRightTurnStatus(1)
-#     else:
-#         eel.updateRightTurnStatus(0)
-
 def publishSideLightStatus(status):
     eel.updateTurnSignal(status)
 
 def publishHeadLightStatus(light, status):
     eel.updateHeadlightSignal(light, status)
-
-# def publishBeamStatus(status):
-#     eel.updateBeam(status.name)
 
 def publishSpeedPower(speed, power):
     eel.updateSpeedPower(int(speed), round(power))
@@ -93,13 +63,10 @@ def publishChargingStatus(isCharging, isFastCharging):
     eel.updateChargingStatus(isCharging, isFastCharging)
 
 def publishMaxSpeed(value):
-    # global maxSpeed
     eel.updateMaxSpeed(round(value))
-    # maxSpeed = value
+
 def publishTripMaxSpeed(value):
-    # global maxSpeed
     eel.updateTripMaxSpeed(round(value))
-    # maxSpeed = value
 
 def publishAverageSpeeds(odoAverage, tripAverage):
     eel.updateAverageSpeeds(round(odoAverage), round(tripAverage))
@@ -107,14 +74,6 @@ def publishAverageSpeeds(odoAverage, tripAverage):
 def publishDistances(odometer, tripDistance):
     eel.updateDistances(math.floor(odometer), math.floor(tripDistance))
 
-# def publishAdvertisementStatus(status):
-#     eel.updateAdvertisementStatus(status)
-#     # global bluetooth
-#     # global bluetoothName
-#     # bluetooth = status[0]
-#     if(len(status) > 1):
-#         # bluetoothName = status[1]
-#         print(status[1])
 def publishBluetoothStatus(status):
     eel.updateAdvertisementStatus(status)
 
@@ -123,16 +82,12 @@ def publishBluetoothConnectionStatus(name, status):
 
 def publishBatteryTemperature(temp):
     eel.updateBatteryTemperature(temp)
-    # print('Battery Temperature: ', str(temp))
 
 def publishMotorTemperature(motorTemp, controllerTemp):
     eel.updateMotorTemperature(motorTemp, controllerTemp)
-    # print('Motor Temperature: ', str(temp))
+
 def publishVCUTemperature(uc, power):
     eel.updateVCUTemperature(uc, power)
-# def publishControllerTemperature(temp):
-#     eel.updateControllerTemperature(temp)
-    # print('Controller Temperature: ', str(temp))
 
 def publishPackVoltage(voltage):
     eel.updatePackVoltage(voltage)
@@ -158,17 +113,10 @@ def publishCurrentLocation(hasFix, lat, lon):
 def publishOrientationData(heading, roll, pitch):
     eel.updateOrientation(heading,roll,pitch)
 
-# def publishHeading(data):
-#     eel.updateBearing(data)
-
 def requestForBluetoothPairingConfirmation(passkey):
-    # print('Requesting for Bluetooth: ', passkey)
     eel.requestBluetoothPairingConfirmation(passkey)
 
 def publishNetworkInfo(info):
-    # global networkInfo
-    # print(info)
-    # networkInfo = info
     eel.updateNetworkInfo(info)
 
 def initializeLocation(hasFix, lat, lon):
@@ -177,7 +125,6 @@ def initializeLocation(hasFix, lat, lon):
 
 @eel.expose
 def bluetoothPairingConfirmation(response):
-    # print('Response for Bluetooth: ', response)
     vehicleEvents.onBluetoothPairingConfirmation(response)
 
 @eel.expose
@@ -193,7 +140,6 @@ def initCarbonOffset():
 @eel.expose
 def changeBrightness(brightness):
     vehicleEvents.onBrightnessChange(brightness)
-    # print('Brigtness: ', brightness)
 
 @eel.expose
 def getAPIKey():
@@ -263,15 +209,6 @@ def getGUIData():
     publishBikeOnOffStatus(ignitionState)
     eel.updateChargingStatus(chargingStateMemory, fastChargingStateMemory)
     publishBikeMode(bikeModeMemory)
-    # global maxSpeed
-    # global bikeMode
-    # global bluetooth
-    # global bluetoothName
-    # global networkInfo
-    # eel.updateBikeMode(bikeMode)
-    # publishMaxSpeed(maxSpeed)
-    # publishAdvertisementStatus([bluetooth, bluetoothName])
-    # publishNetworkInfo(networkInfo)
 
 @eel.expose
 def changeBluetoothState(toState):
@@ -298,7 +235,6 @@ def requestLocationHeading(request):
     print('Request Location Heading: ', request)
     if(request == True):
         vehicleReadings.gpsLocation += publishCurrentLocation
-        # simulateRoute(request)
     elif(request == False):
         vehicleReadings.gpsLocation -= publishCurrentLocation
     vehicleEvents.onNavigation(request)
@@ -334,18 +270,13 @@ vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.tripMaxSpeed += publishTripMaxSpeed
 vehicleReadings.averageSpeeds += publishAverageSpeeds
 vehicleReadings.distances += publishDistances
-# vehicleEvents.onBLEReady += publishAdvertisementStatus
 vehicleEvents.bluetoothStatus += publishBluetoothStatus
 vehicleReadings.batteryTemperature += publishBatteryTemperature
 vehicleReadings.motorTemperature += publishMotorTemperature
 vehicleReadings.vcuTemperature += publishVCUTemperature
-
-# vehicleReadings.controllerTemperature += publishControllerTemperature
 vehicleReadings.packVoltage += publishPackVoltage
 vehicleEvents.onStandSwitch += publishStandState
 vehicleReadings.carbonOffset += publishCarbonOffset
-# vehicleReadings.gpsLocation += publishCurrentLocation
-# vehicleReadings.heading += publishHeading
 vehicleEvents.confirmBluetoothPairing += requestForBluetoothPairingConfirmation
 vehicleEvents.onBluetoothConnection += publishBluetoothConnectionStatus
 vehicleReadings.bleDevices += publishBluetoothDevices
@@ -368,7 +299,6 @@ def publishBattery(soc):
     print('SOC GUI: ', math.floor(soc))
     eel.updateSOC(math.floor(soc), 0,0,0)
 vehicleReadings.speedReading += publishSpeed
-# vehicleReadings.batteryStatus += publishBattery
 vehicleReadings.socRange += publishSOC
 #################################################
 

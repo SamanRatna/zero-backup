@@ -40,10 +40,8 @@ class PowerManager():
         vehicleEvents.charging += self.onCharging
         vehicleReadings.socRange += self.batteryStatus
         vehicleReadings.speedReading += self.speedMonitor
-        # vehicleEvents.bluetoothStatus += self.onBluetoothStatusChange
         vehicleEvents.onChargeCostsRequest += self.onChargeCostsRequest
         # vehicleEvents.vcuCharging += self.onVCUCharging
-        # self.inactivityTimer = threading.Timer(5.0, self.poweroff)
         self.inactivityTimer = RepeatableTimer(10.0, self.poweroff)
     def updateStandState(self, state):
         self.standState = state
@@ -88,20 +86,13 @@ class PowerManager():
             self.inactivityTimer.cancel()
             self.inactivityTimer.start()
 
-    # def onBikeOff(self):
-    #     subprocess.call('vcgencmd display_power 0', shell=True)
-    #     print('Bike is Off.')
-
-    # def onBikeOn(self):
-    #     subprocess.call('vcgencmd display_power 1', shell=True)
-    #     print('Bike is On.')
     def onButtonPress(self):
         if(self.inactivityTimer.isAlive()):
             self.inactivityTimer.cancel()
             self.inactivityTimer.start()
+    
     def onBikeOnOff(self, state):
         if(state == False): # bike is off
-            # subprocess.call('vcgencmd display_power 0', shell=True)
             process = subprocess.Popen('sleep 3s; vcgencmd display_power 0',stdout=subprocess.PIPE, shell=True)
             vehicleReadings.speedReading -= self.speedMonitor
             print('Bike is Off.')
@@ -131,12 +122,8 @@ class PowerManager():
             self.socOnChargeStartTime = int(datetime.now().timestamp())
             if(self.inactivityTimer.isAlive()):
                 self.inactivityTimer.cancel()
-            # if(self.lastChargeUpdate == None):
-            #     self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
         else:
             subprocess.call('vcgencmd display_power 0', shell=True)
-            # if(self.lastChargeUpdate != None):
-            #     self.sendStateOfCharge(int(self.stateOfCharge), self.isCharging, self.isFastCharging)
             self.socOnChargeEnd = self.stateOfCharge
             self.socOnChargeEndTime = int(datetime.now().timestamp())
             if(self.socOnChargeStart == None):
@@ -148,7 +135,7 @@ class PowerManager():
                 self.chargeCycle += 1
                 dataToBeSaved = [self.chargeCycle, self.isFastCharging, self.socOnChargeStart, self.socOnChargeEnd, self.socOnChargeStartTime, self.socOnChargeEndTime, costOfCharging]
                 self.addToList(dataToBeSaved)
-                with open(CHARGE_SAVINGS_FILE, 'w') as f:  # writing JSON object
+                with open(CHARGE_SAVINGS_FILE, 'w') as f:
                     json.dump(self.chargeSavingsData, f)
                 vehicleReadings.chargeCostsForBluetooth(self.chargeSavingsData)
             else:
@@ -158,11 +145,6 @@ class PowerManager():
         if(len(self.chargeSavingsData) > MAX_DATA_COUNT):
             del self.chargeSavingsData[0]
         self.chargeSavingsData.append(data)
-
-    # def onBluetoothStatusChange(self, state):
-    #     print('Bluetooth Status Changed.')
-    #     if(state == 'SERVICES_READY'):
-    #         vehicleReadings.chargeCostsForBluetooth(self.chargeSavingsData)
     
     def searchForCycle(self, cycle):
         # print('Last data: ', int(self.chargeSavingsData[-1][0]))
@@ -184,19 +166,3 @@ class PowerManager():
         print('Latest Charge Cycle Index: ', index)
         if(index != None):
             vehicleReadings.chargeCostsForBluetooth(self.chargeSavingsData[index:])
-
-    # def sendStateOfCharge(self, soc, chargingStatus, isFastCharging):
-    #     current_soc = str(soc)
-    #     current_status = str(chargingStatus).lower()
-    #     print(current_soc, current_status )
-    #     try:
-    #         url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/batteries/" + battery_id
-    #         payload = '{\r\n    \"soc\": '+ current_soc + ',\r\n    \"isCharging\": ' + current_status + '\r\n}'
-    #         response = requests.request("PATCH", url, headers=headerCharge, data=payload)
-    #         print(response.text)
-    #         if(chargingStatus == True):
-    #             self.lastChargeUpdate = soc
-    #         else:
-    #             self.lastChargeUpdate = False
-    #     except Exception as err:
-    #         print(err)

@@ -40,7 +40,6 @@ class CarbonOffsetCalculator:
             self.latestData = [self.getDate(), 0]
             self.append(self.latestData)
         
-        # self.sendToUI(0)
         vehicleEvents.onCarbonOffsetRequest += self.sendToBluetooth
         vehicleEvents.guiReady += self.onRequest
         vehicleReadings.distances += self.onChange

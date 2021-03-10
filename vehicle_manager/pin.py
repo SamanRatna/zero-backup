@@ -1,24 +1,3 @@
-IN_HIBEAM           = 4
-IN_LOWBEAM          = 17
-IN_LTURN            = 12
-IN_RTURN            = 16
-IN_BTN_RD           = 20
-IN_BTN_RU           = 21
-# IN_BTN_RB           = 22
-IN_STAND            = 5
-# IN_BRAKE            = 10
-
-# OUT_LTURN           = 7
-# OUT_RTURN           = 16
-# OUT_BRAKE           = 12
-OUT_SUSTE           = 18
-OUT_THIKKA          = 23
-OUT_BABBAL          = 24
-OUT_REVERSE         = 6
-OUT_POWER           = 2
 OUT_BRIGHT_PLUS     = 26
 OUT_BRIGHT_MINUS    = 13
 OUT_DISPLAY         = 19
-# OUT_CHARGE_MOTOR    = 24
-# OUT_CHARGE          = 25
-# OUT_IGN             = 8

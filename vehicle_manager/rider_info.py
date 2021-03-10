@@ -26,13 +26,10 @@ def saveRiderInfo(name, licenseNumber, bikeNumber):
 
 def fetchInfo():
     try:
-        # url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/user"
         payload={}
         response = requests.request("GET", URL_RIDER_INFO, headers=headerRiderInfo, data=payload)
         print(response.text)
         info = response.json()
-        # print(info)
-        # print(info['data']['user'])
         riderInfo = info['data']['user']
         name = '-'
         licenseNumber = '-'

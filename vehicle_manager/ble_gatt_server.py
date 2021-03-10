@@ -267,15 +267,12 @@ class BatteryLevelCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.BATTERY_LVL_UUID,
-                # ['read', 'notify'],
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
         self.soc = 0
         self.rangeSuste = 0
-        # vehicleReadings.batteryStatus += self.actualBatteryLevel
         vehicleReadings.socRange += self.setSOCRange
-        # GObject.timeout_add(3000, self.drain_battery)
 
     def notify(self):
         if not self.notifying:
@@ -300,14 +297,7 @@ class BatteryLevelCharacteristic(Characteristic):
         self.notify()
         return True
 
-    # def actualBatteryLevel(self, value):
-    #     self.battery_lvl = math.floor(value)
-    #     print('Battery Level received: ' + repr(self.battery_lvl))
-    #     self.notify_battery_level()
-    #     return True
-
     def ReadValue(self, options):
-        # print('Battery Level read: ' + repr(self.battery_lvl))
         print('BLEGATT :: Read SOC-Range = ', self.soc, self.rangeSuste)
         return [dbus.Byte(self.soc), dbus.Byte(self.rangeSuste)]
 
@@ -343,9 +333,7 @@ class VehicleManagerService(Service):
         self.add_characteristic(TravelledDistancesCharacteristic(bus, 2, self))
         self.add_characteristic(VehicleFinderCharacteristic(bus, 3, self))
         self.add_characteristic(CarbonOffsetCharacteristic(bus, 4, self))
-        # self.add_characteristic(RiderInfoCharacteristic(bus, 5, self))
-        # self.add_characteristic(BatteryInfoCharacteristic(bus,5,self))
-        self.add_characteristic(ChargeCostsCharacteristic(bus, 6, self))
+        self.add_characteristic(ChargeCostsCharacteristic(bus, 5, self))
 
 ''' -------------------------------------------------------------------------- '''
 ''' ----------------------- Max Speed Characteristic ------------------------- '''
@@ -366,9 +354,6 @@ class MaxSpeedCharacteristic(Characteristic):
         vehicleReadings.maxSpeed += self.SetMaxSpeed
         vehicleReadings.tripMaxSpeed += self.SetTripMaxSpeed
         self.add_descriptor(MaxSpeedDescriptor(bus, 0, self))
-        # self.add_descriptor(
-        #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
-        # GObject.timeout_add(5000, self.changeMaxSpeed)
 
     def SetMaxSpeed(self, speed):
         self.maxSpeed = speed
@@ -443,7 +428,6 @@ class AverageSpeedsCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.AVSPEED_CHRC_UUID,
-                # ['read', 'notify'],
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
@@ -451,9 +435,7 @@ class AverageSpeedsCharacteristic(Characteristic):
         self.totalAverageSpeed = 0
         vehicleReadings.averageSpeeds += self.SetAverageSpeeds
         self.add_descriptor(AverageSpeedsDescriptor(bus, 0, self))
-        # self.add_descriptor(
-        #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
-        # GObject.timeout_add(5000, self.changeSpeeds)
+
     def SetAverageSpeeds(self, odoAverage, tripAverage):
         self.tripAverageSpeed = int(tripAverage)
         self.totalAverageSpeed = int(odoAverage)
@@ -527,23 +509,19 @@ class TravelledDistancesCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.CHRC_UUID,
-                # ['read', 'notify'],
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
-        self.tripDistance = 1565
-        self.totalDistance = 3956
+        self.tripDistance = 0
+        self.totalDistance = 0
         vehicleReadings.distances += self.SetDistances
         self.add_descriptor(TravelledDistancesDescriptor(bus, 1, self))
-        # self.add_descriptor(
-        #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
-        # GObject.timeout_add(5000, self.changeDistances)
+
     def SetDistances(self, odoDistance, tripDistance):
         # tripDistance and odoDistance are floats so convert to integers
-        # self.tripDistance = int(tripDistance) 
-        # self.totalDistance = int(odoDistance)
-        self.tripDistance = 1565
-        self.totalDistance = 3956
+        self.tripDistance = int(tripDistance) 
+        self.totalDistance = int(odoDistance)
+
         print('BLE_GATT: Travelled Distances: ' + repr(self.tripDistance), repr(self.totalDistance))
         self.NotifyValue()
 
@@ -628,30 +606,30 @@ class TravelledDistancesDescriptor(Descriptor):
     def ReadValue(self, options):
         return self.value
 
-class CharacteristicUserDescriptionDescriptor(Descriptor):
-    """
-    Writable CUD descriptor.
+# class CharacteristicUserDescriptionDescriptor(Descriptor):
+#     """
+#     Writable CUD descriptor.
 
-    """
-    CUD_UUID = '2901'
+#     """
+#     CUD_UUID = '2901'
 
-    def __init__(self, bus, index, characteristic):
-        self.writable = 'writable-auxiliaries' in characteristic.flags
-        self.value = array.array('B', b'This is a characteristic for testing')
-        self.value = self.value.tolist()
-        Descriptor.__init__(
-                self, bus, index,
-                self.CUD_UUID,
-                ['read', 'write'],
-                characteristic)
+#     def __init__(self, bus, index, characteristic):
+#         self.writable = 'writable-auxiliaries' in characteristic.flags
+#         self.value = array.array('B', b'This is a characteristic for testing')
+#         self.value = self.value.tolist()
+#         Descriptor.__init__(
+#                 self, bus, index,
+#                 self.CUD_UUID,
+#                 ['read', 'write'],
+#                 characteristic)
 
-    def ReadValue(self, options):
-        return self.value
+#     def ReadValue(self, options):
+#         return self.value
 
-    def WriteValue(self, value, options):
-        if not self.writable:
-            raise NotPermittedException()
-        self.value = value
+#     def WriteValue(self, value, options):
+#         if not self.writable:
+#             raise NotPermittedException()
+#         self.value = value
 
 ''' -------------------------------------------------------------------------- '''
 ''' ------------------- Vehicle Finder Characteristic ------------------------ '''
@@ -773,117 +751,108 @@ class CarbonOffsetDescriptor(Descriptor):
     def ReadValue(self, options):
         return self.value
 ''' -------------------------------------------------------------------------- '''
-''' ------------------- Rider Info Characteristic ------------------------ '''
+''' ------------------- Battery Info Characteristic ------------------------ '''
 ''' -------------------------------------------------------------------------- '''
 
-class BatteryInfoCharacteristic(Characteristic):
-    BATTERY_LVL_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed833'
+# class BatteryInfoCharacteristic(Characteristic):
+#     BATTERY_LVL_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed833'
 
-    def __init__(self, bus, index, service):
-        Characteristic.__init__(
-                self, bus, index,
-                self.BATTERY_LVL_UUID,
-                ['encrypt-read', 'notify'],
-                service)
-        self.add_descriptor(BatteryInfoDescriptor(bus, 0, self))
-        self.notifying = False
-        self.soc = 0
-        self.rangeSuste = 0
-        vehicleReadings.socRange += self.setSOCRange
+#     def __init__(self, bus, index, service):
+#         Characteristic.__init__(
+#                 self, bus, index,
+#                 self.BATTERY_LVL_UUID,
+#                 ['encrypt-read', 'notify'],
+#                 service)
+#         self.add_descriptor(BatteryInfoDescriptor(bus, 0, self))
+#         self.notifying = False
+#         self.soc = 0
+#         self.rangeSuste = 0
+#         vehicleReadings.socRange += self.setSOCRange
 
-    def notify(self):
-        if not self.notifying:
-            return
-        self.PropertiesChanged(
-                GATT_CHRC_IFACE,
-                { 'Value': [dbus.Byte(self.soc), dbus.Byte(self.rangeSuste)] }, [])
-
-    # def drain_battery(self):
-    #     if not self.notifying:
-    #         return True
-
-    #     self.battery_lvl = randint(1,100)
-
-    #     self.notify()
-    #     return True
+#     def notify(self):
+#         if not self.notifying:
+#             return
+#         self.PropertiesChanged(
+#                 GATT_CHRC_IFACE,
+#                 { 'Value': [dbus.Byte(self.soc), dbus.Byte(self.rangeSuste)] }, [])
     
-    def setSOCRange(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
-        print('BLEGATT :: setSOCRange = ',soc, rangeSuste)
-        self.soc = math.floor(soc)
-        self.rangeSuste = math.floor(rangeSuste)
-        self.notify()
-        return True
+#     def setSOCRange(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
+#         print('BLEGATT :: setSOCRange = ',soc, rangeSuste)
+#         self.soc = math.floor(soc)
+#         self.rangeSuste = math.floor(rangeSuste)
+#         self.notify()
+#         return True
 
-    def ReadValue(self, options):
-        print('BLEGATT :: Read SOC-Range = ', self.soc, self.rangeSuste)
-        return [dbus.Byte(self.soc), dbus.Byte(self.rangeSuste)]
+#     def ReadValue(self, options):
+#         print('BLEGATT :: Read SOC-Range = ', self.soc, self.rangeSuste)
+#         return [dbus.Byte(self.soc), dbus.Byte(self.rangeSuste)]
 
-    def StartNotify(self):
-        print('Starting Notify.')
-        if self.notifying:
-            print('Already notifying, nothing to do')
-            return
+#     def StartNotify(self):
+#         print('Starting Notify.')
+#         if self.notifying:
+#             print('Already notifying, nothing to do')
+#             return
 
-        self.notifying = True
-        self.notify()
+#         self.notifying = True
+#         self.notify()
 
-    def StopNotify(self):
-        print('Stoping Notify.')
-        if not self.notifying:
-            print('Not notifying, nothing to do')
-            return
+#     def StopNotify(self):
+#         print('Stoping Notify.')
+#         if not self.notifying:
+#             print('Not notifying, nothing to do')
+#             return
 
-        self.notifying = False
+#         self.notifying = False
 
-class BatteryInfoDescriptor(Descriptor):
-    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
+# class BatteryInfoDescriptor(Descriptor):
+#     DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
 
-    def __init__(self, bus, index, characteristic):
-        self.value = array.array('B', b'Battery Info Characteristics.')
-        self.value = self.value.tolist()
-        Descriptor.__init__(
-                self, bus, index,
-                self.DESC_UUID,
-                ['read', 'write'],
-                characteristic)
+#     def __init__(self, bus, index, characteristic):
+#         self.value = array.array('B', b'Battery Info Characteristics.')
+#         self.value = self.value.tolist()
+#         Descriptor.__init__(
+#                 self, bus, index,
+#                 self.DESC_UUID,
+#                 ['read', 'write'],
+#                 characteristic)
 
-    def ReadValue(self, options):
-        return self.value
+#     def ReadValue(self, options):
+#         return self.value
 ''' -------------------------------------------------------------------------- '''
 ''' ------------------- Rider Info Characteristic ------------------------ '''
 ''' -------------------------------------------------------------------------- '''
 
-class RiderInfoCharacteristic(Characteristic):
-    CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed833'
+# class RiderInfoCharacteristic(Characteristic):
+#     CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed833'
 
-    def __init__(self, bus, index, service):
-        Characteristic.__init__(
-                self, bus, index,
-                self.CHRC_UUID,
-                ['encrypt-write'],
-                service)
+#     def __init__(self, bus, index, service):
+#         Characteristic.__init__(
+#                 self, bus, index,
+#                 self.CHRC_UUID,
+#                 ['encrypt-write'],
+#                 service)
 
-        self.add_descriptor(VehicleFinderDescriptor(bus, 0, self))
+#         self.add_descriptor(VehicleFinderDescriptor(bus, 0, self))
 
-    def WriteValue(self, value, options):
-        print('Characteristic Write: ' + repr(value))
-        command = ''.join([str(v) for v in value])
-        vehicleEvents.finder(command)
+#     def WriteValue(self, value, options):
+#         print('Characteristic Write: ' + repr(value))
+#         command = ''.join([str(v) for v in value])
+#         vehicleEvents.finder(command)
 
-class RiderInfoDescriptor(Descriptor):
-    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
+# class RiderInfoDescriptor(Descriptor):
+#     DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
 
-    def __init__(self, bus, index, characteristic):
-        self.value = array.array('B', b'Rider Info Characteristics.')
-        self.value = self.value.tolist()
-        Descriptor.__init__(
-                self, bus, index,
-                self.DESC_UUID,
-                ['read', 'write'],
-                characteristic)
+#     def __init__(self, bus, index, characteristic):
+#         self.value = array.array('B', b'Rider Info Characteristics.')
+#         self.value = self.value.tolist()
+#         Descriptor.__init__(
+#                 self, bus, index,
+#                 self.DESC_UUID,
+#                 ['read', 'write'],
+#                 characteristic)
 
-    def ReadValue(self, options):
-        return self.value
+#     def ReadValue(self, options):
+#         return self.value
 
 ''' -------------------------------------------------------------------------- '''
 ''' ------------------- Charge Costs Characteristic ------------------------- '''

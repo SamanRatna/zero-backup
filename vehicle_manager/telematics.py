@@ -100,7 +100,6 @@ class Telematics():
             current_eta = current_eta + ' mins'
             try:
                 print('Trying to reach the server.')
-                # url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/batteries/" + battery_id
                 url = URL_SOC_UPDATE + batteryId
 
                 payload = None
