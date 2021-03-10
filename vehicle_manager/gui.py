@@ -156,23 +156,6 @@ def getCurrentLocation(status):
         vehicleReadings.gpsLocation -= initializeLocation
     vehicleEvents.onNavigation(status)
 
-@eel.expose
-def startFastCharge(option):
-    if(option == 0):
-        print('Option Not available yet.')
-        return;
-    pFastCharge = multiprocessing.Process(target = fastCharge, args=(option,))
-    pFastCharge.start()
-    pFastCharge.join()
-    print('Finished the charge process.')
-
-def fastCharge(option):
-    count = 1200*option
-    while(count > 0):
-        chargeLogger.warning('Sending')
-        os.system('cansend can0 300#01E8034C04AA00')
-        time.sleep(0.05)
-        count = count - 1
 def publishBluetoothDevices(devices):
     eel.updateBluetoothDevices(devices)
 
@@ -190,13 +173,6 @@ def onSettingsPage():
 @eel.expose
 def swupdateResponse(response):
     vehicleEvents.swupdateResponse(response)
-
-@eel.expose
-def getConnectivityStatus():
-    print('Getting Connectivity Status')
-    iface = netifaces.gateways()['default'][netifaces.AF_INET][1]
-    ip = netifaces.ifaddresses(iface)[netifaces.AF_INET][0]['addr']
-    eel.updateConnectivityStatus(iface, ip)
 
 @eel.expose
 def resetTripData():
