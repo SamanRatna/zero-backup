@@ -4,6 +4,8 @@ from event_handler import *
 import json
 import math
 
+FILE_TRIP = '/etc/yatri/trip.json'
+FILE_SPEED = '/etc/yatri/speed.json'
 MILEAGE_PETROL = 25             # km per litre of petrol
 MILEAGE_BATTERY = 2             # km per Ah
 UNIT_COST_OF_PETROL = 100       # NRs
@@ -48,7 +50,7 @@ class VehicleInfoCalculator:
         tripData = {}
         speed = {}
         try:
-            with open('trip.json', 'r') as f:
+            with open(FILE_TRIP, 'r') as f:
                 tripData = json.load(f)
             self.tripDistanceOffset = tripData['tripDistanceOffsetOnBoot']
             self.tripTimeOffset = tripData['tripTimeOffsetOnBoot']
@@ -56,7 +58,7 @@ class VehicleInfoCalculator:
             print(error)
 
         try:
-            with open('speed.json', 'r') as f:
+            with open(FILE_SPEED, 'r') as f:
                 speed = json.load(f)
                 self.maxSpeed = speed['maxSpeedOnBoot']
                 self.tripMaxSpeed = speed['tripMaxSpeedOnBoot']
@@ -260,7 +262,7 @@ class VehicleInfoCalculator:
             'tripDistanceOffsetOnBoot': self.tripDistanceOffset,
             'tripTimeOffsetOnBoot': self.tractionHours
         }
-        with open('trip.json', 'w') as f:  # writing JSON object
+        with open(FILE_TRIP, 'w') as f:  # writing JSON object
             json.dump(tripReset, f)
 
         vehicleReadings.distances(self.odoReading, self.tripDistance)
@@ -275,7 +277,7 @@ class VehicleInfoCalculator:
             "maxSpeedOnBoot" : maxSpeed,
             "tripMaxSpeedOnBoot": tripMaxSpeed
         }
-        with open('speed.json', 'w') as f:  # writing JSON object
+        with open(FILE_SPEED, 'w') as f:  # writing JSON object
             json.dump(maxSpeeds, f)
 
     # def onBLEReady(self, value):

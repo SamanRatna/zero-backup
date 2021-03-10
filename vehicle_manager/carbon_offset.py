@@ -2,6 +2,8 @@ from datetime import date, datetime
 import json
 from event_handler import vehicleReadings, vehicleEvents
 
+FILE_CARBON_OFFSET = '/etc/yatri/carbon-offset.json'
+
 RUNNING_CO_INDEX = 0
 OUTSTANDING_CO_INDEX = 1
 SUM_TILL_LAST_DAY_INDEX = 2
@@ -23,7 +25,7 @@ class CarbonOffsetCalculator:
         self.latestData = [None,0]
 
         try:
-            with open('carbon-offset.json', 'r') as f:
+            with open(FILE_CARBON_OFFSET, 'r') as f:
                 carbonOffsetData = json.load(f)
             self.runningCarbonOffsetIndex = carbonOffsetData[0]
             self.outstandingCarbonOffsetIndex = carbonOffsetData[1]
@@ -63,7 +65,7 @@ class CarbonOffsetCalculator:
             # save the data to JSON
             self.carbonOffset[-1] = self.latestData
             carbonOffsetData = [self.runningCarbonOffsetIndex, self.outstandingCarbonOffsetIndex, self.sumTillLastDay, self.carbonOffset]
-            with open('carbon-offset.json', 'w') as f:
+            with open(FILE_CARBON_OFFSET, 'w') as f:
                 json.dump(carbonOffsetData, f)
 
     def onRequest(self, mode = 0):

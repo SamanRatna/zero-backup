@@ -15,6 +15,9 @@ except ImportError:
 
 from random import randint
 import json
+
+FILE_BLUETOOTH_NAME = '/etc/yatri/bluetooth-name.json'
+
 bluetoothName = 'Yatri Appollo'
 bluetoothState = 'ADVERTISEMENT_OFF'
 mainloop = None
@@ -439,13 +442,13 @@ def onChangeBluetoothName(name):
 def saveBluetoothNameToPersistency():
     global bluetoothName
     data = {'bluetooth-name' : bluetoothName}
-    with open('bluetooth.json', 'w') as f:
+    with open(FILE_BLUETOOTH_NAME, 'w') as f:
         json.dump(data, f)
 
 def getBluetoothNameFromPersistency():
     global bluetoothName
     try:
-        with open('bluetooth.json', 'r') as f:
+        with open(FILE_BLUETOOTH_NAME, 'r') as f:
             data = json.load(f)
             if 'bluetooth-name' in data:
                 bluetoothName = data['bluetooth-name']

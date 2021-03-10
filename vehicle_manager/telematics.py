@@ -2,6 +2,7 @@ from event_handler import *
 import requests
 from datetime import datetime
 from bike_credentials import *
+from url import *
 from multiprocessing import Process, Queue
 import time
 
@@ -95,10 +96,19 @@ class Telematics():
             print('Send State of Charge: ', soc, chargingStatus)
             current_soc = str(soc)
             current_status = str(chargingStatus).lower()
+            current_eta = str(int((100 - soc)*180/100))
+            current_eta = current_eta + ' mins'
             try:
                 print('Trying to reach the server.')
-                url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/batteries/" + battery_id
-                payload = '{\r\n    \"soc\": '+ current_soc + ',\r\n    \"isCharging\": ' + current_status + '\r\n}'
+                # url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/batteries/" + battery_id
+                url = URL_SOC_UPDATE + batteryId
+
+                payload = None
+                if(chargingStatus):
+                    payload = '{\r\n    \"soc\": '+ current_soc + ',\r\n    \"isCharging\": ' + current_status + ',\r\n  \"eta\":' +'\"' +current_eta + '\"'+'\r\n}'
+                else:
+                    payload = '{\r\n    \"soc\": '+ current_soc + ',\r\n    \"isCharging\": ' + current_status + '\r\n}'
+                print(payload)
                 response = requests.request("PATCH", url, headers=headerCharge, data=payload, timeout=TIMEOUT)
                 print(response.text)
                 # print(response.status_code)

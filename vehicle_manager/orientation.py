@@ -28,6 +28,7 @@ from event_handler import *
 import json
 from BNO055_library import *
 
+FILE_CALIBRATION = '/etc/yatri/calibration.json'
 RESET_PIN = 18
 
 class Orientation():
@@ -109,8 +110,8 @@ class Orientation():
                 # print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(heading, roll, pitch-180, sys, gyro, accel, mag))
                 if(sys==0 and gyro==0 and accel==0 and mag==0):
                     self.loadCalibrationData()
-                if(sys < 3):
-                    print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(heading, roll, pitch-180, sys, gyro, accel, mag))
+                # if(sys < 3):
+                #     print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(heading, roll, pitch-180, sys, gyro, accel, mag))
                 # print(calibrationData)
                 heading = round(heading, 2)
                 roll = round(roll, 2)
@@ -146,7 +147,7 @@ class Orientation():
 
     def loadCalibrationData(self):
         try:
-            with open('calibration.json', 'r') as f:
+            with open(FILE_CALIBRATION, 'r') as f:
                 calibrationData = json.load(f)
             Orientation.dataPort.set_calibration(calibrationData)
             print('Loaded Calibration Data onto the sensor.')
@@ -155,7 +156,7 @@ class Orientation():
             print(error)
     
     def saveCalibrationData(self,data):
-        with open('calibration.json', 'w') as f:  # writing JSON object
+        with open(FILE_CALIBRATION, 'w') as f:  # writing JSON object
             json.dump(data, f)
             print('Saved Calibration Data from the sensor.')
 

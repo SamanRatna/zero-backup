@@ -1,9 +1,9 @@
 import json
 from event_handler import *
 import requests
-
-CREDENTIALS_FILE = "credentials.json"
-
+from bike_credentials import *
+from url import *
+CREDENTIALS_FILE = "/etc/yatri/rider-info.json"
 
 def getRiderInfo():
     try:
@@ -26,16 +26,13 @@ def saveRiderInfo(name, licenseNumber, bikeNumber):
 
 def fetchInfo():
     try:
-        url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/user"
+        # url = "http://yatri-embedded-env.eba-gpw9ppqj.ap-south-1.elasticbeanstalk.com/api/v1/bikes/user"
         payload={}
-        headers = {
-          'key': '7c59c8fbccd49245dff325e8720ac1e61b43f733e6465dd6'
-        }
-        response = requests.request("GET", url, headers=headers, data=payload)
+        response = requests.request("GET", URL_RIDER_INFO, headers=headerRiderInfo, data=payload)
         print(response.text)
         info = response.json()
-        print(info)
-        print(info['data']['user'])
+        # print(info)
+        # print(info['data']['user'])
         riderInfo = info['data']['user']
         name = '-'
         licenseNumber = '-'
