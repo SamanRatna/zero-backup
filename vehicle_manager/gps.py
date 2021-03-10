@@ -169,7 +169,7 @@ class GPS():
         print('Heading: ', heading)
 
     def onNavigation(self, request):
-        if((request==True) and (GPS.gpsState == GPSStates.READY)):
+        if((request==True) and (GPS.gpsState == GPSStates.READY or GPS.gpsState == GPSStates.ON)):
             self.stopGPSThread = False
             if(self.tGPS.is_alive()):
                 print(self, ': GPS Thread already active.')
@@ -178,7 +178,7 @@ class GPS():
             GPS.gpsState = GPSStates.STRMNG
             self.tGPS = threading.Thread(target = self.startGPSStreaming)
             self.tGPS.start()
-        elif((request==True) and (GPS.gpsState != GPSStates.READY)):
+        elif((request==True) and (GPS.gpsState == GPSStates.OFF)):
             vehicleReadings.network({'gpsStatus': GPS.gpsState.name})
             print(self,': GPS not ready.')
         elif(request==False):
