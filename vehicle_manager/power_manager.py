@@ -8,7 +8,7 @@ from datetime import datetime
 from bike_credentials import *
 
 COST_FACTOR = 1.2
-CHARGE_SAVINGS_FILE = 'charge-savings.json'
+CHARGE_SAVINGS_FILE = '/etc/yatri/charge-savings.json'
 MAX_DATA_COUNT = 30
 
 class PowerManager():
