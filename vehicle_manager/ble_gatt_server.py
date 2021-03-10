@@ -271,35 +271,45 @@ class BatteryLevelCharacteristic(Characteristic):
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
-        self.battery_lvl = 0
-        vehicleReadings.batteryStatus += self.actualBatteryLevel
-        # GObject.timeout_add(5000, self.drain_battery)
+        self.soc = 0
+        self.rangeSuste = 0
+        # vehicleReadings.batteryStatus += self.actualBatteryLevel
+        vehicleReadings.socRange += self.setSOCRange
+        # GObject.timeout_add(3000, self.drain_battery)
 
-    def notify_battery_level(self):
+    def notify(self):
         if not self.notifying:
             return
         self.PropertiesChanged(
                 GATT_CHRC_IFACE,
-                { 'Value': [dbus.Byte(self.battery_lvl)] }, [])
+                { 'Value': [dbus.Byte(self.soc), dbus.Byte(self.rangeSuste)] }, [])
 
     def drain_battery(self):
         if not self.notifying:
             return True
 
-        self.battery_lvl = randint(1,100)
-
-        self.notify_battery_level()
+        self.soc = randint(1,100)
+        self.rangeSuste = int(1.9 * self.soc)
+        self.notify()
+        return True
+    
+    def setSOCRange(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
+        print('BLEGATT :: setSOCRange = ',soc, rangeSuste)
+        self.soc = math.floor(soc)
+        self.rangeSuste = math.floor(rangeSuste)
+        self.notify()
         return True
 
-    def actualBatteryLevel(self, value):
-        self.battery_lvl = math.floor(value)
-        print('Battery Level received: ' + repr(self.battery_lvl))
-        self.notify_battery_level()
-        return True
+    # def actualBatteryLevel(self, value):
+    #     self.battery_lvl = math.floor(value)
+    #     print('Battery Level received: ' + repr(self.battery_lvl))
+    #     self.notify_battery_level()
+    #     return True
 
     def ReadValue(self, options):
-        print('Battery Level read: ' + repr(self.battery_lvl))
-        return [dbus.Byte(self.battery_lvl)]
+        # print('Battery Level read: ' + repr(self.battery_lvl))
+        print('BLEGATT :: Read SOC-Range = ', self.soc, self.rangeSuste)
+        return [dbus.Byte(self.soc), dbus.Byte(self.rangeSuste)]
 
     def StartNotify(self):
         print('Starting Notify.')
@@ -308,7 +318,7 @@ class BatteryLevelCharacteristic(Characteristic):
             return
 
         self.notifying = True
-        self.notify_battery_level()
+        self.notify()
 
     def StopNotify(self):
         print('Stoping Notify.')
@@ -333,7 +343,8 @@ class VehicleManagerService(Service):
         self.add_characteristic(TravelledDistancesCharacteristic(bus, 2, self))
         self.add_characteristic(VehicleFinderCharacteristic(bus, 3, self))
         self.add_characteristic(CarbonOffsetCharacteristic(bus, 4, self))
-        self.add_characteristic(RiderInfoCharacteristic(bus, 5, self))
+        # self.add_characteristic(RiderInfoCharacteristic(bus, 5, self))
+        # self.add_characteristic(BatteryInfoCharacteristic(bus,5,self))
         self.add_characteristic(ChargeCostsCharacteristic(bus, 6, self))
 
 ''' -------------------------------------------------------------------------- '''
@@ -521,8 +532,8 @@ class TravelledDistancesCharacteristic(Characteristic):
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
-        self.tripDistance = 0
-        self.totalDistance = 0
+        self.tripDistance = 1565
+        self.totalDistance = 3956
         vehicleReadings.distances += self.SetDistances
         self.add_descriptor(TravelledDistancesDescriptor(bus, 1, self))
         # self.add_descriptor(
@@ -530,26 +541,48 @@ class TravelledDistancesCharacteristic(Characteristic):
         # GObject.timeout_add(5000, self.changeDistances)
     def SetDistances(self, odoDistance, tripDistance):
         # tripDistance and odoDistance are floats so convert to integers
-        self.tripDistance = int(tripDistance) 
-        self.totalDistance = int(odoDistance)
+        # self.tripDistance = int(tripDistance) 
+        # self.totalDistance = int(odoDistance)
+        self.tripDistance = 1565
+        self.totalDistance = 3956
         print('BLE_GATT: Travelled Distances: ' + repr(self.tripDistance), repr(self.totalDistance))
         self.NotifyValue()
 
     def ReadValue(self, options):
         print('Trip Distance Read: ' + repr(self.tripDistance))
         print('Total Distance Read: ' + repr(self.totalDistance))
-        tripDistanceBytes = bytearray(self.tripDistance.to_bytes(4, byteorder='little'))
-        totalDistanceBytes = bytearray(self.totalDistance.to_bytes(4, byteorder='little'))
-        return [dbus.Byte(tripDistanceBytes[0]), dbus.Byte(tripDistanceBytes[1]), dbus.Byte(tripDistanceBytes[2]), dbus.Byte(tripDistanceBytes[3]), dbus.Byte(totalDistanceBytes[0]), dbus.Byte(totalDistanceBytes[1]), dbus.Byte(totalDistanceBytes[2]), dbus.Byte(totalDistanceBytes[3])]
-
+        # tripDistanceBytes = bytearray(self.tripDistance.to_bytes(4, byteorder='little'))
+        # totalDistanceBytes = bytearray(self.totalDistance.to_bytes(4, byteorder='little'))
+        # return [dbus.Byte(tripDistanceBytes[0]), dbus.Byte(tripDistanceBytes[1]), dbus.Byte(tripDistanceBytes[2]), dbus.Byte(tripDistanceBytes[3]), dbus.Byte(totalDistanceBytes[0]), dbus.Byte(totalDistanceBytes[1]), dbus.Byte(totalDistanceBytes[2]), dbus.Byte(totalDistanceBytes[3])]
+        # tripBytes = bytearray(str(self.tripDistance), 'utf-8')
+        # totalBytes = bytearray(str(self.tripDistance), 'utf-8')
+        # dbusBytes = []
+        # for v in list(tripBytes):
+        #     dbusBytes.append(dbus.Byte(v))
+        # dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
+        # for v in list(totalBytes):
+        #     dbusBytes.append(dbus.Byte(v))
+        # return [dbus.Array(dbusBytes)]
+        data = str(self.tripDistance) + ':' + str(self.totalDistance)
+        value = bytearray(str(data), 'utf-8')
+        return value
+    
     def NotifyValue(self):
         if not self.notifying:
             return
-        tripDistanceBytes = bytearray(self.tripDistance.to_bytes(4, byteorder='little'))
-        totalDistanceBytes = bytearray(self.totalDistance.to_bytes(4, byteorder='little'))
+        # tripDistanceBytes = bytearray(self.tripDistance.to_bytes(4, byteorder='little'))
+        # totalDistanceBytes = bytearray(self.totalDistance.to_bytes(4, byteorder='little'))
+        tripBytes = bytearray(str(self.tripDistance), 'utf-8')
+        totalBytes = bytearray(str(self.totalDistance), 'utf-8')
+        dbusBytes = []
+        for v in list(tripBytes):
+            dbusBytes.append(dbus.Byte(v))
+        dbusBytes.append(dbus.Byte(bytes(':', 'utf-8')[0]))
+        for v in list(totalBytes):
+            dbusBytes.append(dbus.Byte(v))
         self.PropertiesChanged(
                 GATT_CHRC_IFACE,
-                { 'Value': [dbus.Byte(tripDistanceBytes[0]), dbus.Byte(tripDistanceBytes[1]), dbus.Byte(tripDistanceBytes[2]), dbus.Byte(tripDistanceBytes[3]), dbus.Byte(totalDistanceBytes[0]), dbus.Byte(totalDistanceBytes[1]), dbus.Byte(totalDistanceBytes[2]), dbus.Byte(totalDistanceBytes[3])] }, [])
+                { 'Value': dbus.Array(dbusBytes) }, [])
     
     def StartNotify(self):
         if self.notifying:
@@ -743,7 +776,84 @@ class CarbonOffsetDescriptor(Descriptor):
 
     def ReadValue(self, options):
         return self.value
+''' -------------------------------------------------------------------------- '''
+''' ------------------- Rider Info Characteristic ------------------------ '''
+''' -------------------------------------------------------------------------- '''
 
+class BatteryInfoCharacteristic(Characteristic):
+    BATTERY_LVL_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed833'
+
+    def __init__(self, bus, index, service):
+        Characteristic.__init__(
+                self, bus, index,
+                self.BATTERY_LVL_UUID,
+                # ['read', 'notify'],
+                ['encrypt-read', 'notify'],
+                service)
+        self.add_descriptor(BatteryInfoDescriptor(bus, 0, self))
+        self.notifying = False
+        self.soc = 0
+        self.rangeSuste = 0
+        vehicleReadings.socRange += self.setSOCRange
+
+    def notify(self):
+        if not self.notifying:
+            return
+        self.PropertiesChanged(
+                GATT_CHRC_IFACE,
+                { 'Value': [dbus.Byte(self.soc), dbus.Byte(self.rangeSuste)] }, [])
+
+    # def drain_battery(self):
+    #     if not self.notifying:
+    #         return True
+
+    #     self.battery_lvl = randint(1,100)
+
+    #     self.notify()
+    #     return True
+    
+    def setSOCRange(self, soc, soh, rangeSuste, rangeThikka, rangeBabbal):
+        print('BLEGATT :: setSOCRange = ',soc, rangeSuste)
+        self.soc = math.floor(soc)
+        self.rangeSuste = math.floor(rangeSuste)
+        self.notify()
+        return True
+
+    def ReadValue(self, options):
+        print('BLEGATT :: Read SOC-Range = ', self.soc, self.rangeSuste)
+        return [dbus.Byte(self.soc), dbus.Byte(self.rangeSuste)]
+
+    def StartNotify(self):
+        print('Starting Notify.')
+        if self.notifying:
+            print('Already notifying, nothing to do')
+            return
+
+        self.notifying = True
+        self.notify()
+
+    def StopNotify(self):
+        print('Stoping Notify.')
+        if not self.notifying:
+            print('Not notifying, nothing to do')
+            return
+
+        self.notifying = False
+
+class BatteryInfoDescriptor(Descriptor):
+    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
+
+    def __init__(self, bus, index, characteristic):
+        self.value = array.array('B', b'Battery Info Characteristics.')
+        self.value = self.value.tolist()
+        Descriptor.__init__(
+                self, bus, index,
+                self.TEST_DESC_UUID,
+                ['read', 'write'],
+                characteristic)
+
+    def ReadValue(self, options):
+        return self.value
 ''' -------------------------------------------------------------------------- '''
 ''' ------------------- Rider Info Characteristic ------------------------ '''
 ''' -------------------------------------------------------------------------- '''
