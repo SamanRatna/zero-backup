@@ -396,7 +396,6 @@ def startAdvertisement():
             dbus.service.Object.remove_from_connection(test_advertisement)
             global bluetoothState
             bluetoothState = 'ADVERTISEMENT_OFF'
-            # vehicleEvents.onBLEReady([0, bluetoothName])
             vehicleEvents.bluetoothName(bluetoothName)
             vehicleEvents.bluetoothStatus(bluetoothState)
         except Exception as error:
@@ -406,7 +405,6 @@ def startAdvertisement():
         print(error)
         # global bluetoothState
         bluetoothState = 'ADVERTISEMENT_OFF'
-        # vehicleEvents.onBLEReady([0, bluetoothName])
         vehicleEvents.bluetoothStatus(bluetoothState)
 
     
@@ -429,7 +427,6 @@ def startAdvertisementThread():
 def onGUIReady():
     global devicesFound
     global bluetoothState
-    # vehicleEvents.onBLEReady([1, bluetoothName])
     vehicleEvents.bluetoothName(bluetoothName)
     vehicleEvents.bluetoothStatus(bluetoothState)
     vehicleReadings.bleDevices(devicesFound)

@@ -412,7 +412,7 @@ class MaxSpeedDescriptor(Descriptor):
         Descriptor.__init__(
                 self, bus, index,
                 self.DESC_UUID,
-                ['read', 'write'],
+                ['read'],
                 characteristic)
 
     def ReadValue(self, options):
@@ -492,7 +492,7 @@ class AverageSpeedsDescriptor(Descriptor):
         Descriptor.__init__(
                 self, bus, index,
                 self.DESC_UUID,
-                ['read', 'write'],
+                ['read'],
                 characteristic)
 
     def ReadValue(self, options):
@@ -600,7 +600,7 @@ class TravelledDistancesDescriptor(Descriptor):
         Descriptor.__init__(
                 self, bus, index,
                 self.DESC_UUID,
-                ['read', 'write'],
+                ['read'],
                 characteristic)
 
     def ReadValue(self, options):
@@ -642,14 +642,13 @@ class VehicleFinderCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.CHRC_UUID,
-                # ['write'],
                 ['encrypt-write'],
                 service)
 
         self.add_descriptor(VehicleFinderDescriptor(bus, 0, self))
 
     def WriteValue(self, value, options):
-        print('TestCharacteristic Write: ' + repr(value))
+        print('Characteristic Write: ' + repr(value))
         command = ''.join([str(v) for v in value])
         vehicleEvents.finder(command)
 
@@ -662,7 +661,7 @@ class VehicleFinderDescriptor(Descriptor):
         Descriptor.__init__(
                 self, bus, index,
                 self.DESC_UUID,
-                ['read', 'write'],
+                ['read'],
                 characteristic)
 
     def ReadValue(self, options):
@@ -686,8 +685,6 @@ class CarbonOffsetCharacteristic(Characteristic):
         self.carbonOffsetData = []
         vehicleReadings.carbonOffsetForBluetooth += self.onCarbonOffsetData
         self.add_descriptor(CarbonOffsetDescriptor(bus, 0, self))
-        # self.add_descriptor(
-        #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
     def WriteValue(self, value, options):
         date = ''
@@ -745,7 +742,7 @@ class CarbonOffsetDescriptor(Descriptor):
         Descriptor.__init__(
                 self, bus, index,
                 self.DESC_UUID,
-                ['read', 'write'],
+                ['read'],
                 characteristic)
 
     def ReadValue(self, options):
@@ -954,7 +951,7 @@ class ChargeCostsDescriptor(Descriptor):
         Descriptor.__init__(
                 self, bus, index,
                 self.DESC_UUID,
-                ['read', 'write'],
+                ['read'],
                 characteristic)
 
     def ReadValue(self, options):
