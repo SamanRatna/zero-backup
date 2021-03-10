@@ -334,10 +334,10 @@ class BatteryLevelCharacteristic(Characteristic):
 ''' -------------------------------------------------------------------------- '''
 
 class VehicleManagerService(Service):
-    TEST_SVC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed820'
+    SERVICE_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed820'
 
     def __init__(self, bus, index):
-        Service.__init__(self, bus, index, self.TEST_SVC_UUID, True)
+        Service.__init__(self, bus, index, self.SERVICE_UUID, True)
         self.add_characteristic(MaxSpeedCharacteristic(bus, 0, self))
         self.add_characteristic(AverageSpeedsCharacteristic(bus, 1, self))
         self.add_characteristic(TravelledDistancesCharacteristic(bus, 2, self))
@@ -352,13 +352,12 @@ class VehicleManagerService(Service):
 ''' -------------------------------------------------------------------------- '''
 
 class MaxSpeedCharacteristic(Characteristic):
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed821'
+    CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed821'
 
     def __init__(self, bus, index, service):
         Characteristic.__init__(
                 self, bus, index,
-                self.TEST_CHRC_UUID,
-                # ['read', 'notify'],
+                self.CHRC_UUID,
                 ['encrypt-read', 'notify'],
                 service)
         self.notifying = False
@@ -420,14 +419,14 @@ class MaxSpeedCharacteristic(Characteristic):
         return True
 
 class MaxSpeedDescriptor(Descriptor):
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed822'
+    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed822'
 
     def __init__(self, bus, index, characteristic):
         self.value = array.array('B', b'Maximum Speed of the vehicle in km/hr.')
         self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
-                self.TEST_DESC_UUID,
+                self.DESC_UUID,
                 ['read', 'write'],
                 characteristic)
 
@@ -503,14 +502,14 @@ class AverageSpeedsCharacteristic(Characteristic):
         return True
 
 class AverageSpeedsDescriptor(Descriptor):
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed826'
+    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed826'
 
     def __init__(self, bus, index, characteristic):
         self.value = array.array('B', b'Trip Average Speed and Overall Average Speed of the vehicle in km/hr.')
         self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
-                self.TEST_DESC_UUID,
+                self.DESC_UUID,
                 ['read', 'write'],
                 characteristic)
 
@@ -522,12 +521,12 @@ class AverageSpeedsDescriptor(Descriptor):
 ''' -------------------------------------------------------------------------- '''
 
 class TravelledDistancesCharacteristic(Characteristic):
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed827'
+    CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed827'
 
     def __init__(self, bus, index, service):
         Characteristic.__init__(
                 self, bus, index,
-                self.TEST_CHRC_UUID,
+                self.CHRC_UUID,
                 # ['read', 'notify'],
                 ['encrypt-read', 'notify'],
                 service)
@@ -615,14 +614,14 @@ class TravelledDistancesCharacteristic(Characteristic):
         return True
 
 class TravelledDistancesDescriptor(Descriptor):
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed828'
+    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed828'
 
     def __init__(self, bus, index, characteristic):
         self.value = array.array('B', b'Trip distance and Total distance travelled in km.')
         self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
-                self.TEST_DESC_UUID,
+                self.DESC_UUID,
                 ['read', 'write'],
                 characteristic)
 
@@ -659,12 +658,12 @@ class CharacteristicUserDescriptionDescriptor(Descriptor):
 ''' -------------------------------------------------------------------------- '''
 
 class VehicleFinderCharacteristic(Characteristic):
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed829'
+    CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed829'
 
     def __init__(self, bus, index, service):
         Characteristic.__init__(
                 self, bus, index,
-                self.TEST_CHRC_UUID,
+                self.CHRC_UUID,
                 # ['write'],
                 ['encrypt-write'],
                 service)
@@ -677,14 +676,14 @@ class VehicleFinderCharacteristic(Characteristic):
         vehicleEvents.finder(command)
 
 class VehicleFinderDescriptor(Descriptor):
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed830'
+    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed830'
 
     def __init__(self, bus, index, characteristic):
         self.value = array.array('B', b'Vehicle Finder Characteristics.')
         self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
-                self.TEST_DESC_UUID,
+                self.DESC_UUID,
                 ['read', 'write'],
                 characteristic)
 
@@ -696,13 +695,12 @@ class VehicleFinderDescriptor(Descriptor):
 ''' -------------------------------------------------------------------------- '''
 
 class CarbonOffsetCharacteristic(Characteristic):
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed831'
+    CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed831'
 
     def __init__(self, bus, index, service):
         Characteristic.__init__(
                 self, bus, index,
-                self.TEST_CHRC_UUID,
-                # ['write', 'notify'],
+                self.CHRC_UUID,
                 ['encrypt-write', 'notify'],
                 service)
         self.notifying = False
@@ -714,7 +712,6 @@ class CarbonOffsetCharacteristic(Characteristic):
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
     def WriteValue(self, value, options):
-        # print('TestCharacteristic Write: ' + repr(value))
         date = ''
         for v in value:
             date += str(v)
@@ -736,7 +733,6 @@ class CarbonOffsetCharacteristic(Characteristic):
             for v in list(dataBytes):
                 dbusBytes.append(dbus.Byte(v))
             print(data)
-            # print(dbusBytes)
             self.PropertiesChanged(
                     GATT_CHRC_IFACE,
                     { 'Value': dbus.Array(dbusBytes) }, [])
@@ -763,14 +759,14 @@ class CarbonOffsetCharacteristic(Characteristic):
         self.NotifyValue()
 
 class CarbonOffsetDescriptor(Descriptor):
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed832'
+    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed832'
 
     def __init__(self, bus, index, characteristic):
         self.value = array.array('B', b'Carbon Offset Data')
         self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
-                self.TEST_DESC_UUID,
+                self.DESC_UUID,
                 ['read', 'write'],
                 characteristic)
 
@@ -787,7 +783,6 @@ class BatteryInfoCharacteristic(Characteristic):
         Characteristic.__init__(
                 self, bus, index,
                 self.BATTERY_LVL_UUID,
-                # ['read', 'notify'],
                 ['encrypt-read', 'notify'],
                 service)
         self.add_descriptor(BatteryInfoDescriptor(bus, 0, self))
@@ -841,14 +836,14 @@ class BatteryInfoCharacteristic(Characteristic):
         self.notifying = False
 
 class BatteryInfoDescriptor(Descriptor):
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
+    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
 
     def __init__(self, bus, index, characteristic):
         self.value = array.array('B', b'Battery Info Characteristics.')
         self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
-                self.TEST_DESC_UUID,
+                self.DESC_UUID,
                 ['read', 'write'],
                 characteristic)
 
@@ -859,32 +854,31 @@ class BatteryInfoDescriptor(Descriptor):
 ''' -------------------------------------------------------------------------- '''
 
 class RiderInfoCharacteristic(Characteristic):
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed833'
+    CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed833'
 
     def __init__(self, bus, index, service):
         Characteristic.__init__(
                 self, bus, index,
-                self.TEST_CHRC_UUID,
-                # ['write'],
+                self.CHRC_UUID,
                 ['encrypt-write'],
                 service)
 
         self.add_descriptor(VehicleFinderDescriptor(bus, 0, self))
 
     def WriteValue(self, value, options):
-        print('TestCharacteristic Write: ' + repr(value))
+        print('Characteristic Write: ' + repr(value))
         command = ''.join([str(v) for v in value])
         vehicleEvents.finder(command)
 
 class RiderInfoDescriptor(Descriptor):
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
+    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed834'
 
     def __init__(self, bus, index, characteristic):
         self.value = array.array('B', b'Rider Info Characteristics.')
         self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
-                self.TEST_DESC_UUID,
+                self.DESC_UUID,
                 ['read', 'write'],
                 characteristic)
 
@@ -896,13 +890,12 @@ class RiderInfoDescriptor(Descriptor):
 ''' -------------------------------------------------------------------------- '''
 
 class ChargeCostsCharacteristic(Characteristic):
-    TEST_CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed835'
+    CHRC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed835'
 
     def __init__(self, bus, index, service):
         Characteristic.__init__(
                 self, bus, index,
-                self.TEST_CHRC_UUID,
-                # ['write', 'notify'],
+                self.CHRC_UUID,
                 ['encrypt-write', 'notify'],
                 service)
         self.notifying = False
@@ -914,7 +907,6 @@ class ChargeCostsCharacteristic(Characteristic):
         #         CharacteristicUserDescriptionDescriptor(bus, 1, self))
 
     def WriteValue(self, value, options):
-        # print('TestCharacteristic Write: ' + repr(value))
         cycle = ''
         for v in value:
             cycle += str(v)
@@ -959,7 +951,6 @@ class ChargeCostsCharacteristic(Characteristic):
             for v in list(chargeCostsBytes):
                 dbusBytes.append(dbus.Byte(v))
             print(data)
-            # print(dbusBytes)
             self.PropertiesChanged(
                     GATT_CHRC_IFACE,
                     { 'Value': dbus.Array(dbusBytes) }, [])
@@ -986,14 +977,14 @@ class ChargeCostsCharacteristic(Characteristic):
         self.NotifyValue()
 
 class ChargeCostsDescriptor(Descriptor):
-    TEST_DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed836'
+    DESC_UUID = '2cc83522-8192-4b6c-ad94-1f54123ed836'
 
     def __init__(self, bus, index, characteristic):
         self.value = array.array('B', b'Charge Costs Data')
         self.value = self.value.tolist()
         Descriptor.__init__(
                 self, bus, index,
-                self.TEST_DESC_UUID,
+                self.DESC_UUID,
                 ['read', 'write'],
                 characteristic)
 
@@ -1006,7 +997,6 @@ class ChargeCostsDescriptor(Descriptor):
 
 def register_app_cb():
     print('GATT application registered')
-    # vehicleEvents.onBLEReady([1])
     vehicleEvents.bluetoothStatus('SERVICES_READY')
 
 
