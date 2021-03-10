@@ -95,14 +95,6 @@ class Agent(dbus.service.Object):
 
 	@dbus.service.method(AGENT_INTERFACE,
 					in_signature="ou", out_signature="")
-	# def RequestConfirmation(self, device, passkey):
-	# 	print("RequestConfirmation (%s, %06d)" % (device, passkey))
-	# 	confirm = ask("Confirm passkey (yes/no): ")
-	# 	if (confirm == "yes"):
-	# 		set_trusted(device)
-	# 		return
-	# 	raise Rejected("Passkey doesn't match")
-
 	def RequestConfirmation(self, device, passkey):
 		vehicleEvents.confirmBluetoothPairing(passkey)
 		event_set = self.e.wait(CONFIRMATION_TIMEOUT)
@@ -114,7 +106,6 @@ class Agent(dbus.service.Object):
 
 
 	def onBluetoothConfirmation(self, confirmation):
-		print(confirmation)
 		if (confirmation == "yes"):
 			self.e.set()
 

@@ -3,8 +3,6 @@ from gui import *
 import threading
 from event_handler import *
 from gpio_manager import *
-# from state_manager import StateManager
-# from tail_light_controller import TailLightController
 from vmgr_compute import *
 from power_manager import *
 from carbon_offset import CarbonOffsetCalculator
@@ -21,20 +19,7 @@ from ble_adapter import *
 from rider_info import *
 from internet import *
 from telematics import *
-# from auto_sidelight import *
 
-# import signal
-
-# try:
-#     import dummy_data
-# except:
-#     pass
-
-# def keyboardInterruptHandler(signal, frame):
-#     # print("KeyboardInterrupt (ID: {}) has been caught. Cleaning up...".format(signal))
-#     sys.exit(0)
-
-# signal.signal(signal.SIGINT, keyboardInterruptHandler)
 def threadAgent():
     time.sleep(2)
     startAgent()
@@ -45,9 +30,7 @@ def threadAdvertisement():
 
 def threadServer():
     time.sleep(6)
-    # vehicleEvents.onBLEReady(1)
     startServer()
-    # vehicleEvents.onBLEReady(0)
     vehicleEvents.bluetoothState('SERVICES_OFF')
 
 def threadDiscovery():
@@ -66,22 +49,15 @@ def threadTelematics():
 def threadVehicleManager():
     startGUIThread()
     quectel = Quectel.getInstance()
-
-    # stateMgr = StateManager.getInstance(GPIOWriter.getInstance())
-    # tlContoller = TailLightController(GPIOWriter.getInstance())
     powerManager = PowerManager()
-    # gpioReader = GPIOReader.getInstance()
     # gpioWriter = GPIOWriter.getInstance()
     vmgrComputer = VehicleInfoCalculator()
     carbonOffsetCalculator = CarbonOffsetCalculator()
-    # orientation = Orientation.getInstance()
-    # cany = CANHandler(GPIOWriter.getInstance())
-    # cany = CANHandler()
 
 def threadSWUpdate():
     swupdate()
 
-if __name__ == '__main__':
+def main():
     try:
         tAgent = threading.Thread(target = threadAgent)
         tAdvertisement = threading.Thread(target = threadAdvertisement)
@@ -96,15 +72,18 @@ if __name__ == '__main__':
         tCAN.start()
         tOrientation.start()
         tTelematics.start()
-        # print('After VMGR: number of current threads is ', threading.active_count())
+        # # print('After VMGR: number of current threads is ', threading.active_count())
         tAgent.start()
-        # print('After Agent: number of current threads is ', threading.active_count())
+        # # print('After Agent: number of current threads is ', threading.active_count())
         tAdvertisement.start()
-        # print('After Advertisement: number of current threads is ', threading.active_count())
+        # # print('After Advertisement: number of current threads is ', threading.active_count())
         tServer.start()
-        # print('After Server: number of current threads is ', threading.active_count())
-        # tSWUpdate.start()
+        # # print('After Server: number of current threads is ', threading.active_count())
+        # # tSWUpdate.start()
         tDiscovery.start()
 
     except KeyboardInterrupt:
         print('Starting Program Cleanup')
+
+if __name__ == '__main__':
+    main()
