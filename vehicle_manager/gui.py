@@ -241,6 +241,10 @@ def publishBikeOnOffStatus(state):
     ignitionState = state
     eel.updateBikeOnOffStatus(state)
 
+@eel.expose
+def forgetBluetoothDevices():
+    vehicleEvents.removeBluetoothDevices()
+
 vehicleReadings.bikeMode += publishBikeMode
 vehicleReadings.maxSpeed += publishMaxSpeed
 vehicleReadings.tripMaxSpeed += publishTripMaxSpeed

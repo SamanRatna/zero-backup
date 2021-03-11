@@ -16,6 +16,7 @@ from gps import *
 from orientation import Orientation
 from sw_update import *
 from ble_adapter import *
+from ble_devices import *
 from rider_info import *
 from internet import *
 from telematics import *
@@ -80,7 +81,7 @@ def main():
         tServer.start()
         # # print('After Server: number of current threads is ', threading.active_count())
         # # tSWUpdate.start()
-        tDiscovery.start()
+        # tDiscovery.start()
 
     except KeyboardInterrupt:
         print('Starting Program Cleanup')

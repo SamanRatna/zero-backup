@@ -101,7 +101,7 @@ class Devices:
                 print(error)
             print(self.devices)
             print('Devices Found: ', devicesFound)
-            vehicleReadings.bleDevices(devicesFound)
+            # vehicleReadings.bleDevices(devicesFound)
         else:
             print('Device to be deleted not found.')
 
@@ -268,20 +268,17 @@ def interfacesAddedCb(*args, **kwargs):
 #     global bluetoothDevices
 #     print('interfacesRemovedCb')
 #     interface = str(args)
-#     print(args)
-#     print(kwargs)
-#     pos = interface.find('/org/bluez/hci0/dev_')
-#     if(pos != -1):
-#         devIntermediate = interface.replace('/org/bluez/hci0/dev_','')
-#         removedDevice = devIntermediate.replace('-',':')
-#         print(removedDevice)
-#         bluetoothDevices.removeDevice(removedDevice)
+#     # pos = interface.find('/org/bluez/hci0/dev_')
+#     # if(pos != -1):
+#     #     devIntermediate = interface.replace('/org/bluez/hci0/dev_','')
+#     #     removedDevice = devIntermediate.replace('-',':')
+#     #     print(removedDevice)
+#     #     bluetoothDevices.removeDevice(removedDevice)
 
 def register_ad_cb():
     global bluetoothName
     global bluetoothState
     bluetoothState = 'ADVERTISEMENT_ON'
-    # vehicleEvents.onBLEReady([2, bluetoothName])
     vehicleEvents.bluetoothStatus(bluetoothState)
     print('Advertisement registered')
 
@@ -310,7 +307,6 @@ def find_devices(bus):
 
     for o, props in objects.items():
         if "org.bluez.Device1" in props:
-            print('Device Found.')
             device = {}
             if "Name" in props["org.bluez.Device1"]:
                 device["Name"] = str(props["org.bluez.Device1"]["Name"])
@@ -324,16 +320,17 @@ def find_devices(bus):
                 device["Paired"] = bool(props["org.bluez.Device1"]["Paired"])
             if "Connected" in props["org.bluez.Device1"]:
                 device["Connected"] = bool(props["org.bluez.Device1"]["Connected"])
-            # bluetoothDevices.devices["org.bluez.Device1"] = device
             bluetoothDevices.devices[device['Address']] = device
-    print('Found the following devices:')
-    print(bluetoothDevices.devices)
     global devicesFound
     devicesFound = []
+    print('Found the following devices:')
+    print('----------------------------------------')
     for key in bluetoothDevices.devices:
         print(key, '->', bluetoothDevices.devices[key])
         devicesFound.append(bluetoothDevices.devices[key]['Alias'])
-    vehicleReadings.bleDevices(devicesFound)
+    print('----------------------------------------')
+
+    # vehicleReadings.bleDevices(devicesFound)
     # if 'org.bluez.Device1' in bluetoothDevices.devices:
     #     if('Name' in bluetoothDevices.devices['org.bluez.Device1']):
     #         print('Sending device list to UI: ', bluetoothDevices.devices['org.bluez.Device1']['Name'])
@@ -408,8 +405,6 @@ def startAdvertisement():
         bluetoothState = 'ADVERTISEMENT_OFF'
         vehicleEvents.bluetoothStatus(bluetoothState)
 
-    
-
 def quitAdvertisement():
     global mainloop
     mainloop.quit()
@@ -424,7 +419,7 @@ def onGUIReady():
     global bluetoothState
     vehicleEvents.bluetoothName(bluetoothName)
     vehicleEvents.bluetoothStatus(bluetoothState)
-    vehicleReadings.bleDevices(devicesFound)
+    # vehicleReadings.bleDevices(devicesFound)
 
 def onChangeBluetoothName(name):
     global bluetoothName

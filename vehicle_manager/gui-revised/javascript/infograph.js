@@ -159,14 +159,42 @@ function updateBluetoothDevices(devices){
 
     // Add the devices provided by the backend
     for (index = 0; index < devices.length; index++) {
+        let name = null;
+        if('Alias' in devices[index]){
+            name = devices[index]['Alias'];
+        } else if('Name' in devices[index]){
+            name = devices[index]['Name'];
+        }
+        if(name == null){
+            continue;
+        }
         let item = document.createElement('div');
-        item.innerHTML = devices[index];
+        item.innerHTML = name;
         item.classList.add('bluetooth-text')
         item.classList.add('bluetooth-paired-devices')
         document.getElementById("js-bluetooth-content").appendChild(item);
     }
 }
 
+document.getElementById('js-bluetooth-tab').addEventListener('long-press', function(){
+    showBluetoothForgetPage(true);
+});
+
+function showBluetoothForgetPage(state){
+    if(state){
+        document.getElementById('js-ble-forget-page').style.display = 'flex';
+    } else {
+        document.getElementById('js-ble-forget-page').style.display = 'none';
+    }
+}
+
+document.getElementById('js-ble-forget-yes').addEventListener('click', function(){
+    eel.forgetBluetoothDevices();
+    showBluetoothForgetPage(false);
+});
+document.getElementById('js-ble-forget-no').addEventListener('click', function(){
+    showBluetoothForgetPage(false);
+});
 // document.getElementById('js-bluetooth-name-edit').addEventListener('click', function(){
 //     console.log('Edit Bluetooth Name');
 //     openKeyboard('bluetooth');

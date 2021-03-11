@@ -1243,3 +1243,26 @@ img{
       0 0 40px #0ff,
       0 0 80px #0ff,
 }
+
+.forget-button{
+    height: 120px;
+    width: 300px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 10px rgb(0 0 0 / 25%);
+    border-radius: 16px;
+    display: flex;
+    position: absolute;
+    top: 70%;
+    font-size: 65px;
+    color: #9a9a9a;
+}
+
+.forget-button.yes{
+    left: 15%;
+}
+.forget-button.no{
+    right: 15%;
+}
+.forget-button > p{
+    margin: auto;
+}

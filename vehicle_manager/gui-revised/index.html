@@ -360,7 +360,7 @@
             <div class='settings-page-body' id='js-settings-area'>
                 <div class='settings-pane-left'>
                     <div class='settings-connectivity' id='js-settings-connectivity'>
-                        <div class='connectivity-option'>
+                        <div class='connectivity-option' id='js-bluetooth-tab'>
                             <div class='connectivity-icon bluetooth-icon' id='js-bluetooth-icon'>
                                 <!-- <img src='icons/bluetooth-icon-connected.svg'/> -->
                             </div>
@@ -595,6 +595,15 @@
                 </div>
             </div>
         </div>
+        <div class='attribution-page' id='js-ble-forget-page'>
+            <div class='attribution-content' id='js-ble-forget-content'>
+                <div class='warning-bar'>
+                    <div class='warning-title'><p>Do you want to forget the paired devices?</p></div>
+                    <div class='forget-button yes' id='js-ble-forget-yes'><p>Yes</p></div>
+                    <div class='forget-button no' id='js-ble-forget-no'><p>No</p></div>
+                </div>
+            </div>
+        </div>
 
 <!-- JavaScripts v4 start -->
 <!-- <script src="dependencies/lottie-5.6.5.min.js"></script> -->
@@ -613,6 +622,7 @@
 <script src='javascript/backend.js'></script>
 <script src='dependencies/turf.min.js'></script>
 <script src='javascript/swipe.js'></script>
+<script src='dependencies/long-press-event.js'></script>
 
 <!-- <script src='javascript/mapbox.js'></script> -->
 
