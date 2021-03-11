@@ -1,29 +1,105 @@
 import dbus
+from dbus.mainloop.glib import DBusGMainLoop
+from gi.repository import GLib
+import threading
+from event_handler import *
+import subprocess
 
-# Create Python object from /org/freedesktop/NetworkManager instance
-# in org.freedesktop.NetworkManager application.
-# nm = bus.get_object(BUS_NAME, '/org/bluez/hci0')
-# print(nm)
-# Get list of active connections from the properties
-# "Get" method is in "org.freedesktop.DBus.Properties" interface
-# It takes the interface name which has the property and name of
-# the property as arguments.
+DBusGMainLoop(set_as_default=True)
 
-def setDiscovery(state):
-    bus = dbus.SystemBus()
- 
-    # Warning: Bus names and interfaces are different terms.
-    # Just because they contain same format or even same data
-    # does not mean they are the same thing.
-    # I used these variables to denote the diffrance where bus names and
-    # interfaces are used.
-    BUS_NAME = 'org.bluez'
-    AGENT_INTERFACE = 'org.bluez.Adapter1'
+# signal handler to handle the changes in the property of BLE Adapter
+def adapterSignalHandler(*args, **kwargs):
+    data = args[1]
+    if('Powered' in data):
+        state = bool(data['Powered'])
+        broadcastPoweredState(state)
 
-    adapter_path = '/org/bluez/hci0'
-    adapter = dbus.Interface(bus.get_object("org.bluez", adapter_path), "org.freedesktop.DBus.Properties")
-    connections = adapter.Get(AGENT_INTERFACE, 'Discoverable',
-                     dbus_interface=dbus.PROPERTIES_IFACE)
+    if('Discoverable' in data):
+        state = bool(data['Discoverable'])
+        broadcastDiscoverableState(state)
 
-    adapter.Set(AGENT_INTERFACE, 'Discoverable', dbus.Boolean(state))
+# emit the powered state of the BLE
+def broadcastPoweredState(state):
+    if(state):
+        vehicleEvents.bluetoothStatus('POWERED_ON')
+    else:
+        vehicleEvents.bluetoothStatus('POWERED_OFF')
 
+# emit the discoverable state of the BLE
+def broadcastDiscoverableState(state):
+    if(state):
+        vehicleEvents.bluetoothStatus('DISCOVERABLE_ON')
+    else:
+        vehicleEvents.bluetoothStatus('DISCOVERABLE_OFF')
+
+bus = dbus.SystemBus()
+BUS_NAME = 'org.bluez'
+ADAPTER_INTERFACE = 'org.bluez.Adapter1'
+ADAPTER_PATH = '/org/bluez/hci0'
+SIGNAL_NAME = 'PropertiesChanged'
+
+# add the signal handler
+bus.add_signal_receiver(adapterSignalHandler,
+                        bus_name=BUS_NAME,
+                        interface_keyword=ADAPTER_INTERFACE,
+                        signal_name = SIGNAL_NAME,
+                        path_keyword=ADAPTER_PATH
+                        )
+
+# subscribe to the dbus event loop
+try:
+    loop = GLib.MainLoop()
+    loopThread = threading.Thread(target=loop.run)
+    loopThread.start()
+except Exception as e:
+    print(e)
+
+def getPoweredState():
+    state = adapter.Get(ADAPTER_INTERFACE, "Powered")
+    broadcastPoweredState(bool(state))
+
+def getDiscoverableState():
+    state = adapter.Get(ADAPTER_INTERFACE, "Discoverable")
+    broadcastDiscoverableState(bool(state))
+
+def setPoweredState(state):
+    value = dbus.Boolean(state)
+    adapter.Set("org.bluez.Adapter1", "Powered", value)
+
+def setDiscoverableState(state):
+    value = dbus.Boolean(state)
+    adapter.Set("org.bluez.Adapter1", "Discoverable", value)
+
+def setConnectableState(state):
+    if(state):
+        # process = subprocess.Popen('btmgmt connectable on; btmgmt discov on',stdout=subprocess.PIPE, shell=True)
+        subprocess.call('btmgmt connectable on', shell=True)
+    else:
+        subprocess.call('btmgmt connectable off', shell=True)
+
+def onGUIReady():
+    getPoweredState()
+    getDiscoverableState()
+
+def monitorConnection(deviceName, connectionState):
+    if(bool(int(connectionState))):
+        setConnectableState(False)
+    else:
+        setConnectableState(True)
+        setDiscoverableState(True)
+
+def setBluetoothState(state):
+    setPoweredState(state)
+    if(state):
+        setConnectableState(state)
+        setDiscoverableState(state)
+try:
+    adapter = dbus.Interface(bus.get_object(BUS_NAME, ADAPTER_PATH), "org.freedesktop.DBus.Properties")
+
+    # subscribe to events
+    vehicleEvents.guiReady += onGUIReady
+    vehicleEvents.onBluetooth += setBluetoothState
+    # vehicleEvents.onBluetoothConnection += monitorConnection
+
+except Exception as e:
+    print(e)

@@ -8,6 +8,7 @@ import dbus.service
 from event_handler import *
 import array
 import threading
+
 try:
   from gi.repository import GObject  # python3
 except ImportError:
@@ -413,12 +414,6 @@ def quitAdvertisement():
     global mainloop
     mainloop.quit()
 
-def enableBluetooth(toState):
-    if (toState == True):
-        startAdvertisementThread()
-    else:
-        quitAdvertisement()
-
 def startAdvertisementThread():
     tAdvertisement = threading.Thread(target = startAdvertisement)
     tAdvertisement.start()
@@ -454,7 +449,6 @@ def getBluetoothNameFromPersistency():
         return
 
 vehicleEvents.guiReady += onGUIReady
-vehicleEvents.onBluetooth += enableBluetooth
 vehicleEvents.onBluetoothNameChange += onChangeBluetoothName
 
 if __name__ == '__main__':

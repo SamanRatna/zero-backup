@@ -75,16 +75,15 @@ document.getElementById('js-ble-button-no').addEventListener('click',function(){
 // bluetooth on-off toggle
 document.getElementById('js-bluetooth-toggle').addEventListener('click', function(){
     toProcessing(this.id, true);
-    // document.getElementById('js-bluetooth-label-on').classList.toggle('active');
-    // document.getElementById('js-bluetooth-label-off').classList.toggle('active');
-    // document.getElementById('js-bluetooth-toggle-button').classList.toggle('toggled');
-    
     if(document.getElementById('js-bluetooth-label-on').classList.contains('active')){
         eel.changeBluetoothState(false);
     }
     else{
         eel.changeBluetoothState(true);
     }
+    // document.getElementById('js-bluetooth-label-on').classList.toggle('active');
+    // document.getElementById('js-bluetooth-label-off').classList.toggle('active');
+    // document.getElementById('js-bluetooth-toggle-button').classList.toggle('toggled');
 });
 
 // update the name and status of the device connected to bluetooth
@@ -107,19 +106,37 @@ function updateBluetoothStatus(name, status){
 function updateAdvertisementStatus(status){
     console.log("Bluetooth Advertisement Status: " + status)
 
-    if(status=='ADVERTISEMENT_ON'){
+    // if(status=='ADVERTISEMENT_ON'){
+    //     document.getElementById('js-bluetooth-label-on').classList.add('active');
+    //     document.getElementById('js-bluetooth-label-off').classList.remove('active');
+    //     document.getElementById('js-bluetooth-toggle-button').classList.add('toggled');
+    //     document.getElementById('js-bluetooth-status').innerHTML = 'Discoverable';
+    //     // document.getElementById('js-bluetooth-icon').style.backgroundImage = "url('icons/bluetooth-icon-discoverable.svg')";
+    // }
+    // else if(status == 'ADVERTISEMENT_OFF'){
+    //     document.getElementById('js-bluetooth-label-on').classList.remove('active');
+    //     document.getElementById('js-bluetooth-label-off').classList.add('active');
+    //     document.getElementById('js-bluetooth-toggle-button').classList.remove('toggled');
+    //     document.getElementById('js-bluetooth-status').innerHTML = 'Hidden';
+    //     // document.getElementById('js-bluetooth-icon').style.backgroundImage = "url('icons/bluetooth-icon-off.svg')";
+    // }
+    if(status == 'POWERED_ON'){
         document.getElementById('js-bluetooth-label-on').classList.add('active');
         document.getElementById('js-bluetooth-label-off').classList.remove('active');
         document.getElementById('js-bluetooth-toggle-button').classList.add('toggled');
-        document.getElementById('js-bluetooth-status').innerHTML = 'Discoverable';
         document.getElementById('js-bluetooth-icon').style.backgroundImage = "url('icons/bluetooth-icon-discoverable.svg')";
     }
-    else if(status == 'ADVERTISEMENT_OFF'){
+    else if(status == 'POWERED_OFF'){
         document.getElementById('js-bluetooth-label-on').classList.remove('active');
         document.getElementById('js-bluetooth-label-off').classList.add('active');
         document.getElementById('js-bluetooth-toggle-button').classList.remove('toggled');
-        document.getElementById('js-bluetooth-status').innerHTML = 'Hidden';
         document.getElementById('js-bluetooth-icon').style.backgroundImage = "url('icons/bluetooth-icon-off.svg')";
+    }
+    else if(status == 'DISCOVERABLE_ON'){
+        document.getElementById('js-bluetooth-status').innerHTML = 'Discoverable';
+    }
+    else if(status == 'DISCOVERABLE_OFF'){
+        document.getElementById('js-bluetooth-status').innerHTML = 'Hidden';
     }
     toProcessing('js-bluetooth-toggle', false);
 }
